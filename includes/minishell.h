@@ -19,6 +19,21 @@
 # define PURPLE	"\e[35m"
 # define CYAN	"\e[36m"
 
+
+typedef enum s_token
+{
+	ARG,
+	CMD,
+	INFILE, 
+	OUTFILE, 
+	HEREDOC,
+	LIMITER, 
+	APPEND, // >>
+	TRUNCATE, // >
+	PIPE, // |
+	READ_FROM, // <
+}	t_token;
+
 void	read_line(void);
 
 #endif

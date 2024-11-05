@@ -23,10 +23,10 @@ typedef enum s_token
 {
 	ARG,
 	CMD,
-	INFILE, 
-	OUTFILE, 
+	INFILE,
+	OUTFILE,
 	HEREDOC,
-	LIMITER, 
+	LIMITER,
 	APPEND, // >>
 	TRUNCATE, // >
 	PIPE, // |

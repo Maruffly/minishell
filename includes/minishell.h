@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:12:58 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/06 16:19:21 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/06 16:35:01 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 # include <string.h>
+# include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 

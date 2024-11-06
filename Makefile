@@ -12,9 +12,9 @@ SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 
 OBJ = $(SRC:.c=.o)
 
-LIBFT_LIB = ./Libft/libft.a
+LIBFT_LIB = ./libft/libft.a
 
-LIBFT = ./Libft/
+LIBFT = ./libft/
 
 RM = rm -rf
 

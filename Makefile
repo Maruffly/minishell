@@ -4,7 +4,7 @@ CC = cc -Wall -Wextra -Werror -g
 
 INC = -I ./minishell.h
 
-SRC_FILES = shell.c
+SRC_FILES = main.c
 
 SRC_DIR = ./src/
 

@@ -23,7 +23,7 @@ all: $(NAME)
 $(NAME): $(LIBFT_LIB) $(OBJ)
 	@echo "$(CYAN)$(BOLD)$(NAME)$(RESET) $(GREEN)building files..$(RESET)"
 	@$(CC) $(INC) $(SRC) -L./libft -lreadline -o $(NAME)
-	@echo "$(CYAN)$(BOLD)$(NAME)$(RESET) $(GREEN)executable created!$(RESET)"
+	@echo "$(CYAN)$(BOLD)$(NAME)$(RESET) $(GREEN)$(BLINK)minishell created!$(RESET)"
 
 $(LIBFT_LIB):
 	@$(MAKE) -sC $(LIBFT)
@@ -34,8 +34,8 @@ clean:
 	@echo "$(GREEN)Cleaning OK!$(RESET)"
 
 fclean: clean
-	$(MAKE) fclean -sC $(LIBFT)
-	$(RM) $(NAME)
+	@$(MAKE) fclean -sC $(LIBFT)
+	@$(RM) $(NAME)
 	@echo "$(GREEN)Fcleaning OK!$(RESET)"
 
 re: fclean all
@@ -44,11 +44,12 @@ re: fclean all
 
 
 # COLORS
-RED = \033[31m
-GREEN = \033[32m
-YELLOW = \033[33m
-BLUE = \033[34m
-MAGENTA = \033[35m
-CYAN = \033[36m
-BOLD = \033[1m
-RESET = \033[0m
+RED		= \033[31m
+CYAN	= \033[36m
+BOLD	= \033[1m
+BLUE	= \033[34m
+GREEN	= \033[32m
+BLINK	= \033[5m
+RESET	= \033[0m
+YELLOW	= \033[33m
+MAGENTA	= \033[35m

@@ -1,5 +1,5 @@
+# ifndef MINISHELL_H
 # define MINISHELL_H
-#  ifndef MISNISHELL_H
 
 # include "../Libft/libft.h"
 # include <stdio.h>
@@ -18,7 +18,6 @@
 # define YELL	"\e[33m"
 # define PURPLE	"\e[35m"
 # define CYAN	"\e[36m"
-
 
 typedef enum s_token
 {

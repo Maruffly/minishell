@@ -1,0 +1,43 @@
+name: Norminette v3
+
+on:
+  push:
+    paths:
+      - '**.c'
+      - '**.h'
+    branches: [ main ]
+  pull_request:
+    paths:
+      - '**.c'
+      - '**.h'
+    branches: [ main ]
+
+jobs:
+  linter:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+          architecture: x64
+      - name: Upgrade pip
+        run: python3 -m pip install --upgrade pip setuptools
+      - name: Install Norminette
+        run: python3 -m pip install norminette
+      - name: Run Norminette
+        run: |
+          LOGS=$(mktemp)
+          norminette $(find . -regex '.*\.\(c\|h\)$' -not -path '*/test/*') | tee $LOGS
+          echo "ERRORS=$(grep -E 'Error|Warning|KO!' $LOGS | wc -l)" >> $GITHUB_ENV
+      - name: Check Norminette Linter Result
+        run: |
+          echo "Norminette Result"
+          if [[ $ERRORS -gt 0 ]]; then
+            echo "Norminette found errors!"
+            exit 1
+          else
+            echo "Norminette passed with no errors."
+          fi
+

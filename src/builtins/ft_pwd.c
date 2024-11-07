@@ -1,21 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_cd.c                                            :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/07 14:55:10 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/07 18:18:52 by jmaruffy         ###   ########.fr       */
+/*   Created: 2024/11/07 18:18:25 by jmaruffy          #+#    #+#             */
+/*   Updated: 2024/11/07 18:19:08 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include	"../includes/builtins.h"
-
-void	cd_builtin()
-{
-
-}
 
 void minishell_cd(char **args) {
     // Vérifier que l'utilisateur a fourni un argument
@@ -35,4 +29,3 @@ void minishell_cd(char **args) {
         fprintf(stderr, "cd: only relative or absolute paths are allowed\n");
     }
 }
-

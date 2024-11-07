@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:12:58 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/06 16:45:28 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/07 17:20:54 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include <signal.h>
 
 # include "../libft/libft.h"
-# include "../src/parsing/parsing.h"
+# include "./parsing.h"
 
 // Macros
 # define RESET	"\e[0m"

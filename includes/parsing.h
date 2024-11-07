@@ -6,14 +6,12 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:13:12 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/07 16:30:08 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/11/07 17:20:48 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # ifndef PARSING_H
 # define PARSING_H
-
-# include "../../includes/minishell.h"
 
 typedef enum s_token
 {

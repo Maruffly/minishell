@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:13:12 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/06 16:44:56 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/07 15:45:47 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,14 @@
 # include "../../includes/minishell.h"
 
 
-
 typedef enum s_token
 {
 	ARG,
 	CMD,
-	INFILE, 
-	OUTFILE, 
+	INFILE,
+	OUTFILE,
 	HEREDOC,
-	LIMITER, 
+	LIMITER,
 	APPEND, // >>
 	TRUNCATE, // >
 	PIPE, // |

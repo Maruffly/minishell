@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:12:58 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/11 12:51:56 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/11 15:51:15 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,28 @@
 # define PURPLE	"\e[35m"
 # define CYAN	"\e[36m"
 
-typedef struct s_env_node
+typedef struct s_env_list
 {
 	char				*var_name;
 	char				*var_value;
+	struct s_env_node	*head;
 	struct s_env_node	*next;
-}	t_env_node;
-
-typedef struct s_env_list
-{
-	t_env_node	*head;
 }	t_env_list;
 
+
 void	read_line(void);
+
+// ENVIRONEMENT //
+
+t_env_list	*init_env_list(void);
+void		free_env_list(t_env_list *list);
+void		print_env_list(t_env_list *list);
+void		update_env_var(t_env_list *list, char *var_name, char *var_value);
+void		add_env_var(t_env_list *list, char *var_name, char *var_value, t_env_list *prev);
+void		remove_env_var(t_env_list *list, char *var_name, char *var_value);
+
+
+
+
 
 #endif

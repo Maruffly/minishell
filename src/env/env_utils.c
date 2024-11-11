@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 15:13:16 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/08 17:29:24 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/11/11 15:27:45 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ t_env_list	*init_env_list(void)
 
 void	update_env_var(t_env_list *list, char *var_name, char *var_value)
 {
-	t_env_node	*cur;
-	t_env_node	*prev;
+	t_env_list	*cur;
+	t_env_list	*prev;
 
 	cur = list->head;
 	prev = NULL;
@@ -51,11 +51,11 @@ void	update_env_var(t_env_list *list, char *var_name, char *var_value)
 	}
 }
 
-void	add_env_var(t_env_list *list, char *var_name, char *var_value, t_env_node *prev)
+void	add_env_var(t_env_list *list, char *var_name, char *var_value, t_env_list *prev)
 {
-	t_env_node	*new_node;
+	t_env_list	*new_node;
 
-	new_node = malloc(sizeof(t_env_node));
+	new_node = malloc(sizeof(t_env_list));
 	if (!new_node)
 	{
 		perror("malloc failed");
@@ -77,8 +77,8 @@ void	add_env_var(t_env_list *list, char *var_name, char *var_value, t_env_node *
 
 void	remove_env_var(t_env_list *list, char *var_name, char *var_value)
 {
-	t_env_node	*cur;
-	t_env_node	*prev;
+	t_env_list	*cur;
+	t_env_list	*prev;
 
 	cur = list->head;
 	prev = NULL;
@@ -100,10 +100,10 @@ void	remove_env_var(t_env_list *list, char *var_name, char *var_value)
 	cur = cur->next;
 }
 
-void	free_env_list(t_env_list	*list)
+void	free_env_list(t_env_list *list)
 {
-	t_env_node	*cur;
-	t_env_node	*tmp;
+	t_env_list	*cur;
+	t_env_list	*tmp;
 
 	cur = list->head;
 	while (cur)
@@ -118,7 +118,7 @@ void	free_env_list(t_env_list	*list)
 
 void	print_env_list(t_env_list	*list)
 {
-	t_env_node	*cur;
+	t_env_list	*cur;
 
 	cur = list->head;
 	while (cur)

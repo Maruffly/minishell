@@ -1,42 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.h                                          :+:      :+:    :+:   */
+/*   ft_free_split.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/06 16:13:12 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/11 18:33:41 by jmaruffy         ###   ########.fr       */
+/*   Created: 2024/09/11 12:56:20 by jmaruffy          #+#    #+#             */
+/*   Updated: 2024/09/11 12:59:54 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# ifndef PARSING_H
-# define PARSING_H
+#include "libft.h"
 
-typedef enum s_token
+void	ft_free_split(char **str)
 {
-	OR, /* || */
-	AND, /* && */
-	ARG,
-	CMD,
-	PIPE, /* | */
-	INFILE,
-	OUTFILE,
-	HEREDOC, /* << */
-	LIMITER,
-	APPEND_OUT, /* >> */
-	REDIRECT_IN, /* < */
-	REDIRECT_OUT, /* > */
-}	t_token;
+	int	i;
 
-typedef struct	s_command
-{
-	char				*value;
-	t_token				type;
-	struct s_command	*left;
-	struct s_command	*right;
-	struct s_command	*next;
-
-}	t_command;
-
-#endif
+	i = 0;
+	while (str[i])
+		free(str[i++]);
+	free(str);
+}

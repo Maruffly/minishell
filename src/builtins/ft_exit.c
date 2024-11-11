@@ -1,42 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.h                                          :+:      :+:    :+:   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/06 16:13:12 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/11 18:33:41 by jmaruffy         ###   ########.fr       */
+/*   Created: 2024/11/11 18:21:14 by jmaruffy          #+#    #+#             */
+/*   Updated: 2024/11/11 18:33:16 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# ifndef PARSING_H
-# define PARSING_H
+# include	"../includes/minishell.h"
 
-typedef enum s_token
+void	exec_exit(t_env_list *env_list, t_command *cmd)
 {
-	OR, /* || */
-	AND, /* && */
-	ARG,
-	CMD,
-	PIPE, /* | */
-	INFILE,
-	OUTFILE,
-	HEREDOC, /* << */
-	LIMITER,
-	APPEND_OUT, /* >> */
-	REDIRECT_IN, /* < */
-	REDIRECT_OUT, /* > */
-}	t_token;
-
-typedef struct	s_command
-{
-	char				*value;
-	t_token				type;
-	struct s_command	*left;
-	struct s_command	*right;
-	struct s_command	*next;
-
-}	t_command;
-
-#endif
+	int	exit_status;
+	(void)env_list;
+	if (!cmd->right)
+	{
+		printf("exit\n");
+		exit(0);
+	}
+	if (cmd->right->next)
+	{
+		ft_putstr_fd("exit: numeric args only\n", 2);
+		exit(255);
+	}
+	exit_status = ft_atoi(cmd->right->value);
+	printf("exit\n");
+	exit(exit_status);
+}

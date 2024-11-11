@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:13:12 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/07 17:20:48 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/11/11 18:20:07 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ typedef enum s_token
 	PIPE, /* | */
 	INFILE,
 	OUTFILE,
-	HEREDOC,
+	HEREDOC, /* << */
 	LIMITER,
 	APPEND_OUT, /* >> */
 	REDIRECT_IN, /* < */

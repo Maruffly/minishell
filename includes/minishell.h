@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:12:58 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/11 15:51:15 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/11/11 16:36:38 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,5 @@ void		print_env_list(t_env_list *list);
 void		update_env_var(t_env_list *list, char *var_name, char *var_value);
 void		add_env_var(t_env_list *list, char *var_name, char *var_value, t_env_list *prev);
 void		remove_env_var(t_env_list *list, char *var_name, char *var_value);
-
-
-
-
 
 #endif

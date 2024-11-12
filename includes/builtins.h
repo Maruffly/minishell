@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 14:55:48 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/12 16:08:59 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/11/12 17:16:46 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include	<unistd.h>
 # include	<string.h>
 # include	<errno.h>
+
+# include "minishell.h"
 
 # include "./minishell.h"
 # include "../libft/libft.h"

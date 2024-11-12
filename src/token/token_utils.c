@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:03:28 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/11 18:03:18 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/12 15:06:48 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ void	skip_whitespace(char *line, int *pos)
 
 bool	is_special_operator(char c)
 {
-	if (c == '|' || c == '&' || c == '<' ||
-		c == '>' || c == ';')
+	if (c == '|' || c == '&' || c == '<' || c == '>' || c == ';')
 		return (true);
 	return (false);
 }

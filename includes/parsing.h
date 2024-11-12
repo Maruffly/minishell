@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:13:12 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/11 18:33:41 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/11/12 17:41:59 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef enum s_token
 typedef struct	s_command
 {
 	char				*value;
+	char				**command;
 	t_token				type;
 	struct s_command	*left;
 	struct s_command	*right;

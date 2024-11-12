@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:12:58 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/12 18:10:22 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/12 18:11:59 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 # include <signal.h>
 
 # include "../libft/libft.h"
-/* # include "./parsing.h"
-# include "./builtins.h" */
+# include "./parsing.h"
+/* # include "./builtins.h" */
 
 // Macros
 # define RESET	"\e[0m"
@@ -48,7 +48,7 @@ typedef struct s_env_list
 	struct s_env_node	*head;
 }	t_env_list;
 
-void	read_line(void);
+void	read_line(t_command *cmd);
 
 // ENVIRONEMENT //
 

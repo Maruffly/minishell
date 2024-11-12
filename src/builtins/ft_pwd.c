@@ -6,21 +6,21 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:18:25 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/11 15:40:47 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/11/12 16:35:09 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include	"../includes/minishell.h"
+# include "../../includes/builtins.h"
 
 void	exec_pwd(t_env_list *env_list)
 {
-	char	*pwd;
+	t_env_node	*pwd;
 
-	pwd = getenv("PWD");
+	pwd = find_env_node(env_list, "PWD");
 	if (!pwd)
 	{
 		perror("PWD not set");
 		return ;
 	}
-	printf("%s\n", pwd);
+	printf("%s\n", pwd->var_value);
 }

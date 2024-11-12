@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:12:58 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/11 16:36:38 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/12 16:53:20 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 # include <signal.h>
 
 # include "../libft/libft.h"
-# include "./parsing.h"
-# include "./builtins.h"
+/* # include "./parsing.h"
+# include "./builtins.h" */
 
 // Macros
 # define RESET	"\e[0m"
@@ -36,14 +36,17 @@
 # define PURPLE	"\e[35m"
 # define CYAN	"\e[36m"
 
-typedef struct s_env_list
+typedef struct s_env_node
 {
 	char				*var_name;
 	char				*var_value;
-	struct s_env_node	*head;
 	struct s_env_node	*next;
-}	t_env_list;
+}	t_env_node;
 
+typedef struct s_env_list
+{
+	struct s_env_node	*head;
+}	t_env_list;
 
 void	read_line(void);
 
@@ -52,8 +55,10 @@ void	read_line(void);
 t_env_list	*init_env_list(void);
 void		free_env_list(t_env_list *list);
 void		print_env_list(t_env_list *list);
-void		update_env_var(t_env_list *list, char *var_name, char *var_value);
-void		add_env_var(t_env_list *list, char *var_name, char *var_value, t_env_list *prev);
-void		remove_env_var(t_env_list *list, char *var_name, char *var_value);
+void		update_env_node(t_env_list *list, char *var_name, char *var_value);
+void		add_env_node(t_env_list *list, char *var_name, char *var_value);
+void		remove_env_node(t_env_list *list, char *var_name);
+t_env_node	*find_env_node(t_env_list *list, char *name);
+void		update_pwd_env(t_env_list *env_list);
 
 #endif

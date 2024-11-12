@@ -19,13 +19,14 @@ SRCS = ft_isalpha.c\
        ft_strchr.c \
        ft_strrchr.c\
        ft_strncmp.c\
-	   ft_strcmp.c\
+       ft_strcmp.c\
        ft_memchr.c\
        ft_memcmp.c\
        ft_strnstr.c\
        ft_atoi.c\
        ft_calloc.c\
        ft_strdup.c\
+       ft_strndup.c\
        ft_substr.c\
        ft_strjoin.c\
        ft_putchar_fd.c\
@@ -37,6 +38,7 @@ SRCS = ft_isalpha.c\
        ft_striteri.c\
        ft_itoa.c\
        ft_split.c\
+       ft_free_split.c\
        ./ft_printf/ft_printf.c\
        ./get_next_line/get_next_line.c\
 

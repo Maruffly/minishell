@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 14:55:48 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/11 15:33:55 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/11/12 16:08:59 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,17 @@
 # include	<string.h>
 # include	<errno.h>
 
-// CD //
+# include "./minishell.h"
+# include "../libft/libft.h"
+# include "./parsing.h"
 
-void	exec_cd(t_command *cmd);
-void	update_pwd_env(t_env_list	*env_list);
-
-// PWD //
-
+// BUILT-INS EXEC //
+void	exec_cd(t_command *cmd, t_env_list *env_list);
+void	exec_echo(t_command *cmd);
+void	exec_env(t_env_list *env_list);
+void	exec_exit(t_env_list *env_list, t_command *cmd);
+void	exec_export(t_env_list *env_list, t_command *cmd);
+void	exec_pwd(t_env_list *env_list);
+void	exec_unset(t_env_list *env_list, t_command *cmd);
 
 #endif

@@ -6,11 +6,11 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:21:14 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/11 18:33:16 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/11/12 16:04:42 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include	"../includes/minishell.h"
+# include "../../includes/builtins.h"
 
 void	exec_exit(t_env_list *env_list, t_command *cmd)
 {

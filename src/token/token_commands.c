@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 15:16:14 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/12 17:22:25 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/12 17:48:19 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,13 @@
 #include "../includes/parsing.h"
 #include "../includes/builtins.h"
 #include "../includes/minishell.h"
+
+int	is_exit_status(char *input)
+{
+	if (ft_strcmp(input, "$?") == 0)
+		return (1);
+	return (0);
+}
 
 int	is_builtin(char *word)
 {

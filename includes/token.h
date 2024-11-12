@@ -43,7 +43,6 @@ void	skip_whitespace(char *line, int *pos);
 // token commands
 int		is_cmd(char *word);
 int		is_builtin(char *word);
-void	ft_free_split(char **array);
 int		check_full_path(char *path, char *word);
 
 #endif

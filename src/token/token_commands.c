@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 15:16:14 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/12 16:01:07 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/12 17:22:25 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,21 +39,6 @@ int	check_full_path(char *path, char *word)
 	result = (access(full_path, X_OK) == 0);
 	free(full_path);
 	return (result);
-}
-
-void	ft_free_split(char **array)
-{
-	int	i;
-
-	i = 0;
-	if (!array)
-		return;
-	while (array[i])
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array);
 }
 
 int	is_cmd(char *word)

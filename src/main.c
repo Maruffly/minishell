@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/06 16:34:21 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/12 18:08:19 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,10 @@ void	signal_handler(int signum)
 		sigint_handler();
 }
 
-void	read_line(void)
+void	read_line(t_command *cmd)
 {
 	char	*input;
+	int		i;
 
 	while (1)
 	{
@@ -38,9 +39,19 @@ void	read_line(void)
 		if (*input)
 		{
 			add_history(input);
-			/* printf("input : %s\n", input); */
-			/* tonkenizer(input); */
+			cmd->value = ft_strdup(input);
+			cmd->command = ft_split(input, ' ');
+			if (!cmd->command)
+			{
+				perror("Fail to split");
+				free(input);
+				continue ;
+			}
+			i = -1;
+			while (cmd->command[++i])
+				printf(" - %s\n", cmd->command[i]);
 			free(input);
+			break ;
 		}
 		else
 		{
@@ -53,6 +64,8 @@ void	read_line(void)
 
 int	main()
 {
+	t_command	cmd;
+
 	signal(SIGINT, signal_handler);
-	read_line();
+	read_line(&cmd);
 }

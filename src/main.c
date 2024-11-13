@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/12 18:08:19 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/11/13 18:22:18 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,21 @@ void	signal_handler(int signum)
 		sigint_handler();
 }
 
+/* void	init_token_type(t_command *cmd)
+{
+	int	i;
+
+	i = -1;
+	while (cmd->command[++i])
+	{
+		if (is_builtin(cmd->command[i]) || )
+			
+	}
+} */
+
 void	read_line(t_command *cmd)
 {
 	char	*input;
-	int		i;
 
 	while (1)
 	{
@@ -40,17 +51,20 @@ void	read_line(t_command *cmd)
 		{
 			add_history(input);
 			cmd->value = ft_strdup(input);
-			cmd->command = ft_split(input, ' ');
-			if (!cmd->command)
+			if (!cmd->value)
 			{
-				perror("Fail to split");
+				perror("Fail to copy input");
 				free(input);
 				continue ;
 			}
-			i = -1;
-			while (cmd->command[++i])
-				printf(" - %s\n", cmd->command[i]);
-			free(input);
+			cmd->command = malloc(sizeof(char *) * (ft_strlen(input) + 1));
+			if (!cmd->command)
+			{
+				perror("Fail to alloc memory for commands");
+				free(input);
+				continue ;
+			}
+			init_command_array(cmd, input);
 			break ;
 		}
 		else

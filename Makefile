@@ -1,28 +1,34 @@
 NAME = minishell
 
-CC = cc -Wall -Wextra -Werror -g
-
-INC = -I ./minishell.h
+CC = cc
+CFLAGS = -Wall -Wextra -Werror -g
+INC = -I ./ -I /opt/homebrew/opt/readline/include
+LDFLAGS = -L ./libft -L /opt/homebrew/opt/readline/lib
+LDLIBS = -lft -lreadline
 
 SRC_FILES = main.c\
-			/builtins/ft_cd.c\
-			/builtins/ft_echo.c\
-			/builtins/ft_env.c\
-			/builtins/ft_exit.c\
-			/builtins/ft_export.c\
-			/builtins/ft_pwd.c\
-			/builtins/ft_unset.c\
-			/env/env_dup_init.c\
-			/env/env_utils.c\
+            /builtins/ft_cd.c\
+            /builtins/ft_echo.c\
+            /builtins/ft_env.c\
+            /builtins/ft_exit.c\
+            /builtins/ft_export.c\
+            /builtins/ft_pwd.c\
+            /builtins/ft_unset.c\
+            /env/env_dup_init.c\
+            /env/env_utils.c\
+			/token/token_commands.c\
+			/token/token_operators.c\
+			/token/token_redirections.c\
+			/token/token_specials.c\
+			/token/token_utils.c\
+			/token/token_words.c\
 
 SRC_DIR = ./src/
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
-
 OBJ = $(SRC:.c=.o)
 
 LIBFT_LIB = ./libft/libft.a
-
 LIBFT = ./libft/
 
 RM = rm -rf
@@ -35,8 +41,11 @@ $(LIBFT_LIB):
 
 $(NAME): $(LIBFT_LIB) $(OBJ)
 	@echo "$(CYAN)$(BOLD)$(NAME)$(RESET) $(GREEN)building files..$(RESET)"
-	@$(CC) $(INC) $(SRC) -L./libft -lft -lreadline -o $(NAME)
+	@$(CC) $(OBJ) $(CFLAGS) $(LDFLAGS) $(LDLIBS) -o $(NAME)
 	@echo "$(CYAN)$(BOLD)$(NAME)$(RESET) $(GREEN)$(BLINK)minishell created!$(RESET)"
+
+%.o: %.c
+	@$(CC) $(CFLAGS) $(INC) -c -o $@ $<
 
 clean:
 	@$(MAKE) clean -sC $(LIBFT)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 14:55:48 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/12 17:16:46 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/13 17:38:28 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,9 @@
 # include	<string.h>
 # include	<errno.h>
 
-# include "minishell.h"
-
-# include "./minishell.h"
 # include "../libft/libft.h"
 # include "./parsing.h"
+# include "./env.h"
 
 // BUILT-INS EXEC //
 void	exec_cd(t_command *cmd, t_env_list *env_list);

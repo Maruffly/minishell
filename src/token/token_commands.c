@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   token_commands.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 15:16:14 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/12 17:48:19 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/13 18:03:22 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/token.h"
-#include "../includes/parsing.h"
-#include "../includes/builtins.h"
-#include "../includes/minishell.h"
+# include "../../includes/token.h"
 
 int	is_exit_status(char *input)
 {
@@ -52,15 +49,15 @@ int	is_cmd(char *word)
 {
 	int		i;
 	int		result;
-	char	*paths;
-	char	**path_env;
+	char	**paths;
+	char	*path_env;
 
 	i = 0;
 	result = 0;
 	path_env = getenv("PATH");
 	if (!path_env)
 		return (0);
-	paths = ft_split(path_env, ":");
+	paths = ft_split(path_env, ':');
 	if (!paths)
 		return (0);
 	while (paths[i] && !result)
@@ -70,4 +67,30 @@ int	is_cmd(char *word)
 	}
 	ft_free_split(paths);
 	return (result);
+}
+
+void	init_command_array(t_command *cmd, char *input)
+{
+	int		pos;
+	int		word_idx;
+
+	word_idx = 0;
+	pos = 0;
+	while (input[pos])
+	{
+		skip_whitespace(input, &pos);
+		if (input[pos])
+		{
+			cmd->command[word_idx] = extract_word(input, pos);
+			if (!cmd->command[word_idx])
+			{
+				perror("Fail to extract word");
+				break ;
+			}
+			printf(" - %s\n", cmd->command[word_idx]);
+			word_idx++;
+			pos += ft_strlen(cmd->command[word_idx - 1]);
+		}
+	}
+	cmd->command[word_idx] = NULL;
 }

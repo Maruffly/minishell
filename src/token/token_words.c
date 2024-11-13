@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   token_words.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:02:12 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/12 15:06:10 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/13 17:50:14 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/token.h"
-#include "../includes/parsing.h"
-#include "../includes/builtins.h"
-#include "../includes/minishell.h"
+# include "../../includes/token.h"
 
 int	is_quote(char c)
 {
@@ -36,18 +33,18 @@ int	is_NULL(char *line)
 	return (0);
 }
 
-int	is_variable(t_env_list *env, char *line, int i)
+int	is_variable(char *line, int i)
 {
 	if (line[i] == '$' && line[i + 1] && !is_blank(line[i + 1]))
 		return (1);
 	return (0);
 }
 
-int	is_word(t_env_list *env, char *line, int i)
+int	is_word(char *line, int i)
 {
 	if (!is_quote(line[i]) && !is_blank(line[i]) && line[i] != '$'
 		&& !is_special_operator(line[i]) && !is_parenthesis(line, i)
-		&& !is_variable(env, line, i))
+		&& !is_variable(line, i))
 		return (1);
 	return (0);
 }

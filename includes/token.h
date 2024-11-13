@@ -1,16 +1,16 @@
 # ifndef TOKEN_H
 # define TOKEN_H
 
-# include "minishell.h"
 # include "parsing.h"
 # include "builtins.h"
+# include "minishell.h"
 
 // token_words.c
 int		is_quote(char c);
 int		is_blank(char c);
 int		is_NULL(char *line);
-int		is_word(t_env_list *env, char *line, int i);
-int		is_variable(t_env_list *env, char *line, int i);
+int		is_word(char *line, int i);
+int		is_variable(char *line, int i);
 
 // token_redirections.c
 int		is_heredoc(char *line, int i);
@@ -45,4 +45,5 @@ int		is_cmd(char *word);
 int		is_builtin(char *word);
 int		check_full_path(char *path, char *word);
 
+void	init_command_array(t_command *cmd, char *input);
 #endif

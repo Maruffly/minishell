@@ -6,7 +6,7 @@
 /*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 15:16:14 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/13 18:03:22 by jbmy             ###   ########.fr       */
+/*   Updated: 2024/11/15 17:50:14 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	is_cmd(char *word)
 	return (result);
 }
 
-void	init_command_array(t_command *cmd, char *input)
+/* void	init_command_array(t_command *cmd, char *input)
 {
 	int		pos;
 	int		word_idx;
@@ -93,4 +93,4 @@ void	init_command_array(t_command *cmd, char *input)
 		}
 	}
 	cmd->command[word_idx] = NULL;
-}
+} */

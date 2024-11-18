@@ -22,6 +22,8 @@ SRC_FILES = main.c\
 			/token/token_specials.c\
 			/token/token_utils.c\
 			/token/token_words.c\
+			/parse/parsing_utils.c\
+			/exec/execute_commands.c\
 
 SRC_DIR = ./src/
 

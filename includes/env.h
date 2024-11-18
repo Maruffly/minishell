@@ -6,7 +6,7 @@
 /*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 17:35:10 by jbmy              #+#    #+#             */
-/*   Updated: 2024/11/13 17:36:26 by jbmy             ###   ########.fr       */
+/*   Updated: 2024/11/18 20:23:17 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,8 @@ void		add_env_node(t_env_list *list, char *var_name, char *var_value);
 void		remove_env_node(t_env_list *list, char *var_name);
 t_env_node	*find_env_node(t_env_list *list, char *name);
 void		update_pwd_env(t_env_list *env_list);
+int			is_valid_var_name(char *name);
+t_env_list	*envp_to_list(char **envp);
+
 
 #endif

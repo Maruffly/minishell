@@ -6,7 +6,7 @@
 /*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 14:55:48 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/13 17:38:28 by jbmy             ###   ########.fr       */
+/*   Updated: 2024/11/18 16:00:33 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 void	exec_cd(t_command *cmd, t_env_list *env_list);
 void	exec_echo(t_command *cmd);
 void	exec_env(t_env_list *env_list);
-void	exec_exit(t_env_list *env_list, t_command *cmd);
+void	exec_exit(t_command *cmd);
 void	exec_export(t_env_list *env_list, t_command *cmd);
 void	exec_pwd(t_env_list *env_list);
 void	exec_unset(t_env_list *env_list, t_command *cmd);

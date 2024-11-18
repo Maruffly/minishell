@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 15:13:16 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/12 15:36:55 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/11/18 16:03:50 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,4 +105,20 @@ void	free_env_list(t_env_list *list)
 		cur = next;
 	}
 	free(list);
+}
+
+int	is_valid_var_name(char *name)
+{
+	int	i;
+
+	if (!name || (!ft_isalpha(name[0]) && name[0] != '_'))
+		return (0);
+	i = 1;
+	while (name[i])
+	{
+		if (!ft_isalpha(name[i]) && name[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
 }

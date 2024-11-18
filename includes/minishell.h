@@ -6,7 +6,7 @@
 /*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:12:58 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/13 17:44:16 by jbmy             ###   ########.fr       */
+/*   Updated: 2024/11/18 22:46:41 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include "./builtins.h"
 # include "./parsing.h"
 # include "./token.h"
+# include "./exec.h"
 # include "./env.h"
 
 // Macros
@@ -38,8 +39,11 @@
 # define PURPLE	"\e[35m"
 # define CYAN	"\e[36m"
 
+// SIGNAL //
+/* extern int	g_signal_received; */
+
 // READ LINE //
-void	read_line(t_command *cmd);
+void	read_line(t_command **cmd);
 
 // INIT COMMAND STRUCT //
 

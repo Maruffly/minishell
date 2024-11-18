@@ -6,7 +6,7 @@
 /*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 14:55:10 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/15 19:02:32 by jbmy             ###   ########.fr       */
+/*   Updated: 2024/11/18 13:03:17 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	exec_cd(t_command *cmd, t_env_list *env_list)
 	char		*path;
 	t_env_node	*home_node;
 
-	if (!cmd->right || !cmd->right->value)
+	if (!cmd->args[1])
 	{
 		home_node = find_env_node(env_list, "HOME");
 		if (!home_node || !home_node->var_value)
@@ -28,7 +28,7 @@ void	exec_cd(t_command *cmd, t_env_list *env_list)
 		path = home_node->var_value;
 	}
 	else
-		path = cmd->right->value;
+		path = cmd->args[1];
 	if (chdir(path) == -1)
 		perror("cd");
 	else

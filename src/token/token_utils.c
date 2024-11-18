@@ -6,7 +6,7 @@
 /*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:03:28 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/15 17:59:49 by jbmy             ###   ########.fr       */
+/*   Updated: 2024/11/18 21:19:51 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ bool	is_special_operator(char c)
 
 t_token	identify_token_type(char *token)
 {
-	if (is_NULL)
+	if (is_NULL(token))
 		return (0);
 	if (ft_strcmp(token, "|") == 0)
 		return (PIPE);

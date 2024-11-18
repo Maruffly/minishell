@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:09:49 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/12 16:09:59 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/11/18 16:01:17 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,45 @@
 
 void	exec_export(t_env_list *env_list, t_command *cmd)
 {
-	char	**args;
 	int		i;
 	char	*var_name;
 	char	*var_value;
+	char	*equal_sign;
 
-	if (!cmd->right)
+	if (!cmd->args[1])
 	{
 		print_env_list(env_list);
 		return ;
 	}
-	args = ft_split(cmd->right->value, ' ');
-	i = 0;
-	while (args[i])
+	i = 1;
+	while (cmd->args[i])
 	{
-
-		if (ft_strchr(args[i], '='))
+		equal_sign = ft_strchr(cmd->args[i], '=');
+		if (equal_sign)
 		{
-			var_name = ft_strndup(args[i], ft_strchr(args[i], '=') - args[i]);
-			var_value = ft_strdup(ft_strchr(args[i], '=') + 1);
-			update_env_node(env_list, var_name, var_value);
+			var_name = ft_substr(cmd->args[i], 0, equal_sign - cmd->args[i]);
+			var_value = ft_strdup(equal_sign + 1);
+		}
+		else
+		{
+			var_name = ft_strdup(cmd->args[i]);
+			var_value = NULL;
+		}
+		if (!is_valid_var_name(var_name))
+		{
+			ft_putstr_fd("export: invalid identifier\n", 2);
 			free(var_name);
 			free(var_value);
 		}
 		else
-			printf("export: '%s' is not a valid identifier\n", args[i]);
+		{
+			if (find_env_node(env_list, var_name))
+				update_env_node(env_list, var_name, var_value);
+			else
+				add_env_node(env_list, var_name, var_value);
+		}
+		free(var_name);
+		free(var_value);
 		i++;
 	}
-	ft_free_split(args);
 }

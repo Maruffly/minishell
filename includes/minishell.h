@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:12:58 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/11 16:36:38 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/18 22:46:41 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,11 @@
 # include <signal.h>
 
 # include "../libft/libft.h"
-# include "./parsing.h"
 # include "./builtins.h"
+# include "./parsing.h"
+# include "./token.h"
+# include "./exec.h"
+# include "./env.h"
 
 // Macros
 # define RESET	"\e[0m"
@@ -36,24 +39,16 @@
 # define PURPLE	"\e[35m"
 # define CYAN	"\e[36m"
 
-typedef struct s_env_list
-{
-	char				*var_name;
-	char				*var_value;
-	struct s_env_node	*head;
-	struct s_env_node	*next;
-}	t_env_list;
+// SIGNAL //
+/* extern int	g_signal_received; */
+
+// READ LINE //
+void	read_line(t_command **cmd);
+
+// INIT COMMAND STRUCT //
 
 
-void	read_line(void);
-
-// ENVIRONEMENT //
-
-t_env_list	*init_env_list(void);
-void		free_env_list(t_env_list *list);
-void		print_env_list(t_env_list *list);
-void		update_env_var(t_env_list *list, char *var_name, char *var_value);
-void		add_env_var(t_env_list *list, char *var_name, char *var_value, t_env_list *prev);
-void		remove_env_var(t_env_list *list, char *var_name, char *var_value);
+// EXIT //
+void	handle_exit_status(const char *input, int *exit_code);
 
 #endif

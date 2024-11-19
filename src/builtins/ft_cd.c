@@ -3,37 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 14:55:10 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/11 15:38:16 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/11/18 13:03:17 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include	"../includes/minishell.h"
+# include "../../includes/builtins.h"
 
 void	exec_cd(t_command *cmd, t_env_list *env_list)
 {
-	char	*path;
+	char		*path;
+	t_env_node	*home_node;
 
-	if (!cmd->right || !cmd->right->value)
+	if (!cmd->args[1])
 	{
-		path = getenv("HOME");
-		if (!path)
+		home_node = find_env_node(env_list, "HOME");
+		if (!home_node || !home_node->var_value)
+		{
 			ft_putstr_fd("cd: Home not set", 2);
+			return ;
+		}
+		path = home_node->var_value;
 	}
 	else
-		path = cmd->right->value;
+		path = cmd->args[1];
 	if (chdir(path) == -1)
-		perror("path does not exist");
+		perror("cd");
 	else
 		update_pwd_env(env_list);
 }
 
 void	update_pwd_env(t_env_list	*env_list)
 {
-	char	*pwd;
-	char	*oldpwd;
+	char		*pwd;
+	t_env_node	*pwd_node;
+	t_env_node	*oldpwd_node;
 
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
@@ -41,9 +47,18 @@ void	update_pwd_env(t_env_list	*env_list)
 		perror("getcwd");
 		return ;
 	}
-	oldpwd = getenv("PWD");
-	if (oldpwd)
-		update_env_var(env_list, "OLDPWD", oldpwd);
-	update_env_var(env_list, "PWD", pwd);
+	pwd_node = find_env_node(env_list, "PWD");
+	oldpwd_node = find_env_node(env_list, "OLDPWD");
+	if (pwd_node && pwd_node->var_value)
+	{
+		if (oldpwd_node)
+			update_env_node(env_list, "OLDPWD", oldpwd_node->var_value);
+		else
+			add_env_node(env_list, "OLDPWD", pwd_node->var_value);
+	}
+	if (pwd_node)
+		update_env_node(env_list, "PWD", pwd);
+	else
+		add_env_node(env_list, "PWD", pwd);
 	free(pwd);
 }

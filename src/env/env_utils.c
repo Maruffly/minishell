@@ -3,36 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 15:13:16 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/11 15:27:45 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/11/18 16:03:50 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include	"../includes/minishell.h"
+# include	"../../includes/minishell.h"
 
-t_env_list	*init_env_list(void)
+void	update_env_node(t_env_list *list, char *var_name, char *var_value)
 {
-	t_env_list	*list;
-
-	list = malloc(sizeof(t_env_list));
-	if (!list)
-	{
-		perror("malloc failed");
-		exit(EXIT_FAILURE);
-	}
-	list->head = NULL;
-	return (list);
-}
-
-void	update_env_var(t_env_list *list, char *var_name, char *var_value)
-{
-	t_env_list	*cur;
-	t_env_list	*prev;
+	t_env_node	*cur;
 
 	cur = list->head;
-	prev = NULL;
 	while (cur)
 	{
 		if (!ft_strcmp(cur->var_name, var_name))
@@ -46,16 +30,16 @@ void	update_env_var(t_env_list *list, char *var_name, char *var_value)
 			}
 			return ;
 		}
-		prev = cur;
 		cur = cur->next;
 	}
+	add_env_node(list, var_name, var_value);
 }
 
-void	add_env_var(t_env_list *list, char *var_name, char *var_value, t_env_list *prev)
+void	add_env_node(t_env_list *list, char *var_name, char *var_value)
 {
-	t_env_list	*new_node;
+	t_env_node	*new_node;
 
-	new_node = malloc(sizeof(t_env_list));
+	new_node = malloc(sizeof(t_env_node));
 	if (!new_node)
 	{
 		perror("malloc failed");
@@ -63,67 +47,78 @@ void	add_env_var(t_env_list *list, char *var_name, char *var_value, t_env_list *
 	}
 	new_node->var_name = ft_strdup(var_name);
 	new_node->var_value = ft_strdup(var_value);
-	new_node->next = NULL;
 	if (!new_node->var_name || !new_node->var_value)
 	{
 		perror("strdup failed");
 		exit(EXIT_FAILURE);
 	}
-	if (prev)
-		prev->next = new_node;
-	else
-		list->head = new_node;
+	new_node->next = list->head;
+	list->head = new_node;
 }
 
-void	remove_env_var(t_env_list *list, char *var_name, char *var_value)
+void    remove_env_node(t_env_list *list, char *var_name)
 {
-	t_env_list	*cur;
-	t_env_list	*prev;
+	t_env_node  *cur;
+	t_env_node  *prev;
+	t_env_node  *next;
 
 	cur = list->head;
 	prev = NULL;
 	while (cur)
 	{
-		if (ft_strcmp(cur->var_name, var_name) == 0)
+		if (!ft_strcmp(cur->var_name, var_name))
 		{
+			next = cur->next;
 			if (prev)
-				prev->next = cur->next;
+				prev->next = next;
 			else
-				list->head = cur->next;
+				list->head = next;
+			free(cur->var_name);
+			free(cur->var_value);
+			free(cur);
+			return ;
 		}
-		free(cur->var_name);
-		free(cur->var_value);
-		free(cur);
-		return ;
+		prev = cur;
+		cur = cur->next;
 	}
-	prev = cur;
-	cur = cur->next;
+}
+void	free_env_node(t_env_node *node)
+{
+	if (node)
+	{
+		free(node->var_name);
+		free(node->var_value);
+		free(node);
+	}
 }
 
 void	free_env_list(t_env_list *list)
 {
-	t_env_list	*cur;
-	t_env_list	*tmp;
+	t_env_node	*cur;
+	t_env_node	*next;
 
 	cur = list->head;
 	while (cur)
 	{
-		tmp = cur;
-		free(tmp->var_name);
-		free(tmp->var_name);
-		free(tmp);
+		next = cur->next;
+		free_env_node(cur);
+		cur = next;
 	}
 	free(list);
 }
 
-void	print_env_list(t_env_list	*list)
+int	is_valid_var_name(char *name)
 {
-	t_env_list	*cur;
+	int	i;
 
-	cur = list->head;
-	while (cur)
+	if (!name || (!ft_isalpha(name[0]) && name[0] != '_'))
+		return (0);
+	i = 1;
+	while (name[i])
 	{
-		printf("%s=%s", cur->var_name, cur->var_value);
-		cur = cur->next;
+		if (!ft_isalpha(name[i]) && name[i] != '_')
+			return (0);
+		i++;
 	}
+	return (1);
 }

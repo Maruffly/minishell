@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   token_operators.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:03:40 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/11 17:27:30 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/13 17:50:00 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/token.h"
-#include "../includes/parsing.h"
-#include "../includes/builtins.h"
-#include "../includes/minishell.h"
+# include "../../includes/token.h"
 
 int	is_pipe(char *line, int i)
 {

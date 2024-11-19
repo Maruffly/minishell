@@ -3,30 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:21:14 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/11 18:33:16 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/11/18 13:37:24 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include	"../includes/minishell.h"
+# include "../../includes/builtins.h"
 
-void	exec_exit(t_env_list *env_list, t_command *cmd)
+void	exec_exit(t_command *cmd)
 {
-	int	exit_status;
-	(void)env_list;
-	if (!cmd->right)
-	{
-		printf("exit\n");
-		exit(0);
-	}
-	if (cmd->right->next)
-	{
-		ft_putstr_fd("exit: numeric args only\n", 2);
-		exit(255);
-	}
-	exit_status = ft_atoi(cmd->right->value);
+	(void)cmd;
 	printf("exit\n");
-	exit(exit_status);
+	exit(0);
 }

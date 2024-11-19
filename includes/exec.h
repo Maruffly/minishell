@@ -1,36 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/11 18:36:17 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/18 23:45:52 by jbmy             ###   ########.fr       */
+/*   Created: 2024/11/18 18:16:49 by jbmy              #+#    #+#             */
+/*   Updated: 2024/11/18 18:45:15 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../includes/builtins.h"
+# ifndef EXEC_H
+# define EXEC_H
 
-void	exec_echo(t_command *cmd)
-{
-	int	i;
-	int	n_flag;
+# include <stdio.h>
 
-	i = 1;
-	n_flag = 0;
-	if (cmd->args[i] && !ft_strcmp(cmd->args[i], "-n"))
-	{
-		n_flag = 1;
-		i++;
-	}
-	while (cmd->args[i])
-	{
-		printf("%s", cmd->args[i]);
-		if (cmd->args[i + 1])
-			printf(" ");
-		i++;
-	}
-	if (!n_flag)
-		printf("\n");
-}
+# include "builtins.h"
+# include "token.h"
+
+void	execute_commands(t_command *cmd, t_env_list *env);
+
+
+#endif

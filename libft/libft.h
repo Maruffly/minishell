@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:40:16 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/11 17:52:43 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/12 16:13:00 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void	ft_striteri(char *s, void (*f)(unsigned int, char *));
 char	*ft_itoa(int n);
 char	*ft_strdup(const char *src);
+char	*ft_strndup(const char *s, size_t n);
 char	**ft_split(char *s, char c);
-/* void	free_substr(char **sub_str, int words); */
-/* int		count_words(char *s, char sep); */
+void	ft_free_split(char **str);
 int		ft_printf(const char *str, ...);
 char	*get_next_line(int fd);
 

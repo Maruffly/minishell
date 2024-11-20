@@ -6,7 +6,7 @@
 /*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 20:10:50 by jbmy              #+#    #+#             */
-/*   Updated: 2024/11/18 23:50:28 by jbmy             ###   ########.fr       */
+/*   Updated: 2024/11/20 19:50:39 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ t_command	*parse_input(char *input)
 		if (cmd->type == CMD || cmd->type == ARG)
 		{
 			cmd->args = ft_add_to_array(cmd->args, tokens[i]);
-			printf("Argument %d: %s\n", i, cmd->args[i]);
 			if (!cmd->args)
 			{
 					free_cmd_list(cmd);

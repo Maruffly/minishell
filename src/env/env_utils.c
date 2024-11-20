@@ -6,7 +6,7 @@
 /*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 15:13:16 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/18 16:03:50 by jbmy             ###   ########.fr       */
+/*   Updated: 2024/11/20 19:47:02 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void    remove_env_node(t_env_list *list, char *var_name)
 		cur = cur->next;
 	}
 }
+
 void	free_env_node(t_env_node *node)
 {
 	if (node)
@@ -121,4 +122,44 @@ int	is_valid_var_name(char *name)
 		i++;
 	}
 	return (1);
+}
+
+char	**list_to_envp(t_env_list *env)
+{
+	t_env_node	*cur;
+	char		**envp;
+	int			size;
+	int			i;
+
+	cur = env->head;
+	size = 0;
+	while (cur)
+	{
+		size++;
+		cur = cur->next;
+	}
+	envp = malloc(sizeof(char *) * (size + 1));
+	if (!envp)
+	{
+		perror("malloc");
+		return (NULL);
+	}
+	cur = env->head;
+	i = 0;
+	while (cur)
+	{
+		envp[i] = malloc(ft_strlen(cur->var_name) + ft_strlen(cur->var_value) + 2);
+		if (!envp[i])
+		{
+			ft_free_split(envp);
+			return (NULL);
+		}
+		ft_strcpy(envp[i], cur->var_name);
+		ft_strcat(envp[i], "=");
+		ft_strcat(envp[i], cur->var_value);
+		cur = cur->next;
+		i++;
+	}
+	envp[i] = NULL;
+	return (envp);
 }

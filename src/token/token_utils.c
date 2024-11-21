@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/21 17:51:55 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/21 17:56:08 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	skip_whitespace(char *line, int *pos)
 		(*pos)++;
 }
 
-t_token	identify_token_type(char *token)
+t_token_type	identify_token_type(char *token)
 {
 	if (is_NULL(token))
 		return (0);

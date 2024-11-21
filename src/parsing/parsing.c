@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:27:17 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/21 17:32:14 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/21 18:18:12 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,14 @@ t_token	*create_token(char *input, int *pos)
 	return (token);
 }
 
+void	add_token(t_token **head, t_token *new_token) 
+{
+	if (!head || !new_token)
+		return;
+	new_token->next = *head;
+	*head = new_token;
+}
+
 t_token	*tokenize_input(char *input)     // OK
 {
 	int		pos;
@@ -147,6 +155,23 @@ t_command	*init_command(void) // OK
 	return (cmd);
 }
 
+void	add_command(t_command **head, t_command *new_cmd)
+{
+	t_command	*cur;
+
+	if (!head || !new_cmd)
+		return ;
+	if (!*head)
+	{
+		*head = new_cmd;
+		return ;
+	}
+	cur = *head;
+	while (cur->next)
+			cur = cur->next;
+	cur->next = new_cmd;
+}
+
 t_command	*parse_tokens(t_token *tokens) // OK
 {
 	t_command	*head;
@@ -180,44 +205,27 @@ t_command	*parse_tokens(t_token *tokens) // OK
 
 //////////////////// QUOTES
 
-char  *ft_strcpy(char *dest, char *src) // OK
-{
-	char	*start;
-
-	start = dest;
-	while (*src)
-	{
-		*dest = *src;
-		dest++;
-		src++;
-	}
-	*dest = '\0';
-	return (start);
-}
-
-
 void	add_char_to_value(char **value, char c)
 {
-	int		len;
+	size_t	len;
 	char	*new_value;
 	
-	if (*value)
-		len = ft_strlen(*value);
-	else
-		len = 0;
+	if (!value || !*value)
+		return ;
+	len = ft_strlen(*value);
 	new_value = malloc(len + 2);  // +1 pour nouveau char , +1 pour \0
 	if (!new_value)
 		return ;
-	if (*value)
-	{
-		ft_strcpy(new_value, *value);
-		free (*value);
-	}
+	ft_strcpy(new_value, *value);
+	new_value[len] = c;
+	new_value[len + 1] = '\0';
+	free (*value);
+	*value = new_value; 
 }
 
 void	handle_internal_quotes(char *input, int *pos, char **value, char c) // OK
 {
-	if (c == '"' && input[*pos] == '//')
+	if (c == '"' && input[*pos] == '/')
 	{
 		(*pos)++;
 		if (input[*pos])

@@ -6,12 +6,15 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:14:26 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/21 16:37:47 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/21 18:26:38 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/parsing.h"
 #include "../../includes/minishell.h"
+#include "../../includes/env.h"
+
+void	free_env_node(t_env_node *node);
 
 void	free_cmd_list(t_command *cmd)
 {
@@ -44,3 +47,14 @@ void	free_env_list(t_env_list *list)
 	free(list);
 }
 
+void free_token_list(t_token *tokens) 
+{
+	t_token *temp;
+	while (tokens)
+	{
+		temp = tokens;
+		tokens = tokens->next;
+		free(temp->value);
+		free(temp);
+	}
+}

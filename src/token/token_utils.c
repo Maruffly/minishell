@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:03:28 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/18 21:19:51 by jbmy             ###   ########.fr       */
+/*   Updated: 2024/11/21 14:31:40 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,6 @@ void	skip_whitespace(char *line, int *pos)
 {
 	while (line[*pos] && is_blank(line[*pos]))
 		(*pos)++;
-}
-
-bool	is_special_operator(char c)
-{
-	if (c == '|' || c == '&' || c == '<' || c == '>' || c == ';')
-		return (true);
-	return (false);
 }
 
 t_token	identify_token_type(char *token)

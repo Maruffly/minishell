@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 17:35:10 by jbmy              #+#    #+#             */
-/*   Updated: 2024/11/21 10:50:07 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/11/21 17:36:33 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,5 @@ int			is_valid_var_name(char *name);
 t_env_list	*envp_to_list(char **envp);
 char		**list_to_envp(t_env_list *env);
 void		check_env_path(char **envp);
-
-
-
 
 #endif

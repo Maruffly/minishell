@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/21 10:52:36 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/11/21 17:36:17 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,58 +33,24 @@ void	exec_builtin(t_command *cmd, t_env_list *env)
 		ft_putstr_fd("Error: Command not recognized as builtin.\n", 2);
 }
 
-char	*get_path(char *cmd, char **envp)
-{
-	char	**paths;
-	char	*cmd_path;
-	int		i;
-	char	*part_path;
-
-	i = 0;
-	while (!ft_strnstr(envp[i], "PATH=", 5))
-		i++;
-	paths = ft_split(envp[i] + 5, ':');
-	if (!paths)
-		return (ft_free_split(paths), NULL);
-	i = -1;
-	while (paths[++i])
-	{
-		part_path = ft_strjoin(paths[i], "/");
-		cmd_path = ft_strjoin(part_path, cmd);
-		free(part_path);
-		if (access(cmd_path, F_OK) == 0)
-			return (ft_free_split(paths), cmd_path);
-		free(cmd_path);
-	}
-	ft_free_split(paths);
-	return (NULL);
-}
-
 void	exec_external(t_command *cmd, t_env_list *env)
 {
 	pid_t		pid;
-	char	**envp;
-	char	*path;
+	char		**envp;
+	char		*path;
 
 	envp = list_to_envp(env);
-	pid = fork();
 	path = get_path(cmd->args[0], envp);
-
-
+	/*check if path exist*/
+	pid = fork();
 	if (pid == 0)
 	{
-		if (cmd->input_fd != STDIN_FILENO)
+		redir_command(cmd);
+		if (execve(path, cmd->args, envp) == -1)
 		{
-			dup2(cmd->input_fd, STDIN_FILENO);
-			close(cmd->input_fd);
+			perror("execve");
+			exit(EXIT_FAILURE);
 		}
-		if (cmd->output_fd != STDOUT_FILENO)
-		{
-			dup2(cmd->output_fd, STDOUT_FILENO);
-			close(cmd->output_fd);
-		}
-		execve(path, cmd->args, envp);
-		exit(EXIT_FAILURE);
 	}
 	else if (pid > 0)
 		waitpid(pid, NULL, 0);
@@ -92,28 +58,28 @@ void	exec_external(t_command *cmd, t_env_list *env)
 		perror("fork");
 }
 
-void	execute_commands(t_command *cmd, t_env_list *env)
+void	execute_command(t_command *cmd, t_env_list *env, int prev_output_fd)
+{
+	cmd->input_fd = prev_output_fd;
+	if (is_builtin(cmd->args[0]))
+		exec_builtin(cmd, env);
+	else
+		exec_external(cmd, env);
+}
+
+void	execute_pipeline(t_command *cmd, t_env_list *env)
 {
 	t_command	*cur;
-	int			is_builtin_flag;
+	int			prev_output_fd;
 
+	prev_output_fd = STDIN_FILENO;
 	cur = cmd;
 	while(cur)
 	{
-		is_builtin_flag = is_builtin(cur->args[0]);
-		if (is_builtin_flag)
-		{
-			exec_builtin(cur, env);
-		}
-		else
-		{
-			exec_external(cur, env);
-		}
+		setup_pipes(cmd);
+		execute_command(cur, env, prev_output_fd);
+		close_unused_fds(cur);
+		prev_output_fd = update_prev_output_fd(cur);
 		cur = cur->next;
 	}
 }
-
-/* void	execute_builtin_with_redirection(t_command *cmd, t_env_list *env_list)
-{
-
-} */

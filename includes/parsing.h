@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:13:12 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/19 15:23:25 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/11/21 16:06:47 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,18 @@ typedef enum s_token
 	REDIRECT_OUT, /* > */
 }	t_token;
 
-typedef struct s_token_list
+/* typedef struct s_token_list
 {
 	char				*token;
 	struct s_token_list	*next;
-}	t_token_list;
+}	t_token_list; */
 
 typedef struct	s_command
 {
 	char				**args;
 	int					input_fd;
 	int					output_fd;
+	char				logical_operator;
 	t_token				type;
 	struct s_command	*next;
 }	t_command;

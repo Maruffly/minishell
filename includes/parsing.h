@@ -3,19 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:13:12 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/18 20:34:41 by jbmy             ###   ########.fr       */
+/*   Updated: 2024/11/19 15:23:25 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # ifndef PARSING_H
 # define PARSING_H
 
+# define TOKEN_BUFFER_SIZE	1024
+
 # include <stdlib.h>
+# include <stdbool.h>
 # include "../libft/libft.h"
 /* # include "../includes/token.h" */
+
+
 typedef enum s_token
 {
 	OR, /* || */
@@ -31,6 +36,12 @@ typedef enum s_token
 	REDIRECT_IN, /* < */
 	REDIRECT_OUT, /* > */
 }	t_token;
+
+typedef struct s_token_list
+{
+	char				*token;
+	struct s_token_list	*next;
+}	t_token_list;
 
 typedef struct	s_command
 {

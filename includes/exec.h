@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 18:16:49 by jbmy              #+#    #+#             */
-/*   Updated: 2024/11/18 18:45:15 by jbmy             ###   ########.fr       */
+/*   Updated: 2024/11/19 17:05:39 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 # include "builtins.h"
 # include "token.h"
+# include "env.h"
 
 void	execute_commands(t_command *cmd, t_env_list *env);
 

@@ -3,21 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   token_words.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:02:12 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/18 21:14:44 by jbmy             ###   ########.fr       */
+/*   Updated: 2024/11/19 15:36:12 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../includes/token.h"
-
-int	is_quote(char c)
-{
-	if (c == '\'' || c == '"')
-		return (1);
-	return (0);
-}
 
 int	is_blank(char c)
 {

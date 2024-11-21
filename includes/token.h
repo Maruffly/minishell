@@ -7,6 +7,8 @@
 
 // token_words.c
 int		is_quote(char c);
+int		in_single_quote(char *line, int idx);
+int		in_double_quote(char *line, int idx);
 int		is_blank(char c);
 int		is_NULL(char *line);
 int		is_word(char *line, int i);

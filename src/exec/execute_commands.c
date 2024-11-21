@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   execute_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/18 18:28:47 by jbmy              #+#    #+#             */
-/*   Updated: 2024/11/20 20:50:55 by jbmy             ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/11/21 10:52:36 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../includes/exec.h"
 
@@ -111,3 +112,8 @@ void	execute_commands(t_command *cmd, t_env_list *env)
 		cur = cur->next;
 	}
 }
+
+/* void	execute_builtin_with_redirection(t_command *cmd, t_env_list *env_list)
+{
+
+} */

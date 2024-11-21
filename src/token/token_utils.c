@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/11 16:03:28 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/21 14:31:40 by jmaruffy         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/11/21 17:51:55 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 # include "../../includes/token.h"
 

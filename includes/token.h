@@ -15,37 +15,37 @@ int		is_word(char *line, int i);
 int		is_variable(char *line, int i);
 
 // token_redirections.c
-int		is_heredoc(char *line, int i);
-int		is_redirection(char *line, int i);
-int		is_input_chevrons(char *line, int i);
-int		is_output_chevrons(char *line, int i);
-int		is_append_chevrons(char *line, int i);
+int				is_heredoc(char *line, int i);
+int				is_redirection(char *line, int i);
+int				is_input_chevrons(char *line, int i);
+int				is_output_chevrons(char *line, int i);
+int				is_append_chevrons(char *line, int i);
 
 // token_operators.c
-int		is_pipe(char *line, int i);
-int		is_separator(char *line, int i);
-int		is_or_operator(char *line, int i);
-int		is_and_operator(char *line, int i);
-int		is_boolean_operator(char *line, int i);
+int				is_operator(char *line, int i);
+int				is_separator(char *line, int i);
+int				is_or_operator(char *line, int i);
+int				is_and_operator(char *line, int i);
+int				is_boolean_operator(char *line, int i);
 
 // token_specials.c
-int		is_special_char(char c);
-int		is_parenthesis(char *line, int i);
-int		is_escaped_char(char *line, int i);
-int		is_open_paranthesis(char *line, int i);
-int 	is_close_paranthesis(char *line, int i);
+int				is_special_char(char c);
+int				is_parenthesis(char *line, int i);
+int				is_escaped_char(char *line, int i);
+int				is_open_paranthesis(char *line, int i);
+int 			is_close_paranthesis(char *line, int i);
 
 // token_utils.c
-bool	is_special_operator(char c);
-t_token	identify_token_type(char *token);
-char	*extract_word(char *line, int pos);
-char	*get_next_token(char *line, int pos);
-void	skip_whitespace(char *line, int *pos);
+bool			is_special_operator(char c);
+t_token_type	identify_token_type(char *token);
+char			*extract_word(char *line, int pos);
+char			*get_next_token(char *line, int pos);
+void			skip_whitespace(char *line, int *pos);
 
 // token commands
-int		is_cmd(char *word);
-int		is_builtin(char *word);
-int		check_full_path(char *path, char *word);
+int				is_cmd(char *word);
+int				is_builtin(char *word);
+int				check_full_path(char *path, char *word);
 
-void	init_command_array(t_command *cmd, char *input);
+void			init_command_array(t_command *cmd, char *input);
 #endif

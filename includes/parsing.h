@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/06 16:13:12 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/21 16:06:47 by jmaruffy         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/11/21 17:50:00 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 # ifndef PARSING_H
 # define PARSING_H
@@ -21,7 +22,7 @@
 /* # include "../includes/token.h" */
 
 
-typedef enum s_token
+typedef enum s_token_type
 {
 	OR, /* || */
 	AND, /* && */
@@ -35,6 +36,14 @@ typedef enum s_token
 	APPEND_OUT, /* >> */
 	REDIRECT_IN, /* < */
 	REDIRECT_OUT, /* > */
+}	t_token_type;
+
+typedef struct s_token
+{
+	t_token_type	type;
+	char			*value;
+	struct s_token	*next;
+	struct s_token	*prev;
 }	t_token;
 
 /* typedef struct s_token_list
@@ -46,6 +55,7 @@ typedef enum s_token
 typedef struct	s_command
 {
 	char				**args;
+	char				*command;
 	int					input_fd;
 	int					output_fd;
 	char				logical_operator;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:27:17 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/21 18:18:12 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/21 18:47:40 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ t_token	*create_token(char *input, int *pos)
 	t_token	*token;
 
 	value = extract_token_value(input, pos);
+	printf("%s\n", value);
 	if (!value)
 		return (NULL);
 	token = init_token(value, identify_token_type(value));
@@ -79,7 +80,7 @@ t_token	*create_token(char *input, int *pos)
 	return (token);
 }
 
-void	add_token(t_token **head, t_token *new_token) 
+void	add_token(t_token **head, t_token *new_token)
 {
 	if (!head || !new_token)
 		return;
@@ -117,7 +118,7 @@ t_token	*create_token(char *input, int *pos)     // Version 1.0
 {
 	t_token	*token;
 	char	*value;
-	
+
 	value = extract_token_value(input, pos);
 	if (!value)
 		return (NULL);
@@ -209,7 +210,7 @@ void	add_char_to_value(char **value, char c)
 {
 	size_t	len;
 	char	*new_value;
-	
+
 	if (!value || !*value)
 		return ;
 	len = ft_strlen(*value);
@@ -220,7 +221,7 @@ void	add_char_to_value(char **value, char c)
 	new_value[len] = c;
 	new_value[len + 1] = '\0';
 	free (*value);
-	*value = new_value; 
+	*value = new_value;
 }
 
 void	handle_internal_quotes(char *input, int *pos, char **value, char c) // OK
@@ -239,7 +240,7 @@ void	handle_internal_quotes(char *input, int *pos, char **value, char c) // OK
 void	handle_quotes(char *input, int *pos, char **value) // OK
 {
 	char	c;
-	
+
 	c = input[*pos];
 	(*pos)++;
 	while (input[*pos] && input[*pos] != c)

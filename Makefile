@@ -26,6 +26,10 @@ SRC_FILES = main.c\
 			/parse/parsing_utils.c\
 			/exec/execute_commands.c\
 			/exec/child.c\
+			/parsing/parsing.c\
+			/parsing/parsing_utils.c\
+			/exit/free.c\
+			/exit/exit_status.c\
 
 SRC_DIR = ./src/
 

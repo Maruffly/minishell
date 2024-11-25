@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/11 16:03:28 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/21 14:31:40 by jmaruffy         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/11/21 17:56:08 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 # include "../../includes/token.h"
 
@@ -18,7 +19,7 @@ void	skip_whitespace(char *line, int *pos)
 		(*pos)++;
 }
 
-t_token	identify_token_type(char *token)
+t_token_type	identify_token_type(char *token)
 {
 	if (is_NULL(token))
 		return (0);

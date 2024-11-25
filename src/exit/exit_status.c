@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 17:58:12 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/12 18:10:08 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/21 18:28:21 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	set_exit_code(int *exit_code, int code)
 	print_exit_code(*exit_code);
 }
 
-void	handle_exit_status(const char *input, int *exit_code)
+void	handle_exit_status(char *input, int *exit_code)
 {
 	if (ft_strcmp(input, "$?") == 0)
 		print_exit_code(*exit_code);

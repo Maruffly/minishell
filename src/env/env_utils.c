@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/08 15:13:16 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/21 10:53:07 by jmaruffy         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/11/21 17:50:46 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 # include	"../../includes/minishell.h"
 
@@ -91,21 +92,6 @@ void	free_env_node(t_env_node *node)
 		free(node->var_value);
 		free(node);
 	}
-}
-
-void	free_env_list(t_env_list *list)
-{
-	t_env_node	*cur;
-	t_env_node	*next;
-
-	cur = list->head;
-	while (cur)
-	{
-		next = cur->next;
-		free_env_node(cur);
-		cur = next;
-	}
-	free(list);
 }
 
 int	is_valid_var_name(char *name)

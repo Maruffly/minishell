@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/25 17:32:37 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/25 21:18:20 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef enum s_token_type
 {
 	OR, /* || */
 	AND, /* && */
+	PAR, /* () */
 	ARG,
 	CMD,
 	PIPE, /* | */
@@ -34,6 +35,7 @@ typedef enum s_token_type
 	OUTFILE,
 	HEREDOC, /* << */
 	LIMITER,
+	WILDCARD,
 	APPEND_OUT, /* >> */
 	REDIRECT_IN, /* < */
 	REDIRECT_OUT, /* > */
@@ -64,9 +66,12 @@ typedef struct	s_command
 	struct s_command	*next;
 }	t_command;
 
+t_command	*init_command(void);
 
 // parsing.c
 t_command	*parse_tokens(t_token *tokens);
+char		**token_to_args(t_token *tokens);
+void		add_char_to_value(char **value, char c);
 t_token		*create_token(char *input, int *pos, 
 			t_env_list *env_list, int exit_status);
 t_command	*parse_input(char *input, t_env_list *env_list, int exit_status);
@@ -96,5 +101,15 @@ void		add_char_to_value(char **value, char c);
 void		handle_internal_quotes(char *input, int *pos, 
 			char **value, char c);
 void		handle_quotes(char *input, int *pos, char **value);
+void		handle_internal_quotes(char *input, int *pos, char **value, char c);
+
+char	**token_to_args(t_token *tokens);
+bool	is_separator(t_token_type type);
+void	dup_value(t_token *cur, char **args, int count);
+
+/*
+void		add_command(t_command **head, t_command *new_cmd);
+char		**ft_add_to_array(char **array, char *new_element);
+*/
 
 #endif

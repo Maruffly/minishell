@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/25 17:39:59 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/25 21:19:53 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	signal_handler(int signum)
 
 void	read_line(t_command **cmd, t_env_list *env_list, int exit_status)
 {
-	char	*input;
+	char		*input;
 
 	input = readline("Omar&Fred> ");
 	if (!input)
@@ -63,7 +63,7 @@ int	main(int ac, char **av, char **envp)
 		read_line(&cmd, env, 0);
 		if (!cmd)
 			continue ;
-		/* execute_pipeline(cmd, env); */
+		execute_pipeline(cmd, env);
 		free_cmd_list(cmd);
 		cmd = NULL;
 	}

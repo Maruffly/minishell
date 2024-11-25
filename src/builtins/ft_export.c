@@ -6,7 +6,7 @@
 /*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:09:49 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/18 16:01:17 by jbmy             ###   ########.fr       */
+/*   Updated: 2024/11/22 15:04:30 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ void	exec_export(t_env_list *env_list, t_command *cmd)
 	char	*var_value;
 	char	*equal_sign;
 
-	if (!cmd->args[1])
+	if (!cmd->command)
 	{
 		print_env_list(env_list);
 		return ;
 	}
 	i = 1;
-	while (cmd->args[i])
+	while (cmd->command)
 	{
 		equal_sign = ft_strchr(cmd->args[i], '=');
 		if (equal_sign)

@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/18 20:10:50 by jbmy              #+#    #+#             */
-/*   Updated: 2024/11/25 18:39:20 by jmaruffy         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/11/25 21:01:19 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../includes/parsing.h"
 #include "../../includes/minishell.h"
@@ -42,6 +43,37 @@ t_command	*init_command(void) // OK
 	return (cmd);
 }
 
+bool	is_separator(t_token_type type)
+{
+	if (type == PIPE || type == AND || type == OR || type == PAR)
+		return (true);
+	return (false);
+}
+
+void	dup_value(t_token *cur, char **args, int count)
+{
+	int	i;
+
+	i = 0;
+	while (cur && !is_separator(cur->type) && i < count)
+	{
+		args[i] = ft_strdup(cur->value);
+		if (!args[i])
+		{
+			while (i > 0)
+			{
+				free(args[i - 1]);
+				i--;
+			}
+			free(args);
+			return ;
+		}
+		i++;
+		cur = cur->next;
+	}
+	args[i] = NULL;
+}
+
 void	add_command(t_command **head, t_command *new_cmd)
 {
 	t_command	*cur;
@@ -57,6 +89,30 @@ void	add_command(t_command **head, t_command *new_cmd)
 	while (cur->next)
 			cur = cur->next;
 	cur->next = new_cmd;
+}
+
+char	**token_to_args(t_token *tokens)
+{
+	t_token	*cur;
+	int		count;
+	char	**args;
+
+	if (!tokens)
+		return (NULL);
+
+	cur = tokens;
+	count = 0;
+	while (cur && !is_separator(cur->type))
+	{
+		count++;
+		cur = cur->next;
+	}
+	args = malloc(sizeof(char *) * (count + 1));
+	if (!args)
+		return (NULL);
+	cur = tokens;
+	dup_value(cur, args, count);
+	return (args);
 }
 
 void	add_token(t_token **head, t_token *new_token)

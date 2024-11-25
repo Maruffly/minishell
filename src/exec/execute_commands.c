@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/25 16:34:38 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/11/25 21:14:23 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 void	exec_builtin(t_command *cmd, t_env_list *env)
 {
+	if (ft_strcmp(cmd->args[0], "cd") == 0)
 	if (ft_strcmp(cmd->args[0], "cd") == 0)
 		exec_cd(cmd, env);
 	else if (ft_strcmp(cmd->args[0], "echo") == 0)
@@ -40,7 +41,7 @@ void	exec_external(t_command *cmd, t_env_list *env)
 	char		*path;
 
 	envp = list_to_envp(env);
-	path = get_path(cmd->args[0], envp);
+	path = get_path(cmd->command, envp);
 	/*check if path exist*/
 	pid = fork();
 	if (pid == 0)
@@ -56,12 +57,13 @@ void	exec_external(t_command *cmd, t_env_list *env)
 		waitpid(pid, NULL, 0);
 	else
 		perror("fork");
+	free(path);
 }
 
 void	execute_command(t_command *cmd, t_env_list *env, int prev_output_fd)
 {
 	cmd->input_fd = prev_output_fd;
-	if (is_builtin(cmd->args[0]))
+	if (is_builtin(cmd->command))
 		exec_builtin(cmd, env);
 	else
 		exec_external(cmd, env);

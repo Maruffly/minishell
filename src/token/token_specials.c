@@ -3,21 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   token_specials.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:03:33 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/13 17:50:07 by jbmy             ###   ########.fr       */
+/*   Updated: 2024/11/21 14:31:45 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../includes/token.h"
 
-int	is_special_char(char c)
+bool	is_special_operator(char c)
 {
-	if (c == '|' || c == '&' || c == '<' ||
-		c == '>' || c == ';')
-		return (1);
-	return (0);
+	if (c == '|' || c == '&' || c == '<' || c == '>' || c == ';')
+		return (true);
+	return (false);
 }
 
 int	is_parenthesis(char *line, int i)

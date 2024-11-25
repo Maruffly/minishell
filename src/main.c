@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/18 23:40:24 by jbmy             ###   ########.fr       */
+/*   Updated: 2024/11/21 18:42:05 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	main(int ac, char **av, char **envp)
 		read_line(&cmd);
 		if (!cmd)
 			continue ;
-		execute_commands(cmd, env);
+		/* execute_pipeline(cmd, env); */
 		free_cmd_list(cmd);
 		cmd = NULL;
 	}

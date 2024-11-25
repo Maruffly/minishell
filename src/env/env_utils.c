@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/08 15:13:16 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/18 16:03:50 by jbmy             ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/11/21 17:50:46 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 # include	"../../includes/minishell.h"
 
@@ -82,6 +83,7 @@ void    remove_env_node(t_env_list *list, char *var_name)
 		cur = cur->next;
 	}
 }
+
 void	free_env_node(t_env_node *node)
 {
 	if (node)
@@ -90,21 +92,6 @@ void	free_env_node(t_env_node *node)
 		free(node->var_value);
 		free(node);
 	}
-}
-
-void	free_env_list(t_env_list *list)
-{
-	t_env_node	*cur;
-	t_env_node	*next;
-
-	cur = list->head;
-	while (cur)
-	{
-		next = cur->next;
-		free_env_node(cur);
-		cur = next;
-	}
-	free(list);
 }
 
 int	is_valid_var_name(char *name)
@@ -121,4 +108,44 @@ int	is_valid_var_name(char *name)
 		i++;
 	}
 	return (1);
+}
+
+char	**list_to_envp(t_env_list *env)
+{
+	t_env_node	*cur;
+	char		**envp;
+	int			size;
+	int			i;
+
+	cur = env->head;
+	size = 0;
+	while (cur)
+	{
+		size++;
+		cur = cur->next;
+	}
+	envp = malloc(sizeof(char *) * (size + 1));
+	if (!envp)
+	{
+		perror("malloc");
+		return (NULL);
+	}
+	cur = env->head;
+	i = 0;
+	while (cur)
+	{
+		envp[i] = malloc(ft_strlen(cur->var_name) + ft_strlen(cur->var_value) + 2);
+		if (!envp[i])
+		{
+			ft_free_split(envp);
+			return (NULL);
+		}
+		ft_strcpy(envp[i], cur->var_name);
+		ft_strcat(envp[i], "=");
+		ft_strcat(envp[i], cur->var_value);
+		cur = cur->next;
+		i++;
+	}
+	envp[i] = NULL;
+	return (envp);
 }

@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:47:11 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/12 16:54:23 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/11/21 10:50:52 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,30 @@ t_env_node	*find_env_node(t_env_list *list, char *name)
 	return (NULL);
 }
 
-/* int	main(int ac, char **av, char **envp)
+void	check_env_path(char **envp)
 {
-	t_env_list *list;
-	(void)ac;
-	(void)av;
+	int		i;
+	bool	check;
 
-	list = envp_to_list(envp);
-	print_env_list(list);
-	free_env_list(list);
-} */
+	i = 0;
+	check = false;
+	while (envp[i])
+	{
+		if (ft_strnstr(envp[i], "PATH=", 5) && envp[i][6])
+		{
+			check = true;
+			break ;
+		}
+		++i;
+	}
+	if (!*envp)
+	{
+		ft_putstr_fd(RED "Error\nPATH variable not found!\n" RESET, 2);
+		exit(127);
+	}
+	if (!check)
+	{
+		ft_putstr_fd(RED "Error\nInvalid PATH value!\n", 2);
+		exit(127);
+	}
+}

@@ -1,14 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_commands                                   :+:      :+:    :+:   */
+/*   execute_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/18 18:28:47 by jbmy              #+#    #+#             */
-/*   Updated: 2024/11/18 18:42:23 by jbmy             ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/11/21 18:30:33 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../includes/exec.h"
 
@@ -32,28 +33,53 @@ void	exec_builtin(t_command *cmd, t_env_list *env)
 		ft_putstr_fd("Error: Command not recognized as builtin.\n", 2);
 }
 
-void	execute_commands(t_command *cmd, t_env_list *env)
+void	exec_external(t_command *cmd, t_env_list *env)
+{
+	pid_t		pid;
+	char		**envp;
+	char		*path;
+
+	envp = list_to_envp(env);
+	path = get_path(cmd->args[0], envp);
+	/*check if path exist*/
+	pid = fork();
+	if (pid == 0)
+	{
+		redir_command(cmd);
+		if (execve(path, cmd->args, envp) == -1)
+		{
+			perror("execve");
+			exit(EXIT_FAILURE);
+		}
+	}
+	else if (pid > 0)
+		waitpid(pid, NULL, 0);
+	else
+		perror("fork");
+}
+
+void	execute_command(t_command *cmd, t_env_list *env, int prev_output_fd)
+{
+	cmd->input_fd = prev_output_fd;
+	if (is_builtin(cmd->args[0]))
+		exec_builtin(cmd, env);
+	else
+		exec_external(cmd, env);
+}
+
+void	execute_pipeline(t_command *cmd, t_env_list *env)
 {
 	t_command	*cur;
-	int			is_builtin_flag;
+	int			prev_output_fd;
 
+	prev_output_fd = STDIN_FILENO;
 	cur = cmd;
 	while(cur)
 	{
-		is_builtin_flag = is_builtin(cur->args[0]);
-		if (is_builtin_flag)
-		{
-			exec_builtin(cur, env);
-		}
-		/* else
-		{
-			exec_external(cur, env);
-		} */
+		setup_pipes(cmd);
+		execute_command(cur, env, prev_output_fd);
+		close_unused_fds(cur);
+		prev_output_fd = update_prev_output_fd(cur);
 		cur = cur->next;
 	}
 }
-
-/* void	execute_builtin_with_redirection(t_command *cmd, t_env_list *env_list)
-{
-
-} */

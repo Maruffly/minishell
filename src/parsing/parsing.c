@@ -6,7 +6,7 @@
 /*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/25 21:13:01 by jbmy             ###   ########.fr       */
+/*   Updated: 2024/11/25 21:26:26 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,14 @@ t_command	*parse_input(char *input, t_env_list *env_list, int exit_status)
 		return (NULL);
 	}
 	commands = parse_tokens(tokens); // 2. parsing des tokens en commandes
-	free_token_list(tokens);
 	if (!commands)
 	{
+		free_token_list(tokens);
 		ft_putstr_fd("Parsing error : no commands generated\n", 2);
 		return (NULL);
 	}
+	commands->args = token_to_args(tokens);
+	free_token_list(tokens);
 	return (commands);
 }
 

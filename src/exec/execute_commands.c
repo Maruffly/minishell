@@ -6,7 +6,7 @@
 /*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/25 21:14:23 by jbmy             ###   ########.fr       */
+/*   Updated: 2024/11/25 21:27:41 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 void	exec_builtin(t_command *cmd, t_env_list *env)
 {
-	if (ft_strcmp(cmd->args[0], "cd") == 0)
 	if (ft_strcmp(cmd->args[0], "cd") == 0)
 		exec_cd(cmd, env);
 	else if (ft_strcmp(cmd->args[0], "echo") == 0)

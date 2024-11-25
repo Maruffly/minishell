@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:27:17 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/21 18:47:40 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/11/22 18:06:12 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,14 @@ t_command	*parse_input(char *input)    // OK
 	if (!tokens)
 		return (NULL);
 	commands = parse_tokens(tokens); // phase 2 : parsing de l'input
+	if (!commands)
+		return (free_token_list(tokens), NULL);
+	commands->args = token_to_args(tokens);
+	/* int	i;
+	for (i = 0; commands->args[i]; i++)
+		printf("%s\n", commands->args[i]); */
 	free_token_list(tokens); // TO DO////////////////////////////////
-	return (commands);
+	return (commands); // Retourne une liste chainé de STRUCTURE
 }
 
 
@@ -68,7 +74,6 @@ t_token	*create_token(char *input, int *pos)
 	t_token	*token;
 
 	value = extract_token_value(input, pos);
-	printf("%s\n", value);
 	if (!value)
 		return (NULL);
 	token = init_token(value, identify_token_type(value));
@@ -136,8 +141,6 @@ t_token	*create_token(char *input, int *pos)     // Version 1.0
 }
 
 */
-
-
 
 //////////////////// 2. PARSING INPUT
 

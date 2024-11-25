@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/21 18:22:23 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/22 18:01:26 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef enum s_token_type
 {
 	OR, /* || */
 	AND, /* && */
+	PAR, /* () */
 	ARG,
 	CMD,
 	PIPE, /* | */
@@ -33,6 +34,7 @@ typedef enum s_token_type
 	OUTFILE,
 	HEREDOC, /* << */
 	LIMITER,
+	WILDCARD,
 	APPEND_OUT, /* >> */
 	REDIRECT_IN, /* < */
 	REDIRECT_OUT, /* > */
@@ -64,11 +66,12 @@ typedef struct	s_command
 }	t_command;
 
 t_command	*init_command(void);
-t_command	*parse_input(char *input);
 t_token		*tokenize_input(char *input);
 t_command	*parse_tokens(t_token *tokens);
+char		**token_to_args(t_token *tokens);
 t_token		*create_token(char *input, int *pos);
 void		add_char_to_value(char **value, char c);
+t_command	*parse_input(char *input);   // OK
 t_token		*init_token(char *value, t_token_type type);
 char		*extract_token_value(char *input, int *pos);
 void 		add_token(t_token **head, t_token *new_token);
@@ -76,6 +79,10 @@ void		add_command(t_command **head, t_command *new_cmd);
 void		handle_quotes(char *input, int *pos, char **value);
 void		handle_expansion(char *input, int *pos, char **value);
 void		handle_internal_quotes(char *input, int *pos, char **value, char c);
+
+char	**token_to_args(t_token *tokens);
+bool	is_separator(t_token_type type);
+void	dup_value(t_token *cur, char **args, int count);
 
 /*
 void		add_command(t_command **head, t_command *new_cmd);

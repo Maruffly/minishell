@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   token_operators.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:03:40 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/21 14:56:03 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/22 15:59:59 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../includes/token.h"
 
-int	is_separator(char *line, int i)
+/* int	is_separator(char *line, int i)
 {
 	if (line[i] == ';')
 		return (1);
 	return (0);
-}
+} */
 
 int	is_or_operator(char *line, int i)
 {

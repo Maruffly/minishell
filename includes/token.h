@@ -23,7 +23,7 @@ int				is_append_chevrons(char *line, int i);
 
 // token_operators.c
 int				is_operator(char *line, int i);
-int				is_separator(char *line, int i);
+/* int				is_separator(char *line, int i); */
 int				is_or_operator(char *line, int i);
 int				is_and_operator(char *line, int i);
 int				is_boolean_operator(char *line, int i);

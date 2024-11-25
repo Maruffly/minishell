@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/21 18:30:33 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/11/25 16:34:38 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,19 @@
 
 void	exec_builtin(t_command *cmd, t_env_list *env)
 {
-	if (strcmp(cmd->args[0], "cd") == 0)
+	if (ft_strcmp(cmd->args[0], "cd") == 0)
 		exec_cd(cmd, env);
-	else if (strcmp(cmd->args[0], "echo") == 0)
+	else if (ft_strcmp(cmd->args[0], "echo") == 0)
 		exec_echo(cmd);
-	else if (strcmp(cmd->args[0], "pwd") == 0)
-		exec_pwd(env);
-	else if (strcmp(cmd->args[0], "export") == 0)
+	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
+		exec_pwd();
+	else if (ft_strcmp(cmd->args[0], "export") == 0)
 		exec_export(env, cmd);
-	else if (strcmp(cmd->args[0], "unset") == 0)
+	else if (ft_strcmp(cmd->args[0], "unset") == 0)
 		exec_unset(env, cmd);
-	else if (strcmp(cmd->args[0], "env") == 0)
+	else if (ft_strcmp(cmd->args[0], "env") == 0)
 		exec_env(env);
-	else if (strcmp(cmd->args[0], "exit") == 0)
+	else if (ft_strcmp(cmd->args[0], "exit") == 0)
 		exec_exit(cmd);
 	else
 		ft_putstr_fd("Error: Command not recognized as builtin.\n", 2);

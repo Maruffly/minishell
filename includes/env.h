@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 17:35:10 by jbmy              #+#    #+#             */
-/*   Updated: 2024/11/21 17:36:33 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/11/25 15:29:27 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_env_list
 
 // ENVIRONEMENT //
 
+char 		*get_current_path(t_env_list *list);
 t_env_list	*init_env_list(void);
 void		free_env_list(t_env_list *list);
 void		print_env_list(t_env_list *list);
@@ -40,7 +41,7 @@ void		update_env_node(t_env_list *list, char *var_name, char *var_value);
 void		add_env_node(t_env_list *list, char *var_name, char *var_value);
 void		remove_env_node(t_env_list *list, char *var_name);
 t_env_node	*find_env_node(t_env_list *list, char *name);
-void		update_pwd_env(t_env_list *env_list);
+void		update_pwd_env(t_env_list *env_list, char *old_pwd);
 int			is_valid_var_name(char *name);
 t_env_list	*envp_to_list(char **envp);
 char		**list_to_envp(t_env_list *env);

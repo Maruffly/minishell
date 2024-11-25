@@ -6,21 +6,22 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:18:25 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/12 16:35:09 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/11/25 15:30:26 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../includes/builtins.h"
 
-void	exec_pwd(t_env_list *env_list)
+void	exec_pwd(void)
 {
-	t_env_node	*pwd;
+	char	*pwd;
 
-	pwd = find_env_node(env_list, "PWD");
+	pwd = getcwd(NULL, 0);
 	if (!pwd)
 	{
-		perror("PWD not set");
+		perror("PWD");
 		return ;
 	}
-	printf("%s\n", pwd->var_value);
+	printf("%s\n", pwd);
+	free(pwd);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 20:10:50 by jbmy              #+#    #+#             */
-/*   Updated: 2024/11/21 17:39:48 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/25 16:42:38 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ t_command	*parse_input(char *input)
 			}
 			i++;
 		}
-		else if (cmd->type == PIPE || cmd->type == REDIRECT_OUT 
+		else if (cmd->type == PIPE || cmd->type == REDIRECT_OUT
 			|| cmd->type == REDIRECT_IN || cmd->type == APPEND_OUT
 			|| cmd->type == HEREDOC)
 		{

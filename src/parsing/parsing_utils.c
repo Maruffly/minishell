@@ -6,16 +6,28 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 20:10:50 by jbmy              #+#    #+#             */
-/*   Updated: 2024/11/21 17:39:48 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/25 17:13:25 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/parsing.h"
+#include "../../includes/minishell.h"
 
-/*
-t_token	identify_token_type(char *token);
+t_token	*init_token(char *value, t_token_type type)
+{
+	t_token	*token;
 
-t_command	*init_command(void)
+	token = malloc(sizeof(t_token));
+	if (!token)
+		return (NULL);
+	token->value = value;
+	token->type = type;
+	token->next = NULL;
+	token->prev = NULL;
+	return (token);
+}
+
+t_command	*init_command(void) // OK
 {
 	t_command	*cmd;
 
@@ -23,35 +35,11 @@ t_command	*init_command(void)
 	if (!cmd)
 		return (NULL);
 	cmd->args = NULL;
+	cmd->command = NULL;
 	cmd->input_fd = 0;
 	cmd->output_fd = 1;
 	cmd->next = NULL;
 	return (cmd);
-}
-
-char	**ft_add_to_array(char **array, char *new_element)
-{
-	int		i;
-	char	**new_array;
-
-	i = 0;
-	while (array && array[i])
-		i++;
-	new_array = malloc(sizeof(char *) * (i + 2));
-	if (!new_array)
-		return (NULL);
-	i = 0;
-	while (array && array[i])
-	{
-		new_array[i] = array[i];
-		i++;
-	}
-	new_array[i] = ft_strdup(new_element);
-	if (!new_array[i])
-		return (free(new_array), NULL);
-	new_array[i + 1] = NULL;
-	free(array);
-	return (new_array);
 }
 
 void	add_command(t_command **head, t_command *new_cmd)
@@ -71,60 +59,37 @@ void	add_command(t_command **head, t_command *new_cmd)
 	cur->next = new_cmd;
 }
 
-t_command	*parse_input(char *input)
+void	add_token(t_token **head, t_token *new_token)
 {
-	char		**tokens;
-	int			i;
-	t_command	*head;
-	t_command	*cmd;
-
-	if (!*input)
-		return (NULL);
-	tokens = ft_split(input, ' ');
-	if (!tokens)
-		return (NULL);
-	head = NULL;
-	i = 0;
-	while (tokens[i])
-	{
-		cmd = init_command();
-		if (!cmd)
-			return (free_cmd_list(head), ft_free_split(tokens), NULL);
-		cmd->type = identify_token_type(tokens[i]);
-		if (cmd->type == CMD || cmd->type == ARG)
-		{
-			cmd->args = ft_add_to_array(cmd->args, tokens[i]);
-			printf("Argument %d: %s\n", i, cmd->args[i]);
-			if (!cmd->args)
-			{
-					free_cmd_list(cmd);
-					ft_free_split(tokens);
-					return (NULL);
-			}
-			i++;
-		}
-		else if (cmd->type == PIPE || cmd->type == REDIRECT_OUT 
-			|| cmd->type == REDIRECT_IN || cmd->type == APPEND_OUT
-			|| cmd->type == HEREDOC)
-		{
-			i++;
-			if (tokens[i])
-			{
-				cmd->args = ft_add_to_array(cmd->args, tokens[i]);
-				if (!cmd->args)
-				{
-					free_cmd_list(cmd);
-					ft_free_split(tokens);
-					return (NULL);
-				}
-				i++;
-			}
-		}
-		else
-			i++;
-		add_command(&head, cmd);
-	}
-	ft_free_split(tokens);
-	return (head);
+	if (!head || !new_token)
+		return;
+	new_token->next = *head;
+	*head = new_token;
 }
-*/
+
+bool	is_metachar(char c)
+{
+	return (c == '|' || c == '<' || c == '>' || c == '&' ||
+			c == '(' || c == ')');
+}
+
+bool	is_syntax_ok(t_token *new_token, t_token *head)
+{
+	if (!head && new_token->type == PIPE)
+	{
+		printf("Syntax error : unexpected token '|'\n ");
+		return (false);
+	}
+	if (new_token->type == PIPE && (!head || !head->next))
+	{
+		printf("Syntax error : incomplete pipe sequence\n");
+		return (false);
+	}
+	if ((new_token->type == REDIRECT_IN || new_token->type == REDIRECT_OUT) &&
+		(!new_token->next || new_token->next->type != ARG))
+	{
+		printf("Syntax error : invalid redirection\n");
+		return (false);
+	}
+	return (true);
+}

@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:12:58 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/21 18:28:38 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/25 17:33:24 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@
 /* extern int	g_signal_received; */
 
 // READ LINE //
-void	read_line(t_command **cmd);
+void	read_line(t_command **cmd, t_env_list *env_list, int exit_status);
 
 // INIT COMMAND STRUCT //
 

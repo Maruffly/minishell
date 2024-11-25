@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/21 18:42:05 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/11/25 17:39:59 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,19 @@ void	signal_handler(int signum)
 		sigint_handler();
 }
 
-void	read_line(t_command **cmd)
+void	read_line(t_command **cmd, t_env_list *env_list, int exit_status)
 {
 	char	*input;
 
 	input = readline("Omar&Fred> ");
 	if (!input)
 	{
-		write(1, "\n", 1);
+		ft_putstr_fd("\nExit\n", 1);
+		free_env_list(env_list);
 		exit(0);
 	}
 	add_history(input);
-	*cmd = parse_input(input);
+	*cmd = parse_input(input, env_list, exit_status);
 	if (!*cmd)
 	{
 		perror("Fail to parse input\n");
@@ -59,7 +60,7 @@ int	main(int ac, char **av, char **envp)
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
-		read_line(&cmd);
+		read_line(&cmd, env, 0);
 		if (!cmd)
 			continue ;
 		/* execute_pipeline(cmd, env); */

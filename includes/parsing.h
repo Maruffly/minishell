@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/21 18:22:23 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/25 17:32:37 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,9 @@
 
 # include <stdlib.h>
 # include <stdbool.h>
+
 # include "../libft/libft.h"
-/* # include "../includes/token.h" */
+# include "./env.h"
 
 
 typedef enum s_token_type
@@ -63,23 +64,37 @@ typedef struct	s_command
 	struct s_command	*next;
 }	t_command;
 
-t_command	*init_command(void);
-t_command	*parse_input(char *input);
-t_token		*tokenize_input(char *input);
-t_command	*parse_tokens(t_token *tokens);
-t_token		*create_token(char *input, int *pos);
-void		add_char_to_value(char **value, char c);
-t_token		*init_token(char *value, t_token_type type);
-char		*extract_token_value(char *input, int *pos);
-void 		add_token(t_token **head, t_token *new_token);
-void		add_command(t_command **head, t_command *new_cmd);
-void		handle_quotes(char *input, int *pos, char **value);
-void		handle_expansion(char *input, int *pos, char **value);
-void		handle_internal_quotes(char *input, int *pos, char **value, char c);
 
-/*
+// parsing.c
+t_command	*parse_tokens(t_token *tokens);
+t_token		*create_token(char *input, int *pos, 
+			t_env_list *env_list, int exit_status);
+t_command	*parse_input(char *input, t_env_list *env_list, int exit_status);
+t_token		*tokenize_input(char *input, t_env_list *env_list, 
+							int exit_status);
+
+
+// parsing_utils.c
+t_command	*init_command(void);
+bool		is_metachar(char c);
+t_token		*init_token(char *value, t_token_type type);
+void		add_token(t_token **head, t_token *new_token);
+bool		is_syntax_ok(t_token *new_token, t_token *head);
 void		add_command(t_command **head, t_command *new_cmd);
-char		**ft_add_to_array(char **array, char *new_element);
-*/
+
+
+// expansion.c
+void		handle_expansion(char *input, int *pos, char **value, 
+							t_env_list *env_list, int exit_status);
+char		*expand_exit_status(int *pos, int exit_status);
+void		add_expanded_value(char **value, char *expanded_value);
+char		*expand_env_variable(char *input, int *pos, t_env_list *env_list);
+
+
+// quotes.c
+void		add_char_to_value(char **value, char c);
+void		handle_internal_quotes(char *input, int *pos, 
+			char **value, char c);
+void		handle_quotes(char *input, int *pos, char **value);
 
 #endif

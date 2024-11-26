@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/25 17:32:37 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/26 11:25:59 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef enum s_token_type
 {
 	OR, /* || */
 	AND, /* && */
+	PAR, /* () */
 	ARG,
 	CMD,
 	PIPE, /* | */
@@ -34,6 +35,7 @@ typedef enum s_token_type
 	OUTFILE,
 	HEREDOC, /* << */
 	LIMITER,
+	WILDCARD,
 	APPEND_OUT, /* >> */
 	REDIRECT_IN, /* < */
 	REDIRECT_OUT, /* > */

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/25 21:26:26 by jbmy             ###   ########.fr       */
+/*   Updated: 2024/11/26 10:56:16 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_command	*parse_input(char *input, t_env_list *env_list, int exit_status)
 {
 	t_token		*tokens;
 	t_command	*commands;
-	
+
 	tokens = tokenize_input(input, env_list, exit_status); // 1. tokenization de l'input
 	if (!tokens)
 	{
@@ -33,6 +33,10 @@ t_command	*parse_input(char *input, t_env_list *env_list, int exit_status)
 		return (NULL);
 	}
 	commands->args = token_to_args(tokens);
+	/*
+	int i;
+	for (i = 0; commands->args[i]; i++)
+		printf("%s\n", commands->args[i]); */
 	free_token_list(tokens);
 	return (commands);
 }
@@ -50,7 +54,10 @@ t_token	*create_token(char *input, int *pos, t_env_list *env_list, int exit_stat
 		else if (input[*pos] == '$')
 			handle_expansion(input, pos, &value, env_list, exit_status);
 		else
+		{
 			add_char_to_value(&value, input[*pos]);
+			(*pos)++;
+		}
 	}
 	if (!value)
 		return (NULL);

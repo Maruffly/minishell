@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 14:55:10 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/25 20:58:22 by jbmy             ###   ########.fr       */
+/*   Updated: 2024/11/26 11:12:18 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	exec_cd(t_command *cmd, t_env_list *env_list)
 		perror("cd");
 		return ;
 	}
-	printf("%s\n", cmd->args[1]);
 	if (!cmd->args[1])
 	{
 		home_node = find_env_node(env_list, "HOME");

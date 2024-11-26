@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/26 13:56:48 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/26 13:59:47 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 
 #include "../../includes/parsing.h"
@@ -50,7 +51,7 @@ bool	is_separator(t_token_type type)
 	return (false);
 }
 
-void	dup_value(t_token *cur, char **args, int count)
+int	dup_value(t_token *cur, char **args, int count)
 {
 	int	i;
 
@@ -65,13 +66,14 @@ void	dup_value(t_token *cur, char **args, int count)
 				free(args[i - 1]);
 				i--;
 			}
-			free(args);
-			return ;
+			args[0] = NULL;
+			return (0);
 		}
 		i++;
 		cur = cur->next;
 	}
 	args[i] = NULL;
+	return (1);
 }
 
 void	add_command(t_command **head, t_command *new_cmd)
@@ -99,7 +101,6 @@ char	**token_to_args(t_token *tokens)
 
 	if (!tokens)
 		return (NULL);
-
 	cur = tokens;
 	count = 0;
 	while (cur && !is_separator(cur->type))
@@ -111,7 +112,8 @@ char	**token_to_args(t_token *tokens)
 	if (!args)
 		return (NULL);
 	cur = tokens;
-	dup_value(cur, args, count);
+	if (!dup_value(tokens, args, count))
+		return (free(args), NULL);
 	return (args);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:36:17 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/22 15:06:59 by jbmy             ###   ########.fr       */
+/*   Updated: 2024/11/26 11:55:35 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ void	exec_echo(t_command *cmd)
 
 	i = 1;
 	n_flag = 0;
-	if (cmd->command && !ft_strcmp(cmd->args[i], "-n"))
+	if (cmd->command && !ft_strcmp(cmd->args[1], "-n"))
 	{
 		n_flag = 1;
 		i++;
 	}
-	while (cmd->args[i])
+	while (cmd->args[2])
 	{
 		printf("%s", cmd->args[i]);
 		if (cmd->args[i + 1])

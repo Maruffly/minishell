@@ -3,10 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+<<<<<<< Updated upstream
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
 /*   Updated: 2024/11/26 11:27:13 by jlaine           ###   ########.fr       */
+=======
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/11/26 13:13:44 by jmaruffy         ###   ########.fr       */
+>>>>>>> Stashed changes
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +79,10 @@ t_command	*init_command(void);
 t_command	*parse_tokens(t_token *tokens);
 char		**token_to_args(t_token *tokens);
 void		add_char_to_value(char **value, char c);
-t_token		*create_token(char *input, int *pos, 
+t_token		*create_token(char *input, int *pos,
 			t_env_list *env_list, int exit_status);
 t_command	*parse_input(char *input, t_env_list *env_list, int exit_status);
-t_token		*tokenize_input(char *input, t_env_list *env_list, 
+t_token		*tokenize_input(char *input, t_env_list *env_list,
 							int exit_status);
 
 
@@ -89,7 +96,7 @@ void		add_command(t_command **head, t_command *new_cmd);
 
 
 // expansion.c
-void		handle_expansion(char *input, int *pos, char **value, 
+void		handle_expansion(char *input, int *pos, char **value,
 							t_env_list *env_list, int exit_status);
 char		*expand_exit_status(int *pos, int exit_status);
 void		add_expanded_value(char **value, char *expanded_value);
@@ -98,14 +105,14 @@ char		*expand_env_variable(char *input, int *pos, t_env_list *env_list);
 
 // quotes.c
 void		add_char_to_value(char **value, char c);
-void		handle_internal_quotes(char *input, int *pos, 
+void		handle_internal_quotes(char *input, int *pos,
 			char **value, char c);
 void		handle_quotes(char *input, int *pos, char **value);
 void		handle_internal_quotes(char *input, int *pos, char **value, char c);
 
-char	**token_to_args(t_token *tokens);
-bool	is_separator(t_token_type type);
-void	dup_value(t_token *cur, char **args, int count);
+char		**token_to_args(t_token *tokens);
+bool		is_separator(t_token_type type);
+int			dup_value(t_token *cur, char **args, int count);
 
 /*
 void		add_command(t_command **head, t_command *new_cmd);

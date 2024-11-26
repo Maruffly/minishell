@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/26 13:56:48 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/26 15:49:13 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,4 +159,45 @@ bool	is_syntax_ok(t_token *new_token, t_token *head)
 		return (false);
 	}
 	return (true);
+}
+
+bool	is_blank_line(char *line)
+{
+	if (!line)
+		return (true);
+	while (*line)
+	{
+		if (!is_blank(*line))
+			return (false);
+		line++;
+	}
+	return (true);
+}
+
+t_command	*handle_error(char *error_message)
+{
+	ft_putstr_fd(error_message, 2);
+	return (NULL);
+}
+
+/*
+static void	handle_command_not_found(char *cmd)
+{
+	ft_putstr_fd("bash: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(": command not found\n", 2);
+}
+*/
+
+
+bool	is_empty_line(char *input)
+{
+	int	i;
+
+	if (!input) // Si la ligne est NULL (sécurité supplémentaire)
+		return (true);
+	i = 0;
+	while (input[i] && (input[i] == ' ' || input[i] == '\t'))
+		i++;
+	return (input[i] == '\0'); // Retourne true si la ligne est vide après trim
 }

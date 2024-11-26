@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/26 13:51:52 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/26 15:32:19 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,25 +19,21 @@ t_command	*parse_input(char *input, t_env_list *env_list, int exit_status)
 	t_token		*tokens;
 	t_command	*commands;
 
+	if (!input || is_blank_line(input))
+		return (NULL);
 	tokens = tokenize_input(input, env_list, exit_status); // 1. tokenization de l'input
 	if (!tokens)
-	{
-		ft_putstr_fd("Syntax error : invalid input\n", 2);
-		return (NULL);
-	}
+		return (handle_error("Syntax error : invalid input\n"));
 	commands = parse_tokens(tokens); // 2. parsing des tokens en commandes
 	if (!commands)
 	{
 		free_token_list(tokens);
-		ft_putstr_fd("Parsing error : no commands generated\n", 2);
-		return (NULL);
+		return (handle_error("Parsing error : no commands generated\n"));
 	}
 	commands->args = token_to_args(tokens);
-	
-	int i;
-	for (i = 0; commands->args[i]; i++)
-		printf("%s\n", commands->args[i]); 
-
+	// int i;
+	// for (i = 0; commands->args[i]; i++)
+	// 	printf("%s\n", commands->args[i]); 
 	free_token_list(tokens);
 	return (commands);
 }

@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/26 11:27:13 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/26 15:49:23 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,12 @@ t_token		*init_token(char *value, t_token_type type);
 void		add_token(t_token **head, t_token *new_token);
 bool		is_syntax_ok(t_token *new_token, t_token *head);
 void		add_command(t_command **head, t_command *new_cmd);
+bool		is_blank_line(char *line);
+t_command	*handle_error(char *error_message);
+int			is_command_ok(t_command *cmd, t_env_list *env_list);
+bool		is_empty_line(char *input);
+
+
 
 
 // expansion.c

@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/26 11:27:30 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/26 15:50:44 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	signal_handler(int signum)
 		sigint_handler();
 }
 
+
 void	read_line(t_command **cmd, t_env_list *env_list, int exit_status)
 {
 	char		*input;
@@ -33,9 +34,15 @@ void	read_line(t_command **cmd, t_env_list *env_list, int exit_status)
 	input = readline("Omar&Fred> ");
 	if (!input)
 	{
-		ft_putstr_fd("\nExit\n", 1);
+		ft_putstr_fd("exit\n", 1);
 		free_env_list(env_list);
 		exit(0);
+	}
+	if (is_empty_line(input))
+	{
+		free(input);
+		*cmd = NULL;
+		return ;
 	}
 	add_history(input);
 	*cmd = parse_input(input, env_list, exit_status);
@@ -46,6 +53,28 @@ void	read_line(t_command **cmd, t_env_list *env_list, int exit_status)
 	}
 	free(input);
 }
+
+
+// void	read_line(t_command **cmd, t_env_list *env_list, int exit_status)
+// {
+// 	char		*input;
+
+// 	input = readline("Omar&Fred> ");
+// 	if (!input)
+// 	{
+// 		ft_putstr_fd("exit\n", 1);
+// 		free_env_list(env_list);
+// 		exit(0);
+// 	}
+// 	add_history(input);
+// 	*cmd = parse_input(input, env_list, exit_status);
+// 	if (!*cmd)
+// 	{
+// 		perror("Fail to parse input\n");
+// 		*cmd = NULL;
+// 	}
+// 	free(input);
+// }
 
 int	main(int ac, char **av, char **envp)
 {

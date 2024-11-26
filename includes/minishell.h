@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:12:58 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/25 17:33:24 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/26 14:34:50 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,9 @@ void	read_line(t_command **cmd, t_env_list *env_list, int exit_status);
 
 
 // EXIT //
-void	free_cmd_list(t_command *head);
-void 	free_token_list(t_token *tokens);
-void	handle_exit_status(char *input, int *exit_code);
+void		free_cmd_list(t_command *head);
+void 		free_token_list(t_token *tokens);
+void		handle_exit_status(char *input, int *exit_code);
+
 
 #endif

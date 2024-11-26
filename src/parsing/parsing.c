@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/26 11:27:48 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/26 13:51:52 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,11 @@ t_command	*parse_input(char *input, t_env_list *env_list, int exit_status)
 		return (NULL);
 	}
 	commands->args = token_to_args(tokens);
-	/*
+	
 	int i;
 	for (i = 0; commands->args[i]; i++)
-		printf("%s\n", commands->args[i]); */
+		printf("%s\n", commands->args[i]); 
+
 	free_token_list(tokens);
 	return (commands);
 }

@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/26 11:28:10 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/26 13:56:48 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,13 +115,24 @@ char	**token_to_args(t_token *tokens)
 	return (args);
 }
 
+
 void	add_token(t_token **head, t_token *new_token)
 {
+	t_token	*current;
+
 	if (!head || !new_token)
 		return;
-	new_token->next = *head;
-	*head = new_token;
+	if (!*head)
+	{
+		*head = new_token;
+		return;
+	}
+	current = *head;
+	while (current->next)
+		current = current->next;
+	current->next = new_token;
 }
+
 
 bool	is_metachar(char c)
 {

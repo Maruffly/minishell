@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/19 15:27:17 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/26 11:25:17 by jlaine           ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/11/26 11:27:48 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../includes/parsing.h"
 #include "../../includes/minishell.h"
@@ -17,7 +18,7 @@ t_command	*parse_input(char *input, t_env_list *env_list, int exit_status)
 {
 	t_token		*tokens;
 	t_command	*commands;
-	
+
 	tokens = tokenize_input(input, env_list, exit_status); // 1. tokenization de l'input
 	if (!tokens)
 	{
@@ -25,12 +26,18 @@ t_command	*parse_input(char *input, t_env_list *env_list, int exit_status)
 		return (NULL);
 	}
 	commands = parse_tokens(tokens); // 2. parsing des tokens en commandes
-	free_token_list(tokens);
 	if (!commands)
 	{
+		free_token_list(tokens);
 		ft_putstr_fd("Parsing error : no commands generated\n", 2);
 		return (NULL);
 	}
+	commands->args = token_to_args(tokens);
+	/*
+	int i;
+	for (i = 0; commands->args[i]; i++)
+		printf("%s\n", commands->args[i]); */
+	free_token_list(tokens);
 	return (commands);
 }
 
@@ -47,7 +54,10 @@ t_token	*create_token(char *input, int *pos, t_env_list *env_list, int exit_stat
 		else if (input[*pos] == '$')
 			handle_expansion(input, pos, &value, env_list, exit_status);
 		else
+		{
 			add_char_to_value(&value, input[*pos]);
+			(*pos)++;
+		}
 	}
 	if (!value)
 		return (NULL);

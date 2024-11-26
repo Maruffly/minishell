@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 14:55:10 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/22 18:15:35 by jbmy             ###   ########.fr       */
+/*   Updated: 2024/11/26 11:12:18 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,50 +15,58 @@
 void	exec_cd(t_command *cmd, t_env_list *env_list)
 {
 	char		*path;
+	char		*cur_pwd;
 	t_env_node	*home_node;
 
-	if (!cmd->args || !cmd->args[1])
+	cur_pwd = getcwd(NULL, 0);
+	if (!cur_pwd)
+	{
+		perror("cd");
+		return ;
+	}
+	if (!cmd->args[1])
 	{
 		home_node = find_env_node(env_list, "HOME");
 		if (!home_node || !home_node->var_value)
 		{
 			ft_putstr_fd("cd: Home not set", 2);
+			free(cur_pwd);
 			return ;
 		}
 		path = home_node->var_value;
 	}
 	else
 		path = cmd->args[1];
-	if (chdir(path) == -1)
-		perror("cd");
-	else
-		update_pwd_env(env_list);
+	if (access(path, F_OK) < 0)
+	{
+		ft_putstr_fd("cd: ", 2);
+		perror(path);
+		free(cur_pwd);
+		return ;
+	}
+	if (chdir(path) < 0)
+	{
+		ft_putstr_fd("cd: Home not set", 2);
+		perror(path);
+		free(cur_pwd);
+		return ;
+	}
+	update_pwd_env(env_list, cur_pwd);
+	free(cur_pwd);
 }
 
-void	update_pwd_env(t_env_list *env_list)
+void	update_pwd_env(t_env_list *env_list, char *old_pwd)
 {
-	char		*pwd;
-	t_env_node	*pwd_node;
-	t_env_node	*oldpwd_node;
+	char		*new_pwd;
 
-	pwd = getcwd(NULL, 0);
-	if (!pwd)
+	new_pwd = getcwd(NULL, 0);
+	if (!new_pwd)
 	{
 		perror("getcwd");
 		return ;
 	}
-	pwd_node = find_env_node(env_list, "PWD");
-	oldpwd_node = find_env_node(env_list, "OLDPWD");
-	if (pwd_node && pwd_node->var_value)
-	{
-		if (oldpwd_node)
-			update_env_node(env_list, "OLDPWD", oldpwd_node->var_value);
-		else
-			add_env_node(env_list, "OLDPWD", pwd_node->var_value);
-	}
-	if (pwd_node)
-		update_env_node(env_list, "PWD", pwd);
-	else
-		add_env_node(env_list, "PWD", pwd);
-	free(pwd);
+	if (old_pwd)
+		update_env_node(env_list, "OLDPWD", old_pwd);
+	update_env_node(env_list, "PWD", new_pwd);
+	free(new_pwd);
 }

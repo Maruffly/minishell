@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 14:55:48 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/18 16:00:33 by jbmy             ###   ########.fr       */
+/*   Updated: 2024/11/25 15:30:00 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	exec_echo(t_command *cmd);
 void	exec_env(t_env_list *env_list);
 void	exec_exit(t_command *cmd);
 void	exec_export(t_env_list *env_list, t_command *cmd);
-void	exec_pwd(t_env_list *env_list);
+void	exec_pwd(void);
 void	exec_unset(t_env_list *env_list, t_command *cmd);
 
 #endif

@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/21 17:50:46 by jlaine           ###   ########.fr       */
+/*   Created: 2024/11/08 15:13:16 by jmaruffy          #+#    #+#             */
+/*   Updated: 2024/11/25 16:33:57 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 # include	"../../includes/minishell.h"
+
 
 void	update_env_node(t_env_list *list, char *var_name, char *var_value)
 {

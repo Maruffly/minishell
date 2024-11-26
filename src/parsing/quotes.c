@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 14:06:09 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/25 14:28:32 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/26 10:40:04 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,17 @@ void	add_char_to_value(char **value, char c)
 	size_t	len;
 	char	*new_value;
 
-	if (!value || !*value)
+	if (!value)
 		return ;
+	if (!*value)
+	{
+		*value = malloc(2); // 1 caractère + '\0'
+		if (!*value)
+			return ;
+		(*value)[0] = c;
+		(*value)[1] = '\0';
+		return ;
+	}
 	len = ft_strlen(*value);
 	new_value = malloc(len + 2);  // +1 pour nouveau char , +1 pour \0
 	if (!new_value)

@@ -6,7 +6,7 @@
 /*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/22 18:22:01 by jbmy             ###   ########.fr       */
+/*   Updated: 2024/11/25 21:27:41 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	exec_builtin(t_command *cmd, t_env_list *env)
 	else if (ft_strcmp(cmd->args[0], "echo") == 0)
 		exec_echo(cmd);
 	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
-		exec_pwd(env);
+		exec_pwd();
 	else if (ft_strcmp(cmd->args[0], "export") == 0)
 		exec_export(env, cmd);
 	else if (ft_strcmp(cmd->args[0], "unset") == 0)

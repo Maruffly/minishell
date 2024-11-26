@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:36:17 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/26 11:55:35 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/11/26 14:14:02 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ void	exec_echo(t_command *cmd)
 
 	i = 1;
 	n_flag = 0;
-	if (cmd->command && !ft_strcmp(cmd->args[1], "-n"))
+	if (cmd->args[1] && !ft_strcmp(cmd->args[1], "-n"))
 	{
 		n_flag = 1;
 		i++;
 	}
-	while (cmd->args[2])
+	while (cmd->args[i])
 	{
 		printf("%s", cmd->args[i]);
 		if (cmd->args[i + 1])

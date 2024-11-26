@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/26 13:29:50 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/11/26 14:23:28 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ void	execute_command(t_command *cmd, t_env_list *env, int prev_output_fd)
 		printf("%s\n", cmd->args[i]); */
 	if (is_builtin(cmd->command))
 		exec_builtin(cmd, env);
-	/* else
-		exec_external(cmd, env); */
+	else
+		exec_external(cmd, env);
 }
 
 void	execute_pipeline(t_command *cmd, t_env_list *env)

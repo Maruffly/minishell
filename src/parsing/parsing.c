@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/26 14:01:15 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/11/26 14:12:16 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ t_command	*parse_input(char *input, t_env_list *env_list, int exit_status)
 {
 	t_token		*tokens;
 	t_command	*commands;
-	t_token		*first_cmd_token;
 
 	tokens = tokenize_input(input, env_list, exit_status); // 1. tokenization de l'input
 	if (!tokens)
@@ -34,11 +33,9 @@ t_command	*parse_input(char *input, t_env_list *env_list, int exit_status)
 		return (NULL);
 	}
 	commands->args = token_to_args(tokens);
-
-	int i;
+	/* int i;
 	for (i = 0; commands->args[i]; i++)
-		printf("%s\n", commands->args[i]);
-
+		printf("%s\n", commands->args[i]); */
 	free_token_list(tokens);
 	return (commands);
 }

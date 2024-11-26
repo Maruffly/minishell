@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/25 21:27:41 by jbmy             ###   ########.fr       */
+/*   Updated: 2024/11/26 14:23:28 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,12 @@ void	exec_external(t_command *cmd, t_env_list *env)
 
 void	execute_command(t_command *cmd, t_env_list *env, int prev_output_fd)
 {
+	if (!cmd)
+		return ;
 	cmd->input_fd = prev_output_fd;
+	/* int i;
+	for (i = 0; cmd->args[i]; i++)
+		printf("%s\n", cmd->args[i]); */
 	if (is_builtin(cmd->command))
 		exec_builtin(cmd, env);
 	else
@@ -75,8 +80,14 @@ void	execute_pipeline(t_command *cmd, t_env_list *env)
 
 	prev_output_fd = STDIN_FILENO;
 	cur = cmd;
-	while(cur)
+	while (cur)
 	{
+		if (!cur->command) // Vérification supplémentaire
+		{
+			ft_putstr_fd("Error: Null command in pipeline.\n", 2);
+			cur = cur->next;
+			continue;
+		}
 		setup_pipes(cmd);
 		execute_command(cur, env, prev_output_fd);
 		close_unused_fds(cur);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:09:49 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/22 15:04:30 by jbmy             ###   ########.fr       */
+/*   Updated: 2024/11/26 14:09:12 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@ void	exec_export(t_env_list *env_list, t_command *cmd)
 	char	*var_value;
 	char	*equal_sign;
 
-	if (!cmd->command)
+	if (!cmd->args[1])
 	{
 		print_env_list(env_list);
 		return ;
 	}
 	i = 1;
-	while (cmd->command)
+	while (cmd->args[i])
 	{
-		equal_sign = ft_strchr(cmd->args[i], '=');
+		equal_sign = ft_strchr(cmd->args[1], '=');
 		if (equal_sign)
 		{
 			var_name = ft_substr(cmd->args[i], 0, equal_sign - cmd->args[i]);
@@ -38,6 +38,7 @@ void	exec_export(t_env_list *env_list, t_command *cmd)
 			var_name = ft_strdup(cmd->args[i]);
 			var_value = NULL;
 		}
+		i++;
 		if (!is_valid_var_name(var_name))
 		{
 			ft_putstr_fd("export: invalid identifier\n", 2);
@@ -53,6 +54,5 @@ void	exec_export(t_env_list *env_list, t_command *cmd)
 		}
 		free(var_name);
 		free(var_value);
-		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 14:55:10 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/26 11:12:18 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/11/26 13:45:12 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,22 @@ void	exec_cd(t_command *cmd, t_env_list *env_list)
 	char		*cur_pwd;
 	t_env_node	*home_node;
 
+	if (!cmd->args || !cmd->args[0])
+	{
+		ft_putstr_fd("cd: No command\n", 2);
+		return;
+	}
 	cur_pwd = getcwd(NULL, 0);
 	if (!cur_pwd)
 	{
 		perror("cd");
 		return ;
+	}
+	if (cmd->args[2] != NULL)
+	{
+		ft_putstr_fd("cd: Too many arguments\n", 2);
+		free(cur_pwd);
+		return;
 	}
 	if (!cmd->args[1])
 	{

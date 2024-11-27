@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/26 15:57:34 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/27 18:13:54 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,20 +56,23 @@ int	dup_value(t_token *cur, char **args, int count)
 	int	i;
 
 	i = 0;
-	while (cur && !is_separator(cur->type) && i < count)
+	while (cur && i < count)
 	{
-		args[i] = ft_strdup(cur->value);
-		if (!args[i])
+		if (!is_separator(cur->type))
 		{
-			while (i > 0)
+			args[i] = ft_strdup(cur->value);
+			if (!args[i])
 			{
-				free(args[i - 1]);
-				i--;
+				while (i > 0)
+				{
+					free(args[i - 1]);
+					i--;
+				}
+				args[0] = NULL;
+				return (0);
 			}
-			args[0] = NULL;
-			return (0);
+			i++;
 		}
-		i++;
 		cur = cur->next;
 	}
 	args[i] = NULL;
@@ -103,9 +106,10 @@ char	**token_to_args(t_token *tokens)
 		return (NULL);
 	cur = tokens;
 	count = 0;
-	while (cur && !is_separator(cur->type))
+	while (cur)
 	{
-		count++;
+		if (!is_separator(cur->type))
+			count++;
 		cur = cur->next;
 	}
 	args = malloc(sizeof(char *) * (count + 1));

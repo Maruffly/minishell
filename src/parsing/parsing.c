@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/26 15:57:52 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/27 18:10:52 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ t_command	*parse_input(char *input, t_env_list *env_list, int exit_status)
 		free_token_list(tokens);
 		return (handle_error("Parsing error : no commands generated\n"));
 	}
-	commands->args = token_to_args(tokens);
 	// int i;
 	// for (i = 0; commands->args[i]; i++)
 	// 	printf("%s\n", commands->args[i]); 
@@ -98,25 +97,24 @@ t_command	*parse_tokens(t_token *tokens)
 {
 	t_command	*head;
 	t_command	*cmd;
+	t_token		*cur;
 
 	head = NULL;
-	while (tokens)
+	cmd = init_command();
+	if (!cmd)
+		return (NULL);
+	cur = tokens;
+	while (cur)
 	{
-		cmd = init_command();
-		if (!cmd)
-		{
-			free_cmd_list(head);
-			return (NULL);
-		}
-		cmd->command = ft_strdup(tokens->value);
-		cmd->type = tokens->type;
 		if (!cmd->command)
 		{
-			free(cmd);
-			return (free_cmd_list(head), NULL);
+			cmd->command = ft_strdup(tokens->value);
+			cmd->type = tokens->type;
 		}
-		add_command(&head, cmd);
-		tokens = tokens->next;
+		/* printf("command : %s\n", cmd->command); */
+		cur = cur->next;
 	}
+	cmd->args = token_to_args(tokens);
+	add_command(&head, cmd);
 	return (head);
 }

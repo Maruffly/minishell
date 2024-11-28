@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/26 14:12:16 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/11/28 19:48:24 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ t_command	*parse_input(char *input, t_env_list *env_list, int exit_status)
 		ft_putstr_fd("Parsing error : no commands generated\n", 2);
 		return (NULL);
 	}
-	commands->args = token_to_args(tokens);
-	/* int i;
+	int i;
 	for (i = 0; commands->args[i]; i++)
-		printf("%s\n", commands->args[i]); */
+		printf("%s\n", commands->args[i]);
+	printf("\n\n");
 	free_token_list(tokens);
 	return (commands);
 }
@@ -46,8 +46,9 @@ t_token	*create_token(char *input, int *pos, t_env_list *env_list, int exit_stat
 	t_token	*token;
 
 	value = NULL;
-	while (input[*pos] && !is_blank(input[*pos]) && !is_metachar(input[*pos]))
+	while (input[*pos] && !is_blank(input[*pos]))
 	{
+
 		if (input[*pos] == '\'' || input[*pos] == '"')
 			handle_quotes(input, pos, &value);
 		else if (input[*pos] == '$')
@@ -83,6 +84,7 @@ t_token	*tokenize_input(char *input, t_env_list *env_list, int exit_status)
 		if (input[pos])
 		{
 			new_token = create_token(input, &pos, env_list, exit_status);
+			/* printf("new token : %s\n", new_token->value); */
 			if (!new_token || !is_syntax_ok(new_token, head))
 			{
 				free_token_list(head);
@@ -96,29 +98,65 @@ t_token	*tokenize_input(char *input, t_env_list *env_list, int exit_status)
 	return (head);
 }
 
+void	parse_redirections(t_token *cur, t_command *cmd)
+{
+	if (!cur || !cmd)
+		return ;
+	if (!cur->next)
+	{
+		ft_putstr_fd("Error: Missing file for redirection\n", STDERR_FILENO);
+		cmd->error = true;
+		return ;
+	}
+	if (cur->type == REDIRECT_IN)
+		cmd->infile = ft_strdup(cur->next->value);
+	else if (cur->type == REDIRECT_OUT)
+	{
+		cmd->outfile = ft_strdup(cur->next->value);
+		cmd->append_mode = false;
+	}
+	else if (cur->type == APPEND_OUT)
+	{
+		cmd->outfile = ft_strdup(cur->next->value);
+		cmd->append_mode = true;
+	}
+}
+
 t_command	*parse_tokens(t_token *tokens)
 {
 	t_command	*head;
 	t_command	*cmd;
+	t_token		*cur;
+	t_token		*start;
 
 	head = NULL;
-	while (tokens)
+	cmd = NULL;
+	start = tokens;
+	cur = tokens;
+	if (!tokens)
+		return (NULL);
+	while (cur)
 	{
-		cmd = init_command();
-		if (!cmd)
+		if (!cmd && cur->type == CMD)
 		{
-			free_cmd_list(head);
-			return (NULL);
+			cmd = init_command();
+			cmd->command = ft_strdup(cur->value);
+			cmd->type = cur->type;
+			start = cur;
 		}
-		cmd->command = ft_strdup(tokens->value);
-		cmd->type = tokens->type;
-		if (!cmd->command)
+		if (is_redirection(cur->type))
+			parse_redirections(cur, cmd);
+		if (cur->type == PIPE || cur->next == NULL)
 		{
-			free(cmd);
-			return (free_cmd_list(head), NULL);
+			if (cmd)
+			{
+				cmd->args = token_to_args(start, cur);
+				add_command(&head, cmd);
+				cmd = NULL;
+				start = cur->next;
+			}
 		}
-		add_command(&head, cmd);
-		tokens = tokens->next;
+		cur = cur->next;
 	}
 	return (head);
 }

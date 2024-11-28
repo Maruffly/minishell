@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/26 13:59:47 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/11/28 19:49:26 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,39 +41,8 @@ t_command	*init_command(void) // OK
 	cmd->input_fd = 0;
 	cmd->output_fd = 1;
 	cmd->next = NULL;
+	cmd->error = false;
 	return (cmd);
-}
-
-bool	is_separator(t_token_type type)
-{
-	if (type == PIPE || type == AND || type == OR || type == PAR)
-		return (true);
-	return (false);
-}
-
-int	dup_value(t_token *cur, char **args, int count)
-{
-	int	i;
-
-	i = 0;
-	while (cur && !is_separator(cur->type) && i < count)
-	{
-		args[i] = ft_strdup(cur->value);
-		if (!args[i])
-		{
-			while (i > 0)
-			{
-				free(args[i - 1]);
-				i--;
-			}
-			args[0] = NULL;
-			return (0);
-		}
-		i++;
-		cur = cur->next;
-	}
-	args[i] = NULL;
-	return (1);
 }
 
 void	add_command(t_command **head, t_command *new_cmd)
@@ -92,31 +61,6 @@ void	add_command(t_command **head, t_command *new_cmd)
 			cur = cur->next;
 	cur->next = new_cmd;
 }
-
-char	**token_to_args(t_token *tokens)
-{
-	t_token	*cur;
-	int		count;
-	char	**args;
-
-	if (!tokens)
-		return (NULL);
-	cur = tokens;
-	count = 0;
-	while (cur && !is_separator(cur->type))
-	{
-		count++;
-		cur = cur->next;
-	}
-	args = malloc(sizeof(char *) * (count + 1));
-	if (!args)
-		return (NULL);
-	cur = tokens;
-	if (!dup_value(tokens, args, count))
-		return (free(args), NULL);
-	return (args);
-}
-
 
 void	add_token(t_token **head, t_token *new_token)
 {
@@ -161,4 +105,106 @@ bool	is_syntax_ok(t_token *new_token, t_token *head)
 		return (false);
 	}
 	return (true);
+}
+
+bool	is_blank_line(char *line)
+{
+	if (!line)
+		return (true);
+	while (*line)
+	{
+		if (!is_blank(*line))
+			return (false);
+		line++;
+	}
+	return (true);
+}
+
+t_command	*handle_error(char *error_message)
+{
+	ft_putstr_fd(error_message, 2);
+	return (NULL);
+}
+
+/*
+static void	handle_command_not_found(char *cmd)
+{
+	ft_putstr_fd("bash: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(": command not found\n", 2);
+}
+*/
+
+
+bool	is_empty_line(char *input)
+{
+	int	i;
+
+	if (!input) // Si la ligne est NULL (sécurité supplémentaire)
+		return (true);
+	i = 0;
+	while (input[i] && (input[i] == ' ' || input[i] == '\t'))
+		i++;
+	return (input[i] == '\0'); // Retourne true si la ligne est vide après trim
+}
+
+int	dup_value(t_token *cur, char **args, int count)
+{
+	int	i;
+
+	i = 0;
+	while (cur && i < count)
+	{
+		if (!is_separator(cur->type))
+		{
+			args[i] = ft_strdup(cur->value);
+			if (!args[i])
+			{
+				while (i > 0)
+				{
+					free(args[i - 1]);
+					i--;
+				}
+				args[0] = NULL;
+				return (0);
+			}
+			i++;
+		}
+		cur = cur->next;
+	}
+	args[i] = NULL;
+	return (1);
+}
+
+char	**token_to_args(t_token *tokens, t_token *stop_token)
+{
+	t_token	*cur;
+	int		count;
+	char	**args;
+
+	if (!tokens)
+		return (NULL);
+	cur = tokens;
+	count = 0;
+	while (cur && cur != stop_token)
+	{
+		if (!is_separator(cur->type) && !is_redirection(cur->type))
+			count++;
+		cur = cur->next;
+	}
+	args = malloc(sizeof(char *) * (count + 1));
+	if (!args)
+		return (NULL);
+	cur = tokens;
+	count = 0;
+	while (cur && cur != stop_token)
+	{
+		if (!is_separator(cur->type) && !is_redirection(cur->type))
+			args[count++] = ft_strdup(cur->value);
+		cur = cur->next;
+	}
+	args[count] = NULL;
+	/* if (!dup_value(tokens, args, count))
+		return (free(args), NULL); */
+	return (args);
 }

@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/26 14:02:34 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/11/28 19:49:06 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,14 @@ typedef struct	s_command
 	char				*command;
 	int					input_fd;
 	int					output_fd;
+	char				*infile;
+	char				*outfile;
+	bool				append_mode;
+	bool				heredoc_mode;
+	char				*heredoc_limiter;
 	char				logical_operator;
 	t_token_type		type;
+	bool				error;
 	struct s_command	*next;
 }	t_command;
 
@@ -70,7 +76,6 @@ t_command	*init_command(void);
 
 // parsing.c
 t_command	*parse_tokens(t_token *tokens);
-char		**token_to_args(t_token *tokens);
 void		add_char_to_value(char **value, char c);
 t_token		*create_token(char *input, int *pos,
 			t_env_list *env_list, int exit_status);
@@ -103,7 +108,7 @@ void		handle_internal_quotes(char *input, int *pos,
 void		handle_quotes(char *input, int *pos, char **value);
 void		handle_internal_quotes(char *input, int *pos, char **value, char c);
 
-char		**token_to_args(t_token *tokens);
+char		**token_to_args(t_token *tokens, t_token *stop_token);
 bool		is_separator(t_token_type type);
 int			dup_value(t_token *cur, char **args, int count);
 

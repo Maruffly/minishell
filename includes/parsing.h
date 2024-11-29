@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/26 15:57:12 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/28 17:58:59 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,14 @@ typedef struct	s_command
 	t_token_type		type;
 	struct s_command	*next;
 }	t_command;
+
+typedef struct	s_ast
+{
+	t_token_type	type;
+	char			*value;
+	struct s_ast	*left;
+	struct s_ast	*right;
+}	t_ast;
 
 t_command	*init_command(void);
 

@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/28 19:49:26 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/11/29 18:29:05 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,17 @@ t_command	*init_command(void) // OK
 		return (NULL);
 	cmd->args = NULL;
 	cmd->command = NULL;
-	cmd->input_fd = 0;
-	cmd->output_fd = 1;
-	cmd->next = NULL;
+	cmd->input_fd = STDIN_FILENO;
+	cmd->output_fd = STDOUT_FILENO;
+	cmd->infile = NULL;
+	cmd->outfile = NULL;
+	cmd->append_mode = false;
+	cmd->heredoc_mode = false;
+	cmd->heredoc_limiter = NULL;
+	cmd->logical_operator = 0;
+	cmd->type = CMD;
 	cmd->error = false;
+	cmd->next = NULL;
 	return (cmd);
 }
 
@@ -98,12 +105,13 @@ bool	is_syntax_ok(t_token *new_token, t_token *head)
 		printf("Syntax error : incomplete pipe sequence\n");
 		return (false);
 	}
-	if ((new_token->type == REDIRECT_IN || new_token->type == REDIRECT_OUT) &&
-		(!new_token->next || new_token->next->type != ARG))
-	{
-		printf("Syntax error : invalid redirection\n");
-		return (false);
-	}
+	if ((new_token->type == REDIRECT_IN || new_token->type == REDIRECT_OUT
+		|| new_token->type == APPEND_OUT || new_token->type == HEREDOC)
+		&& (!new_token->next || new_token->next->type != ARG))
+		{
+			ft_putstr_fd("Syntax error: invalid redirection\n", STDERR_FILENO);
+			return (false);
+}
 	return (true);
 }
 
@@ -148,7 +156,7 @@ bool	is_empty_line(char *input)
 	return (input[i] == '\0'); // Retourne true si la ligne est vide après trim
 }
 
-int	dup_value(t_token *cur, char **args, int count)
+/* int	dup_value(t_token *cur, char **args, int count)
 {
 	int	i;
 
@@ -174,7 +182,7 @@ int	dup_value(t_token *cur, char **args, int count)
 	}
 	args[i] = NULL;
 	return (1);
-}
+} */
 
 char	**token_to_args(t_token *tokens, t_token *stop_token)
 {
@@ -188,7 +196,7 @@ char	**token_to_args(t_token *tokens, t_token *stop_token)
 	count = 0;
 	while (cur && cur != stop_token)
 	{
-		if (!is_separator(cur->type) && !is_redirection(cur->type))
+		if (cur->type == CMD || cur->type == ARG)
 			count++;
 		cur = cur->next;
 	}
@@ -199,12 +207,13 @@ char	**token_to_args(t_token *tokens, t_token *stop_token)
 	count = 0;
 	while (cur && cur != stop_token)
 	{
-		if (!is_separator(cur->type) && !is_redirection(cur->type))
+		if (cur->type == CMD || cur->type == ARG)
 			args[count++] = ft_strdup(cur->value);
 		cur = cur->next;
 	}
 	args[count] = NULL;
 	/* if (!dup_value(tokens, args, count))
 		return (free(args), NULL); */
+
 	return (args);
 }

@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/28 19:49:06 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/11/29 14:20:10 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_token
 {
 	t_token_type	type;
 	char			*value;
+	bool			is_first_token;
 	struct s_token	*next;
 	struct s_token	*prev;
 }	t_token;
@@ -78,7 +79,7 @@ t_command	*init_command(void);
 t_command	*parse_tokens(t_token *tokens);
 void		add_char_to_value(char **value, char c);
 t_token		*create_token(char *input, int *pos,
-			t_env_list *env_list, int exit_status);
+			t_env_list *env_list, int exit_status, bool *is_first_token);
 t_command	*parse_input(char *input, t_env_list *env_list, int exit_status);
 t_token		*tokenize_input(char *input, t_env_list *env_list,
 							int exit_status);
@@ -110,7 +111,6 @@ void		handle_internal_quotes(char *input, int *pos, char **value, char c);
 
 char		**token_to_args(t_token *tokens, t_token *stop_token);
 bool		is_separator(t_token_type type);
-int			dup_value(t_token *cur, char **args, int count);
 
 /*
 void		add_command(t_command **head, t_command *new_cmd);

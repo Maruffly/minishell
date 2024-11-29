@@ -37,7 +37,7 @@ int 			is_close_paranthesis(char *line, int i);
 
 // token_utils.c
 bool			is_special_operator(char c);
-t_token_type	get_token_type(char *token);
+t_token_type	get_token_type(char *token, bool *is_first_token);
 char			*extract_word(char *line, int pos);
 char			*get_next_token(char *line, int pos);
 void			skip_whitespace(char *line, int *pos);

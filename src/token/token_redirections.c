@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:03:37 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/28 17:35:41 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/11/29 16:57:10 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ bool	is_separator(t_token_type type)
 
 bool	is_redirection(t_token_type type)
 {
-	if (type ==  REDIRECT_IN|| type == REDIRECT_IN ||
+	if (type ==  REDIRECT_IN || type == REDIRECT_OUT ||
 		type == APPEND_OUT || type == HEREDOC)
 		return (1);
 	return (0);

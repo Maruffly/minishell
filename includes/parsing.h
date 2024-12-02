@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/29 14:20:10 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/02 17:45:26 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ void		handle_internal_quotes(char *input, int *pos, char **value, char c);
 
 char		**token_to_args(t_token *tokens, t_token *stop_token);
 bool		is_separator(t_token_type type);
+void 		add_argument_to_command(t_command *cmd, char *arg);
 
 /*
 void		add_command(t_command **head, t_command *new_cmd);

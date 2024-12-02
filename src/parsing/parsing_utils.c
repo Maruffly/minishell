@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/29 18:29:05 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/02 17:44:01 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,9 +107,9 @@ bool	is_syntax_ok(t_token *new_token, t_token *head)
 	}
 	if ((new_token->type == REDIRECT_IN || new_token->type == REDIRECT_OUT
 		|| new_token->type == APPEND_OUT || new_token->type == HEREDOC)
-		&& (!new_token->next || new_token->next->type != ARG))
+		&& (!head || !head->next))
 		{
-			ft_putstr_fd("Syntax error: invalid redirection\n", STDERR_FILENO);
+			ft_putstr_fd("Syntax error: invalid redirection missing argument\n", STDERR_FILENO);
 			return (false);
 }
 	return (true);
@@ -216,4 +216,25 @@ char	**token_to_args(t_token *tokens, t_token *stop_token)
 		return (free(args), NULL); */
 
 	return (args);
+}
+
+void add_argument_to_command(t_command *cmd, char *arg)
+{
+    int count;
+	char **new_args;
+	int	i;
+
+	count = 0;
+	while (cmd->args && cmd->args[count])
+		count++;
+	new_args = malloc(sizeof(char *) * (count + 2));
+	if (!new_args)
+		return;
+	i = 0;
+	while (i++ < count)
+		new_args[i] = cmd->args[i];
+    new_args[count] = ft_strdup(arg);
+    new_args[count + 1] = NULL;
+    free(cmd->args);
+    cmd->args = new_args;
 }

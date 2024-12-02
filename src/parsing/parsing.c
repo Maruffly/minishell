@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/29 18:32:37 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/02 17:47:39 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,19 @@ t_token	*create_token(char *input, int *pos, t_env_list *env_list, int exit_stat
 			handle_quotes(input, pos, &value);
 		else if (input[*pos] == '$')
 			handle_expansion(input, pos, &value, env_list, exit_status);
+		else if (is_metachar(input[*pos])) 
+		{
+			if (input[*pos] == '>' || input[*pos] == '<') 
+			{
+				add_char_to_value(&value, input[*pos]);
+				(*pos)++;
+			}
+			if (input[*pos] == '>' && value[0] == '>') 
+			{
+				add_char_to_value(&value, input[*pos]);
+				(*pos)++;
+			}
+		}
 		else
 		{
 			add_char_to_value(&value, input[*pos]);
@@ -60,8 +73,8 @@ t_token	*create_token(char *input, int *pos, t_env_list *env_list, int exit_stat
 	if (!value)
 		return (NULL);
 	token = init_token(value, get_token_type(value, is_first_token));
-	/*printf("Token value : %s\n", token->value);
-	printf("Token type : %u\n", token->type); */
+	printf("Token value : %s\n", token->value);
+	printf("Token type : %u\n", token->type);
 	if (!token)
 	{
 		free(value);
@@ -93,7 +106,7 @@ t_token	*tokenize_input(char *input, t_env_list *env_list, int exit_status)
 					free(new_token);
 				return (NULL);
 			}
-			printf("Token : %s\n", new_token->value);
+			/* printf("Token : %s\n", new_token->value); */
 			add_token(&head, new_token);
 		}
 	}
@@ -122,7 +135,7 @@ bool	handle_redirections(t_token *cur, t_command *cmd)
 		if (cmd->outfile)
 			free(cmd->outfile);
 		cmd->outfile = ft_strdup(cur->next->value);
-		cmd->output_fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		cmd->output_fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (cmd->output_fd < 0)
 		{
 			perror("Error opening output file");
@@ -158,8 +171,35 @@ void handle_pipeline(t_command **head, t_command **cmd, t_token *start, t_token 
 	if (!*cmd)
 		return;
 	(*cmd)->args = token_to_args(start, stop);
+	if (!(*cmd)->args)
+	{
+		(*cmd)->args = malloc(sizeof(char *) * 2);
+        (*cmd)->args[0] = ft_strdup((*cmd)->command);
+		(*cmd)->args[1] = NULL;
+	}
 	add_command(head, *cmd);
 	*cmd = NULL;
+}
+
+t_command	*handle_single_command(t_token *tokens)
+{
+	t_command	*cmd;
+
+	cmd = init_command();
+	if (!cmd)
+		return (NULL);
+
+	cmd->command = ft_strdup(tokens->value);
+	cmd->args = malloc(sizeof(char *) * 2);
+	if (!cmd->args)
+	{
+		free(cmd);
+		return (NULL);
+	}
+	cmd->args[0] = ft_strdup(tokens->value);
+	cmd->args[1] = NULL;
+
+	return (cmd);
 }
 
 t_command	*parse_tokens(t_token *tokens)
@@ -176,38 +216,36 @@ t_command	*parse_tokens(t_token *tokens)
 	cur = tokens;
 	if (!tokens)
 		return (NULL);
+	if (!tokens->next)
+		return (handle_single_command(tokens));
 	while (cur)
 	{
-		if (cur->type == CMD)
+		printf(" Cur Type = %u\n", cur->type);
+		printf(" Cur Value = %s\n", cur->value);
+		if (cur->type == CMD && !cmd)
 		{
-			if(!cmd)
-				cmd = init_command();
+			cmd = init_command();
 			cmd->command = ft_strdup(cur->value);
-			start = cur;
 		}
-		else if (is_redirection(cur->type))
+		if (is_redirection(cur->type))
 		{
+			if (!cur->next || cur->next->type != ARG) 
+			{
+				printf("Syntax error: redirection missing argument\n");
+				return (free_cmd_list(cmd), NULL);
+    		}
 			if (!handle_redirections(cur, cmd))
 				return (free_cmd_list(cmd), NULL);
+			
 			cur = cur->next;
 		}
-		else if (cur->type == PIPE || cur->next == NULL)
+		else if (cur->type == PIPE || !cur->next)
 		{
 			if (cur->type == PIPE)
 				stop = cur;
 			else
 				stop = cur->next;
 			handle_pipeline(&head, &cmd, start, stop);
-				/* if (cmd->args)
-				{
-					printf("Command + arguments:\n");
-					for (int i = 0; cmd->args[i] != NULL; i++)
-					{
-						printf("ARG[%d]: %s\n", i, cmd->args[i]);
-					}
-					printf("infile: %s\n", cmd->infile);
-					printf("outfile: %s\n", cmd->outfile);
-				} */
 			start = cur->next;
 		}
 		cur = cur->next;

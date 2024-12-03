@@ -6,13 +6,15 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 17:58:12 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/21 18:28:21 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/03 14:38:17 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include	"../../includes/minishell.h"
 # include	"../../includes/parsing.h"
 # include	"../../includes/token.h"
+
+
 
 static void	print_exit_code(int	exit_code)
 {

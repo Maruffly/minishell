@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_redirections.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:03:37 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/13 17:50:03 by jbmy             ###   ########.fr       */
+/*   Updated: 2024/12/03 14:19:54 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,8 @@ int	is_append_chevrons(char *line, int i)
 	return (0);
 }
 
-int	is_redirection(char *line, int i)
+bool	is_redirection(t_token_type type)
 {
-	if (is_heredoc(line, i) || is_input_chevrons(line, i) ||
-		is_output_chevrons(line, i) || is_append_chevrons(line, i))
-		return (1);
-	return (0);
+	return (type == REDIRECT_IN || type == REDIRECT_OUT ||
+			type == APPEND_OUT || type == HEREDOC);
 }

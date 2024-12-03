@@ -31,6 +31,9 @@ SRC_FILES = main.c\
 			/parsing/quotes.c\
 			/exit/free.c\
 			/exit/exit_status.c\
+			/parsing/handle_tokens.c\
+			/parsing/ast.c\
+			/parsing/ast_utils.c\
 
 SRC_DIR = ./src/
 

@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/26 15:57:12 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/03 18:11:53 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ typedef enum s_token_type
 	APPEND_OUT, /* >> */
 	REDIRECT_IN, /* < */
 	REDIRECT_OUT, /* > */
+	OPEN_PARENTHESIS, /* ( */
+	CLOSE_PARENTHESIS, /* ) */
 }	t_token_type;
 
 typedef struct s_token
@@ -48,6 +50,15 @@ typedef struct s_token
 	struct s_token	*next;
 	struct s_token	*prev;
 }	t_token;
+
+typedef struct s_ast
+{
+	t_token_type	type;
+	char			*value;
+	struct s_ast	*left;
+	struct s_ast	*right;
+}	t_ast;
+
 
 /* typedef struct s_token_list
 {
@@ -61,6 +72,7 @@ typedef struct	s_command
 	char				*command;
 	int					input_fd;
 	int					output_fd;
+	int					exit_code;
 	char				logical_operator;
 	t_token_type		type;
 	struct s_command	*next;
@@ -72,8 +84,7 @@ t_command	*init_command(void);
 t_command	*parse_tokens(t_token *tokens);
 char		**token_to_args(t_token *tokens);
 void		add_char_to_value(char **value, char c);
-t_token		*create_token(char *input, int *pos,
-			t_env_list *env_list, int exit_status);
+t_token		*create_token(char *input, int *pos, t_env_list *env_list, int exit_status, int *is_first_token);
 t_command	*parse_input(char *input, t_env_list *env_list, int exit_status);
 t_token		*tokenize_input(char *input, t_env_list *env_list,
 							int exit_status);
@@ -112,6 +123,32 @@ void		handle_internal_quotes(char *input, int *pos, char **value, char c);
 char		**token_to_args(t_token *tokens);
 bool		is_separator(t_token_type type);
 int			dup_value(t_token *cur, char **args, int count);
+
+
+// handle_tokens.c
+t_token		*free_token_value(char *value);
+void		*handle_all_tokens(char *input, int *pos, char **value, 
+							t_env_list *env_list, int exit_status);
+char		*handle_parentheses(char *input, int *pos);
+
+// ast.c
+void		execute_ast(t_ast *node, t_env_list *env, int *exit_code);
+void		exec_or_operator(t_ast *node, t_env_list *env, int *exit_code);
+void		exec_and_operator(t_ast *node, t_env_list *env, int *exit_code);
+void		exec_pipe_cmd(t_ast *node, t_env_list *env, int *exit_code);
+void		exec_simple_cmd(t_ast *node, t_env_list *env, int *exit_code);
+int			get_last_exit_status(void);
+void		set_last_exit_status(int status);
+
+
+
+// ast_utils.c
+t_command	*ast_to_command(t_ast *node);
+t_command	*ast_to_pipeline(t_ast *node);
+t_ast		*ast_from_tokens(t_token *tokens);
+t_command	*parse_ast_to_commands(t_ast *node);
+t_command	*merge_commands(t_command *left, t_command *right, t_token_type operator);
+
 
 /*
 void		add_command(t_command **head, t_command *new_cmd);

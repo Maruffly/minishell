@@ -34,6 +34,7 @@ int				is_parenthesis(char *line, int i);
 int				is_escaped_char(char *line, int i);
 int				is_open_paranthesis(char *line, int i);
 int 			is_close_paranthesis(char *line, int i);
+bool			is_wildcard(char *line);
 
 // token_utils.c
 bool			is_special_operator(char c);

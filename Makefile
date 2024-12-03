@@ -29,6 +29,7 @@ SRC_FILES = main.c\
 			/parsing/parsing_utils.c\
 			/parsing/expansion.c\
 			/parsing/quotes.c\
+			/parsing/redirections.c\
 			/exit/free.c\
 			/exit/exit_status.c\
 

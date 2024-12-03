@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/02 17:45:26 by jbmy             ###   ########.fr       */
+/*   Updated: 2024/12/03 18:26:30 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 # include <stdlib.h>
 # include <stdbool.h>
-
+# include <dirent.h>
 # include "../libft/libft.h"
 # include "./env.h"
 
@@ -117,5 +117,12 @@ void 		add_argument_to_command(t_command *cmd, char *arg);
 void		add_command(t_command **head, t_command *new_cmd);
 char		**ft_add_to_array(char **array, char *new_element);
 */
+
+// redirections
+
+bool		handle_redirections(t_token *cur, t_command *cmd);
+void		handle_pipeline(t_command **head, t_command **cmd, t_token *start, t_token *stop);
+bool		process_redirections(t_token *cur, t_command *cmd, t_command **head);
+t_command	*process_pipeline(t_token *cur, t_command *cur_cmd, t_command **head, t_token **start);
 
 #endif

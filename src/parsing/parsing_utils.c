@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/02 17:44:01 by jbmy             ###   ########.fr       */
+/*   Updated: 2024/12/03 11:50:48 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,7 +220,7 @@ char	**token_to_args(t_token *tokens, t_token *stop_token)
 
 void add_argument_to_command(t_command *cmd, char *arg)
 {
-    int count;
+	int count;
 	char **new_args;
 	int	i;
 
@@ -233,8 +233,8 @@ void add_argument_to_command(t_command *cmd, char *arg)
 	i = 0;
 	while (i++ < count)
 		new_args[i] = cmd->args[i];
-    new_args[count] = ft_strdup(arg);
-    new_args[count + 1] = NULL;
-    free(cmd->args);
-    cmd->args = new_args;
+	new_args[count] = ft_strdup(arg);
+	new_args[count + 1] = NULL;
+	free(cmd->args);
+	cmd->args = new_args;
 }

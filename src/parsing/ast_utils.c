@@ -6,14 +6,13 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 14:54:38 by jlaine            #+#    #+#             */
-/*   Updated: 2024/12/04 13:48:24 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/04 14:07:48 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/parsing.h"
 #include "../../includes/minishell.h"
 #include "../../includes/exec.h"
-
 
 t_ast	*ast_from_tokens(t_token *tokens) // call dans parse_inputs
 {
@@ -28,36 +27,13 @@ t_ast	*ast_from_tokens(t_token *tokens) // call dans parse_inputs
 	node->value = ft_strdup(tokens->value);
 	node->left = NULL;
 	node->right = NULL;
-	if (tokens->type == CMD || tokens->type == ARG)
-		node->command = parse_tokens(tokens);
-	else if (tokens->type == AND || tokens->type == OR || tokens->type == PIPE)
+	if (tokens->type == AND || tokens->type == OR)
 	{
 		node->left = ast_from_tokens(tokens->prev);
 		node->right = ast_from_tokens(tokens->next);
 	}
 	return (node);
 }
-
-// t_ast	*ast_from_tokens(t_token *tokens) // call dans parse_inputs
-// {
-// 	t_ast	*node;
-
-// 	if (!tokens)
-// 		return (NULL);
-// 	node = malloc(sizeof(t_ast));
-// 	if (!node)
-// 		return (NULL);
-// 	node->type = tokens->type;
-// 	node->value = ft_strdup(tokens->value);
-// 	node->left = NULL;
-// 	node->right = NULL;
-// 	if (tokens->type == AND || tokens->type == OR)
-// 	{
-// 		node->left = ast_from_tokens(tokens->prev);
-// 		node->right = ast_from_tokens(tokens->next);
-// 	}
-// 	return (node);
-// }
 
 t_command	*merge_commands(t_command *left, t_command *right, t_token_type operator)
 {
@@ -75,30 +51,51 @@ t_command	*merge_commands(t_command *left, t_command *right, t_token_type operat
 	return (left); // retour cmd mergee
 }
 
+/* t_command	*handle_single_command(t_ast *node)
+{
+	t_command	*cmd;
+
+	cmd = init_command();
+	if (!cmd)
+		return (NULL);
+
+	cmd->command = ft_strdup(node->value);
+	cmd->args = malloc(sizeof(char *) * 2);
+	if (!cmd->args)
+	{
+		free(cmd);
+		return (NULL);
+	}
+	cmd->args[0] = ft_strdup(node->value);
+	cmd->args[1] = NULL;
+
+	return (cmd);
+} */
+
 t_command	*parse_ast_to_commands(t_ast *node) // call dans parse_inputs
 {
 	t_command	*commands;
 	t_command	*left_commands;
 	t_command	*right_commands;
-	
+
 	if (!node)
 		return (NULL);
 	if (node->type == CMD)
 	{
 		commands = init_command();
 		commands->command = ft_strdup(node->value);
+		printf("** = %u\n", node->type);
+		printf("** = %s\n", node->value);
 		return (commands);
 	}
 	else if (node->type == AND || node->type == OR || node->type == PIPE)
 	{
 		left_commands = parse_ast_to_commands(node->left);
 		right_commands = parse_ast_to_commands(node->right);
-		return (merge_commands(left_commands, right_commands, node->type)); // to do 
+		return (merge_commands(left_commands, right_commands, node->type)); // to do
 	}
 	return (NULL);
 }
-
-
 
 t_command	*ast_to_command(t_ast *node)
 {

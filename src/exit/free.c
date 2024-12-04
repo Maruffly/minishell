@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:14:26 by jlaine            #+#    #+#             */
-/*   Updated: 2024/12/03 16:25:46 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/04 14:08:58 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	free_env_list(t_env_list *list)
 	free(list);
 }
 
-void free_token_list(t_token *tokens) 
+void free_token_list(t_token *tokens)
 {
 	t_token *temp;
 	while (tokens)
@@ -62,7 +62,7 @@ void free_token_list(t_token *tokens)
 void	free_cmd(t_command *cmd)
 {
 	int	i;
-	
+
 	i = 0;
 	if (!cmd)
 		return ;
@@ -84,16 +84,15 @@ void	free_pipe(t_command	*pipe)
 {
 	t_command	*current;
 	t_command	*next;
-	
+
 	current = pipe;
 	while (current)
 	{
 		next = current->next;
 		free_cmd(current);
-		current = next; 
+		current = next;
 	}
 }
-
 void	free_ast(t_ast *node)
 {
 	if (!node)

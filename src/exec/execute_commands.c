@@ -6,10 +6,9 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/03 12:27:45 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/04 14:08:12 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../includes/exec.h"
 
@@ -58,7 +57,6 @@ void	exec_external(t_command *cmd, t_env_list *env)
 		perror("fork");
 	free(path);
 }
-
 
 void	execute_command(t_command *cmd, t_env_list *env, int prev_output_fd)
 {

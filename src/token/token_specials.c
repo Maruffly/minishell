@@ -6,11 +6,18 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:03:33 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/21 14:31:45 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/03 13:31:33 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../includes/token.h"
+
+bool	is_wildcard(char *line)
+{
+	if (ft_strchr(line, '*'))
+		return (true);
+	return (false);
+}
 
 bool	is_special_operator(char c)
 {

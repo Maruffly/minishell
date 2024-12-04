@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/11 16:03:37 by jlaine            #+#    #+#             */
-/*   Updated: 2024/12/03 14:19:54 by jlaine           ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/12/04 14:10:23 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 # include "../../includes/token.h"
 
@@ -40,8 +41,17 @@ int	is_append_chevrons(char *line, int i)
 	return (0);
 }
 
+bool	is_separator(t_token_type type)
+{
+	if (type == PIPE || type == AND || type == OR || type == PAR)
+		return (true);
+	return (false);
+}
+
 bool	is_redirection(t_token_type type)
 {
-	return (type == REDIRECT_IN || type == REDIRECT_OUT ||
-			type == APPEND_OUT || type == HEREDOC);
+	if (type ==  REDIRECT_IN || type == REDIRECT_OUT ||
+		type == APPEND_OUT || type == HEREDOC)
+		return (1);
+	return (0);
 }

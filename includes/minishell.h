@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:12:58 by jlaine            #+#    #+#             */
-/*   Updated: 2024/12/03 16:26:07 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/04 12:27:52 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void		free_pipe(t_command	*pipe);
 void		free_cmd_list(t_command *head);
 void 		free_token_list(t_token *tokens);
 void		handle_exit_status(char *input, int *exit_code);
+t_token		*free_token_value(char *value);
 
 
 #endif

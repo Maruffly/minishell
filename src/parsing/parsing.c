@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/03 18:12:38 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/04 13:04:23 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ t_command	*parse_input(char *input, t_env_list *env_list, int exit_status)
 */
 
 
-t_token	*create_token(char *input, int *pos, t_env_list *env_list, int exit_status, int *is_first_token)
+t_token	*create_token(char *input, int *pos, t_env_list *env_list, int exit_status) // int *is_first_token
 {
 	char	*value;
 	t_token	*token;
@@ -88,16 +88,11 @@ t_token	*create_token(char *input, int *pos, t_env_list *env_list, int exit_stat
 	}
 	if (!value)
 		return (free_token_value(value));
-	
-	// Passe is_first_token à get_token_type
-	token = init_token(value, get_token_type(value, *is_first_token));
+	token = init_token(value, get_token_type(value)); // *is_first_token
 	if (!token)
 		return (free_token_value(value));
-
-	// Une fois que le premier token (CMD) est traité, tous les autres deviennent ARG
-	if (*is_first_token && token->type == CMD)
-		*is_first_token = 0;
-
+	// if (*is_first_token && token->type == CMD)
+	// 	*is_first_token = 0;
 	return (token);
 }
 
@@ -166,17 +161,17 @@ t_token	*tokenize_input(char *input, t_env_list *env_list, int exit_status)
 	int		pos;
 	t_token	*head;
 	t_token	*new_token;
-	int		first_token;
+	// int		first_token;
 
 	pos = 0;
 	head = NULL;
-	first_token = 1;
+	// first_token = 1;
 	while (input[pos])
 	{
 		skip_whitespace(input, &pos);
 		if (input[pos])
 		{
-			new_token = create_token(input, &pos, env_list, exit_status, &first_token);
+			new_token = create_token(input, &pos, env_list, exit_status); // &first_token
 			if (!new_token || !is_syntax_ok(new_token, head))
 			{
 				free_token_list(head);
@@ -192,6 +187,7 @@ t_token	*tokenize_input(char *input, t_env_list *env_list, int exit_status)
 	}
 	return (head);
 }
+
 
 t_command	*parse_tokens(t_token *tokens)
 {

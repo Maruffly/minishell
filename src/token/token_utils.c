@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/03 18:05:50 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/04 12:34:46 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	skip_whitespace(char *line, int *pos)
 		(*pos)++;
 }
 
-t_token_type	get_token_type(char *token, int is_first_token)
+t_token_type	get_token_type(char *token) // int is_first_token
 {
 	if (is_NULL(token))
 		return (0);
@@ -43,11 +43,10 @@ t_token_type	get_token_type(char *token, int is_first_token)
 		return (CLOSE_PARENTHESIS);
 	if (is_variable(token, 0))
 		return (LIMITER);
-	if (is_first_token)
-		return (CMD); // Le premier mot dans une commande est une commande
-	return (ARG); // Tous les autres mots non opérateurs sont des arguments
+	// if (is_first_token)
+	// 	return (CMD);
+	return (ARG);
 }
-
 
 /* ///////////////// ANCIENNE VERSION
 t_token_type	get_token_type(char *token)
@@ -79,7 +78,6 @@ t_token_type	get_token_type(char *token)
 	return (ARG);
 }
 */
-
 
 
 char	*extract_word(char *line, int pos)

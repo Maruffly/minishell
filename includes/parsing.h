@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/04 13:22:39 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/04 14:01:23 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,6 @@ typedef struct s_token
 	struct s_token	*prev;
 }	t_token;
 
-typedef struct s_ast
-{
-	t_token_type	type;
-	char			*value;
-	struct s_ast	*left;
-	struct s_ast	*right;
-}	t_ast;
-
-
 /* typedef struct s_token_list
 {
 	char				*token;
@@ -84,6 +75,14 @@ typedef struct	s_command
 	bool				error;
 	struct s_command	*next;
 }	t_command;
+
+typedef struct	s_ast
+{
+	t_token_type	type;
+	char			*value;
+	struct s_ast	*left;
+	struct s_ast	*right;
+}	t_ast;
 
 t_command	*init_command(void);
 

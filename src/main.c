@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/04 14:11:20 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/04 14:29:38 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	read_line(t_command **cmd, t_env_list *env_list, int exit_status)
 	input = readline("Omar&Fred> ");
 	if (!input)
 	{
-		ft_putstr_fd("\nExit\n", 1);
+		ft_putstr_fd("exit\n", 1);
 		free_env_list(env_list);
 		exit(0);
 	}

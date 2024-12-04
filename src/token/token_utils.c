@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/04 14:08:21 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/04 14:28:04 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ t_token_type	get_token_type(char *token, bool *is_first_token)
 	}
 	return (ARG);
 }
-*/
+
 
 
 char	*extract_word(char *line, int pos)

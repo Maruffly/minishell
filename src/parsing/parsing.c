@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/04 14:07:58 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/04 14:28:33 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ t_command	*parse_input(char *input, t_env_list *env_list, int exit_status)
 {
 	t_token		*tokens;
 	t_command	*commands;
-	t_ast		*ast;
 
 	tokens = tokenize_input(input, env_list, exit_status); // 1. tokenization de l'input
 	if (!tokens)
@@ -84,7 +83,7 @@ t_token	*create_token(char *input, int *pos, t_env_list *env_list, int exit_stat
 	}
 	return (token);
 }
-*/
+
 
 
 t_token	*tokenize_input(char *input, t_env_list *env_list, int exit_status)

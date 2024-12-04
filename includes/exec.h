@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 18:16:49 by jbmy              #+#    #+#             */
-/*   Updated: 2024/11/21 17:36:39 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/04 13:18:47 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ void	redir_command(t_command *cmd);
 void	close_unused_fds(t_command	*cmd);
 void	setup_pipes(t_command *cmd);
 int		update_prev_output_fd(t_command *cmd);
+void	execute_command(t_command *cmd, t_env_list *env, int prev_output_fd);
 
 #endif

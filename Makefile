@@ -7,15 +7,15 @@ LDFLAGS = -L ./libft -L /opt/homebrew/opt/readline/lib
 LDLIBS = -lft -lreadline
 
 SRC_FILES = main.c\
-            /builtins/ft_cd.c\
-            /builtins/ft_echo.c\
-            /builtins/ft_env.c\
-            /builtins/ft_exit.c\
-            /builtins/ft_export.c\
-            /builtins/ft_pwd.c\
-            /builtins/ft_unset.c\
-            /env/env_dup_init.c\
-            /env/env_utils.c\
+			/builtins/ft_cd.c\
+			/builtins/ft_echo.c\
+			/builtins/ft_env.c\
+			/builtins/ft_exit.c\
+			/builtins/ft_export.c\
+			/builtins/ft_pwd.c\
+			/builtins/ft_unset.c\
+			/env/env_dup_init.c\
+			/env/env_utils.c\
 			/token/token_commands.c\
 			/token/token_operators.c\
 			/token/token_redirections.c\
@@ -31,6 +31,9 @@ SRC_FILES = main.c\
 			/parsing/quotes.c\
 			/exit/free.c\
 			/exit/exit_status.c\
+			/parsing/redirections.c\
+			/parsing/ast.c\
+			/parsing/ast_utils.c\
 
 SRC_DIR = ./src/
 

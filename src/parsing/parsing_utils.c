@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/27 18:13:54 by jbmy             ###   ########.fr       */
+/*   Updated: 2024/12/03 11:50:48 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,45 +38,18 @@ t_command	*init_command(void) // OK
 		return (NULL);
 	cmd->args = NULL;
 	cmd->command = NULL;
-	cmd->input_fd = 0;
-	cmd->output_fd = 1;
+	cmd->input_fd = STDIN_FILENO;
+	cmd->output_fd = STDOUT_FILENO;
+	cmd->infile = NULL;
+	cmd->outfile = NULL;
+	cmd->append_mode = false;
+	cmd->heredoc_mode = false;
+	cmd->heredoc_limiter = NULL;
+	cmd->logical_operator = 0;
+	cmd->type = CMD;
+	cmd->error = false;
 	cmd->next = NULL;
 	return (cmd);
-}
-
-bool	is_separator(t_token_type type)
-{
-	if (type == PIPE || type == AND || type == OR || type == PAR)
-		return (true);
-	return (false);
-}
-
-int	dup_value(t_token *cur, char **args, int count)
-{
-	int	i;
-
-	i = 0;
-	while (cur && i < count)
-	{
-		if (!is_separator(cur->type))
-		{
-			args[i] = ft_strdup(cur->value);
-			if (!args[i])
-			{
-				while (i > 0)
-				{
-					free(args[i - 1]);
-					i--;
-				}
-				args[0] = NULL;
-				return (0);
-			}
-			i++;
-		}
-		cur = cur->next;
-	}
-	args[i] = NULL;
-	return (1);
 }
 
 void	add_command(t_command **head, t_command *new_cmd)
@@ -95,32 +68,6 @@ void	add_command(t_command **head, t_command *new_cmd)
 			cur = cur->next;
 	cur->next = new_cmd;
 }
-
-char	**token_to_args(t_token *tokens)
-{
-	t_token	*cur;
-	int		count;
-	char	**args;
-
-	if (!tokens)
-		return (NULL);
-	cur = tokens;
-	count = 0;
-	while (cur)
-	{
-		if (!is_separator(cur->type))
-			count++;
-		cur = cur->next;
-	}
-	args = malloc(sizeof(char *) * (count + 1));
-	if (!args)
-		return (NULL);
-	cur = tokens;
-	if (!dup_value(tokens, args, count))
-		return (free(args), NULL);
-	return (args);
-}
-
 
 void	add_token(t_token **head, t_token *new_token)
 {
@@ -158,12 +105,13 @@ bool	is_syntax_ok(t_token *new_token, t_token *head)
 		printf("Syntax error : incomplete pipe sequence\n");
 		return (false);
 	}
-	if ((new_token->type == REDIRECT_IN || new_token->type == REDIRECT_OUT) &&
-		(!new_token->next || new_token->next->type != ARG))
-	{
-		printf("Syntax error : invalid redirection\n");
-		return (false);
-	}
+	if ((new_token->type == REDIRECT_IN || new_token->type == REDIRECT_OUT
+		|| new_token->type == APPEND_OUT || new_token->type == HEREDOC)
+		&& (!head || !head->next))
+		{
+			ft_putstr_fd("Syntax error: invalid redirection missing argument\n", STDERR_FILENO);
+			return (false);
+}
 	return (true);
 }
 
@@ -206,4 +154,87 @@ bool	is_empty_line(char *input)
 	while (input[i] && (input[i] == ' ' || input[i] == '\t'))
 		i++;
 	return (input[i] == '\0'); // Retourne true si la ligne est vide après trim
+}
+
+/* int	dup_value(t_token *cur, char **args, int count)
+{
+	int	i;
+
+	i = 0;
+	while (cur && i < count)
+	{
+		if (!is_separator(cur->type))
+		{
+			args[i] = ft_strdup(cur->value);
+			if (!args[i])
+			{
+				while (i > 0)
+				{
+					free(args[i - 1]);
+					i--;
+				}
+				args[0] = NULL;
+				return (0);
+			}
+			i++;
+		}
+		cur = cur->next;
+	}
+	args[i] = NULL;
+	return (1);
+} */
+
+char	**token_to_args(t_token *tokens, t_token *stop_token)
+{
+	t_token	*cur;
+	int		count;
+	char	**args;
+
+	if (!tokens)
+		return (NULL);
+	cur = tokens;
+	count = 0;
+	while (cur && cur != stop_token)
+	{
+		if (cur->type == CMD || cur->type == ARG)
+			count++;
+		cur = cur->next;
+	}
+	args = malloc(sizeof(char *) * (count + 1));
+	if (!args)
+		return (NULL);
+	cur = tokens;
+	count = 0;
+	while (cur && cur != stop_token)
+	{
+		if (cur->type == CMD || cur->type == ARG)
+			args[count++] = ft_strdup(cur->value);
+		cur = cur->next;
+	}
+	args[count] = NULL;
+	/* if (!dup_value(tokens, args, count))
+		return (free(args), NULL); */
+
+	return (args);
+}
+
+void add_argument_to_command(t_command *cmd, char *arg)
+{
+	int count;
+	char **new_args;
+	int	i;
+
+	count = 0;
+	while (cmd->args && cmd->args[count])
+		count++;
+	new_args = malloc(sizeof(char *) * (count + 2));
+	if (!new_args)
+		return;
+	i = 0;
+	while (i++ < count)
+		new_args[i] = cmd->args[i];
+	new_args[count] = ft_strdup(arg);
+	new_args[count + 1] = NULL;
+	free(cmd->args);
+	cmd->args = new_args;
 }

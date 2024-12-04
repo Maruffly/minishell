@@ -3,15 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 12:24:56 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/25 13:36:26 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/03 18:47:50 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/parsing.h"
 #include "../../includes/minishell.h"
+
+bool	match_pattern(char *input, char *str)
+{
+	if (*input == '\0')
+		return (*str == '\0');
+	if (*input == '*')
+		return (match_pattern(input + 1, str) || (*str && match_pattern(input, str + 1)));
+	return (*input == *str && match_pattern(input + 1, str +1));
+}
+
+void	expand_wildcards(char *input)
+{
+	DIR	*dir;
+
+	struct dirent	*entry;
+	dir = opendir(".");
+	if (!dir)
+	{
+		perror("opendir failed");
+		return ;
+	}
+	entry = readdir(dir);
+	while (entry)
+	{
+		if (!ft_strcmp(entry->d_name, ".") || !ft_strcmp(entry->d_name, ".."))
+			continue ;
+	if (match_pattern(input, entry->d_name))
+		printf("%s\n", entry->d_name);
+	}
+	closedir(dir);
+}
 
 char	*expand_env_variable(char *input, int *pos, t_env_list *env_list)
 {
@@ -54,7 +85,7 @@ void	add_expanded_value(char **value, char *expanded_value)
 	}
 }
 
-void	handle_expansion(char *input, int *pos, char **value, 
+void	handle_expansion(char *input, int *pos, char **value,
 						t_env_list *env_list, int exit_status)
 {
 	char	*expanded_value;

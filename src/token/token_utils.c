@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/25 10:18:39 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/11/29 14:18:21 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	skip_whitespace(char *line, int *pos)
 		(*pos)++;
 }
 
-t_token_type	get_token_type(char *token)
+t_token_type	get_token_type(char *token, bool *is_first_token)
 {
 	if (is_NULL(token))
 		return (0);
@@ -39,8 +39,11 @@ t_token_type	get_token_type(char *token)
 		return (HEREDOC);
 	if (is_variable(token, 0))
 		return (LIMITER);
-	if (is_word(token, 0))
+	if (*is_first_token)
+	{
+		*is_first_token = false;
 		return (CMD);
+	}
 	return (ARG);
 }
 

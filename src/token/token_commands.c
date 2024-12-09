@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   token_commands.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 15:16:14 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/15 17:50:14 by jbmy             ###   ########.fr       */
+/*   Updated: 2024/12/09 13:49:49 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../includes/token.h"
+# include "../../includes/minishell.h"
 
 int	is_exit_status(char *input)
 {

@@ -6,13 +6,12 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/03 11:50:48 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/09 13:49:19 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 
-#include "../../includes/parsing.h"
 #include "../../includes/minishell.h"
 
 t_token	*init_token(char *value, t_token_type type)

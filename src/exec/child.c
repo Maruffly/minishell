@@ -6,11 +6,11 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 13:08:45 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/21 17:36:09 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/09 13:48:03 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/exec.h"
+# include "../../includes/minishell.h"
 
 char	*get_path(char *cmd, char **envp)
 {

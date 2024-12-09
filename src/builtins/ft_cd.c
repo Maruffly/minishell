@@ -6,17 +6,17 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 14:55:10 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/26 13:45:12 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/09 13:47:27 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../includes/builtins.h"
+# include "../../includes/minishell.h"
 
 void	exec_cd(t_command *cmd, t_env_list *env_list)
 {
 	char		*path;
 	char		*cur_pwd;
-	t_env_node	*home_node;
+	t_env_list	*home_node;
 
 	if (!cmd->args || !cmd->args[0])
 	{

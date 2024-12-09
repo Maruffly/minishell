@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 15:26:54 by jlaine            #+#    #+#             */
-/*   Updated: 2024/12/03 16:33:18 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/09 13:49:08 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/parsing.h"
 #include "../../includes/minishell.h"
-#include "../../includes/exec.h"
 
 static int	g_last_exit_status = 0;
 
@@ -85,7 +83,7 @@ void	execute_ast(t_ast *node, t_env_list *env, int *exit_code)
 	else if (node->type == AND)
 		exec_and_operator(node, env, exit_code);
 	else if (node->type == OR)
-		exec_or_operator(node, env, exit_code);		
+		exec_or_operator(node, env, exit_code);
 }
 
 

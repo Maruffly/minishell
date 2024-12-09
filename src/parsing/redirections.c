@@ -6,12 +6,11 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 18:03:03 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/03 18:51:20 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/09 13:49:41 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/parsing.h"
-#include "../../includes/token.h"
+# include "../../includes/minishell.h"
 
 bool	handle_redirections(t_token *cur, t_command *cmd)
 {

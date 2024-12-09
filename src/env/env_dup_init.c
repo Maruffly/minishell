@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:47:11 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/21 10:50:52 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/09 11:47:15 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_env_list(t_env_list *list)
 {
-	t_env_node	*cur;
+	t_env_list	*cur;
 
 	cur = list->head;
 	while (cur)
@@ -61,9 +61,9 @@ t_env_list	*envp_to_list(char **envp)
 	return (list);
 }
 
-t_env_node	*find_env_node(t_env_list *list, char *name)
+t_env_list	*find_env_node(t_env_list *list, char *name)
 {
-	t_env_node	*cur;
+	t_env_list	*cur;
 
 	cur = list->head;
 	while (cur)

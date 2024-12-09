@@ -6,11 +6,11 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:02:12 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/19 15:36:12 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/09 13:50:15 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../includes/token.h"
+# include "../../includes/minishell.h"
 
 int	is_blank(char c)
 {

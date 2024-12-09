@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/09 14:31:48 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/09 17:46:01 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	init_shell(t_shell *sh, char **envp)
 {
 	sh->is_parent = true;
 	sh->last_status = EXIT_SUCCESS;
-	sh->env = envp_to_list(envp);
+	sh->env = init_envp(envp);
 	sh->parsing_error = NULL;
 }
 

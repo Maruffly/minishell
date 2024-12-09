@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:12:58 by jlaine            #+#    #+#             */
-/*   Updated: 2024/12/09 14:52:45 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/09 18:35:52 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ t_token_type	get_word_tk(char *input, char c, int *len, t_shell *sh);
 void			init_command_array(t_command *cmd, char *input);
 
 // parsing.c
-t_command	*parse_tokens(t_token *tokens);
 char		**token_to_args(t_token *tokens, t_token *stop_token);
 void		add_argument_to_command(t_command *cmd, char *arg);
 void		add_char_to_value(char **value, char c);
@@ -169,7 +168,7 @@ void		remove_env_node(t_env_list *list, char *var_name);
 t_env_list	*find_env_node(t_env_list *list, char *name);
 void		update_pwd_env(t_env_list *env_list, char *old_pwd);
 int			is_valid_var_name(char *name);
-t_env_list	*envp_to_list(char **envp);
+t_env_list	*init_envp(char **envp);
 char		**list_to_envp(t_env_list *env);
 void		check_env_path(char **envp);
 

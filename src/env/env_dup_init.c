@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_dup_init.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:47:11 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/09 11:47:15 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/09 18:11:19 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ t_env_list	*init_env_list(void)
 	return (list);
 }
 
-t_env_list	*envp_to_list(char **envp)
+
+t_env_list	*init_envp(char **envp)
 {
 	size_t 		name_len;
 	char		*var_name;

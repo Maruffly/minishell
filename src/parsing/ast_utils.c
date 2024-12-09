@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 14:54:38 by jlaine            #+#    #+#             */
-/*   Updated: 2024/12/09 13:48:59 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/09 18:36:29 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,27 +51,6 @@ t_command	*merge_commands(t_command *left, t_command *right, t_token_type operat
 	last_left->type = operator; // attribue operateur logique
 	return (left); // retour cmd mergee
 }
-
-/* t_command	*handle_single_command(t_ast *node)
-{
-	t_command	*cmd;
-
-	cmd = init_command();
-	if (!cmd)
-		return (NULL);
-
-	cmd->command = ft_strdup(node->value);
-	cmd->args = malloc(sizeof(char *) * 2);
-	if (!cmd->args)
-	{
-		free(cmd);
-		return (NULL);
-	}
-	cmd->args[0] = ft_strdup(node->value);
-	cmd->args[1] = NULL;
-
-	return (cmd);
-} */
 
 t_command	*parse_ast_to_commands(t_ast *node) // call dans parse_inputs
 {

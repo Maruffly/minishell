@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/09 18:30:01 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/09 18:36:23 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,41 +78,3 @@ t_ast	*parse_redirection_list(t_token **token_list, t_ast *command, t_shell *sh)
 	first = NULL;
 	
 }
-/* t_command	*handle_single_command(t_token *tokens)
-{
-	t_command	*cmd;
-
-	cmd = init_command();
-	if (!cmd)
-		return (NULL);
-
-	cmd->command = ft_strdup(tokens->value);
-	cmd->args = malloc(sizeof(char *) * 2);
-	if (!cmd->args)
-	{
-		free(cmd);
-		return (NULL);
-	}
-	cmd->args[0] = ft_strdup(tokens->value);
-	cmd->args[1] = NULL;
-
-	return (cmd);
-}
-
-t_command	*parse_tokens(t_token *tokens)
-{
-	t_ast		*ast;
-	t_command	*commands;
-
-	if (!tokens)
-		return (NULL);
-	if (!tokens->next)
-		return (handle_single_command(tokens));
-	ast = ast_from_tokens(tokens);
-	if (!ast)
-		return (NULL);
-	commands = parse_ast_to_commands(ast);
-
-	free_ast(ast);
-	return (commands);
-} */

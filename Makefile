@@ -22,7 +22,6 @@ SRC_FILES = main.c\
 			/token/token_words.c\
 			/exec/execute_commands.c\
 			/exec/child.c\
-			/parsing/parsing.c\
 			/parsing/parsing_utils.c\
 			/parsing/expansion.c\
 			/parsing/quotes.c\

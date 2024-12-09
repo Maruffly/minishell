@@ -1,0 +1,14 @@
+{
+	"files.associations": {
+		"minishell.h": "c",
+		"readline.h": "c",
+		"parsing.h": "c",
+		"builtins.h": "c",
+		"libft.h": "c",
+		"exec.h": "c",
+		"token.h": "c",
+		"type_traits": "c",
+		"structures.h": "c",
+		"libraries.h": "c"
+	}
+}

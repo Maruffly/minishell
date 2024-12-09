@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 18:03:03 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/09 13:49:41 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/09 14:49:14 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,25 +88,6 @@ void handle_pipeline(t_command **head, t_command **cmd, t_token *start, t_token 
 	*cmd = NULL;
 }
 
-bool	process_redirections(t_token *cur, t_command *cmd, t_command **head)
-{
-	if (is_redirection(cur->type))
-	{
-		if (!cur->next || cur->next->type != ARG)
-		{
-			printf("Syntax error: redirection missing argument\n");
-			return (free_cmd_list(*head), NULL);
-		}
-		/* if (cur->next->type != ARG && cur->next->type != CMD)
-		{
-			printf("Syntax error: invalid redirection argument\n");
-			return (false);
-		} */
-		if (!handle_redirections(cur, cmd))
-			return (false);
-	}
-	return (true);
-}
 
 t_command	*process_pipeline(t_token *cur, t_command *cur_cmd, t_command **head, t_token **start)
 {

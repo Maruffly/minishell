@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/09 13:49:19 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/09 14:47:21 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,33 +155,7 @@ bool	is_empty_line(char *input)
 	return (input[i] == '\0'); // Retourne true si la ligne est vide après trim
 }
 
-/* int	dup_value(t_token *cur, char **args, int count)
-{
-	int	i;
 
-	i = 0;
-	while (cur && i < count)
-	{
-		if (!is_separator(cur->type))
-		{
-			args[i] = ft_strdup(cur->value);
-			if (!args[i])
-			{
-				while (i > 0)
-				{
-					free(args[i - 1]);
-					i--;
-				}
-				args[0] = NULL;
-				return (0);
-			}
-			i++;
-		}
-		cur = cur->next;
-	}
-	args[i] = NULL;
-	return (1);
-} */
 
 char	**token_to_args(t_token *tokens, t_token *stop_token)
 {

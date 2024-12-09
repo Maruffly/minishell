@@ -6,15 +6,13 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/04 13:45:06 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/09 13:54:52 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#include "../../includes/parsing.h"
 #include "../../includes/minishell.h"
 
-t_command	*parse_input(char *input, t_env_list *env_list, int exit_status)
+/* t_command	*parse_input(char *input, t_env_list *env_list, int exit_status)
 {
 	t_token		*tokens;
 	t_command	*commands;
@@ -32,9 +30,9 @@ t_command	*parse_input(char *input, t_env_list *env_list, int exit_status)
 		ft_putstr_fd("Parsing error : no commands generated\n", 2);
 		return (NULL);
 	}
-	/* int i;
+	int i;
 	for (i = 0; commands->args[i]; i++)
-		printf("ARG[%d] : %s\n", i, commands->args[i]); */
+		printf("ARG[%d] : %s\n", i, commands->args[i]);
 	free_token_list(tokens);
 	return (commands);
 }
@@ -45,7 +43,7 @@ t_token	*create_token(char *input, int *pos, t_env_list *env_list, int exit_stat
 	t_token	*token;
 
 	value = NULL;
-	while (input[*pos] && !is_blank(input[*pos]) /* && !is_metachar(input[*pos])*/)
+	while (input[*pos] && !is_blank(input[*pos]) && !is_metachar(input[*pos]))
 	{
 		if (input[*pos] == '\'' || input[*pos] == '"')
 			handle_quotes(input, pos, &value);
@@ -73,8 +71,8 @@ t_token	*create_token(char *input, int *pos, t_env_list *env_list, int exit_stat
 	if (!value)
 		return (NULL);
 	token = init_token(value, get_token_type(value, is_first_token));
-	/* printf("Token value : %s\n", token->value);
-	printf("Token type : %u\n", token->type); */
+	printf("Token value : %s\n", token->value);
+	printf("Token type : %u\n", token->type);
 	if (!token)
 	{
 		free(value);
@@ -106,12 +104,13 @@ t_token	*tokenize_input(char *input, t_env_list *env_list, int exit_status)
 					free(new_token);
 				return (NULL);
 			}
-			/* printf("Token : %s\n", new_token->value); */
+			printf("IN tokenization - Token Type: %d\n", new_token->type);
+			printf("In tokenization- Token Value: %s\n", new_token->value);
 			add_token(&head, new_token);
 		}
 	}
 	return (head);
-}
+} */
 
 t_command	*handle_single_command(t_token *tokens)
 {
@@ -147,6 +146,7 @@ t_command	*parse_tokens(t_token *tokens)
 	if (!ast)
 		return (NULL);
 	commands = parse_ast_to_commands(ast);
+
 	free_ast(ast);
 	return (commands);
 }

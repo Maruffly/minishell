@@ -6,11 +6,11 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:03:33 by jlaine            #+#    #+#             */
-/*   Updated: 2024/12/03 13:31:33 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/09 13:50:06 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../includes/token.h"
+# include "../../includes/minishell.h"
 
 bool	is_wildcard(char *line)
 {
@@ -21,7 +21,7 @@ bool	is_wildcard(char *line)
 
 bool	is_special_operator(char c)
 {
-	if (c == '|' || c == '&' || c == '<' || c == '>' || c == ';')
+	if (c == '|' || c == '&' || c == '<' || c == '>' || c == '(' || c == ')')
 		return (true);
 	return (false);
 }

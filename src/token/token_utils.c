@@ -6,12 +6,12 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/11/29 14:18:21 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/09 13:50:11 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-# include "../../includes/token.h"
+# include "../../includes/minishell.h"
 
 void	skip_whitespace(char *line, int *pos)
 {
@@ -57,10 +57,43 @@ char	*extract_word(char *line, int pos)
 	return (ft_substr(line, start, pos - start));
 }
 
-char	*get_next_token(char *line, int pos)
+void lst_add_back_token(t_token **token_list, t_token *new_token)
 {
-	skip_whitespace(line, &pos);
-	if (is_special_operator(line[pos]))
-		return (ft_substr(line, pos, 1));
-	return (extract_word(line, pos));
+	t_token *last;
+
+	if (!token_list || !new_token)
+		return;
+
+	if (*token_list == NULL)
+		*token_list = new_token;
+	else
+	{
+		last = *token_list;
+		while (last->next)
+			last = last->next;
+		last->next = new_token;
+	}
+}
+void	ft_lstdelone(t_env_list *lst, void (*del)(void *))
+{
+	if (lst == NULL || del == NULL)
+		return ;
+	del(lst->var_value);
+	free(lst);
+}
+
+void	ft_lstclear(t_env_list **lst, void (*del)(void *))
+{
+	t_env_list	*tmp;
+
+	if (*lst == NULL || del == NULL)
+		return ;
+	while (*lst)
+	{
+		tmp = (*lst)->next;
+		ft_lstdelone(*lst, del);
+		*lst = tmp;
+	}
+	free(*lst);
+	*lst = NULL;
 }

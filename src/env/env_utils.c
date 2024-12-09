@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 15:13:16 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/25 16:33:57 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/09 11:48:15 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 void	update_env_node(t_env_list *list, char *var_name, char *var_value)
 {
-	t_env_node	*cur;
+	t_env_list	*cur;
 
 	cur = list->head;
 	while (cur)
@@ -39,9 +39,9 @@ void	update_env_node(t_env_list *list, char *var_name, char *var_value)
 
 void	add_env_node(t_env_list *list, char *var_name, char *var_value)
 {
-	t_env_node	*new_node;
+	t_env_list	*new_node;
 
-	new_node = malloc(sizeof(t_env_node));
+	new_node = malloc(sizeof(t_env_list));
 	if (!new_node)
 	{
 		perror("malloc failed");
@@ -58,11 +58,11 @@ void	add_env_node(t_env_list *list, char *var_name, char *var_value)
 	list->head = new_node;
 }
 
-void    remove_env_node(t_env_list *list, char *var_name)
+void	remove_env_node(t_env_list *list, char *var_name)
 {
-	t_env_node  *cur;
-	t_env_node  *prev;
-	t_env_node  *next;
+	t_env_list	*cur;
+	t_env_list	*prev;
+	t_env_list	*next;
 
 	cur = list->head;
 	prev = NULL;
@@ -85,7 +85,7 @@ void    remove_env_node(t_env_list *list, char *var_name)
 	}
 }
 
-void	free_env_node(t_env_node *node)
+void	free_env_node(t_env_list *node)
 {
 	if (node)
 	{
@@ -113,7 +113,7 @@ int	is_valid_var_name(char *name)
 
 char	**list_to_envp(t_env_list *env)
 {
-	t_env_node	*cur;
+	t_env_list	*cur;
 	char		**envp;
 	int			size;
 	int			i;

@@ -6,11 +6,10 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 14:06:09 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/26 10:40:04 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/09 14:02:22 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/parsing.h"
 #include "../../includes/minishell.h"
 
 void	add_char_to_value(char **value, char c)

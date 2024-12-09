@@ -6,13 +6,12 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 14:54:38 by jlaine            #+#    #+#             */
-/*   Updated: 2024/12/04 13:54:29 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/09 13:48:59 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/parsing.h"
 #include "../../includes/minishell.h"
-#include "../../includes/exec.h"
+
 
 t_ast	*ast_from_tokens(t_token *tokens) // call dans parse_inputs
 {
@@ -23,6 +22,8 @@ t_ast	*ast_from_tokens(t_token *tokens) // call dans parse_inputs
 	node = malloc(sizeof(t_ast));
 	if (!node)
 		return (NULL);
+	printf("In ast convertion function - Token Type: %d\n", tokens->type);
+	printf("In ast convertion function - Token Value: %s\n", tokens->value);
 	node->type = tokens->type;
 	node->value = ft_strdup(tokens->value);
 	node->left = NULL;

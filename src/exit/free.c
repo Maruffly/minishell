@@ -6,15 +6,13 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:14:26 by jlaine            #+#    #+#             */
-/*   Updated: 2024/12/04 13:21:40 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/09 13:48:37 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/parsing.h"
 #include "../../includes/minishell.h"
-#include "../../includes/env.h"
 
-void	free_env_node(t_env_node *node);
+void	free_env_node(t_env_list *node);
 
 void	free_cmd_list(t_command *cmd)
 {
@@ -32,12 +30,14 @@ void	free_cmd_list(t_command *cmd)
 	}
 }
 
-void	free_env_list(t_env_list *list)
+void	free_env_list(void *list)
 {
-	t_env_node	*cur;
-	t_env_node	*next;
+	t_env_list	*env_list;
+	t_env_list	*cur;
+	t_env_list	*next;
 
-	cur = list->head;
+	env_list = (t_env_list *)list;
+	cur = env_list->head;
 	while (cur)
 	{
 		next = cur->next;

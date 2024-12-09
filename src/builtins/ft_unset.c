@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 17:28:12 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/18 16:02:05 by jbmy             ###   ########.fr       */
+/*   Updated: 2024/12/09 13:47:53 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../includes/builtins.h"
+# include "../../includes/minishell.h"
 
 void	exec_unset(t_env_list *env_list, t_command *cmd)
 {

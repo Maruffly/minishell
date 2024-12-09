@@ -6,11 +6,11 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/04 12:44:50 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/09 13:48:09 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/exec.h"
+# include "../../includes/minishell.h"
 
 void	exec_builtin(t_command *cmd, t_env_list *env)
 {

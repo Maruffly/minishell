@@ -6,11 +6,11 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:35:49 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/11/19 15:44:29 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/09 13:49:58 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../includes/token.h"
+# include "../../includes/minishell.h"
 
 int	is_quote(char c)
 {

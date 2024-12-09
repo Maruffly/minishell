@@ -6,67 +6,92 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/04 14:25:00 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/09 14:31:48 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	sigint_handler(void)
+int g_signal_value = 0;
+
+int	process_prompt(char *input, t_shell *sh)
 {
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	t_token	*token_list;
+	/* t_ast	*ast; */
+	int		status;
+
+	status = lexer(input, &token_list, sh);
+	/* if (status == EXIT_SUCCESS && token_list)
+	{
+		status = parser();
+		if (status == EXIT_SUCCESS && ast)
+		{
+			status = exec_heredocs();
+			if (status == EXIT_SUCCESS)
+				status = execute();
+		}
+	} */
+	return (status);
 }
 
-void	signal_handler(int signum)
+int	launch_shell(t_shell *sh)
 {
-	if (signum == SIGINT)
-		sigint_handler();
+	char	*input;
+
+	while(1)
+	{
+		input = read_line(MAIN_PROMPT);
+		signal(SIGINT, signal_handler);
+		signal(SIGQUIT, SIG_IGN);
+		if (g_signal_value == SIGINT)
+			sh->last_status = 130;
+		if (!input)
+			exit_shell(sh->last_status, sh);
+		if (input)
+		{
+			add_history(input);
+			sh->last_status = process_prompt(input, sh);
+		}
+	}
 }
 
-void	read_line(t_command **cmd, t_env_list *env_list, int exit_status)
+char	*read_line(t_prompt_mode mode)
 {
 	char		*input;
 
-	input = readline("Omar&Fred> ");
-	if (!input)
+	g_signal_value = 0;
+	input = NULL;
+	if (mode == MAIN_PROMPT)
 	{
-		ft_putstr_fd("exit\n", 1);
-		free_env_list(env_list);
-		exit(0);
+		input = readline(GREEN"Omar&Fred>"RESET);
+
 	}
-	add_history(input);
-	*cmd = parse_input(input, env_list, exit_status);
-	if (!*cmd)
+	else if (mode == HEREDOC_PROMPT)
 	{
-		perror("Fail to parse input\n");
-		*cmd = NULL;
+		input = readline("> ");
+
 	}
-	free(input);
+	return (input);
+}
+
+void	init_shell(t_shell *sh, char **envp)
+{
+	sh->is_parent = true;
+	sh->last_status = EXIT_SUCCESS;
+	sh->env = envp_to_list(envp);
+	sh->parsing_error = NULL;
 }
 
 int	main(int ac, char **av, char **envp)
 {
-	t_command	*cmd;
-	t_env_list	*env;
+	t_shell	sh;
+	int		status;
 
-	(void)ac;
 	(void)av;
-	env = envp_to_list(envp);
-	cmd = NULL;
-	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, SIG_IGN);
-	while (1)
-	{
-		read_line(&cmd, env, 0);
-		if (!cmd)
-			continue ;
-		execute_pipeline(cmd, env);
-		free_cmd_list(cmd);
-		cmd = NULL;
-	}
-	free_env_list(env);
+	if (ac != 1)
+		exit(EXIT_FAILURE);
+	init_shell(&sh, envp);
+	status = launch_shell(&sh);
+	exit_shell(status, &sh);
 	return (0);
 }

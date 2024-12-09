@@ -6,11 +6,11 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:03:37 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/29 16:57:10 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/09 13:50:03 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../includes/token.h"
+# include "../../includes/minishell.h"
 
 int	is_heredoc(char *line, int i)
 {

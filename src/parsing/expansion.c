@@ -6,11 +6,10 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 12:24:56 by jlaine            #+#    #+#             */
-/*   Updated: 2024/12/03 18:47:50 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/09 13:49:15 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/parsing.h"
 #include "../../includes/minishell.h"
 
 bool	match_pattern(char *input, char *str)
@@ -48,7 +47,7 @@ char	*expand_env_variable(char *input, int *pos, t_env_list *env_list)
 {
 	char		*key;
 	char		*value;
-	t_env_node	*env_node;
+	t_env_list	*env_node;
 
 	key = NULL;
 	value = NULL;

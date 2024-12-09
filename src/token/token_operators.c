@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   token_operators.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:03:40 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/22 15:59:59 by jbmy             ###   ########.fr       */
+/*   Updated: 2024/12/09 13:49:54 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../includes/token.h"
+# include "../../includes/minishell.h"
 
 /* int	is_separator(char *line, int i)
 {

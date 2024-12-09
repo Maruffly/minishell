@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exit_status.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 17:58:12 by jlaine            #+#    #+#             */
-/*   Updated: 2024/11/21 18:28:21 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/09 13:48:18 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include	"../../includes/minishell.h"
-# include	"../../includes/parsing.h"
-# include	"../../includes/token.h"
 
 static void	print_exit_code(int	exit_code)
 {
@@ -39,4 +37,41 @@ void	handle_exit_status(char *input, int *exit_code)
 		set_exit_code(exit_code, 126);
 	else
 		set_exit_code(exit_code, 1);
+}
+
+void	exit_shell(int exit_status, t_shell *sh)
+{
+	if (sh)
+	{
+		if (sh->is_parent && isatty(STDIN_FILENO))
+			ft_putstr_fd("exit\n", STDERR_FILENO);
+		ft_lstclear(&sh->env, free_env_list);
+	}
+	rl_clear_history();
+	exit(exit_status);
+}
+
+/* int	report_error(char *context, char *element, char *description, t_shell *sh)
+{
+	write_s("minishell: ", STDERR_FILENO, sh);
+	write_s(context, STDERR_FILENO, sh);
+	if (element)
+		write_s(element, STDERR_FILENO, sh);
+	write_s(description, STDERR_FILENO, sh);
+	write_s("\n", STDERR_FILENO, sh);
+	return (EXIT_FAILURE);
+} */
+
+t_token_type	syntax_error(char *unexpected_token, t_shell *sh)
+{
+	if (!sh->parsing_error)
+		sh->parsing_error = unexpected_token;
+	return (ERROR);
+}
+int	report_synthax_error(t_shell *sh)
+{
+	/* report_error("syntax error near unexpected token `",
+		sh->parsing_error, "'", sh); */
+	sh->parsing_error = NULL;
+	return (2);
 }

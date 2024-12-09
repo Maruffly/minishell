@@ -17,12 +17,9 @@ SRC_FILES = main.c\
 			/env/env_dup_init.c\
 			/env/env_utils.c\
 			/token/token_commands.c\
-			/token/token_operators.c\
-			/token/token_redirections.c\
 			/token/token_specials.c\
 			/token/token_utils.c\
 			/token/token_words.c\
-			/token/token_quote.c\
 			/exec/execute_commands.c\
 			/exec/child.c\
 			/parsing/parsing.c\

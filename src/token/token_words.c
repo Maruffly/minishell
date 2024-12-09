@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_words.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:02:12 by jlaine            #+#    #+#             */
-/*   Updated: 2024/12/09 13:50:15 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/09 14:44:31 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,3 @@ int	is_variable(char *line, int i)
 	return (0);
 }
 
-int	is_word(char *line, int i)
-{
-	if (!is_quote(line[i]) && !is_blank(line[i]) && line[i] != '$'
-		&& !is_special_operator(line[i]) && !is_parenthesis(line, i)
-		&& !is_variable(line, i))
-		return (1);
-	return (0);
-}

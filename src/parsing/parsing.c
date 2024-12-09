@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/09 13:54:52 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/09 14:48:24 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,36 +150,3 @@ t_command	*parse_tokens(t_token *tokens)
 	free_ast(ast);
 	return (commands);
 }
-
-/* t_command	*parse_tokens(t_token *tokens)
-{
-	t_command	*head;
-	t_command	*cur_cmd;
-	t_token		*cur_token;
-	t_token		*start;
-
-	head = NULL;
-	cur_cmd = NULL;
-	start = tokens;
-	cur_token = tokens;
-	if (!tokens)
-		return (NULL);
-	if (!tokens->next)
-		return (handle_single_command(tokens));
-	while (cur_token)
-	{
-		printf(" Cur Type = %u\n", cur_token->type);
-		printf(" Cur Value = %s\n", cur_token->value);
-		if (cur_token->type == CMD && !cur_cmd)
-		{
-			cur_cmd = init_command();
-			cur_cmd->command = ft_strdup(cur_token->value);
-			add_argument_to_command(cur_cmd, cur_token->value);
-		}
-		if (!process_redirections(cur_token, cur_cmd, &head))
-			return (free_cmd_list(head), NULL);
-		cur_cmd = process_pipeline(cur_token, cur_cmd, &head, &start);
-		cur_token = cur_token->next;
-	}
-	return (head);
-} */

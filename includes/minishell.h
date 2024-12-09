@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:12:58 by jlaine            #+#    #+#             */
-/*   Updated: 2024/12/09 14:24:46 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/09 14:52:45 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,35 +51,16 @@ void		exit_shell(int exit_status, t_shell *sh);
 t_command	*init_command(void);
 
 // token_words.c
-int		is_quote(char c);
-int		in_single_quote(char *line, int idx);
-int		in_double_quote(char *line, int idx);
 int		is_blank(char c);
 int		is_NULL(char *line);
-int		is_word(char *line, int i);
 int		is_variable(char *line, int i);
 
 // token_redirections.c
-int				is_heredoc(char *line, int i);
-bool			is_redirection(t_token_type type);
-int				is_input_chevrons(char *line, int i);
-int				is_output_chevrons(char *line, int i);
-int				is_append_chevrons(char *line, int i);
 
 // token_operators.c
-int				is_operator(char *line, int i);
-bool			is_separator(t_token_type type);
-int				is_or_operator(char *line, int i);
-int				is_and_operator(char *line, int i);
-int				is_boolean_operator(char *line, int i);
 
 // token_specials.c
 int				is_special_char(char c);
-int				is_parenthesis(char *line, int i);
-int				is_escaped_char(char *line, int i);
-int				is_open_paranthesis(char *line, int i);
-int 			is_close_paranthesis(char *line, int i);
-bool			is_wildcard(char *line);
 
 // token_utils.c
 bool			is_special_operator(char c);
@@ -91,9 +72,7 @@ void			ft_lstclear(t_env_list **lst, void (*del)(void *));
 void			ft_lstdelone(t_env_list *lst, void (*del)(void *));
 
 // token commands
-int				is_cmd(char *word);
 int				is_builtin(char *word);
-int				check_full_path(char *path, char *word);
 
 // lexer
 t_token_type	get_next_token(char *input, int *len, t_shell *sh);
@@ -138,7 +117,6 @@ void		handle_redirection(char *input, int *pos, char **value);
 void		add_char_to_value(char **value, char c);
 void		handle_quotes(char *input, int *pos, char **value);
 
-bool		is_separator(t_token_type type);
 int			dup_value(t_token *cur, char **args, int count);
 
 
@@ -167,7 +145,6 @@ t_command	*merge_commands(t_command *left, t_command *right, t_token_type operat
 // redirections
 bool		handle_redirections(t_token *cur, t_command *cmd);
 void		handle_pipeline(t_command **head, t_command **cmd, t_token *start, t_token *stop);
-bool		process_redirections(t_token *cur, t_command *cmd, t_command **head);
 t_command	*process_pipeline(t_token *cur, t_command *cur_cmd, t_command **head, t_token **start);
 
 // EXEC //

@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:35:41 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/09 13:55:20 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/10 17:46:01 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,31 +19,87 @@ extern sig_atomic_t	g_signal_value;
 
 typedef enum e_token_type
 {
-	OR, /* || */
-	AND, /* && */
-	PAR, /* () */
-	ARG,
-	CMD,
-	PIPE, /* | */
-	WORD,
-	ERROR,
-	INFILE,
-	OUTFILE,
-	HEREDOC, /* << */
-	LIMITER,
-	WILDCARD,
-	APPEND_OUT, /* >> */
-	REDIRECT_IN, /* < */
-	REDIRECT_OUT, /* > */
-	OPEN_PARENTHESIS, /* ( */
-	CLOSE_PARENTHESIS, /* ) */
+	OR,					/* 0 */
+	AND,				/* 1 */
+	PAR,				/* 2 */
+	PIPE,				/* 3 */
+	WORD,				/* 4 */
+	ERROR,				/* 5 */
+	INFILE,				/* 6 */
+	OUTFILE,			/* 7 */
+	HEREDOC,			/* 8 */
+	WILDCARD,			/* 9 */
+	APPEND_OUT,			/* 10 */
+	REDIRECT_IN,		/* 11 */
+	REDIRECT_OUT,		/* 12 */
+	OPEN_PARENTHESIS,	/* 13 */
+	CLOSE_PARENTHESIS,	/* 14 */
 }	t_token_type;
 
 typedef enum e_prompt_mode
 {
 	MAIN_PROMPT,
 	HEREDOC_PROMPT,
-}			t_prompt_mode;
+}							t_prompt_mode;
+
+typedef enum e_ast_type
+{
+	AST_COMMAND,
+	AST_SUBSHELL,
+	AST_LOGICAL,
+	AST_PIPELINE,
+	AST_REDIRECTION,
+	AST_SYNTAX_ERROR
+}							t_ast_type;
+
+typedef struct s_ast_command
+{
+	char					**args;
+}							t_ast_command;
+
+typedef struct s_ast_pipeline
+{
+	struct s_ast			*left;
+	struct s_ast			*right;
+}							t_ast_pipeline;
+
+typedef struct s_ast_logical
+{
+	t_token_type			operator;
+	struct s_ast			*left;
+	struct s_ast			*right;
+}							t_ast_logical;
+
+typedef struct s_ast_redirection
+{
+	t_token_type			direction;
+	struct s_ast			*child;
+	char					*file;
+}							t_ast_redirection;
+
+typedef struct s_ast_subshell
+{
+	struct s_ast			*child;
+}							t_ast_subshell;
+
+typedef struct s_ast_syntax_error
+{
+	char					*unexpected_token;
+}							t_ast_syntax_error;
+
+typedef struct s_ast
+{
+	t_ast_type				type;
+	union
+	{
+		t_ast_command		command;
+		t_ast_pipeline		pipeline;
+		t_ast_logical		logical;
+		t_ast_redirection	redirection;
+		t_ast_subshell		subshell;
+		t_ast_syntax_error	s_error;
+	} u_data;
+}							t_ast;
 
 typedef struct s_token
 {
@@ -70,24 +126,6 @@ typedef struct s_shell
 	bool				is_parent;
 	int					last_status;
 }	t_shell;
-
-typedef struct	s_command
-{
-	char				**args;
-	char				*command;
-	int					exit_code;
-	int					input_fd;
-	int					output_fd;
-	char				*infile;
-	char				*outfile;
-	bool				append_mode;
-	bool				heredoc_mode;
-	char				*heredoc_limiter;
-	char				logical_operator;
-	t_token_type		type;
-	bool				error;
-	struct s_command	*next;
-}	t_command;
 
 typedef struct	s_ast
 {

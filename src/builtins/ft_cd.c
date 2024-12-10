@@ -6,19 +6,19 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 14:55:10 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/09 13:47:27 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/10 17:53:48 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../includes/minishell.h"
 
-void	exec_cd(t_command *cmd, t_env_list *env_list)
+void	exec_cd(t_ast *cmd, t_env_list *env_list)
 {
 	char		*path;
 	char		*cur_pwd;
 	t_env_list	*home_node;
 
-	if (!cmd->args || !cmd->args[0])
+	if (!cmd->u_data.command.args || !cmd->args[0])
 	{
 		ft_putstr_fd("cd: No command\n", 2);
 		return;

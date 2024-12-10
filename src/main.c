@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/10 16:11:37 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/10 16:13:08 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ int	launch_shell(t_shell *sh)
 		handle_eof(input, sh);
 		if (g_signal_value == SIGINT)
 			sh->last_status = 130;
-		if (!input)
-			exit_shell(sh->last_status, sh);
 		if (input)
 		{
 			add_history(input);

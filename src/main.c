@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/10 16:13:08 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/10 16:36:45 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,13 @@ char	*read_line(t_prompt_mode mode)
 	if (mode == MAIN_PROMPT)
 	{
 		input = readline(GREEN"Omar&Fred>"RESET);
-
+		set_main_signals();
 	}
 	else if (mode == HEREDOC_PROMPT)
 	{
+		set_heredoc_signal();
 		input = readline("> ");
-
+		set_main_signals();
 	}
 	return (input);
 }

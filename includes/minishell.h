@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:12:58 by jlaine            #+#    #+#             */
-/*   Updated: 2024/12/10 15:35:46 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/10 16:36:59 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 
 // SIGNAL //
 void	set_main_signals(void);
+void	set_heredoc_signal(void);
 void	handle_eof(char *input, t_shell *sh);
 void	handle_signal(int signum, void (*handler)(int));
 

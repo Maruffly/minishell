@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   main_signal.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 17:46:57 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/10 15:35:29 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/10 16:36:54 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,10 @@ void	set_main_signals(void)
 {
 	handle_signal(SIGINT, sigint_handler);
 	handle_signal(SIGQUIT, sigquit_handler);
+}
+
+void	set_heredoc_signal(void)
+{
+	handle_signal(SIGINT, sigint_handler);
+	handle_signal(SIGQUIT, SIG_IGN);
 }

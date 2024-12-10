@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:12:58 by jlaine            #+#    #+#             */
-/*   Updated: 2024/12/09 18:35:52 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/10 15:35:46 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,10 @@
 # define CYAN	"\e[36m"
 
 // SIGNAL //
-void	sigint_handler(int	signum);
-void	signal_handler(int signum);
+void	set_main_signals(void);
+void	handle_eof(char *input, t_shell *sh);
+void	handle_signal(int signum, void (*handler)(int));
+
 
 // READ LINE //
 char	*read_line(t_prompt_mode mode);
@@ -55,9 +57,6 @@ int		is_blank(char c);
 int		is_NULL(char *line);
 int		is_variable(char *line, int i);
 
-// token_redirections.c
-
-// token_operators.c
 
 // token_specials.c
 int				is_special_char(char c);

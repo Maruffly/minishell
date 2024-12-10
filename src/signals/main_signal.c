@@ -3,19 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 17:46:57 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/09 14:16:35 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/10 15:35:29 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
+#include "../../includes/libraries.h"
+#include "../../includes/structures.h"
 
-void	sigint_handler(int	signum)
+void	handle_eof(char *input, t_shell *sh)
 {
-	g_signal_value = signum;
-	printf("\n");
+	if (!input)
+		exit_shell(sh->last_status, sh);
+}
+
+void	handle_signal(int signum, void (*handler)(int))
+{
+	struct sigaction	sa;
+
+	sa.sa_handler = handler;
+	sa.sa_flags = 0;
+	sigemptyset(&sa.sa_mask);
+	sigaction(signum, &sa, NULL);
+}
+
+void	sigint_handler(int signum)
+{
+	(void)signum;
+	g_signal_value = SIGINT;
+	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
@@ -23,14 +42,14 @@ void	sigint_handler(int	signum)
 
 void	sigquit_handler(int signum)
 {
-	g_signal_value = signum;
-	printf("exit\n");
+	(void)signum;
+	write(1, "\r", 1);
+	rl_on_new_line();
+	rl_redisplay();
 }
 
-void	signal_handler(int signum)
+void	set_main_signals(void)
 {
-	if (signum == SIGINT)
-		sigint_handler(signum);
-	else if (signum == SIGQUIT)
-		sigquit_handler(signum);
+	handle_signal(SIGINT, sigint_handler);
+	handle_signal(SIGQUIT, sigquit_handler);
 }

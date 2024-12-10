@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/09 17:46:01 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/10 15:36:02 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,15 @@ int	launch_shell(t_shell *sh)
 	while(1)
 	{
 		input = read_line(MAIN_PROMPT);
-		signal(SIGINT, signal_handler);
-		signal(SIGQUIT, SIG_IGN);
+		handle_eof(input, sh);
 		if (g_signal_value == SIGINT)
+		{
 			sh->last_status = 130;
+			g_signal_value = 0;
+			free(input);
+			continue;
+		}
+			// sh->last_status = 130;
 		if (!input)
 			exit_shell(sh->last_status, sh);
 		if (input)
@@ -90,6 +95,7 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	if (ac != 1)
 		exit(EXIT_FAILURE);
+	set_main_signals();
 	init_shell(&sh, envp);
 	status = launch_shell(&sh);
 	exit_shell(status, &sh);

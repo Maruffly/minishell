@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/10 15:37:28 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/11 14:54:28 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,33 @@ t_token_type	get_token_type(char *token)
 		return (APPEND_OUT);
 	if (ft_strcmp(token, "<<") == 0)
 		return (HEREDOC);
-	if (is_variable(token, 0))
-		return (LIMITER);
 	return (WORD);
+}
+
+char	*get_token_string(t_token_type type)
+{
+	if (type == PIPE)
+		return ("|");
+	else if (type == AND)
+		return ("&&");
+	else if (type == OR)
+		return ("||");
+	else if (type == OPEN_PARENTHESIS)
+		return ("(");
+	else if (type == CLOSE_PARENTHESIS)
+		return (")");
+	else if (type == WORD)
+		return ("word");
+	else if (type == REDIRECT_IN)
+		return ("<");
+	else if (type == REDIRECT_OUT)
+		return (">");
+	else if (type == APPEND_OUT)
+		return (">>");
+	else if (type == HEREDOC)
+		return ("<<");
+	else
+		return ("[unknown token]");
 }
 
 char	*extract_word(char *line, int pos)

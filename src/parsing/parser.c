@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/10 17:42:18 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/11 15:05:35 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	parser(t_token *token_list, t_ast **ast, t_shell *sh)
 {
 	*ast = parse_logical(&token_list, sh);
 	if (token_list)
-		syntax_error();
+		syntax_error("...", sh);
 	if (sh->parsing_error)
 		return (report_syntax_error());
 	return (EXIT_FAILURE);
@@ -80,7 +80,24 @@ t_ast	*parse_redirection_list(t_token **token_list, t_ast *command, t_shell *sh)
 	{
 		if (is_word(token_list) && command)
 		{
-			add_arg_tab(&command->u_data.command.arg, *token_list->value)
+			add_arg_tab(&command->u_data.command.args, (*token_list)->value);
+			*token_list = (*token_list)->next;
+			continue;
 		}
+		new = build_ast_redirect();
+		if (!new)
+			return (NULL);
+		if (!first)
+		{
+			first = new;
+			last = new;
+		}
+		else
+		{
+			last->u_data.redirection.child = new;
+			last = new;
+		}
+		*token_list = (*token_list)->next->next;
 	}
+	return (first);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:35:41 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/10 17:46:01 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/11 13:37:55 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,14 +126,6 @@ typedef struct s_shell
 	bool				is_parent;
 	int					last_status;
 }	t_shell;
-
-typedef struct	s_ast
-{
-	t_token_type	type;
-	char			*value;
-	struct s_ast	*left;
-	struct s_ast	*right;
-}	t_ast;
 
 #endif
 

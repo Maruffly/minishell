@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:12:58 by jlaine            #+#    #+#             */
+<<<<<<< Updated upstream
 /*   Updated: 2024/12/10 16:36:59 by jlaine           ###   ########.fr       */
+=======
+/*   Updated: 2024/12/10 17:49:55 by jmaruffy         ###   ########.fr       */
+>>>>>>> Stashed changes
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +65,9 @@ int		is_variable(char *line, int i);
 
 // token_specials.c
 int				is_special_char(char c);
+bool			is_redirect(t_token *token);
+bool			is_operator(t_token *token);
+
 
 // token_utils.c
 bool			is_special_operator(char c);
@@ -173,12 +180,12 @@ char		**list_to_envp(t_env_list *env);
 void		check_env_path(char **envp);
 
 // BUILTINS
-void	exec_cd(t_command *cmd, t_env_list *env_list);
-void	exec_echo(t_command *cmd);
+void	exec_cd(t_ast *cmd, t_env_list *env_list);
+void	exec_echo(t_ast *cmd);
 void	exec_env(t_env_list *env_list);
-void	exec_exit(t_command *cmd);
-void	exec_export(t_env_list *env_list, t_command *cmd);
+void	exec_exit(t_ast *cmd);
+void	exec_export(t_env_list *env_list, t_ast *cmd);
 void	exec_pwd(void);
-void	exec_unset(t_env_list *env_list, t_command *cmd);
+void	exec_unset(t_env_list *env_list, t_ast *cmd);
 
 #endif

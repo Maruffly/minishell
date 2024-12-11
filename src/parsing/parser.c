@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/09 18:36:23 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/10 17:42:18 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,27 +18,27 @@ int	parser(t_token *token_list, t_ast **ast, t_shell *sh)
 	if (token_list)
 		syntax_error();
 	if (sh->parsing_error)
-		return (report_syntax_error);
+		return (report_syntax_error());
 	return (EXIT_FAILURE);
 }
 t_ast	*parse_logical(t_token **token_list, t_shell *sh)
 {
 	t_ast			*left;
 	t_ast			*right;
-	t_token_type	logic_operator;
+	t_token_type	logic_op;
 
 	left = parse_redirection(token_list, sh);
 	while (is_operator(token_list))
 	{
-		logic_operator = (*token_list)->type;
+		logic_op = (*token_list)->type;
 		*token_list = (*token_list)->next;
-		right = parse_redirection(token_list, sh);
-		left = create_ast_logical(left, logic_operator, right, sh);
+		right = parse_pipe(token_list, sh);
+		left = create_ast_logical(left, logic_op, right, sh);
 	}
 	return (left);
 }
 
-t_ast	*parse_pipeline(t_token **token_list, t_shell *sh)
+t_ast	*parse_pipe(t_token **token_list, t_shell *sh)
 {
 	t_ast	*left;
 	t_ast	*right;
@@ -76,5 +76,11 @@ t_ast	*parse_redirection_list(t_token **token_list, t_ast *command, t_shell *sh)
 	t_ast	*new;
 
 	first = NULL;
-	
+	while (is_redirect(token_list) || (is_word(token_list) && command))
+	{
+		if (is_word(token_list) && command)
+		{
+			add_arg_tab(&command->u_data.command.arg, *token_list->value)
+		}
+	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/09 14:47:21 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/10 17:37:58 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_command	*init_command(void) // OK
 	cmd->heredoc_mode = false;
 	cmd->heredoc_limiter = NULL;
 	cmd->logical_operator = 0;
-	cmd->type = CMD;
+	cmd->type = WORD;
 	cmd->error = false;
 	cmd->next = NULL;
 	return (cmd);
@@ -169,7 +169,7 @@ char	**token_to_args(t_token *tokens, t_token *stop_token)
 	count = 0;
 	while (cur && cur != stop_token)
 	{
-		if (cur->type == CMD || cur->type == ARG)
+		if (cur->type == WORD)
 			count++;
 		cur = cur->next;
 	}
@@ -180,34 +180,33 @@ char	**token_to_args(t_token *tokens, t_token *stop_token)
 	count = 0;
 	while (cur && cur != stop_token)
 	{
-		if (cur->type == CMD || cur->type == ARG)
+		if (cur->type == WORD)
 			args[count++] = ft_strdup(cur->value);
 		cur = cur->next;
 	}
 	args[count] = NULL;
-	/* if (!dup_value(tokens, args, count))
-		return (free(args), NULL); */
-
 	return (args);
 }
 
-void add_argument_to_command(t_command *cmd, char *arg)
+void	add_arg_tab(char ***array, char *new_arg)
 {
-	int count;
-	char **new_args;
-	int	i;
+	char	**new_array;
+	int		i;
+	int		j;
 
-	count = 0;
-	while (cmd->args && cmd->args[count])
-		count++;
-	new_args = malloc(sizeof(char *) * (count + 2));
-	if (!new_args)
-		return;
 	i = 0;
-	while (i++ < count)
-		new_args[i] = cmd->args[i];
-	new_args[count] = ft_strdup(arg);
-	new_args[count + 1] = NULL;
-	free(cmd->args);
-	cmd->args = new_args;
+	while ((*array) && (*array)[i])
+		i++;
+	new_array = ft_calloc(i + 2, sizeof(char *));
+	if (!new_array)
+		return ;
+	j = 0;
+	while (j < i)
+	{
+		new_array[j] = (*array)[j];
+		j++;
+	}
+	new_array[i] = new_arg;
+	new_array[i + 1] = NULL;
+	*array = new_array;
 }

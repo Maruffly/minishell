@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 15:26:54 by jlaine            #+#    #+#             */
-/*   Updated: 2024/12/09 13:49:08 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/10 15:39:01 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	execute_ast(t_ast *node, t_env_list *env, int *exit_code)
 		*exit_code = 1;
 		return ;
 	}
-	if (node->type == CMD)
+	if (node->type == WORD)
 		exec_simple_cmd(node, env, exit_code);
 	else if (node->type == PIPE)
 		exec_pipe_cmd(node, env, exit_code);

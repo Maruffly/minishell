@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_commands.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 15:16:14 by jlaine            #+#    #+#             */
-/*   Updated: 2024/12/09 14:39:41 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/10 15:30:14 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,10 @@ int	is_builtin(char *word)
 	return (0);
 }
 
+/* bool	is_word(t_token *token)
+{
+	if (token->type == )
+} */
 
 /* void	init_command_array(t_command *cmd, char *input)
 {

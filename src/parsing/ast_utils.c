@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 14:54:38 by jlaine            #+#    #+#             */
-/*   Updated: 2024/12/09 18:36:29 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/10 15:39:36 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_command	*parse_ast_to_commands(t_ast *node) // call dans parse_inputs
 
 	if (!node)
 		return (NULL);
-	if (node->type == CMD)
+	if (node->type == WORD)
 	{
 		commands = init_command();
 		commands->command = ft_strdup(node->value);
@@ -81,7 +81,7 @@ t_command	*ast_to_command(t_ast *node)
 {
 	t_command	*cmd;
 
-	if (!node || node->type != CMD)
+	if (!node || node->type != WORD)
 		return (NULL);
 	cmd = init_command();
 	cmd->command = ft_strdup(node->value);

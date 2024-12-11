@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/09 13:50:11 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/10 15:37:28 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	skip_whitespace(char *line, int *pos)
 		(*pos)++;
 }
 
-t_token_type	get_token_type(char *token, bool *is_first_token)
+t_token_type	get_token_type(char *token)
 {
 	if (is_NULL(token))
 		return (0);
@@ -39,12 +39,7 @@ t_token_type	get_token_type(char *token, bool *is_first_token)
 		return (HEREDOC);
 	if (is_variable(token, 0))
 		return (LIMITER);
-	if (*is_first_token)
-	{
-		*is_first_token = false;
-		return (CMD);
-	}
-	return (ARG);
+	return (WORD);
 }
 
 char	*extract_word(char *line, int pos)

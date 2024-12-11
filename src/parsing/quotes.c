@@ -6,13 +6,13 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 14:06:09 by jlaine            #+#    #+#             */
-/*   Updated: 2024/12/09 14:02:22 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/11 14:16:57 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	add_char_to_value(char **value, char c)
+/* void	add_char_to_value(char **value, char c)
 {
 	size_t	len;
 	char	*new_value;
@@ -63,4 +63,4 @@ void	handle_quotes(char *input, int *pos, char **value) // OK
 		handle_internal_quotes(input, pos, value, c);
 	if (input[*pos] == c)
 		(*pos)++;
-}
+} */

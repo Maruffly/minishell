@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 18:03:03 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/09 14:49:14 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/11 14:17:30 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../includes/minishell.h"
 
-bool	handle_redirections(t_token *cur, t_command *cmd)
+/* bool	handle_redirections(t_token *cur, t_command *cmd)
 {
 	if (!cur || !cmd)
 		return (false);
@@ -108,6 +108,6 @@ t_command	*process_pipeline(t_token *cur, t_command *cur_cmd, t_command **head, 
 			stop = cur;
 	}
 	return (cur_cmd);
-}
+} */
 
 

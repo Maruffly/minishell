@@ -5,14 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/06 16:12:58 by jlaine            #+#    #+#             */
-<<<<<<< Updated upstream
-/*   Updated: 2024/12/10 16:36:59 by jlaine           ###   ########.fr       */
-=======
-/*   Updated: 2024/12/10 17:49:55 by jmaruffy         ###   ########.fr       */
->>>>>>> Stashed changes
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/12/11 15:06:59 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 # ifndef MINISHELL_H
 # define MINISHELL_H
@@ -41,10 +38,8 @@ char	*read_line(t_prompt_mode mode);
 
 
 // EXIT //
-void		free_ast(t_ast *node);
-void		free_cmd(t_command *cmd);
-void		free_pipe(t_command	*pipe);
-void	free_cmd_list(t_command *head);
+void	exit_shell(int exit_status, t_shell *sh);
+void	free_ast(t_ast *node);
 void 	free_token_list(t_token *tokens);
 void	handle_exit_status(char *input, int *exit_code);
 
@@ -54,8 +49,7 @@ t_token_type	syntax_error(char *unexpected_token, t_shell *sh);
 
 // lexer
 int			lexer(char *input, t_token **token_list, t_shell *sh);
-void		exit_shell(int exit_status, t_shell *sh);
-t_command	*init_command(void);
+
 
 // token_words.c
 int		is_blank(char c);
@@ -63,15 +57,20 @@ int		is_NULL(char *line);
 int		is_variable(char *line, int i);
 
 
-// token_specials.c
+// token_type.c
 int				is_special_char(char c);
 bool			is_redirect(t_token *token);
 bool			is_operator(t_token *token);
+
+bool			is_redirect(t_token *token);
+bool			is_operator(t_token *token);
+bool			is_word(t_token *token);
 
 
 // token_utils.c
 bool			is_special_operator(char c);
 t_token_type	get_token_type(char *token, bool *is_first_token);
+char	*get_token_string(t_token_type type);
 char			*extract_word(char *line, int pos);
 void			skip_whitespace(char *line, int *pos);
 void			lst_add_back_token(t_token **token_list, t_token *new_token);
@@ -88,27 +87,21 @@ t_token_type	get_redirect_tk(char *input, char c, int *len, t_shell *sh);
 t_token_type	get_subshell_tk(char *input, int *len);
 t_token_type	get_word_tk(char *input, char c, int *len, t_shell *sh);
 
-void			init_command_array(t_command *cmd, char *input);
-
 // parsing.c
-char		**token_to_args(t_token *tokens, t_token *stop_token);
-void		add_argument_to_command(t_command *cmd, char *arg);
+
 void		add_char_to_value(char **value, char c);
+void		add_arg_tab(char ***array, char *new_arg);
 
 t_token		*create_token(t_token_type type, char *input, size_t len);
-t_command	*parse_input(char *input, t_env_list *env_list, int exit_status);
 t_token		*tokenize_input(char *input, t_env_list *env_list,
 							int exit_status);
 // parsing_utils.c
-t_command	*init_command(void);
+t_ast		*build_redir_cmd(t_ast *prefix, t_ast *suffix, t_ast *command);
 bool		is_metachar(char c);
 t_token		*init_token(char *value, t_token_type type);
 void		add_token(t_token **head, t_token *new_token);
 bool		is_syntax_ok(t_token *new_token, t_token *head);
-void		add_command(t_command **head, t_command *new_cmd);
 bool		is_blank_line(char *line);
-t_command	*handle_error(char *error_message);
-int			is_command_ok(t_command *cmd, t_env_list *env_list);
 bool		is_empty_line(char *input);
 
 // expansion.c
@@ -133,36 +126,25 @@ void		*handle_all_tokens(char *input, int *pos, char **value,
 char		*handle_parentheses(char *input, int *pos);
 
 // ast.c
-void		execute_ast(t_ast *node, t_env_list *env, int *exit_code);
-void		exec_or_operator(t_ast *node, t_env_list *env, int *exit_code);
-void		exec_and_operator(t_ast *node, t_env_list *env, int *exit_code);
-void		exec_pipe_cmd(t_ast *node, t_env_list *env, int *exit_code);
-void		exec_simple_cmd(t_ast *node, t_env_list *env, int *exit_code);
-int			get_last_exit_status(void);
-void		set_last_exit_status(int status);
+void		init_ast_node(t_ast **node, t_ast_type type);
+
 
 // ast_utils.c
-t_command	*ast_to_command(t_ast *node);
-t_command	*ast_to_pipeline(t_ast *node);
 t_ast		*ast_from_tokens(t_token *tokens);
-t_command	*parse_ast_to_commands(t_ast *node);
-t_command	*merge_commands(t_command *left, t_command *right, t_token_type operator);
 
 // redirections
-bool		handle_redirections(t_token *cur, t_command *cmd);
-void		handle_pipeline(t_command **head, t_command **cmd, t_token *start, t_token *stop);
-t_command	*process_pipeline(t_token *cur, t_command *cur_cmd, t_command **head, t_token **start);
+t_ast	*build_redir_cmd(t_ast *prefix, t_ast *suffix, t_ast *command);
 
 // EXEC //
-void	execute_pipeline(t_command *cmd, t_env_list *env);
+
 
 // CHILD //
-char	*get_path(char *cmd, char **envp);
+/* char	*get_path(char *cmd, char **envp);
 void	redir_command(t_command *cmd);
 void	close_unused_fds(t_command	*cmd);
 void	setup_pipes(t_command *cmd);
 int		update_prev_output_fd(t_command *cmd);
-void	execute_command(t_command *cmd, t_env_list *env, int prev_output_fd);
+void	execute_command(t_command *cmd, t_env_list *env, int prev_output_fd); */
 
 // ENV
 char 		*get_current_path(t_env_list *list);
@@ -182,10 +164,15 @@ void		check_env_path(char **envp);
 // BUILTINS
 void	exec_cd(t_ast *cmd, t_env_list *env_list);
 void	exec_echo(t_ast *cmd);
+void	exec_cd(t_ast *cmd, t_env_list *env_list);
+void	exec_echo(t_ast *cmd);
 void	exec_env(t_env_list *env_list);
 void	exec_exit(t_ast *cmd);
 void	exec_export(t_env_list *env_list, t_ast *cmd);
+void	exec_exit(t_ast *cmd);
+void	exec_export(t_env_list *env_list, t_ast *cmd);
 void	exec_pwd(void);
+void	exec_unset(t_env_list *env_list, t_ast *cmd);
 void	exec_unset(t_env_list *env_list, t_ast *cmd);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_words.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:02:12 by jlaine            #+#    #+#             */
-/*   Updated: 2024/12/09 14:44:31 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/11 14:47:44 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,3 +33,9 @@ int	is_variable(char *line, int i)
 	return (0);
 }
 
+bool	is_word(t_token *token)
+{
+	if (token->type == WORD)
+		return (true);
+	return (false);
+}

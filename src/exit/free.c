@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:14:26 by jlaine            #+#    #+#             */
-/*   Updated: 2024/12/12 12:54:59 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/12 16:48:30 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,20 @@ void	free_env_list(void *list)
 	if (!list)
 		return ;
 	env_list = (t_env_list *)list;
+	if (!env_list->head)
+	{
+		free(list);
+		return ;
+	}
 	cur = env_list->head;
 	while (cur)
 	{
 		next = cur->next;
-		free_env_node(cur);
+		if (cur)
+			free_env_node(cur);
 		cur = next;
 	}
+	env_list->head = NULL;
 	free(list);
 }
 

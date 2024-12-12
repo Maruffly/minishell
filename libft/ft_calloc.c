@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 10:48:58 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/12 13:29:12 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/12 16:03:47 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	*ft_calloc(size_t nmb, size_t size)
 	i = 0;
 	while (i < size)
 	{
-		tab[i] = 0;
+		tab[i++] = 0;
 	}
 	return (tab);
 }

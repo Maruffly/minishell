@@ -3,15 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 16:46:34 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/12 13:50:23 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/12 15:45:52 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../includes/minishell.h"
 
+void	print_token(t_token *list)
+{
+	t_token *current = list;
+
+	while (current)
+	{
+		printf("value : %s\n", current->value);
+		current = current->next;
+	}
+}
 
 int	lexer(char *input, t_token **token_list, t_shell *sh)
 {
@@ -54,6 +64,7 @@ t_token *init_token(char *value, t_token_type type)
 	token->prev = NULL;
 	return (token);
 }
+
 t_token	*create_token(t_token_type type, char *input, size_t len)
 {
 	char	*value;

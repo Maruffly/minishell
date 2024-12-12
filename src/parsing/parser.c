@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/12 13:12:21 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/12 16:33:05 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ t_ast	*parse_logical(t_token **token, t_shell *sh)
 	t_token_type	logic_op;
 
 	left = parse_redirection(token, sh);
+	if (!token || !*token)
+		return (NULL);
 	while (is_operator(*token))
 	{
 		logic_op = (*token)->type;
@@ -80,6 +82,8 @@ t_ast	*parse_redirection_list(t_token **token, t_ast *command, t_shell *sh)
 	t_ast	*new;
 
 	first = NULL;
+	if (!token || !*token)
+		return (NULL);
 	while (is_redirect(*token) || (is_word(*token) && command))
 	{
 		if (is_word(*token) && command)
@@ -106,6 +110,7 @@ t_ast	*parse_redirection_list(t_token **token, t_ast *command, t_shell *sh)
 	return (first);
 }
 
+
 t_ast	*parse_command(t_token **token)
 {
 	t_token	*cur;
@@ -119,14 +124,19 @@ t_ast	*parse_command(t_token **token)
 	{
 		arg_count++;
 		cur = cur->next;
+		if (!cur)
+			break ;
 	}
 	if (!arg_count)
 		return (NULL);
-	args = calloc((arg_count + 1), sizeof(char *));
+	args = ft_calloc((arg_count + 1), sizeof(char *));
+	if (!args)
+		return (NULL);
 	i = 0;
 	while (i < arg_count)
 	{
 		args[i++] = (*token)->value;
+		/* printf("ARGS %s\n", args[i]); */
 		*token = (*token)->next;
 	}
 	args[arg_count] = NULL;

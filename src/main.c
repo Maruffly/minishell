@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/12 12:39:04 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/12 15:47:36 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ int	process_prompt(char *input, t_shell *sh)
 		status = parser(token_list, &ast, sh);
 		if (status == EXIT_SUCCESS && ast)
 		{
-			/* status = exec_heredocs();
-			 if (status == EXIT_SUCCESS)
-				status = execute(); */
+			// status = exec_heredocs();
+			//  if (status == EXIT_SUCCESS)
+			// 	status = execute();
 		}
 	}
 	return (status);

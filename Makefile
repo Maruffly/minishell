@@ -22,14 +22,15 @@ SRC_FILES = main.c\
 			/token/token_words.c\
 			/exec/execute_commands.c\
 			/exec/child.c\
-			/parsing/parsing_utils.c\
-			/parsing/expansion.c\
-			/parsing/quotes.c\
 			/exit/free.c\
 			/exit/exit_status.c\
-			/parsing/redirections.c\
+			/parsing/parser.c\
 			/parsing/ast.c\
 			/parsing/ast_utils.c\
+			/parsing/parsing_utils.c\
+			/parsing/redirections.c\
+			/parsing/expansion.c\
+			/parsing/ast_builder.c\
 			/lexer/lexer.c\
 			/lexer/get_next_token.c\
 			/signals/main_signal.c\

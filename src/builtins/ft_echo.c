@@ -6,13 +6,13 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:36:17 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/09 13:47:34 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/11 19:18:57 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../includes/minishell.h"
 
-void	exec_echo(t_command *cmd)
+void	exec_echo(t_ast_command *cmd)
 {
 	int	i;
 	int	n_flag;

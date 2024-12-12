@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:03:33 by jlaine            #+#    #+#             */
-/*   Updated: 2024/12/10 15:24:27 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/11 16:41:31 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,20 @@ bool	is_redirect(t_token *token)
 bool	is_operator(t_token *token)
 {
 	if (token->type == AND || token->type == OR)
+			return (true);
+		return (false);
+}
+
+bool	is_open_parenthesis(t_token *token)
+{
+	if (token->type == OPEN_PARENTHESIS)
+			return (true);
+		return (false);
+}
+
+bool	is_close_parenthesis(t_token *token)
+{
+	if (token->type == CLOSE_PARENTHESIS)
 			return (true);
 		return (false);
 }

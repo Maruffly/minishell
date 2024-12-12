@@ -5,107 +5,56 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/03 14:54:38 by jlaine            #+#    #+#             */
-/*   Updated: 2024/12/10 15:39:36 by jmaruffy         ###   ########.fr       */
+/*   Created: 2024/12/11 16:37:13 by jmaruffy          #+#    #+#             */
+/*   Updated: 2024/12/11 17:53:13 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-
-t_ast	*ast_from_tokens(t_token *tokens) // call dans parse_inputs
+t_ast	*get_last_child_redir(t_ast *node)
 {
-	t_ast	*node;
-
-	if (!tokens)
-		return (NULL);
-	node = malloc(sizeof(t_ast));
-	if (!node)
-		return (NULL);
-	printf("In ast convertion function - Token Type: %d\n", tokens->type);
-	printf("In ast convertion function - Token Value: %s\n", tokens->value);
-	node->type = tokens->type;
-	node->value = ft_strdup(tokens->value);
-	node->left = NULL;
-	node->right = NULL;
-	if (tokens->type == AND || tokens->type == OR)
-	{
-		node->left = ast_from_tokens(tokens->prev);
-		node->right = ast_from_tokens(tokens->next);
-	}
+	while (node && node->type == AST_REDIRECTION
+	&& node->u_data.redirection.child
+	&& node->u_data.redirection.child->type == AST_REDIRECTION)
+	node = node->u_data.redirection.child;
 	return (node);
 }
 
-t_command	*merge_commands(t_command *left, t_command *right, t_token_type operator)
+t_ast	*build_redir_cmd(t_ast *prefix, t_ast *suffix, t_ast *command)
 {
-	t_command	*last_left;
+	t_ast	*last_child;
 
-	if (!left)
-		return (right);
-	if (!right)
-		return (left);
-	last_left = left;
-	while (last_left->next)
-		last_left = last_left->next;
-	last_left->next = right; // merge cmd droite a la fin de la gauche
-	last_left->type = operator; // attribue operateur logique
-	return (left); // retour cmd mergee
-}
-
-t_command	*parse_ast_to_commands(t_ast *node) // call dans parse_inputs
-{
-	t_command	*commands;
-	t_command	*left_commands;
-	t_command	*right_commands;
-
-	if (!node)
-		return (NULL);
-	if (node->type == WORD)
+	if (prefix && suffix)
 	{
-		commands = init_command();
-		commands->command = ft_strdup(node->value);
-		printf("** = %u\n", node->type);
-		printf("** = %s\n", node->value);
-		return (commands);
+		last_child = get_last_child_redir(prefix);
+		last_child->u_data.redirection.child = suffix;
+		last_child = get_last_child_redir(suffix);
+		last_child->u_data.redirection.child = command;
+		return (prefix);
 	}
-	else if (node->type == AND || node->type == OR || node->type == PIPE)
+	else if (!prefix && suffix)
 	{
-		left_commands = parse_ast_to_commands(node->left);
-		right_commands = parse_ast_to_commands(node->right);
-		return (merge_commands(left_commands, right_commands, node->type)); // to do
+		last_child = get_last_child_redir(suffix);
+		last_child->u_data.redirection.child = command;
+		return (suffix);
 	}
-	return (NULL);
-}
-
-t_command	*ast_to_command(t_ast *node)
-{
-	t_command	*cmd;
-
-	if (!node || node->type != WORD)
-		return (NULL);
-	cmd = init_command();
-	cmd->command = ft_strdup(node->value);
-	cmd->args = ft_split(node->value, ' ');
-	if (!cmd->args)
+	else if (prefix && !suffix)
 	{
-		free(cmd->command);
-		free(cmd);
-		return (NULL);
-	}
-	return (cmd);
-}
-
-t_command	*ast_to_pipeline(t_ast *node)
-{
-	t_command	*pipeline;
-
-	pipeline = NULL;
-	if (node->type == PIPE)
-	{
-		pipeline = ast_to_command(node->left);
-		pipeline->next = ast_to_pipeline(node->right);
+		last_child = get_last_child_redir(prefix);
+		last_child->u_data.redirection.child = command;
+		return (prefix);
 	}
 	else
-		pipeline = ast_to_command(node);
-	return (pipeline);
+		return (command);
 }
+
+t_ast	*get_last_child_redir(t_ast *node)
+{
+	while (node && node->type == AST_REDIRECTION
+	&& node->u_data.redirection.child
+	&& node->u_data.redirection.child->type == AST_REDIRECTION)
+	node = node->u_data.redirection.child;
+	return (node);
+}
+

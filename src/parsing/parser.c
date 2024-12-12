@@ -6,82 +6,86 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/11 15:05:35 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/12 11:32:30 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	parser(t_token *token_list, t_ast **ast, t_shell *sh)
+// ici on utilise un double pointeur token pour faire passer en parametre
+// des fonctions la position courante dans le tableau de token.
+
+int	parser(t_token *token, t_ast **ast, t_shell *sh)
 {
-	*ast = parse_logical(&token_list, sh);
-	if (token_list)
+	*ast = parse_logical(&token, sh);
+	if (token)
 		syntax_error("...", sh);
 	if (sh->parsing_error)
 		return (report_syntax_error());
 	return (EXIT_FAILURE);
 }
-t_ast	*parse_logical(t_token **token_list, t_shell *sh)
+
+t_ast	*parse_logical(t_token **token, t_shell *sh)
 {
 	t_ast			*left;
 	t_ast			*right;
 	t_token_type	logic_op;
 
-	left = parse_redirection(token_list, sh);
-	while (is_operator(token_list))
+	left = parse_redirection(token, sh);
+	while (is_operator(token))
 	{
-		logic_op = (*token_list)->type;
-		*token_list = (*token_list)->next;
-		right = parse_pipe(token_list, sh);
+		logic_op = (*token)->type;
+		*token = (*token)->next;
+		right = parse_pipe(token, sh);
 		left = create_ast_logical(left, logic_op, right, sh);
 	}
 	return (left);
 }
 
-t_ast	*parse_pipe(t_token **token_list, t_shell *sh)
+t_ast	*parse_pipe(t_token **token, t_shell *sh)
 {
 	t_ast	*left;
 	t_ast	*right;
 
-	left = parse_redirection(token_list, sh);
-	while (*token_list && (*token_list)->type == PIPE)
+	left = parse_redirection(token, sh);
+	while (*token && (*token)->type == PIPE)
 	{
-		*token_list = (*token_list)->next;
-		right = parse_redirection(token_list, sh);
+		*token = (*token)->next;
+		right = parse_redirection(token, sh);
 		left = create_ast_pipeline(left, right, sh);
 	}
 	return (left);
 }
 
-t_ast	*parse_redirection(t_token **token_list, t_shell *sh)
+t_ast	*parse_redirection(t_token **token, t_shell *sh)
 {
 	t_ast	*prefix;
-	t_ast	*suffix;
 	t_ast	*command;
+	t_ast	*suffix;
 
-	prefix = parse_redirection_list(token_list, NULL, sh);
+	prefix = parse_redirection_list(token, NULL, sh);
 	if (sh->parsing_error)
 		return (NULL);
-	command = parse_subshell(token_list, sh);
-	suffix = parse_redirection_list(token_list, NULL, sh);
+	command = parse_subshell(token, sh);
+	suffix = parse_redirection_list(token, NULL, sh);
 	if (sh->parsing_error)
 		return (NULL);
 	return (build_redir_cmd(prefix, suffix, command));
 }
 
-t_ast	*parse_redirection_list(t_token **token_list, t_ast *command, t_shell *sh)
+t_ast	*parse_redirection_list(t_token **token, t_ast *command, t_shell *sh)
 {
 	t_ast	*first;
 	t_ast	*last;
 	t_ast	*new;
 
 	first = NULL;
-	while (is_redirect(token_list) || (is_word(token_list) && command))
+	while (is_redirect(token) || (is_word(token) && command))
 	{
-		if (is_word(token_list) && command)
+		if (is_word(token) && command)
 		{
-			add_arg_tab(&command->u_data.command.args, (*token_list)->value);
-			*token_list = (*token_list)->next;
+			add_arg_tab(&command->u_data.command.args, (*token)->value);
+			*token = (*token)->next;
 			continue;
 		}
 		new = build_ast_redirect();
@@ -97,7 +101,61 @@ t_ast	*parse_redirection_list(t_token **token_list, t_ast *command, t_shell *sh)
 			last->u_data.redirection.child = new;
 			last = new;
 		}
-		*token_list = (*token_list)->next->next;
+		*token = (*token)->next->next;
 	}
 	return (first);
 }
+
+t_ast	*parse_command(t_token **token, t_shell *sh)
+{
+	t_token	*cur;
+	int		arg_count;
+	char	**args;
+	int		i;
+
+	cur = *token;
+	arg_count = 0;
+	while (is_word(token))
+	{
+		arg_count++;
+		cur = cur->next;
+	}
+	if (!arg_count)
+		return (NULL);
+	args = calloc((arg_count + 1), sizeof(char *));
+	i = 0;
+	while (i < arg_count)
+	{
+		args[i++] = (*token)->value;
+		*token = (*token)->next;
+	}
+	args[arg_count] = NULL;
+	return (create_ast_cmd(args));
+}
+
+t_ast	*parse_subshell(t_token **token, t_shell *sh)
+{
+	t_ast	*content;
+
+	if (is_open_parenthesis(token))
+	{
+		*token = (*token)->next;
+		content = parse_logical(token, sh);
+		if (*token && is_close_parenthesis(token))
+		{
+			*token = (*token)->next;
+			if ((*token) && is_word(token))
+				return (syntax_error((*token)->value, sh));
+			return (create_ast_subshell(content, sh));
+		}
+		else if (*token == NULL)
+			return (syntax_error("\\n", sh));
+		else
+			return (syntax_error((*token)->value, sh));
+	}
+	else if (is_close_parenthesis(token))
+		return (syntax_error(")", sh));
+	return (parse_command(token, sh));
+}
+
+

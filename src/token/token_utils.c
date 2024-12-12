@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/11 14:54:28 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/11 17:57:49 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	skip_whitespace(char *line, int *pos)
 		(*pos)++;
 }
 
-t_token_type	get_token_type(char *token)
+/* t_token_type	get_token_type(char *token)
 {
 	if (is_NULL(token))
 		return (0);
@@ -38,34 +38,8 @@ t_token_type	get_token_type(char *token)
 	if (ft_strcmp(token, "<<") == 0)
 		return (HEREDOC);
 	return (WORD);
-}
-
-char	*get_token_string(t_token_type type)
-{
-	if (type == PIPE)
-		return ("|");
-	else if (type == AND)
-		return ("&&");
-	else if (type == OR)
-		return ("||");
-	else if (type == OPEN_PARENTHESIS)
-		return ("(");
-	else if (type == CLOSE_PARENTHESIS)
-		return (")");
-	else if (type == WORD)
-		return ("word");
-	else if (type == REDIRECT_IN)
-		return ("<");
-	else if (type == REDIRECT_OUT)
-		return (">");
-	else if (type == APPEND_OUT)
-		return (">>");
-	else if (type == HEREDOC)
-		return ("<<");
-	else
-		return ("[unknown token]");
-}
-
+} */
+/*
 char	*extract_word(char *line, int pos)
 {
 	int	start;
@@ -74,7 +48,7 @@ char	*extract_word(char *line, int pos)
 	while (line[pos] && !is_blank(line[pos]) && !is_special_operator(line[pos]))
 		pos++;
 	return (ft_substr(line, start, pos - start));
-}
+} */
 
 void lst_add_back_token(t_token **token_list, t_token *new_token)
 {

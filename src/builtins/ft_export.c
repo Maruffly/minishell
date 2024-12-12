@@ -6,13 +6,13 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:09:49 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/09 13:47:45 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/11 19:19:37 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../includes/minishell.h"
 
-void	exec_export(t_env_list *env_list, t_command *cmd)
+void	exec_export(t_env_list *env_list, t_ast_command *cmd)
 {
 	int		i;
 	char	*var_name;

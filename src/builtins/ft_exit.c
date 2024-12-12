@@ -6,13 +6,13 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:21:14 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/09 13:47:41 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/11 19:19:17 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../includes/minishell.h"
 
-void	exec_exit(t_command *cmd)
+void	exec_exit(t_ast_command *cmd)
 {
 	(void)cmd;
 	exit(0);

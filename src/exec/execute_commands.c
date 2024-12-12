@@ -6,13 +6,48 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/09 13:48:09 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/11 19:47:37 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../includes/minishell.h"
 
-void	exec_builtin(t_command *cmd, t_env_list *env)
+int		execute_cmd(t_ast_command *cmd, t_exec_end end, t_shell *sh)
+{
+	int	status;
+
+	status = EXIT_SUCCESS;
+	if (!cmd->args[0])
+		return(status);
+	if (is_builtin(cmd->args[0]))
+	{
+		exec_builtin(cmd, sh->env);
+		return (EXIT_SUCCESS);
+	}
+	status = fork_command(cmd, end, sh);
+	return (status);
+}
+
+int		fork_command(t_ast_command *cmd, t_exec_end end, t_shell *sh)
+{
+	pid_t	pid;
+	int		status;
+
+	status = 0;
+	envp = list_to_envp(env);
+	path = get_path(cmd->u_data.command.args, envp);
+	if (pid == 0)
+	{
+		redir_command(cmd);
+		if (execve(path, cmd->u_data.command.args, envp) == -1)
+		{
+			perror("execve");
+			exit(EXIT_FAILURE);
+		}
+	}
+}
+
+void	exec_builtin(t_ast_command *cmd, t_env_list *env)
 {
 	if (ft_strcmp(cmd->args[0], "cd") == 0)
 		exec_cd(cmd, env);
@@ -32,25 +67,17 @@ void	exec_builtin(t_command *cmd, t_env_list *env)
 		ft_putstr_fd("Error: Command not recognized as builtin.\n", 2);
 }
 
-void	exec_external(t_command *cmd, t_env_list *env)
+void	exec_external(t_ast *cmd, t_env_list *env)
 {
 	pid_t		pid;
 	char		**envp;
 	char		*path;
 
 	envp = list_to_envp(env);
-	path = get_path(cmd->command, envp);
+	path = get_path(cmd->u_data.command.args, envp);
 	/*check if path exist*/
 	pid = fork();
-	if (pid == 0)
-	{
-		redir_command(cmd);
-		if (execve(path, cmd->args, envp) == -1)
-		{
-			perror("execve");
-			exit(EXIT_FAILURE);
-		}
-	}
+
 	else if (pid > 0)
 		waitpid(pid, NULL, 0);
 	else
@@ -58,7 +85,7 @@ void	exec_external(t_command *cmd, t_env_list *env)
 	free(path);
 }
 
-void	execute_command(t_command *cmd, t_env_list *env, int prev_output_fd)
+void	execute_command(t_ast *cmd, t_env_list *env, int prev_output_fd)
 {
 	if (!cmd)
 		return ;

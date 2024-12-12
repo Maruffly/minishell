@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/10 16:36:45 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/12 11:53:43 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,20 @@ int g_signal_value = 0;
 int	process_prompt(char *input, t_shell *sh)
 {
 	t_token	*token_list;
-	/* t_ast	*ast; */
+	t_ast	*ast;
 	int		status;
 
 	status = lexer(input, &token_list, sh);
-	/* if (status == EXIT_SUCCESS && token_list)
+	if (status == EXIT_SUCCESS && token_list)
 	{
 		status = parser();
 		if (status == EXIT_SUCCESS && ast)
 		{
 			status = exec_heredocs();
-			if (status == EXIT_SUCCESS)
-				status = execute();
+			/* if (status == EXIT_SUCCESS)
+				status = execute(); */
 		}
-	} */
+	}
 	return (status);
 }
 
@@ -53,7 +53,7 @@ int	launch_shell(t_shell *sh)
 }
 
 char	*read_line(t_prompt_mode mode)
-{
+{prefix = parse_redirection_list(token, NULL, sh);
 	char		*input;
 
 	g_signal_value = 0;

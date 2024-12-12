@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:16:37 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/11 15:05:02 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/11 16:31:41 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,14 @@ t_ast	*create_ast_pipe(t_ast	*left, t_ast *right, t_shell *sh)
 	return (node);
 }
 
-t_ast	*create_ast_logical(t_ast *left, t_ast *right, t_shell *sh)
+t_ast	*create_ast_logical(t_ast *left, t_token_type op, t_ast *right, t_shell *sh)
 {
 		t_ast	*node;
 
 	if (!left || !right)
-		return (syntax_error("&", sh));
+		return (syntax_error(get_token_string(op), sh));
 	init_ast_node(&node, AST_LOGICAL);
+	node->u_data.logical.operator = op;
 	node->u_data.logical.left = left;
 	node->u_data.logical.right = right;
 	return (node);

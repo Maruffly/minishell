@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/11 15:06:59 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/11 18:09:05 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,20 +58,15 @@ int		is_variable(char *line, int i);
 
 
 // token_type.c
-int				is_special_char(char c);
-bool			is_redirect(t_token *token);
-bool			is_operator(t_token *token);
-
-bool			is_redirect(t_token *token);
-bool			is_operator(t_token *token);
 bool			is_word(t_token *token);
-
+bool			is_redirect(t_token *token);
+bool			is_operator(t_token *token);
+bool			is_open_parenthesis(t_token *token);
+bool			is_close_parenthesis(t_token *token);
 
 // token_utils.c
-bool			is_special_operator(char c);
-t_token_type	get_token_type(char *token, bool *is_first_token);
-char	*get_token_string(t_token_type type);
-char			*extract_word(char *line, int pos);
+/* t_token_type	get_token_type(char *token); */
+char			*get_token_string(t_token_type type);
 void			skip_whitespace(char *line, int *pos);
 void			lst_add_back_token(t_token **token_list, t_token *new_token);
 void			ft_lstclear(t_env_list **lst, void (*del)(void *));
@@ -125,9 +120,16 @@ void		*handle_all_tokens(char *input, int *pos, char **value,
 							t_env_list *env_list, int exit_status);
 char		*handle_parentheses(char *input, int *pos);
 
-// ast.c
+// init ast
 void		init_ast_node(t_ast **node, t_ast_type type);
 
+//create ast
+t_ast		*create_ast_cmd(char **args);
+t_ast		*create_ast_subshell(t_ast *child, t_shell *sh);
+t_ast		*create_ast_redirection(t_token_type direction, t_ast *child,
+			t_token *filename, t_shell *sh);
+t_ast		*create_ast_pipe(t_ast	*left, t_ast *right, t_shell *sh);
+t_ast		*create_ast_logical(t_ast *left, t_token_type op, t_ast *right, t_shell *sh);
 
 // ast_utils.c
 t_ast		*ast_from_tokens(t_token *tokens);
@@ -139,13 +141,13 @@ t_ast	*build_redir_cmd(t_ast *prefix, t_ast *suffix, t_ast *command);
 
 
 // CHILD //
-/* char	*get_path(char *cmd, char **envp);
-void	redir_command(t_command *cmd);
+char		*get_path(t_ast *cmd, char **envp);
+/* void	redir_command(t_command *cmd);
 void	close_unused_fds(t_command	*cmd);
 void	setup_pipes(t_command *cmd);
 int		update_prev_output_fd(t_command *cmd);
-void	execute_command(t_command *cmd, t_env_list *env, int prev_output_fd); */
-
+void	execute_command(t_command *cmd, t_env_list *env, int prev_output_fd);
+ */
 // ENV
 char 		*get_current_path(t_env_list *list);
 t_env_list	*init_env_list(void);

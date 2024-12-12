@@ -6,13 +6,13 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 13:08:45 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/09 13:48:03 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/11 18:04:55 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../includes/minishell.h"
 
-char	*get_path(char *cmd, char **envp)
+char	*get_path(t_ast *cmd, char **envp)
 {
 	char	**paths;
 	char	*cmd_path;
@@ -29,7 +29,7 @@ char	*get_path(char *cmd, char **envp)
 	while (paths[++i])
 	{
 		part_path = ft_strjoin(paths[i], "/");
-		cmd_path = ft_strjoin(part_path, cmd);
+		cmd_path = ft_strjoin(part_path, cmd->u_data.command.args[0]);
 		free(part_path);
 		if (access(cmd_path, F_OK) == 0)
 			return (ft_free_split(paths), cmd_path);
@@ -39,7 +39,7 @@ char	*get_path(char *cmd, char **envp)
 	return (NULL);
 }
 
-void	redir_command(t_command *cmd)
+/* void	redir_command(t_command *cmd)
 {
 	if (cmd->input_fd != STDIN_FILENO)
 	{
@@ -85,4 +85,4 @@ int	update_prev_output_fd(t_command *cmd)
 		return (cmd->next->input_fd);
 	else
 		return (STDIN_FILENO);
-}
+} */

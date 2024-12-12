@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/12 15:47:36 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/12 18:05:08 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	process_prompt(char *input, t_shell *sh)
 	if (status == EXIT_SUCCESS && token_list)
 	{
 		status = parser(token_list, &ast, sh);
+		print_ast(ast);
 		if (status == EXIT_SUCCESS && ast)
 		{
 			// status = exec_heredocs();
@@ -60,7 +61,8 @@ char	*read_line(t_prompt_mode mode)
 	input = NULL;
 	if (mode == MAIN_PROMPT)
 	{
-		input = readline(GREEN"Omar&Fred>"RESET);
+		input = "ls -l > output && (echho bonjour)";
+		/* input = readline(GREEN"Omar&Fred>"RESET); */
 		set_main_signals();
 	}
 	else if (mode == HEREDOC_PROMPT)

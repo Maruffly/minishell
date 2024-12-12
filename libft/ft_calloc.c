@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 10:48:58 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/12 16:03:47 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/12 17:02:51 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	*ft_calloc(size_t nmb, size_t size)
 	char	*tab;
 	size_t	i;
 
-	if (nmb && size && nmb > UINT_MAX / size)
+	if (nmb > UINT_MAX / size)
 		return (NULL);
 	tab = malloc(nmb * size);
 	if (tab == NULL)

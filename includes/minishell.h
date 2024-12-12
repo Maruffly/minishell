@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/12 13:27:54 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/12 17:44:15 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@
 # define YELL	"\e[33m"
 # define PURPLE	"\e[35m"
 # define CYAN	"\e[36m"
+
+// print
+void print_ast(t_ast *node);
 
 // signal //
 void			set_main_signals(void);

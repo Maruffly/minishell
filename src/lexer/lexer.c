@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 16:46:34 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/12 15:45:52 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/12 17:02:21 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ t_token *init_token(char *value, t_token_type type)
 	token->prev = NULL;
 	return (token);
 }
+
 
 t_token	*create_token(t_token_type type, char *input, size_t len)
 {

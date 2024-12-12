@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/11 17:57:49 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/12 15:20:07 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,11 @@ void lst_add_back_token(t_token **token_list, t_token *new_token)
 		while (last->next)
 			last = last->next;
 		last->next = new_token;
+		new_token->prev = last;
 	}
+	new_token->prev = NULL;
 }
+
 void	ft_lstdelone(t_env_list *lst, void (*del)(void *))
 {
 	if (lst == NULL || del == NULL)

@@ -6,39 +6,11 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 14:06:09 by jlaine            #+#    #+#             */
-/*   Updated: 2024/12/11 14:16:57 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/12 13:35:48 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-/* void	add_char_to_value(char **value, char c)
-{
-	size_t	len;
-	char	*new_value;
-
-	if (!value)
-		return ;
-	if (!*value)
-	{
-		*value = malloc(2); // 1 caractère + '\0'
-		if (!*value)
-			return ;
-		(*value)[0] = c;
-		(*value)[1] = '\0';
-		return ;
-	}
-	len = ft_strlen(*value);
-	new_value = malloc(len + 2);  // +1 pour nouveau char , +1 pour \0
-	if (!new_value)
-		return ;
-	ft_strcpy(new_value, *value);
-	new_value[len] = c;
-	new_value[len + 1] = '\0';
-	free (*value);
-	*value = new_value;
-}
-
 
 void	handle_internal_quotes(char *input, int *pos, char **value, char c) // OK
 {
@@ -63,4 +35,4 @@ void	handle_quotes(char *input, int *pos, char **value) // OK
 		handle_internal_quotes(input, pos, value, c);
 	if (input[*pos] == c)
 		(*pos)++;
-} */
+}

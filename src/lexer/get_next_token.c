@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 12:35:01 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/09 14:25:06 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/12 13:26:49 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@
 t_token_type	get_next_token(char *input, int *len, t_shell *sh)
 {
 	if (*input == '&' || *input == '|')
-		return (get_pipe_logic_tk(input, *input, len, sh));
+		return (get_pipe_logic(input, *input, len, sh));
 	else if (*input == '<' || *input == '>')
-		return (get_redirect_tk(input, *input, len, sh));
+		return (get_redirect(input, *input, len, sh));
 	else if (*input == '(' || *input == ')')
-		return (get_subshell_tk(input, len));
-	return (get_word_tk(input, *input, len, sh));
+		return (get_subshell(input, len));
+	return (get_word(input, *input, len, sh));
 }
 
-t_token_type	get_pipe_logic_tk(char *input, char c, int *len, t_shell *sh)
+t_token_type	get_pipe_logic(char *input, char c, int *len, t_shell *sh)
 {
 	while (input[*len] == c)
 		*len += 1;
@@ -33,9 +33,9 @@ t_token_type	get_pipe_logic_tk(char *input, char c, int *len, t_shell *sh)
 		if (*len == 2)
 			return (AND);
 		else if (*len == 1 || *len == 3)
-			return (syntax_error("&", sh));
+			syntax_error("&", sh);
 		else
-			return (syntax_error("&&", sh));
+			syntax_error("&&", sh);
 	}
 	else if (c == '|')
 	{
@@ -44,12 +44,12 @@ t_token_type	get_pipe_logic_tk(char *input, char c, int *len, t_shell *sh)
 		else if (*len == 2)
 			return (OR);
 		else
-			return (syntax_error("||", sh));
+			syntax_error("||", sh);
 	}
 	return (ERROR);
 }
 
-t_token_type	get_redirect_tk(char *input, char c, int *len, t_shell *sh)
+t_token_type	get_redirect(char *input, char c, int *len, t_shell *sh)
 {
 	while (input[*len] == c)
 		*len += 1;
@@ -65,7 +65,7 @@ t_token_type	get_redirect_tk(char *input, char c, int *len, t_shell *sh)
 	return (ERROR);
 }
 
-t_token_type	get_subshell_tk(char *input, int *len)
+t_token_type	get_subshell(char *input, int *len)
 {
 	*len += 1;
 	if (*input == '(')
@@ -75,7 +75,7 @@ t_token_type	get_subshell_tk(char *input, int *len)
 	return (ERROR);
 }
 
-t_token_type	get_word_tk(char *input, char c, int *len, t_shell *sh)
+t_token_type	get_word(char *input, char c, int *len, t_shell *sh)
 {
 	bool	in_quote;
 

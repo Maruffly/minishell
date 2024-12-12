@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/11 17:54:08 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/12 13:35:55 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,32 @@ void	add_arg_tab(char ***array, char *new_arg)
 	*array = new_array;
 }
 
+void	add_char_to_value(char **value, char c)
+{
+	size_t	len;
+	char	*new_value;
+
+	if (!value)
+		return ;
+	if (!*value)
+	{
+		*value = malloc(2); // 1 caractère + '\0'
+		if (!*value)
+			return ;
+		(*value)[0] = c;
+		(*value)[1] = '\0';
+		return ;
+	}
+	len = ft_strlen(*value);
+	new_value = malloc(len + 2);  // +1 pour nouveau char , +1 pour \0
+	if (!new_value)
+		return ;
+	ft_strcpy(new_value, *value);
+	new_value[len] = c;
+	new_value[len + 1] = '\0';
+	free (*value);
+	*value = new_value;
+}
 /* bool	is_syntax_ok(t_token *new_token, t_token *head)
 {
 	if (!head && new_token->type == PIPE)

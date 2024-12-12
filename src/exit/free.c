@@ -3,32 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:14:26 by jlaine            #+#    #+#             */
-/*   Updated: 2024/12/10 16:39:40 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/12 12:54:59 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 void	free_env_node(t_env_list *node);
-
-void	free_cmd_list(t_command *cmd)
-{
-	t_command	*tmp;
-
-	while (cmd)
-	{
-		tmp = cmd->next;
-		if (cmd->args)
-			ft_free_split(cmd->args);
-		if (cmd->command)
-			free(cmd->command);
-		free(cmd);
-		cmd = tmp;
-	}
-}
 
 void	free_env_list(void *list)
 {
@@ -59,49 +43,4 @@ void free_token_list(t_token *tokens)
 		free(temp->value);
 		free(temp);
 	}
-}
-
-void	free_cmd(t_command *cmd)
-{
-	int	i;
-
-	i = 0;
-	if (!cmd)
-		return ;
-	if (cmd->args)
-	{
-		while (cmd->args[i])
-		{
-			free(cmd->args[i]);
-			i++;
-		}
-		free(cmd->args);
-	}
-	if (cmd->command)
-		free(cmd->command);
-	free(cmd);
-}
-
-void	free_pipe(t_command	*pipe)
-{
-	t_command	*current;
-	t_command	*next;
-
-	current = pipe;
-	while (current)
-	{
-		next = current->next;
-		free_cmd(current);
-		current = next;
-	}
-}
-void	free_ast(t_ast *node)
-{
-	if (!node)
-		return ;
-	free_ast(node->left);
-	free_ast(node->right);
-	if (node->value)
-		free(node->value);
-	free(node);
 }

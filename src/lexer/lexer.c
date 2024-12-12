@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 16:46:34 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/09 14:28:14 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/12 13:50:23 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,29 @@ int	lexer(char *input, t_token **token_list, t_shell *sh)
 			break ;
 		type = get_next_token(input + i, &len, sh);
 		if (type == ERROR)
-			return (report_synthax_error(sh));
+			return (report_syntax_error(sh));
 		token = create_token(type, input + i, len);
 		if (!token)
-			return (report_synthax_error(sh));
+			return (report_syntax_error(sh));
 		lst_add_back_token(token_list, token);
 		i += len;
 	}
 	return (EXIT_SUCCESS);
 }
 
+t_token *init_token(char *value, t_token_type type)
+{
+	t_token	*token;
+
+	token = malloc(sizeof(t_token));
+	if (!token)
+		return (NULL);
+	token->value = value;
+	token->type = type;
+	token->next = NULL;
+	token->prev = NULL;
+	return (token);
+}
 t_token	*create_token(t_token_type type, char *input, size_t len)
 {
 	char	*value;

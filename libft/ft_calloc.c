@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 10:48:58 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/06/10 16:33:51 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/12 13:29:12 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,28 +28,4 @@ void	*ft_calloc(size_t nmb, size_t size)
 		tab[i] = 0;
 	}
 	return (tab);
-}
-
-int	main(void)
-{
-	int* array;
-    int i;
-
-    // Calloc 10 ints
-    array = (int *)calloc(0, 0);
-
-	// Check
-    if (array == NULL) {
-        printf("Échec de l'allocation de mémoire\n");
-        return 1;
-    }
-
-    // Print values at 0
-    for (i = 0; i < 10; i++) {
-        printf("array[%d] = %d\n", i, array[i]);
-    }
-
-    free(array);
-
-    return 0;
 }

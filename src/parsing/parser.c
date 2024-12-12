@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/12 11:32:30 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/12 13:12:21 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	parser(t_token *token, t_ast **ast, t_shell *sh)
 	if (token)
 		syntax_error("...", sh);
 	if (sh->parsing_error)
-		return (report_syntax_error());
+		return (report_syntax_error(sh));
 	return (EXIT_FAILURE);
 }
 
@@ -32,7 +32,7 @@ t_ast	*parse_logical(t_token **token, t_shell *sh)
 	t_token_type	logic_op;
 
 	left = parse_redirection(token, sh);
-	while (is_operator(token))
+	while (is_operator(*token))
 	{
 		logic_op = (*token)->type;
 		*token = (*token)->next;
@@ -80,15 +80,15 @@ t_ast	*parse_redirection_list(t_token **token, t_ast *command, t_shell *sh)
 	t_ast	*new;
 
 	first = NULL;
-	while (is_redirect(token) || (is_word(token) && command))
+	while (is_redirect(*token) || (is_word(*token) && command))
 	{
-		if (is_word(token) && command)
+		if (is_word(*token) && command)
 		{
 			add_arg_tab(&command->u_data.command.args, (*token)->value);
 			*token = (*token)->next;
 			continue;
 		}
-		new = build_ast_redirect();
+		new = create_ast_redirection((*token)->type, (*token)->next, NULL, sh);
 		if (!new)
 			return (NULL);
 		if (!first)
@@ -106,7 +106,7 @@ t_ast	*parse_redirection_list(t_token **token, t_ast *command, t_shell *sh)
 	return (first);
 }
 
-t_ast	*parse_command(t_token **token, t_shell *sh)
+t_ast	*parse_command(t_token **token)
 {
 	t_token	*cur;
 	int		arg_count;
@@ -115,7 +115,7 @@ t_ast	*parse_command(t_token **token, t_shell *sh)
 
 	cur = *token;
 	arg_count = 0;
-	while (is_word(token))
+	while (is_word(*token))
 	{
 		arg_count++;
 		cur = cur->next;
@@ -137,14 +137,14 @@ t_ast	*parse_subshell(t_token **token, t_shell *sh)
 {
 	t_ast	*content;
 
-	if (is_open_parenthesis(token))
+	if (is_open_parenthesis(*token))
 	{
 		*token = (*token)->next;
 		content = parse_logical(token, sh);
-		if (*token && is_close_parenthesis(token))
+		if (*token && is_close_parenthesis(*token))
 		{
 			*token = (*token)->next;
-			if ((*token) && is_word(token))
+			if ((*token) && is_word(*token))
 				return (syntax_error((*token)->value, sh));
 			return (create_ast_subshell(content, sh));
 		}
@@ -153,9 +153,9 @@ t_ast	*parse_subshell(t_token **token, t_shell *sh)
 		else
 			return (syntax_error((*token)->value, sh));
 	}
-	else if (is_close_parenthesis(token))
+	else if (is_close_parenthesis(*token))
 		return (syntax_error(")", sh));
-	return (parse_command(token, sh));
+	return (parse_command(token));
 }
 
 

@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 17:58:12 by jlaine            #+#    #+#             */
-/*   Updated: 2024/12/09 13:48:18 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/12 13:33:57 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,13 @@ void	exit_shell(int exit_status, t_shell *sh)
 	return (EXIT_FAILURE);
 } */
 
-t_token_type	syntax_error(char *unexpected_token, t_shell *sh)
+void	*syntax_error(char *unexpected_token, t_shell *sh)
 {
 	if (!sh->parsing_error)
 		sh->parsing_error = unexpected_token;
-	return (ERROR);
+	return (NULL);
 }
-int	report_synthax_error(t_shell *sh)
+int	report_syntax_error(t_shell *sh)
 {
 	/* report_error("syntax error near unexpected token `",
 		sh->parsing_error, "'", sh); */

@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/12 11:53:43 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/12 12:39:04 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ int	process_prompt(char *input, t_shell *sh)
 	status = lexer(input, &token_list, sh);
 	if (status == EXIT_SUCCESS && token_list)
 	{
-		status = parser();
+		status = parser(token_list, &ast, sh);
 		if (status == EXIT_SUCCESS && ast)
 		{
-			status = exec_heredocs();
-			/* if (status == EXIT_SUCCESS)
+			/* status = exec_heredocs();
+			 if (status == EXIT_SUCCESS)
 				status = execute(); */
 		}
 	}
@@ -53,7 +53,7 @@ int	launch_shell(t_shell *sh)
 }
 
 char	*read_line(t_prompt_mode mode)
-{prefix = parse_redirection_list(token, NULL, sh);
+{
 	char		*input;
 
 	g_signal_value = 0;

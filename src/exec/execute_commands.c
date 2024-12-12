@@ -6,13 +6,33 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/11 19:47:37 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/12 13:33:13 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../includes/minishell.h"
 
-int		execute_cmd(t_ast_command *cmd, t_exec_end end, t_shell *sh)
+/* int		fork_command(t_ast_command *cmd, t_shell *sh)
+{
+	pid_t	pid;
+	int		status;
+	char	*path;
+	char	**envp;
+
+	status = 0;
+	envp = list_to_envp(sh->env);
+	path = get_path(cmd, envp);
+	if (pid == 0)
+	{
+		if (execve(path, cmd->args, envp) == -1)
+		{
+			perror("execve");
+			exit(EXIT_FAILURE);
+		}
+	}
+}
+
+int		execute_cmd(t_ast_command *cmd, t_shell *sh)
 {
 	int	status;
 
@@ -24,28 +44,9 @@ int		execute_cmd(t_ast_command *cmd, t_exec_end end, t_shell *sh)
 		exec_builtin(cmd, sh->env);
 		return (EXIT_SUCCESS);
 	}
-	status = fork_command(cmd, end, sh);
+	status = fork_command(cmd, sh);
 	return (status);
-}
-
-int		fork_command(t_ast_command *cmd, t_exec_end end, t_shell *sh)
-{
-	pid_t	pid;
-	int		status;
-
-	status = 0;
-	envp = list_to_envp(env);
-	path = get_path(cmd->u_data.command.args, envp);
-	if (pid == 0)
-	{
-		redir_command(cmd);
-		if (execve(path, cmd->u_data.command.args, envp) == -1)
-		{
-			perror("execve");
-			exit(EXIT_FAILURE);
-		}
-	}
-}
+} */
 
 void	exec_builtin(t_ast_command *cmd, t_env_list *env)
 {
@@ -67,15 +68,15 @@ void	exec_builtin(t_ast_command *cmd, t_env_list *env)
 		ft_putstr_fd("Error: Command not recognized as builtin.\n", 2);
 }
 
-void	exec_external(t_ast *cmd, t_env_list *env)
+/* void	exec_external(t_ast *cmd, t_env_list *env)
 {
 	pid_t		pid;
 	char		**envp;
 	char		*path;
 
 	envp = list_to_envp(env);
-	path = get_path(cmd->u_data.command.args, envp);
-	/*check if path exist*/
+	path = get_path(cmd, envp);
+
 	pid = fork();
 
 	else if (pid > 0)
@@ -83,23 +84,20 @@ void	exec_external(t_ast *cmd, t_env_list *env)
 	else
 		perror("fork");
 	free(path);
-}
+} */
 
-void	execute_command(t_ast *cmd, t_env_list *env, int prev_output_fd)
+/* void	execute_command(t_ast *cmd, t_env_list *env, int prev_output_fd)
 {
 	if (!cmd)
 		return ;
 	cmd->input_fd = prev_output_fd;
-	/* int i;
-	for (i = 0; cmd->args[i]; i++)
-		printf("%s\n", cmd->args[i]); */
 	if (is_builtin(cmd->command))
 		exec_builtin(cmd, env);
 	else
 		exec_external(cmd, env);
-}
+} */
 
-void	execute_pipeline(t_command *cmd, t_env_list *env)
+/* void	execute_pipeline(t_command *cmd, t_env_list *env)
 {
 	t_command	*cur;
 	int			prev_output_fd;
@@ -121,3 +119,4 @@ void	execute_pipeline(t_command *cmd, t_env_list *env)
 		cur = cur->next;
 	}
 }
+ */

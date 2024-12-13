@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/12 18:05:08 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/13 18:48:51 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	*read_line(t_prompt_mode mode)
 	input = NULL;
 	if (mode == MAIN_PROMPT)
 	{
-		input = "ls -l > output && (echho bonjour)";
+		input = "ls -l > output | cat output && (echho bonjour)";
 		/* input = readline(GREEN"Omar&Fred>"RESET); */
 		set_main_signals();
 	}
@@ -96,3 +96,18 @@ int	main(int ac, char **av, char **envp)
 	exit_shell(status, &sh);
 	return (0);
 }
+
+/* 
+Logical operation: &&
+Left:
+	Pipeline:
+			Left:
+				Redirection: > to file 'output'
+							Child of redirection:
+												Command: ls -l ls -l 
+			Right:
+				Command: cat output cat output 
+Right:
+	Subshell:
+			Command: echho bonjour echho bonjour  
+*/

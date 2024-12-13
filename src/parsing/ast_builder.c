@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_builder.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:16:37 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/12 17:20:03 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/13 17:04:49 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,19 @@ t_ast	*create_ast_subshell(t_ast *child, t_shell *sh)
 	node->u_data.subshell.child = child;
 	return (node);
 }
-
+// une redirection est forcement associé a une commande ou rien
+// filename c'est le fichier qui suit la redirection
 t_ast	*create_ast_redirection(t_token_type direction, t_token *filename,
-		t_ast *child, t_shell *sh)
+		t_ast *command, t_shell *sh)
 {
 	t_ast	*node;
 
-	if (!filename || is_word(filename))
+	if (!filename || !is_word(filename))
 		return (syntax_error(get_token_string(direction), sh));
 	init_ast_node(&node, AST_REDIRECTION);
 	node->u_data.redirection.direction = direction;
 	node->u_data.redirection.file = filename->value;
-	node->u_data.redirection.child = child;
+	node->u_data.redirection.command = command;
 	return (node);
 }
 

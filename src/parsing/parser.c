@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/12 18:23:58 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/13 18:05:26 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,24 @@
 
 // ici on utilise un double pointeur token pour faire passer en parametre
 // des fonctions la position courante dans le tableau de token.
+
+void print_token_list_debug(t_token *token_list)
+{
+    t_token *current = token_list;
+    while (current)
+    {
+        printf("Token: %s, Type: %u, Next: %p, Prev: %p\n",
+               current->value, current->type,
+               (void *)current->next, (void *)current->prev);
+        current = current->next;
+    }
+}
+
+void debug_token_print(t_token *token) 
+{
+	printf("Current Token: value='%s', type=%d, next=%p\n", 
+	token->value, token->type, (void*)token->next);
+}
 
 int	parser(t_token *token, t_ast **ast, t_shell *sh)
 {
@@ -31,9 +49,11 @@ t_ast	*parse_logical(t_token **token, t_shell *sh)
 	t_ast			*right;
 	t_token_type	logic_op;
 
-	left = parse_redirection(token, sh);
+	left = parse_pipe(token, sh);
 	/* if (!token || !*token)
 		return (NULL); */
+	/* printf("Parsing token : value='%s', type=%d, next_value=%p\n", 
+			(*token)->value, (*token)->type, (*token)->next->value); */
 	while (is_operator(*token))
 	{
 		logic_op = (*token)->type;
@@ -65,6 +85,8 @@ t_ast	*parse_redirection(t_token **token, t_shell *sh)
 	t_ast	*command;
 	t_ast	*suffix;
 
+	if (!token || !*token)
+		return (NULL);
 	prefix = parse_redirection_list(token, NULL, sh);
 	if (sh->parsing_error)
 		return (NULL);
@@ -74,26 +96,33 @@ t_ast	*parse_redirection(t_token **token, t_shell *sh)
 		return (NULL);
 	return (build_redir_cmd(prefix, suffix, command));
 }
-
+// Il y a forcement une commande avant la redirection ou rien : cmd > file ; > file
+// Il peut y avoir des suites de redirections : cmd > file1 > file2
 t_ast	*parse_redirection_list(t_token **token, t_ast *command, t_shell *sh)
 {
 	t_ast	*first;
 	t_ast	*last;
 	t_ast	*new;
+	t_token	*cur;
 
-	first = NULL;
+	first = NULL; // pointeur vers premiers noeud de redir
+	last = NULL;  // ... vers le dernier de la liste des redirs
 	if (!token || !*token)
 		return (NULL);
-	while (is_redirect(*token) || (is_word(*token) && command))
+	cur = *token;
+	while (cur)
 	{
-		if (is_word(*token) && command)
+		/* printf("Parsing token REDIRECTION: value='%s', type=%d, next=%p\n", 
+			cur->value, cur->type, (void*)cur->next); */
+		if (is_word(cur) && command)
 		{
-			add_arg_tab(&command->u_data.command.args, (*token)->value);
-			*token = (*token)->next;
+			add_arg_tab(&command->u_data.command.args, cur->value);
+			cur = cur->next;
 			continue;
 		}
-		new = create_ast_redirection((*token)->type, (*token)->next, NULL, sh);
-		/* printf("REDIRECT_TYPE : %u\n FILENAME : %s\n", (*token)->type, (*token)->next->value); */
+		if (!is_redirect(cur)) 
+			break ;
+		new = create_ast_redirection(cur->type, cur->next, NULL, sh);
 		if (!new)
 			return (NULL);
 		if (!first)
@@ -103,24 +132,13 @@ t_ast	*parse_redirection_list(t_token **token, t_ast *command, t_shell *sh)
 		}
 		else
 		{
-			last->u_data.redirection.child = new;
+			last->u_data.redirection.command = new;
 			last = new;
 		}
-		*token = (*token)->next->next;
+		cur = cur->next->next;
 	}
+	*token = cur;
 	return (first);
-}
-
-void print_token_list_debug(t_token *token_list)
-{
-    t_token *current = token_list;
-    while (current)
-    {
-        printf("Token: %s, Type: %u, Next: %p, Prev: %p\n",
-               current->value, current->type,
-               (void *)current->next, (void *)current->prev);
-        current = current->next;
-    }
 }
 
 int		argu_count(t_token *cur)
@@ -143,6 +161,7 @@ t_ast	*parse_command(t_token **token)
 	char	**args;
 	int		i;
 
+	/* debug_token_print(*token); */
 	cur = *token;
 	arg_count = argu_count(cur);
 	if (!arg_count)
@@ -169,6 +188,7 @@ t_ast	*parse_subshell(t_token **token, t_shell *sh)
 {
 	t_ast	*content;
 
+	/* debug_token_print(*token); */
 	if (is_open_parenthesis(*token))
 	{
 		*token = (*token)->next;

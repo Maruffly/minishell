@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:35:41 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/12 12:51:20 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/13 17:03:56 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ typedef struct s_ast_logical
 typedef struct s_ast_redirection
 {
 	t_token_type			direction;
-	struct s_ast			*child;
+	struct s_ast			*command;
 	char					*file;
 }							t_ast_redirection;
 

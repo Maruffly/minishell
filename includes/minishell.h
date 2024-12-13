@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/12 17:44:15 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/13 17:05:10 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void			init_ast_node(t_ast **node, t_ast_type type);
 t_ast			*create_ast_cmd(char **args);
 t_ast			*create_ast_subshell(t_ast *child, t_shell *sh);
 t_ast			*create_ast_redirection(t_token_type direction, t_token *filename,
-				t_ast *child, t_shell *sh);
+				t_ast *command, t_shell *sh);
 t_ast			*create_ast_pipeline(t_ast	*left, t_ast *right, t_shell *sh);
 t_ast			*create_ast_logical(t_ast *left, t_token_type op, t_ast *right, t_shell *sh);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_ast.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:40:46 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/12 17:50:07 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/13 17:05:40 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ void print_redirection(t_ast_redirection *redir) {
 		   redir->direction == REDIRECT_OUT ? ">" :
 		   redir->direction == REDIRECT_IN ? "<" : "unknown",
 		   redir->file);
-	if (redir->child) {
+	if (redir->command) {
 		printf("Child of redirection:\n");
-		print_ast(redir->child); // Appel récursif sur l'enfant
+		print_ast(redir->command); // Appel récursif sur l'enfant
 	}
 }
 

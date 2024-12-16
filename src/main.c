@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/13 18:48:51 by jbmy             ###   ########.fr       */
+/*   Updated: 2024/12/16 18:04:19 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	process_prompt(char *input, t_shell *sh)
 	if (status == EXIT_SUCCESS && token_list)
 	{
 		status = parser(token_list, &ast, sh);
-		print_ast(ast);
+		// print_ast(ast);
 		if (status == EXIT_SUCCESS && ast)
 		{
 			// status = exec_heredocs();
@@ -55,24 +55,51 @@ int	launch_shell(t_shell *sh)
 
 char	*read_line(t_prompt_mode mode)
 {
-	char		*input;
+	char	*input;
 
-	g_signal_value = 0;
-	input = NULL;
+	g_signal_value = 0; // reinitialise le signal global
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	if (mode == MAIN_PROMPT)
 	{
-		input = "ls -l > output | cat output && (echho bonjour)";
-		/* input = readline(GREEN"Omar&Fred>"RESET); */
-		set_main_signals();
+		signal(SIGINT, sigint_handler);
+		input = readline(GREEN"Omar&Fred > "RESET);
 	}
 	else if (mode == HEREDOC_PROMPT)
 	{
-		set_heredoc_signal();
+		signal(SIGINT, sigint_handler);
 		input = readline("> ");
-		set_main_signals();
 	}
+	else
+		input = NULL;
+	signal(SIGINT, SIG_DFL); // restaure les signaux apres lecture de l'input
+	signal(SIGQUIT, SIG_DFL);
 	return (input);
 }
+
+
+// char	*read_line(t_prompt_mode mode)
+// {
+// 	char		*input;
+
+// 	input = NULL;
+// 	g_signal_value = 0;
+// 	rl_replace_line("", 0);
+// 	rl_on_new_line();
+// 	if (mode == MAIN_PROMPT)
+// 	{
+// 		// input = "ls -l > output | cat output && (echo bonjour)";
+// 		input = readline(GREEN"Omar&Fred>"RESET);
+// 		set_main_signals();
+// 	}
+// 	else if (mode == HEREDOC_PROMPT)
+// 	{
+// 		set_heredoc_signal();
+// 		input = readline("> ");
+// 		set_main_signals();
+// 	}
+// 	return (input);
+// }
 
 void	init_shell(t_shell *sh, char **envp)
 {
@@ -90,7 +117,7 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	if (ac != 1)
 		exit(EXIT_FAILURE);
-	set_main_signals();
+	// set_main_signals();
 	init_shell(&sh, envp);
 	status = launch_shell(&sh);
 	exit_shell(status, &sh);

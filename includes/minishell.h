@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/13 17:05:10 by jbmy             ###   ########.fr       */
+/*   Updated: 2024/12/16 18:01:44 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,11 @@
 void print_ast(t_ast *node);
 
 // signal //
-void			set_main_signals(void);
-void			set_heredoc_signal(void);
-void			handle_eof(char *input, t_shell *sh);
-void			handle_signal(int signum, void (*handler)(int));
+void	sigint_handler(int signum);
+void	handle_eof(char *input, t_shell *sh);
+// void			set_main_signals(void);
+// void			set_heredoc_signal(void);
+// void			handle_signal(int signum, void (*handler)(int));
 
 // readline //
 char			*read_line(t_prompt_mode mode);

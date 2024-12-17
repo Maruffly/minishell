@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/13 18:05:26 by jbmy             ###   ########.fr       */
+/*   Updated: 2024/12/17 17:11:45 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ void print_token_list_debug(t_token *token_list)
     }
 }
 
-void debug_token_print(t_token *token) 
+void debug_token_print(t_token *token)
 {
-	printf("Current Token: value='%s', type=%d, next=%p\n", 
+	printf("Current Token: value='%s', type=%d, next=%p\n",
 	token->value, token->type, (void*)token->next);
 }
 
@@ -52,7 +52,7 @@ t_ast	*parse_logical(t_token **token, t_shell *sh)
 	left = parse_pipe(token, sh);
 	/* if (!token || !*token)
 		return (NULL); */
-	/* printf("Parsing token : value='%s', type=%d, next_value=%p\n", 
+	/* printf("Parsing token : value='%s', type=%d, next_value=%p\n",
 			(*token)->value, (*token)->type, (*token)->next->value); */
 	while (is_operator(*token))
 	{
@@ -112,15 +112,17 @@ t_ast	*parse_redirection_list(t_token **token, t_ast *command, t_shell *sh)
 	cur = *token;
 	while (cur)
 	{
-		/* printf("Parsing token REDIRECTION: value='%s', type=%d, next=%p\n", 
+		/* printf("Parsing token REDIRECTION: value='%s', type=%d, next=%p\n",
 			cur->value, cur->type, (void*)cur->next); */
-		if (is_word(cur) && command)
+		 if (is_word(cur) && command && command->type == AST_COMMAND)
 		{
-			add_arg_tab(&command->u_data.command.args, cur->value);
+			if (!command->u_data.command.args ||
+			!command->u_data.command.args[0])
+				add_arg_tab(&command->u_data.command.args, cur->value);
 			cur = cur->next;
 			continue;
 		}
-		if (!is_redirect(cur)) 
+		if (!is_redirect(cur))
 			break ;
 		new = create_ast_redirection(cur->type, cur->next, NULL, sh);
 		if (!new)

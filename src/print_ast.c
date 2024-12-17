@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_ast.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:40:46 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/13 17:05:40 by jbmy             ###   ########.fr       */
+/*   Updated: 2024/12/17 16:30:35 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 void print_command(t_ast_command *cmd) {
 	if (!cmd || !cmd->args)
 		return;
-	printf("Command: ");
+	printf("				Command: ");
 	for (char **arg = cmd->args; *arg; arg++) {
 		printf("%s ", *arg);
 	}
@@ -27,12 +27,14 @@ void print_command(t_ast_command *cmd) {
 void print_redirection(t_ast_redirection *redir) {
 	if (!redir)
 		return;
-	printf("Redirection: %s to file '%s'\n",
+	printf("		Redirection: %s to file '%s'\n",
 		   redir->direction == REDIRECT_OUT ? ">" :
+		   redir->direction == HEREDOC ? "<<" :
+		   redir->direction == APPEND_OUT ? ">" :
 		   redir->direction == REDIRECT_IN ? "<" : "unknown",
 		   redir->file);
 	if (redir->command) {
-		printf("Child of redirection:\n");
+		printf("			Child of redirection:\n");
 		print_ast(redir->command); // Appel récursif sur l'enfant
 	}
 }
@@ -41,10 +43,10 @@ void print_redirection(t_ast_redirection *redir) {
 void print_pipeline(t_ast_pipeline *pipeline) {
 	if (!pipeline)
 		return;
-	printf("Pipeline:\n");
-	printf("Left:\n");
+	printf("		Pipeline:\n");
+	printf("			Left:\n");
 	print_ast(pipeline->left); // Appel récursif sur la partie gauche
-	printf("Right:\n");
+	printf("			Right:\n");
 	print_ast(pipeline->right); // Appel récursif sur la partie droite
 }
 
@@ -55,9 +57,9 @@ void print_logical(t_ast_logical *logical) {
 	printf("Logical operation: %s\n",
 		logical->operator == AND ? "&&" :
 		logical->operator == OR ? "||" : "unknown");
-	printf("Left:\n");
+	printf("	Left:\n");
 	print_ast(logical->left); // Appel récursif sur la partie gauche
-	printf("Right:\n");
+	printf("	Right:\n");
 	print_ast(logical->right); // Appel récursif sur la partie droite
 }
 
@@ -65,7 +67,7 @@ void print_logical(t_ast_logical *logical) {
 void print_subshell(t_ast_subshell *subshell) {
 	if (!subshell || !subshell->child)
 		return;
-	printf("Subshell:\n");
+	printf("	   Subshell:\n");
 	print_ast(subshell->child); // Appel récursif sur l'enfant du sous-shell
 }
 

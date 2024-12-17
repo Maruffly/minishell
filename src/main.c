@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/17 11:24:43 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/17 16:23:02 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	process_prompt(char *input, t_shell *sh)
 	if (process == EXIT_SUCCESS && token_lst)
 	{
 		process = parser(token_lst, &ast, sh);
-		// print_ast(ast);
+		print_ast(ast);
 		if (process == EXIT_SUCCESS && ast)
 		{
 			// process = exec_heredocs();
@@ -50,8 +50,11 @@ int	launch_shell(t_shell *sh)
 		{
 			add_history(input);
 			sh->last_status = process_prompt(input, sh);
+			break ;
 		}
 	}
+	return (0);
+
 }
 
 char	*read_line(t_prompt_mode mode)
@@ -64,6 +67,7 @@ char	*read_line(t_prompt_mode mode)
 	if (mode == MAIN_PROMPT)
 	{
 		signal(SIGINT, sigint_handler);
+		/* input = "ls -l > output | cat output && (echo bonjour)"; */
 		input = readline(GREEN"Omar&Fred > "RESET);
 	}
 	else if (mode == HEREDOC_PROMPT)
@@ -125,17 +129,17 @@ int	main(int ac, char **av, char **envp)
 	return (0);
 }
 
-/* 
+/*
 Logical operation: &&
 Left:
 	Pipeline:
 			Left:
 				Redirection: > to file 'output'
 							Child of redirection:
-												Command: ls -l ls -l 
+												Command: ls -l ls -l
 			Right:
-				Command: cat output cat output 
+				Command: cat output cat output
 Right:
 	Subshell:
-			Command: echho bonjour echho bonjour  
+			Command: echho bonjour echho bonjour
 */

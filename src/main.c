@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/16 18:04:19 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/17 11:24:43 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,23 @@ int g_signal_value = 0;
 
 int	process_prompt(char *input, t_shell *sh)
 {
-	t_token	*token_list;
 	t_ast	*ast;
-	int		status;
+	int		process;
+	t_token	*token_lst;
 
-	status = lexer(input, &token_list, sh);
-	if (status == EXIT_SUCCESS && token_list)
+	process = lexer(input, &token_lst, sh);
+	if (process == EXIT_SUCCESS && token_lst)
 	{
-		status = parser(token_list, &ast, sh);
+		process = parser(token_lst, &ast, sh);
 		// print_ast(ast);
-		if (status == EXIT_SUCCESS && ast)
+		if (process == EXIT_SUCCESS && ast)
 		{
-			// status = exec_heredocs();
-			//  if (status == EXIT_SUCCESS)
-			// 	status = execute();
+			// process = exec_heredocs();
+			//  if (process == EXIT_SUCCESS)
+			// 	process = execute();
 		}
 	}
-	return (status);
+	return (process);
 }
 
 int	launch_shell(t_shell *sh)
@@ -41,6 +41,7 @@ int	launch_shell(t_shell *sh)
 
 	while(1)
 	{
+		g_signal_value = 0;
 		input = read_line(MAIN_PROMPT);
 		handle_eof(input, sh);
 		if (g_signal_value == SIGINT)
@@ -58,7 +59,7 @@ char	*read_line(t_prompt_mode mode)
 	char	*input;
 
 	g_signal_value = 0; // reinitialise le signal global
-	signal(SIGINT, SIG_IGN);
+	signal(SIGINT, SIG_IGN); // ignore SIGINT et SIGQUIT au lancement
 	signal(SIGQUIT, SIG_IGN);
 	if (mode == MAIN_PROMPT)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/17 16:23:02 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/19 14:46:20 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ int	process_prompt(char *input, t_shell *sh)
 	{
 		process = parser(token_lst, &ast, sh);
 		print_ast(ast);
-		if (process == EXIT_SUCCESS && ast)
+		return (0);
+		/* if (status == EXIT_SUCCESS && ast) */
 		{
 			// process = exec_heredocs();
 			//  if (process == EXIT_SUCCESS)
@@ -52,9 +53,9 @@ int	launch_shell(t_shell *sh)
 			sh->last_status = process_prompt(input, sh);
 			break ;
 		}
+		break ;
 	}
 	return (0);
-
 }
 
 char	*read_line(t_prompt_mode mode)

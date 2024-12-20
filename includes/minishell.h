@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-<<<<<<< Updated upstream
-/*   Updated: 2024/12/20 15:59:24 by jmaruffy         ###   ########.fr       */
-=======
-/*   Updated: 2024/12/20 15:19:35 by jlaine           ###   ########.fr       */
->>>>>>> Stashed changes
+/*   Updated: 2024/12/20 16:21:22 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

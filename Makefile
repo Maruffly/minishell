@@ -35,6 +35,7 @@ SRC_FILES = main.c\
 			/lexer/lexer.c\
 			/lexer/get_next_token.c\
 			/signals/main_signal.c\
+			/exec/heredoc.c\
 
 SRC_DIR = ./src/
 

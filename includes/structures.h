@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:35:41 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/13 17:03:56 by jbmy             ###   ########.fr       */
+/*   Updated: 2024/12/20 14:54:31 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct s_ast_redirection
 	t_token_type			direction;
 	struct s_ast			*command;
 	char					*file;
+	int						heredoc_fd;
 }							t_ast_redirection;
 
 typedef struct s_ast_subshell
@@ -101,6 +102,13 @@ typedef struct s_ast
 		t_ast_syntax_error	s_error;
 	} u_data;
 }							t_ast;
+
+typedef struct	s_heredoc
+{
+	int		pipe_fd[2];
+	char	*limiter;
+	int		expand_vars;
+}	t_heredoc;
 
 typedef struct s_token
 {

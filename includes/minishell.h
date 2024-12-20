@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/16 18:01:44 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/20 15:59:24 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	handle_eof(char *input, t_shell *sh);
 char			*read_line(t_prompt_mode mode);
 
 // INIT COMMAND STRUCT //
-
 
 // EXIT //
 void			exit_shell(int exit_status, t_shell *sh);
@@ -107,9 +106,10 @@ char			*expand_env_variable(char *input, int *pos, t_env_list *env_list);
 void			handle_redirection(char *input, int *pos, char **value);
 
 // quotes.c
+int				is_quoted(char *str);
+void 			remove_quotes(char *str);
 void			add_char_to_value(char **value, char c);
 void			handle_quotes(char *input, int *pos, char **value);
-
 int				dup_value(t_token *cur, char **args, int count);
 
 // handle_tokens.c
@@ -125,6 +125,8 @@ t_ast			*ast_from_tokens(t_token *tokens);
 t_ast			*build_redir_cmd(t_ast *prefix, t_ast *suffix, t_ast *command);
 
 // EXEC //
+int				execute_heredoc(t_ast *ast, t_shell *sh);
+int 			heredoc_eof_handler(t_heredoc *hdoc);
 int				fork_command(t_ast_command *cmd, t_shell *sh);
 void			exec_builtin(t_ast_command *cmd, t_env_list *env);
 

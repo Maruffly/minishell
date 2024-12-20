@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:14:26 by jlaine            #+#    #+#             */
-/*   Updated: 2024/12/12 16:48:30 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/20 13:53:36 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,34 @@ void free_token_list(t_token *tokens)
 		free(temp->value);
 		free(temp);
 	}
+}
+
+
+void ft_lstclear_env(t_env_list **lst, void (*del)(void *))
+{
+    t_env_list *tmp;
+
+    if (*lst == NULL || del == NULL)
+        return;
+
+    while (*lst)
+    {
+        tmp = (*lst)->next;
+        ft_lstdelone_env(*lst, del);
+        *lst = tmp;
+    }
+    *lst = NULL;
+}
+
+void ft_lstdelone_env(t_env_list *env, void (*del)(void *))
+{
+    if (env)
+    {
+        if (del)
+        {
+            del(env->var_name);
+            del(env->var_value);
+        }
+        free(env);
+    }
 }

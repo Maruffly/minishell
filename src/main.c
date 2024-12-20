@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
+<<<<<<< Updated upstream
 /*   Updated: 2024/12/20 15:49:46 by jmaruffy         ###   ########.fr       */
+=======
+/*   Updated: 2024/12/20 16:14:00 by jlaine           ###   ########.fr       */
+>>>>>>> Stashed changes
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +34,7 @@ int	process_prompt(char *input, t_shell *sh)
 		{
 			process = execute_heredoc(ast, sh);
 			//  if (process == EXIT_SUCCESS)
-			// 	process = execute();
+				// process = execute();
 		}
 	}
 	return (process);

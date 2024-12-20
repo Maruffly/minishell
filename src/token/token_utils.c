@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/12 15:20:07 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/20 13:43:40 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*extract_word(char *line, int pos)
 	return (ft_substr(line, start, pos - start));
 } */
 
-void lst_add_back_token(t_token **token_list, t_token *new_token)
+void ft_lstadd_back_token(t_token **token_list, t_token *new_token)
 {
 	t_token *last;
 
@@ -58,7 +58,10 @@ void lst_add_back_token(t_token **token_list, t_token *new_token)
 		return;
 
 	if (*token_list == NULL)
+	{
 		*token_list = new_token;
+		new_token->prev = NULL;
+	}
 	else
 	{
 		last = *token_list;
@@ -67,29 +70,43 @@ void lst_add_back_token(t_token **token_list, t_token *new_token)
 		last->next = new_token;
 		new_token->prev = last;
 	}
-	new_token->prev = NULL;
+	new_token->next = NULL;
 }
 
-void	ft_lstdelone(t_env_list *lst, void (*del)(void *))
+void	ft_lstdelone_token(t_token *lst, void (*del)(void *))
 {
 	if (lst == NULL || del == NULL)
 		return ;
-	del(lst->var_value);
+	del(lst->value);
 	free(lst);
 }
 
-void	ft_lstclear(t_env_list **lst, void (*del)(void *))
+void	ft_lstclear_token(t_token **lst, void (*del)(void *))
 {
-	t_env_list	*tmp;
+	t_token	*tmp;
 
 	if (*lst == NULL || del == NULL)
 		return ;
 	while (*lst)
 	{
 		tmp = (*lst)->next;
-		ft_lstdelone(*lst, del);
+		ft_lstdelone_token(*lst, del);
 		*lst = tmp;
 	}
 	free(*lst);
 	*lst = NULL;
+}
+
+
+int	ft_lstsize_token(t_token *token)
+{
+	int	count;
+
+	count = 0;
+	while (token)
+	{
+		count++;
+		token = token->next;
+	}
+	return (count);
 }

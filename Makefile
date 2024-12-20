@@ -30,12 +30,21 @@ SRC_FILES = main.c\
 			/parsing/ast_utils.c\
 			/parsing/parsing_utils.c\
 			/parsing/redirections.c\
-			/parsing/expansion.c\
 			/parsing/ast_builder.c\
 			/lexer/lexer.c\
 			/lexer/get_next_token.c\
 			/signals/main_signal.c\
+<<<<<<< Updated upstream
 			/exec/heredoc.c\
+=======
+			/expansion/exp.c\
+			/expansion/test.c\
+			/expansion/exp_utils.c\
+			/expansion/exp_wildcards.c\
+			/expansion/exp_var.c\
+			/expansion/exp_filename.c\
+			/expansion/exp_filename_utils.c\
+>>>>>>> Stashed changes
 
 SRC_DIR = ./src/
 

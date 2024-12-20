@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_status.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 17:58:12 by jlaine            #+#    #+#             */
-/*   Updated: 2024/12/12 13:33:57 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2024/12/20 13:58:23 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,21 @@ void	exit_shell(int exit_status, t_shell *sh)
 	{
 		if (sh->is_parent && isatty(STDIN_FILENO))
 			ft_putstr_fd("exit\n", STDERR_FILENO);
-		ft_lstclear(&sh->env, free_env_list);
+		ft_lstclear_env(&sh->env, free_env_list);
 	}
 	rl_clear_history();
 	exit(exit_status);
+}
+
+void	error(char *context, char *description, int exit_status,
+	t_shell *sh)
+{
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(description, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putstr_fd(context, STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
+	exit_shell(exit_status, sh);
 }
 
 /* int	report_error(char *context, char *element, char *description, t_shell *sh)

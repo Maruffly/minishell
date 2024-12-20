@@ -3,10 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+<<<<<<< Updated upstream
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:35:41 by jmaruffy          #+#    #+#             */
 /*   Updated: 2024/12/20 14:54:31 by jmaruffy         ###   ########.fr       */
+=======
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/09 13:35:41 by jmaruffy          #+#    #+#             */
+/*   Updated: 2024/12/20 13:31:29 by jlaine           ###   ########.fr       */
+>>>>>>> Stashed changes
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +142,47 @@ typedef struct s_shell
 	bool				is_parent;
 	int					last_status;
 }	t_shell;
+
+typedef enum	e_quote
+{
+	NO_QUOTE,
+	IN_DOUBLE_QUOTE,
+	IN_SINGLE_QUOTE,
+}	t_quote;
+
+typedef struct s_wildcard
+{
+	int					position;
+	struct s_wildcard	*next;
+}	t_wildcard;
+
+typedef struct s_expand
+{
+	int			i;
+	char		*buf;
+	int			buf_i;
+	t_quote		context;
+	int			buf_size;
+	t_token		**tokens;
+	bool		empty_quotes;
+	t_wildcard	*wildcards_position;
+}	t_expand;
+
+typedef struct s_var
+{
+	char		*name;
+	char		*value;
+}	t_var;
+
+
+typedef enum e_exit
+{
+	KEEP_RUNNING, 
+	EXIT_SHELL
+}	t_exit;
+
+
+
 
 #endif
 

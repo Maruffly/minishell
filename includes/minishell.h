@@ -6,10 +6,13 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
+<<<<<<< Updated upstream
 /*   Updated: 2024/12/20 15:59:24 by jmaruffy         ###   ########.fr       */
+=======
+/*   Updated: 2024/12/20 15:19:35 by jlaine           ###   ########.fr       */
+>>>>>>> Stashed changes
 /*                                                                            */
 /* ************************************************************************** */
-
 
 # ifndef MINISHELL_H
 # define MINISHELL_H
@@ -25,11 +28,11 @@
 # define CYAN	"\e[36m"
 
 // print
-void print_ast(t_ast *node);
+void 	print_ast(t_ast *node);
 
 // signal //
-void	sigint_handler(int signum);
-void	handle_eof(char *input, t_shell *sh);
+void			sigint_handler(int signum);
+void			handle_eof(char *input, t_shell *sh);
 // void			set_main_signals(void);
 // void			set_heredoc_signal(void);
 // void			handle_signal(int signum, void (*handler)(int));
@@ -44,6 +47,11 @@ void			exit_shell(int exit_status, t_shell *sh);
 void			free_ast(t_ast *node);
 void			free_token_list(t_token *tokens);
 void			handle_exit_status(char *input, int *exit_code);
+void			error(char *context, char *description, int exit_status,
+				t_shell *sh);
+void 			ft_lstclear_env(t_env_list **lst, void (*del)(void *));
+void 			ft_lstdelone_env(t_env_list *env, void (*del)(void *));
+
 
 // errors
 int				report_syntax_error(t_shell *sh);
@@ -62,9 +70,12 @@ bool			is_close_parenthesis(t_token *token);
 // token utils.c
 char			*get_token_string(t_token_type type);
 void			skip_whitespace(char *line, int *pos);
-void			lst_add_back_token(t_token **token_list, t_token *new_token);
-void			ft_lstclear(t_env_list **lst, void (*del)(void *));
-void			ft_lstdelone(t_env_list *lst, void (*del)(void *));
+void			ft_lstadd_back_token(t_token **token_list, t_token *new_token);
+void			ft_lstclear_token(t_token **lst, void (*del)(void *));
+void			ft_lstdelone_token(t_token *lst, void (*del)(void *));
+int				ft_lstsize_token(t_token *token);
+
+
 
 // lexer // find token type // create token
 int				lexer(char *input, t_token **token_list, t_shell *sh);
@@ -98,11 +109,11 @@ t_ast			*create_ast_pipeline(t_ast	*left, t_ast *right, t_shell *sh);
 t_ast			*create_ast_logical(t_ast *left, t_token_type op, t_ast *right, t_shell *sh);
 
 // expansion.c
-void			handle_expansion(char *input, int *pos, char **value,
-								t_env_list *env_list, int exit_status);
-char			*expand_exit_status(int *pos, int exit_status);
+// void			handle_expansion(char *input, int *pos, char **value,
+// 								t_env_list *env_list, int exit_status);
+// char			*expand_exit_status(int *pos, int exit_status);
 void			add_expanded_value(char **value, char *expanded_value);
-char			*expand_env_variable(char *input, int *pos, t_env_list *env_list);
+// char			*expand_env_variable(char *input, int *pos, t_env_list *env_list);
 void			handle_redirection(char *input, int *pos, char **value);
 
 // quotes.c
@@ -152,6 +163,8 @@ int				is_valid_var_name(char *name);
 t_env_list		*init_envp(char **envp);
 char			**list_to_envp(t_env_list *env);
 void			check_env_path(char **envp);
+t_env_list		*find_env_token(char *name, t_env_list *env_tokens);
+
 
 // BUILTINS
 void			exec_echo(t_ast_command *cmd);
@@ -165,5 +178,34 @@ void			exec_export(t_env_list *env_list, t_ast_command *cmd);
 void			exec_pwd(void);
 void			exec_unset(t_env_list *env_list, t_ast_command *cmd);
 void			exec_unset(t_env_list *env_list, t_ast_command *cmd);
+
+
+// EXPANSION
+t_ast			*node_expansion(t_ast *node, t_shell *sh);
+void			command_expansion(t_ast *node, t_shell *sh);
+void			redirection_expansion(t_ast *node, t_shell *sh);
+void			arg_expansion(char *str, t_token **expanded_args, t_shell *sh);
+void			init_expansion(t_expand *exp, char *str, t_token **expanded_args, 
+						t_shell *sh);
+void			no_quote(char *str, t_expand *exp, t_shell *sh);
+void			single_quote(char *str, t_expand *exp);
+void			double_quote(char *str, t_expand *exp, t_shell *sh);
+void			*add_token_to_list(t_expand *exp, t_shell *sh);
+void			add_var_to_buffer(char *value, t_expand *exp, t_shell *sh);
+void			expand_var(char *str, t_expand *exp, t_shell *sh);
+void			expand_last_status(t_expand *exp, t_shell *sh);
+char			*get_valid_name(char *str, t_expand *exp, t_shell *sh);
+char			**list_to_array(t_token **lst, t_shell *sh);
+void			add_wildcard_pos(t_expand *exp, int pos);
+void			save_wildcards_pos(char *to_check, t_expand *exp, t_shell *sh);
+void			filename_expansion(t_expand *exp, t_shell *sh);
+t_token			*get_files_list(t_expand *exp, t_shell *sh);
+char			*extract_root_path(t_expand *exp, t_shell *sh);
+t_token			*pattern_filter(t_token *tokens, t_expand *exp);
+char			*expand_env_var(char *str, t_expand *exp, t_shell *sh);
+
+
+
+
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/20 16:21:22 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/07 15:26:47 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void			error(char *context, char *description, int exit_status,
 				t_shell *sh);
 void 			ft_lstclear_env(t_env_list **lst, void (*del)(void *));
 void 			ft_lstdelone_env(t_env_list *env, void (*del)(void *));
-
+void			remove_list_node(t_token **node, t_token **head, 
+				void (*free_function)(void *), bool free_node);
 
 // errors
 int				report_syntax_error(t_shell *sh);
@@ -192,14 +193,19 @@ void			expand_var(char *str, t_expand *exp, t_shell *sh);
 void			expand_last_status(t_expand *exp, t_shell *sh);
 char			*get_valid_name(char *str, t_expand *exp, t_shell *sh);
 char			**list_to_array(t_token **lst, t_shell *sh);
-void			add_wildcard_pos(t_expand *exp, int pos);
+void			add_wildcard_pos(t_token **token_list, int pos, t_shell *sh);
 void			save_wildcards_pos(char *to_check, t_expand *exp, t_shell *sh);
 void			filename_expansion(t_expand *exp, t_shell *sh);
 t_token			*get_files_list(t_expand *exp, t_shell *sh);
 char			*extract_root_path(t_expand *exp, t_shell *sh);
 t_token			*pattern_filter(t_token *tokens, t_expand *exp);
 char			*expand_env_var(char *str, t_expand *exp, t_shell *sh);
-
+char			*word_splitting(t_expand *exp, char *value, t_shell *sh);
+void			list_of_file_to_token_list(t_token *tokens, t_expand *exp, t_shell *sh);
+bool			pattern_match(char *filename, char *pattern, int pattern_index,
+				t_expand *exp);
+bool			is_active_wildcard(int i, t_expand *exp);
+bool			only_active_wildcard_left(char *str, t_expand *exp);
 
 
 

@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:04:17 by jlaine            #+#    #+#             */
-/*   Updated: 2024/12/20 16:09:06 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/02 14:47:02 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	*add_token_to_list(t_expand *exp, t_shell *sh)
 	t_token	*new_token;
 
 	if (exp->wildcards_position)
-		filename_expansion(exp, sh); /////// TO DO
+		filename_expansion(exp, sh);
 	if (exp->buf_i > 0 || exp->empty_quotes)
 	{
 		if (exp->buf_i > 0)
@@ -153,31 +153,26 @@ char	**list_to_array(t_token **lst, t_shell *sh)
 	return (args);
 }
 
-char	*word_splitting(t_expand *exp, char *value, t_shell *sh)
+char	*word_splitting(t_expand *exp, char *value, t_shell *sh) // TO REWORK
 {
+	int		i;
 	char	**split;
-	
-	if (ft_strlen(value) == 0)
-		return;
+
+	i = 0;
 	split = ft_split(value, ' ');
-	if (!*split)
-		return (add_token_to_list(exp, sh));
-	if (ft_strcmp(value, split[0]) == 0)
-		return (value);
-	if (*split && value[0] != ' ')
-	{
-		add_var_to_buffer(*split++, exp, sh);
-		if (!*split)
-			return (add_token_to_list(exp, sh));
-	}
-	else
-		add_token_to_list(exp, sh);
-	while (*split)
+	if (!split)
+		return (NULL);
+	while (split[i])
 	{
 		add_token_to_list(exp, sh);
-		if (!*(split + 1) && value[ft_strlen(value) - 1] != ' ')
-			return (*split);
-		ft_lstadd_back_token()
+		i++;
 	}
-	return (NULL);
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
+	return (value);
 }

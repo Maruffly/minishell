@@ -158,7 +158,7 @@ typedef struct s_expand
 	int			buf_size;
 	t_token		**tokens;
 	bool		empty_quotes;
-	t_wildcard	*wildcards_position;
+	t_token		*wildcards_position;
 }	t_expand;
 
 typedef struct s_var

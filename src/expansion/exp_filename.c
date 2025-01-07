@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 16:17:13 by jlaine            #+#    #+#             */
-/*   Updated: 2024/12/19 18:10:41 by jlaine           ###   ########.fr       */
+/*   Updated: 2024/12/20 16:56:47 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	filename_expansion(t_expand *exp, t_shell *sh)
 	files = pattern_filter(files, exp);
 	if (files)
 	{
-		list_of_files_to_token_list(files, exp, sh); ///// TO DO
+		list_of_file_to_token_list(files, exp, sh); ///// TO DO
 		exp->buf_i = 0;
 		exp->buf[exp->buf_i] = '\0';
 	}

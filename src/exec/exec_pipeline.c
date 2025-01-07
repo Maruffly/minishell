@@ -1,28 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   exec_pipeline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/17 13:33:30 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/07 18:06:40 by jlaine           ###   ########.fr       */
+/*   Created: 2025/01/07 18:05:31 by jlaine            #+#    #+#             */
+/*   Updated: 2025/01/07 18:08:07 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../includes/minishell.h"
 
-int	execute(t_ast *node, t_exit end, t_shell *sh)
+int exec_pipeline(t_ast *node, t_shell *sh)
 {
-	int	status;
+    t_token *pipeline;
 
-	if (!node)
-		return (EXIT_SUCCESS);
-	if (node->type == AST_COMMAND || node->type == AST_REDIRECTION)
-		node_expansion(node, sh);
-	if (node->type == AST_LOGICAL)
-		status = exec_logical(&node->u_data.logical, sh);
-	else if (node->type == AST_PIPELINE)
-		
-	return (status);
+    pipeline = build_cmd_list(node, sh); /////// TO DO 
+    return (execute_pipeline_list(pipeline, sh)); ///// TO DO
 }
+
+

@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/07 15:26:47 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/07 18:06:39 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,6 +207,11 @@ bool			pattern_match(char *filename, char *pattern, int pattern_index,
 bool			is_active_wildcard(int i, t_expand *exp);
 bool			only_active_wildcard_left(char *str, t_expand *exp);
 
+// EXEC LOGICAL
+int 			exec_logical(t_ast_logical *logical, t_shell *sh);
+
+// EXEC PIPELINE
+int				exec_pipeline(t_ast *node, t_shell *sh);
 
 
 

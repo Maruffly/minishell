@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_signal.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 17:46:57 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/16 18:04:45 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/08 18:20:20 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,18 @@ void	handle_eof(char *input, t_shell *sh)
 {
 	if (!input)
 		exit_shell(sh->last_status, sh);
+}
+
+void	heredoc_sigint_handler(int signum)
+{
+	(void)signum;
+	write(STDOUT_FILENO, "\n", 1);
+	exit(130);
+}
+
+void	set_heredoc_signals(void)
+{
+	
 }
 
 void	sigint_handler(int signum)

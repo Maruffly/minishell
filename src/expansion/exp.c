@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:22:15 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/02 14:45:21 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/08 15:43:55 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ void	arg_expansion(char *str, t_token **expanded_args, t_shell *sh)
 {
 	t_expand	exp;
 	
-	init_expansion(&exp, str, expanded_args, sh);
+	if (!init_expansion(&exp, str, expanded_args, sh))
+		return ;	
 	while (str[exp.i])
 	{
 		if (exp.context == NO_QUOTE)

@@ -3,22 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 13:35:04 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/07 15:43:08 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/08 18:35:36 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../includes/minishell.h"
-
-void free_heredoc(t_heredoc *hdoc)
-{
-	if (!hdoc)
-		return ;
-	free(hdoc->limiter);
-	free(hdoc);
-}
 
 t_heredoc	*init_heredoc(char *delimiter)
 {
@@ -39,39 +31,85 @@ t_heredoc	*init_heredoc(char *delimiter)
 	return (hdoc);
 }
 
-int	read_heredoc(t_heredoc *hdoc, t_shell *sh)
+static bool	is_delimiter(char *line, char *delimiter)
+{
+	return (ft_strcmp(line, delimiter) == 0);
+}
+
+static char	*handle_expansion(char *line, t_heredoc *hdoc, t_shell *sh, t_expand *exp)
+{
+	char	*expand_line;
+
+	if (!hdoc->expand_vars)
+		return (line);
+	expand_line = expand_heredoc_vars(line, sh, exp);
+	free(line);
+	if (!expand_line)
+		return (NULL);
+	return (expand_line);	
+}
+
+static bool	write_to_pipe(int fd, char *line)
+{
+	if (write(fd, line, ft_strlen(line)) == -1
+		|| write(fd, "\n", 1) == -1)
+		return (false);
+	return (true);
+}
+
+static int	heredoc_child(t_heredoc *hdoc, t_shell *sh, t_expand *exp)
 {
 	char	*line;
+	char	*proc_line;
 
+	// TODO set_heredoc_signals();
 	while (1)
 	{
 		line = readline(">");
 		if (!line)
 			return (heredoc_eof_handler(hdoc));
-		if (ft_strcmp(line, hdoc->limiter) == 0)
-		{
-			free(line);
-			break ;
-		}
-		if (hdoc->expand_vars)
-		{
-			if (expand_vars(&line, sh) != EXIT_SUCCESS)
-			{
-				free(line);
-				return (EXIT_FAILURE);
-			}
-		}
-		write(hdoc->pipe_fd[1], line, ft_strlen(line));
-		write(hdoc->pipe_fd[1], "\n", 1);
-		free(line);
+		if (is_delimiter(line, hdoc->limiter))
+			return (free(line), EXIT_SUCCESS);
+		proc_line = handle_expansion(line, hdoc, sh, exp);
+		if (!proc_line)
+			return (EXIT_FAILURE);
+		if (!write_to_pipe(hdoc->pipe_fd[1], proc_line))
+			return (free(line), EXIT_FAILURE);
+		free(proc_line);
 	}
+}
+
+static int	heredoc_parent(pid_t child_pid)
+{
+	int	status;
+
+	waitpid(child_pid, &status, 0);
+	if (WIFSIGNALED(status))
+		return (130);
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
 	return (EXIT_SUCCESS);
 }
 
-int	handle_heredoc(t_ast_redirection *redir, t_shell *sh)
+int	read_heredoc(t_heredoc *hdoc, t_shell *sh, t_expand *exp)
+{
+	hdoc->heredoc_pid = fork();
+	if (hdoc->heredoc_pid == -1)
+	{
+		perror("heredoc fork");
+		return (EXIT_FAILURE);
+	}
+	if (hdoc->heredoc_pid == 0)
+		exit(heredoc_child(hdoc, sh, exp));
+	return (heredoc_parent(hdoc->heredoc_pid));
+}
+
+int	handle_heredoc(t_ast_redirection *redir, t_shell *sh, t_expand *exp)
 {
 	t_heredoc	*hdoc;
+	int			error_code;
 
+	sh->prompt_mode = HEREDOC_PROMPT;
 	hdoc = init_heredoc(redir->file);
 	if (!hdoc)
 		return (EXIT_FAILURE);
@@ -80,28 +118,34 @@ int	handle_heredoc(t_ast_redirection *redir, t_shell *sh)
 		free_heredoc(hdoc);
 		return (perror("heredoc pipe"), EXIT_FAILURE);
 	}
-	if (read_heredoc(hdoc, sh) != EXIT_SUCCESS)
+	error_code = read_heredoc(hdoc, sh, exp);
+	if (error_code != EXIT_SUCCESS)
 	{
+		close(hdoc->pipe_fd[0]);
+		close(hdoc->pipe_fd[1]);
 		free_heredoc(hdoc);
-		return (EXIT_FAILURE);
+		return (error_code);
 	}
 	redir->heredoc_fd = hdoc->pipe_fd[0];
 	close(hdoc->pipe_fd[1]);
 	free_heredoc(hdoc);
+	sh->prompt_mode = MAIN_PROMPT;
 	return (EXIT_SUCCESS);
 }
 
 int	execute_heredoc(t_ast *ast, t_shell *sh)
 {
-	int	status;
-
+	int			status;
+	t_expand	exp;
+	
 	if (!ast)
 		return (EXIT_SUCCESS);
 	if (ast->type == AST_REDIRECTION)
 	{
 		if (ast->u_data.redirection.direction == HEREDOC)
 		{
-			status = handle_heredoc(&ast->u_data.redirection, sh);
+			memset(&exp, 0, sizeof(t_expand));
+			status = handle_heredoc(&ast->u_data.redirection, sh, &exp);
 			if (!status)
 				return (status);
 		}

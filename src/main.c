@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/07 15:39:46 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/08 18:27:47 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	process_prompt(char *input, t_shell *sh)
 	{
 		process = parser(token_lst, &ast, sh);
 		print_ast(ast);
-		return (0);
+		/* return (0); */
 		if (process == EXIT_SUCCESS && ast)
 		{
 			process = execute_heredoc(ast, sh);
@@ -110,6 +110,7 @@ char	*read_line(t_prompt_mode mode)
 void	init_shell(t_shell *sh, char **envp)
 {
 	sh->is_parent = true;
+	sh->prompt_mode = MAIN_PROMPT;
 	sh->last_status = EXIT_SUCCESS;
 	sh->env = init_envp(envp);
 	sh->parsing_error = NULL;

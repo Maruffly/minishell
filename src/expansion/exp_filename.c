@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_filename.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 16:17:13 by jlaine            #+#    #+#             */
-/*   Updated: 2024/12/20 16:56:47 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/08 13:44:48 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	filename_expansion(t_expand *exp, t_shell *sh)
 {
 	t_token	*files;
 
+	(void)sh;
 	exp->buf[exp->buf_i] = '\0';
 	files = get_files_list(exp, sh);
 	files = pattern_filter(files, exp);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:35:41 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/20 16:21:34 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/08 18:35:50 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,8 @@ typedef struct	s_heredoc
 	int		pipe_fd[2];
 	char	*limiter;
 	int		expand_vars;
+	size_t	content_size;
+	pid_t	heredoc_pid;
 }	t_heredoc;
 
 typedef struct s_token
@@ -129,6 +131,7 @@ typedef struct s_env_list
 typedef struct s_shell
 {
 	t_env_list			*env;
+	t_prompt_mode		prompt_mode;
 	char				*home;
 	/* t_list			*allocated_pointers[3]; */
 	char				*parsing_error;
@@ -165,6 +168,7 @@ typedef struct s_var
 {
 	char		*name;
 	char		*value;
+	size_t		len;
 }	t_var;
 
 

@@ -6,11 +6,19 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:54:02 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/20 15:58:34 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/08 18:47:33 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../includes/minishell.h"
+
+void free_heredoc(t_heredoc *hdoc)
+{
+	if (!hdoc)
+		return ;
+	free(hdoc->limiter);
+	free(hdoc);
+}
 
 int is_quoted(char *str)
 {
@@ -19,20 +27,15 @@ int is_quoted(char *str)
 
 	if (!str || !*str)
 		return (0);
-
 	len = ft_strlen(str);
 	if (len < 2)
 		return (0);
-
-	// Vérifie si la string commence et finit par le même type de quote
 	quote = str[0];
 	if ((quote == '\'' || quote == '\"') && str[len - 1] == quote)
 		return (1);
-
 	return (0);
 }
 
-// Enlève les quotes au début et à la fin d'une chaîne
 void remove_quotes(char *str)
 {
 	size_t	len;
@@ -44,28 +47,23 @@ void remove_quotes(char *str)
 	len = ft_strlen(str);
 	if (len < 2)
 		return ;
-
-	// Si la chaîne commence par une quote
 	if (str[0] == '\'' || str[0] == '\"')
 	{
-		// Décale tous les caractères vers la gauche
 		i = 0;
 		while (i < len - 1)
 		{
 			str[i] = str[i + 1];
 			i++;
 		}
-		// Remplace la dernière quote par '\0'
 		str[len - 2] = '\0';
 	}
 }
 
 int heredoc_eof_handler(t_heredoc *hdoc)
 {
-	static int	line_count;
+	static int	line_count = 1;
 	char		*line_str;
 
-	line_count = 1;
 	line_str = ft_itoa(line_count++);
 	if (!line_str)
 		return (EXIT_FAILURE);
@@ -78,16 +76,35 @@ int heredoc_eof_handler(t_heredoc *hdoc)
 	return (EXIT_SUCCESS);
 }
 
-int is_valid_heredoc_delimiter(char *delimiter)
+static int	is_valid_heredoc_delimiter(char *unquoted)
+{
+	size_t i;
+
+	if (!unquoted || !ft_strlen(unquoted))
+		return (0);
+
+	i = 0;
+	while (unquoted[i])
+	{
+		if (!ft_isprint(unquoted[i]))
+			return (0);
+		
+		if (ft_strchr(" \t\n\v\f\r", unquoted[i]))
+			return (0);
+			
+		i++;
+	}
+	return (1);
+}
+
+int is_valid_delimiter(char *delimiter)
 {
 	size_t	i;
 	char	*unquoted;
 	int 	valid;
 
-	if (!delimiter)
+	if (!delimiter || !ft_strlen(delimiter))
 		return (0);
-
-	// Si le délimiteur est entre quotes, on vérifie la version sans quotes
 	if (is_quoted(delimiter))
 	{
 		unquoted = ft_strdup(delimiter);
@@ -98,22 +115,30 @@ int is_valid_heredoc_delimiter(char *delimiter)
 		free(unquoted);
 		return (valid);
 	}
-
-	// Un délimiteur ne peut pas être vide
-	if (ft_strlen(delimiter) == 0)
-		return (0);
-
-	// Vérifie chaque caractère du délimiteur
 	i = 0;
 	while (delimiter[i])
 	{
-		// Les caractères de contrôle ne sont pas autorisés
-		if (delimiter[i] < 32 || delimiter[i] > 126)
-			return (0);
-		// Les caractères spéciaux ne sont pas autorisés sans quotes
-		if (ft_strchr("<>|&;()", delimiter[i]))
+		if (delimiter[i] < 32 || delimiter[i] > 126 || ft_strchr("<>|&;()", delimiter[i]))
 			return (0);
 		i++;
 	}
 	return (1);
 }
+
+/* t_expand	*get_var_name(char *str, t_expand *exp, t_shell *sh)
+{
+	size_t	i;
+	t_expand	*var;
+
+	exp->buf_size = 0;
+	if (!str || !*str)
+		return (var);
+	if (*str == '?')
+	{
+		var->buf = ft_substr(str, 0, 1);
+		var->buf_size = 1;
+		return (var);
+	}
+	var->buf = get_valid_name(str, exp, sh);
+	return (var->buf);
+} */

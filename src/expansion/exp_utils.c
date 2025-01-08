@@ -3,27 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   exp_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:04:17 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/02 14:47:02 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/08 15:43:37 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	init_expansion(t_expand *exp, char *str, t_token **expanded_args, 
+bool	init_expansion(t_expand *exp, char *str, t_token **expanded_args,
 						t_shell *sh)
 {
-	(void)sh;
-	exp->i = 0;
-	exp->buf_i = 0;
-	exp->context = NO_QUOTE;
-	exp->empty_quotes = false;
-	exp->tokens = expanded_args;
-	exp->wildcards_position = NULL;
-	exp->buf_size = ft_strlen(str) + 1;
-	exp->buf = ft_calloc(ft_strlen(str) + 1, sizeof(char));
+	if (sh->prompt_mode == MAIN_PROMPT)
+	{
+		exp->i = 0;
+		exp->buf_i = 0;
+		exp->context = NO_QUOTE;
+		exp->empty_quotes = false;
+		exp->tokens = expanded_args;
+		exp->wildcards_position = NULL;
+		exp->buf_size = ft_strlen(str) + 1;
+		exp->buf = ft_calloc(ft_strlen(str) + 1, sizeof(char));
+		return (true);
+	}
+	else
+	{
+		ft_memset(exp, 0, sizeof(t_expand));
+		exp->buf = ft_calloc(4096, sizeof(char));
+		if (!exp->buf)
+			return (false);
+		exp->buf_size = 4096;
+		exp->buf_i = 0;
+		exp->i = 0;
+		return (true);
+	}
+	return (false);
 }
 
 void	no_quote(char *str, t_expand *exp, t_shell *sh)
@@ -68,7 +83,7 @@ void	double_quote(char *str, t_expand *exp, t_shell *sh)
 			exp->empty_quotes = true;
 		exp->context = NO_QUOTE;
 	}
-	else if (str[exp->i] == '\\' && 
+	else if (str[exp->i] == '\\' &&
 			(str[exp->i + 1] == '\"' || str[exp->i + 1] == '\\'))
 	{
 		exp->i++;
@@ -110,13 +125,31 @@ void	add_var_to_buffer(char *value, t_expand *exp, t_shell *sh)
 {
 	char	*new_buffer;
 
-	exp->buf_size += ft_strlen(value);
-	save_wildcards_pos(value, exp, sh);
-	new_buffer = ft_calloc(exp->buf_size, sizeof(char));
-	ft_strlcpy(new_buffer, exp->buf, exp->buf_i + 1);
-	ft_strlcpy(new_buffer, value, exp->buf_i + ft_strlen(value) + 1);
-	exp->buf = new_buffer;
-	exp->buf_i += ft_strlen(value);
+	if (sh->prompt_mode == MAIN_PROMPT)
+	{
+		exp->buf_size += ft_strlen(value);
+		save_wildcards_pos(value, exp, sh);
+		new_buffer = ft_calloc(exp->buf_size, sizeof(char));
+		ft_strlcpy(new_buffer, exp->buf, exp->buf_i + 1);
+		ft_strlcpy(new_buffer, value, exp->buf_i + ft_strlen(value) + 1);
+		exp->buf = new_buffer;
+		exp->buf_i += ft_strlen(value);
+	}
+	else
+	{
+		int	i;
+
+		i = 0;
+		while (value && value[i])
+		{
+			if (exp->buf_i < exp->buf_size - 1)
+				exp->buf[exp->buf_i++] = value[i];
+			else
+				break;
+			i++;
+		}
+		exp->buf[exp->buf_i] = '\0';
+	}
 }
 
 char	*get_valid_name(char *str, t_expand *exp, t_shell *sh)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_filename_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 17:40:18 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/02 14:39:23 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/08 14:01:56 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@ t_token	*pattern_filter(t_token *tokens, t_expand *exp)
 	t_token	*current;
 	t_token	*next;
 	char	*full_filename;
-	
+	(void)next;
+	(void)exp;
+
 	current = tokens;
 	while (current)
 	{

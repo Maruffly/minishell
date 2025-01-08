@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/07 18:06:39 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/08 18:29:31 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void 	print_ast(t_ast *node);
 // signal //
 void			sigint_handler(int signum);
 void			handle_eof(char *input, t_shell *sh);
+void			heredoc_sigint_handler(int signum);
 // void			set_main_signals(void);
 // void			set_heredoc_signal(void);
 // void			handle_signal(int signum, void (*handler)(int));
@@ -132,6 +133,9 @@ t_ast			*ast_from_tokens(t_token *tokens);
 // redirections
 t_ast			*build_redir_cmd(t_ast *prefix, t_ast *suffix, t_ast *command);
 
+// HEREDOC //
+void free_heredoc(t_heredoc *hdoc);
+
 // EXEC //
 int				execute_heredoc(t_ast *ast, t_shell *sh);
 int 			heredoc_eof_handler(t_heredoc *hdoc);
@@ -182,7 +186,7 @@ t_ast			*node_expansion(t_ast *node, t_shell *sh);
 void			command_expansion(t_ast *node, t_shell *sh);
 void			redirection_expansion(t_ast *node, t_shell *sh);
 void			arg_expansion(char *str, t_token **expanded_args, t_shell *sh);
-void			init_expansion(t_expand *exp, char *str, t_token **expanded_args, 
+bool			init_expansion(t_expand *exp, char *str, t_token **expanded_args, 
 						t_shell *sh);
 void			no_quote(char *str, t_expand *exp, t_shell *sh);
 void			single_quote(char *str, t_expand *exp);
@@ -191,6 +195,7 @@ void			*add_token_to_list(t_expand *exp, t_shell *sh);
 void			add_var_to_buffer(char *value, t_expand *exp, t_shell *sh);
 void			expand_var(char *str, t_expand *exp, t_shell *sh);
 void			expand_last_status(t_expand *exp, t_shell *sh);
+char			*expand_heredoc_vars(char *line, t_shell *sh, t_expand *exp);
 char			*get_valid_name(char *str, t_expand *exp, t_shell *sh);
 char			**list_to_array(t_token **lst, t_shell *sh);
 void			add_wildcard_pos(t_token **token_list, int pos, t_shell *sh);

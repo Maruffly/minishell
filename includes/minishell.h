@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/09 13:35:00 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/09 17:20:11 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,11 @@ void 			print_ast(t_ast *node);
 void			sigint_handler(int signum);
 void			handle_eof(char *input, t_shell *sh);
 void			heredoc_sigint_handler(int signum);
+
+void	set_signal_handler(int signum, void (*handler)(int));
+void	set_signal_child_process(void);
+
+
 // void			set_main_signals(void);
 // void			set_heredoc_signal(void);
 // void			handle_signal(int signum, void (*handler)(int));
@@ -72,6 +77,7 @@ void			ft_lstadd_back_token(t_token **token_list, t_token *new_token);
 void			ft_lstclear_token(t_token **lst, void (*del)(void *));
 void			ft_lstdelone_token(t_token *lst, void (*del)(void *));
 int				ft_lstsize_token(t_token *token);
+void			add_front_token(t_token **token_list, t_ast *node, t_shell *sh);
 
 
 
@@ -212,13 +218,23 @@ bool			pattern_match(char *filename, char *pattern, int pattern_index,
 bool			is_active_wildcard(int i, t_expand *exp);
 bool			only_active_wildcard_left(char *str, t_expand *exp);
 
+
+// EXEC
+int				execute(t_ast *node, t_exit end, t_shell *sh);
+int				check_process_child_exit(int status, bool *new_line, t_shell *sh);
+
+
 // EXEC LOGICAL
 int 			exec_logical(t_ast_logical *logical, t_shell *sh);
 
 // EXEC PIPELINE
 int				exec_pipeline(t_ast *node, t_shell *sh);
-
-int				execute(t_ast *node, t_exit end, t_shell *sh);
+t_token 		*build_cmd_list(t_ast *node, t_shell *sh);
+int 			execute_pipeline_token(t_token *pipeline, t_shell *sh);
+pid_t			exec_one_pipeline_token(t_token *pipeline, int prev_read_end, int p[2],
+				t_shell *sh);
+void			setup_for_next_command(int *prev_read_end, int p[2], t_shell *sh);
+int				wait_for_children(pid_t last_pid, int n_pipeline, t_shell *sh);
 
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_signal.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 17:46:57 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/08 18:20:20 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/09 17:20:00 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,22 @@ void	sigint_handler(int signum)
 	rl_redisplay();
 }
 
+
+void	set_signal_handler(int signum, void (*handler)(int))
+{
+	struct sigaction	sa;
+
+	sa.sa_handler = handler;
+	sa.sa_flags = 0;
+	sigemptyset(&sa.sa_mask);
+	sigaction(signum, &sa, NULL);
+}
+
+void	set_signal_child_process(void)
+{
+	set_signal_handler(SIGINT, SIG_DFL);
+	set_signal_handler(SIGQUIT, SIG_DFL);
+}
 
 // void	handle_signal(int signum, void (*handler)(int))
 // {

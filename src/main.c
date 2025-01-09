@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/08 18:27:47 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/09 15:55:11 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	process_prompt(char *input, t_shell *sh)
 	if (process == EXIT_SUCCESS && token_lst)
 	{
 		process = parser(token_lst, &ast, sh);
-		print_ast(ast);
+		/* print_ast(ast); */
 		/* return (0); */
 		if (process == EXIT_SUCCESS && ast)
 		{
@@ -68,7 +68,6 @@ char	*read_line(t_prompt_mode mode)
 	if (mode == MAIN_PROMPT)
 	{
 		signal(SIGINT, sigint_handler);
-		/* input = "ls -l > output | cat output && (echo bonjour)"; */
 		input = readline(GREEN"Omar&Fred > "RESET);
 	}
 	else if (mode == HEREDOC_PROMPT)

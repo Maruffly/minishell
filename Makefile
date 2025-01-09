@@ -21,10 +21,6 @@ SRC_FILES = main.c\
 			/token/token_specials.c\
 			/token/token_utils.c\
 			/token/token_words.c\
-			/exec/execute_commands.c\
-			/exec/child.c\
-			/exec/heredoc.c\
-			/exec/heredoc_utils.c\
 			/exit/free.c\
 			/exit/exit_status.c\
 			/parsing/parser.c\
@@ -43,6 +39,8 @@ SRC_FILES = main.c\
 			/expansion/exp_var.c\
 			/expansion/exp_filename.c\
 			/expansion/exp_filename_utils.c\
+			/exec/execute_commands.c\
+			/exec/child.c\
 			/exec/exec.c\
 			/exec/heredoc_utils.c\
 			/exec/heredoc.c\

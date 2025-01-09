@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/08 18:29:31 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/09 13:35:00 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # define CYAN	"\e[36m"
 
 // print
-void 	print_ast(t_ast *node);
+void 			print_ast(t_ast *node);
 
 // signal //
 void			sigint_handler(int signum);
@@ -134,7 +134,7 @@ t_ast			*ast_from_tokens(t_token *tokens);
 t_ast			*build_redir_cmd(t_ast *prefix, t_ast *suffix, t_ast *command);
 
 // HEREDOC //
-void free_heredoc(t_heredoc *hdoc);
+void			free_heredoc(t_heredoc *hdoc);
 
 // EXEC //
 int				execute_heredoc(t_ast *ast, t_shell *sh);
@@ -218,6 +218,7 @@ int 			exec_logical(t_ast_logical *logical, t_shell *sh);
 // EXEC PIPELINE
 int				exec_pipeline(t_ast *node, t_shell *sh);
 
+int				execute(t_ast *node, t_exit end, t_shell *sh);
 
 
 #endif

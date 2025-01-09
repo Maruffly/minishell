@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/20 12:36:36 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/09 14:28:31 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	parser(t_token *token, t_ast **ast, t_shell *sh)
 		syntax_error("...", sh);
 	if (sh->parsing_error)
 		return (report_syntax_error(sh));
-	return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
 t_ast	*parse_logical(t_token **token, t_shell *sh)

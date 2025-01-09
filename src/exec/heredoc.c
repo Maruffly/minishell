@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 13:35:04 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/08 18:35:36 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/09 15:57:29 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static int	heredoc_child(t_heredoc *hdoc, t_shell *sh, t_expand *exp)
 	// TODO set_heredoc_signals();
 	while (1)
 	{
-		line = readline(">");
+		line = read_line(HEREDOC_PROMPT);
 		if (!line)
 			return (heredoc_eof_handler(hdoc));
 		if (is_delimiter(line, hdoc->limiter))

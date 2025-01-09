@@ -47,6 +47,7 @@ SRC_FILES = main.c\
 			/exec/exec_logical.c\
 			/exec/exec_pipeline.c\
 			/exec/exec_pipeline_utils.c\
+			/exec/exec_redirection.c\
 
 SRC_DIR = ./src/
 

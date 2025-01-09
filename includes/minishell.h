@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/09 17:20:11 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/09 17:49:46 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,6 +235,10 @@ pid_t			exec_one_pipeline_token(t_token *pipeline, int prev_read_end, int p[2],
 				t_shell *sh);
 void			setup_for_next_command(int *prev_read_end, int p[2], t_shell *sh);
 int				wait_for_children(pid_t last_pid, int n_pipeline, t_shell *sh);
+
+// EXEC REDIRECTION
+int				exec_redirection(t_ast_redirection *redir, t_shell *sh);
+
 
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 17:58:12 by jlaine            #+#    #+#             */
-/*   Updated: 2024/12/20 13:58:23 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/09 17:52:47 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void	*syntax_error(char *unexpected_token, t_shell *sh)
 		sh->parsing_error = unexpected_token;
 	return (NULL);
 }
+
 int	report_syntax_error(t_shell *sh)
 {
 	/* report_error("syntax error near unexpected token `",

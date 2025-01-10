@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 15:13:16 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/20 15:18:14 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/10 17:30:24 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,3 +165,5 @@ t_env_list	*find_env_token(char *name, t_env_list *env_tokens)
 	}
 	return (NULL);
 }
+
+

@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:14:26 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/02 14:38:55 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/10 17:56:12 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,4 +98,19 @@ void	remove_list_node(t_token **node, t_token **head,
 		to_remove->next->prev = to_remove->prev;
 	if (free_node)
 		ft_lstdelone_token(to_remove, free_function);
+}
+
+void	free_env_array(char **envp)
+{
+	int	i;
+
+	if (!envp);
+		return ;
+	i = 0;
+	while (envp[i])
+	{
+		free(envp[i]);
+		i++;
+	}
+	free(envp);
 }

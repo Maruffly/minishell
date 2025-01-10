@@ -39,7 +39,6 @@ SRC_FILES = main.c\
 			/expansion/exp_var.c\
 			/expansion/exp_filename.c\
 			/expansion/exp_filename_utils.c\
-			/exec/execute_commands.c\
 			/exec/child.c\
 			/exec/exec.c\
 			/exec/heredoc_utils.c\
@@ -49,6 +48,8 @@ SRC_FILES = main.c\
 			/exec/exec_pipeline_utils.c\
 			/exec/exec_redirection.c\
 			/exec/exec_subshell.c\
+			/exec/exec_command.c\
+			/exec/exec_command_utils.c\
 
 SRC_DIR = ./src/
 

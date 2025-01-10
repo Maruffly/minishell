@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/10 14:47:30 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/10 17:55:50 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void 			ft_lstclear_env(t_env_list **lst, void (*del)(void *));
 void 			ft_lstdelone_env(t_env_list *env, void (*del)(void *));
 void			remove_list_node(t_token **node, t_token **head, 
 				void (*free_function)(void *), bool free_node);
+void			free_env_array(char **envp);
+
 
 // errors
 int				report_syntax_error(t_shell *sh);
@@ -142,11 +144,9 @@ t_ast			*build_redir_cmd(t_ast *prefix, t_ast *suffix, t_ast *command);
 // HEREDOC //
 void			free_heredoc(t_heredoc *hdoc);
 
-// EXEC //
+// EXEC HEREDOC//
 int				execute_heredoc(t_ast *ast, t_shell *sh);
 int 			heredoc_eof_handler(t_heredoc *hdoc);
-int				fork_command(t_ast_command *cmd, t_shell *sh);
-void			exec_builtin(t_ast_command *cmd, t_env_list *env);
 
 // CHILD //
 char			*get_path(t_ast_command *cmd, char **envp);
@@ -244,6 +244,13 @@ int				exec_redirection(t_ast_redirection *redir, t_shell *sh);
 
 // EXEC SUBSHELL
 int				exec_subshell(t_ast_subshell *subshell, t_shell *sh);
+
+// EXEC COMMAND
+void			exec_extern_command(t_ast_command *cmd, t_shell *sh);
+int				fork_command(t_ast_command *cmd, t_exit end, t_shell *sh);
+int				exec_command(t_ast_command *cmd, t_exit end, t_shell *sh);
+char			**convert_env_list_to_array(t_env_list *env_list);
+
 
 
 

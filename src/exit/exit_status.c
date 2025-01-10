@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 17:58:12 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/09 17:52:47 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/10 13:06:18 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,3 +87,4 @@ int	report_syntax_error(t_shell *sh)
 	sh->parsing_error = NULL;
 	return (2);
 }
+

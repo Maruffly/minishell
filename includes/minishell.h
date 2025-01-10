@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/10 14:37:52 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/10 14:47:30 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,6 +241,9 @@ int				redirect_input(t_ast_redirection *redir, t_shell *sh);
 int				redirect_output(t_ast_redirection *redir, t_shell *sh);
 int				append_output(t_ast_redirection *redir, t_shell *sh);
 int				exec_redirection(t_ast_redirection *redir, t_shell *sh);
+
+// EXEC SUBSHELL
+int				exec_subshell(t_ast_subshell *subshell, t_shell *sh);
 
 
 

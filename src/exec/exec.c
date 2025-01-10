@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 13:33:30 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/09 17:44:04 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/10 14:42:20 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ int	execute(t_ast *node, t_exit end, t_shell *sh)
 	else if (node->type == AST_PIPELINE)
 		status = exec_pipeline(node, sh);
 	else if (node->type == AST_REDIRECTION)
-		status = exec_redirection(&node->u_data.redirection, sh); //// TO DO
+		status = exec_redirection(&node->u_data.redirection, sh);
+	else if (node->type == AST_SUBSHELL)
+		status = exec_subshell(&node->u_data.subshell, sh);
 	return (status);
 }

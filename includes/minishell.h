@@ -6,7 +6,7 @@
 /*   By: jorislaine <jorislaine@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/12 18:22:24 by jorislaine       ###   ########.fr       */
+/*   Updated: 2025/01/12 18:28:32 by jorislaine       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,8 +148,6 @@ void			free_heredoc(t_heredoc *hdoc);
 int				execute_heredoc(t_ast *ast, t_shell *sh);
 int 			heredoc_eof_handler(t_heredoc *hdoc);
 
-// CHILD //
-char			*get_path(t_ast_command *cmd, char **envp);
 /* void	redir_command(t_command *cmd);
 void	close_unused_fds(t_command	*cmd);
 void	setup_pipes(t_command *cmd);

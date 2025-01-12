@@ -3,21 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jorislaine <jorislaine@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 15:19:04 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/10 17:54:20 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/12 18:24:28 by jorislaine       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../includes/minishell.h"
+
+char	*search_in_path(char *command, t_env_list *env)
+{
+	int		i;
+	char	*path;
+	char	*path_env;
+	char	**paths;
+
+	path_env = get_path_env(env);
+	if (!path_env)
+		return (NULL);
+	paths = ft_split(path_env, ':');
+	if (!paths)
+		return (NULL);
+	i = 0;
+	while (paths[i])
+	{
+		path = build_path(paths[i], command);
+		if (access(path, F_OK) == 0)
+		{
+			ft_free_split(paths);
+			return (path);
+		}
+		free(path);
+		i++;
+	}
+	ft_free_split(paths);
+	return (NULL);
+}
+
+char	*find_command_path(char *command, t_env_list *env)
+{
+	char	*path;
+
+	if (ft_strchr(command, '/'))
+		return (ft_strdup(command));
+	path = search_in_path(command, env);
+	return (path);
+}
 
 void	exec_extern_command(t_ast_command *cmd, t_shell *sh)
 {
 	char	*path;
 	char	**envp;
 
-	path = find_command_path(cmd->args[0], sh->env); /// TO DO
+	path = find_command_path(cmd->args[0], sh->env);
 	if (!path)
 	{
 		ft_putstr_fd("minishell: command not found: ", STDERR_FILENO);

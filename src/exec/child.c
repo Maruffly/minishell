@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jorislaine <jorislaine@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 13:08:45 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/12 12:48:19 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/12 12:51:00 by jorislaine       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 char	*get_path(t_ast_command *cmd, char **envp)
 {
+	int		i;
 	char	**paths;
 	char	*cmd_path;
-	int		i;
 	char	*part_path;
 
 	i = 0;

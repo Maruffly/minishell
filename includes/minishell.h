@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jorislaine <jorislaine@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/10 17:55:50 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/12 18:22:24 by jorislaine       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,6 +250,11 @@ void			exec_extern_command(t_ast_command *cmd, t_shell *sh);
 int				fork_command(t_ast_command *cmd, t_exit end, t_shell *sh);
 int				exec_command(t_ast_command *cmd, t_exit end, t_shell *sh);
 char			**convert_env_list_to_array(t_env_list *env_list);
+char			*find_command_path(char *command, t_env_list *env);
+char			*search_in_path(char *command, t_env_list *env);
+char			*get_path_env(t_env_list *env);
+char			*build_path(char *dir, char *command);
+
 
 
 

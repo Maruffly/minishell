@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:03:22 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/13 13:23:23 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/13 18:23:11 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,14 @@ void	expand_last_status(t_expand *exp, t_shell *sh)
 	last_exit_status = ft_itoa(sh->last_status);
 	if (!last_exit_status)
 		return ;
-	add_var_to_buffer(last_exit_status, exp, sh);
+	if (exp->context == NO_QUOTE && exp->buf_i == 0 && exp->i == 2)
+	{
+		ft_putstr_fd("Omar&Fred: ", STDERR_FILENO);
+		ft_putstr_fd(last_exit_status, STDERR_FILENO);
+		ft_putstr_fd(": command not found\n", STDERR_FILENO);
+	}
+	else
+		add_var_to_buffer(last_exit_status, exp, sh);
 	free(last_exit_status);
 }
 

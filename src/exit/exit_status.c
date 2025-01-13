@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 17:58:12 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/10 13:06:18 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/13 18:21:14 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	exit_shell(int exit_status, t_shell *sh)
 void	error(char *context, char *description, int exit_status,
 	t_shell *sh)
 {
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd("Omar&Fred: ", STDERR_FILENO);
 	ft_putstr_fd(description, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putstr_fd(context, STDERR_FILENO);
@@ -87,4 +87,5 @@ int	report_syntax_error(t_shell *sh)
 	sh->parsing_error = NULL;
 	return (2);
 }
+
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 15:19:04 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/13 14:15:46 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/01/13 18:25:18 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,17 @@ void	exec_extern_command(t_ast_command *cmd, t_shell *sh)
 	path = find_command_path(cmd->args[0], sh->env);
 	if (!path)
 	{
-		ft_putstr_fd("minishell: command not found: ", STDERR_FILENO);
+		ft_putstr_fd("Omar&Fred: ", STDERR_FILENO);
 		ft_putstr_fd(cmd->args[0], STDERR_FILENO);
-		ft_putstr_fd("\n", STDERR_FILENO);
-		exit(EXIT_FAILURE);
+		ft_putstr_fd(": command not found\n", STDERR_FILENO);
+		exit(127);
+	}
+	if (access(path, X_OK) < 0) // gere le code de retour si pas de permission (condenser dans une sous fonction)
+	{
+		ft_putstr_fd("Omar&Fred: ", STDERR_FILENO);
+		ft_putstr_fd(cmd->args[0], STDERR_FILENO);
+		ft_putstr_fd(": permission denied\n", STDERR_FILENO);
+		exit(126);
 	}
 	envp = convert_env_list_to_array(sh->env);
 	execve(path, cmd->args, envp);
@@ -89,14 +96,14 @@ int	fork_command(t_ast_command *cmd, t_exit end, t_shell *sh)
 	else if (pid > 0)
 	{
 		wait(&status);
-		status = check_process_child_exit(status, NULL, sh);
+		sh->last_status = check_process_child_exit(status, NULL, sh);
 	}
 	else
 	{
 		perror("fork");
 		return (EXIT_FAILURE);
 	}
-	return (status);
+	return (sh->last_status);
 }
 
 int	exec_command(t_ast_command *cmd, t_exit end, t_shell *sh)

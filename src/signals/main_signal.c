@@ -3,17 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_signal.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-<<<<<<< Updated upstream
 /*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 17:46:57 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/13 14:25:20 by jbmy             ###   ########.fr       */
-=======
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/05 17:46:57 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/13 12:58:48 by jlaine           ###   ########.fr       */
->>>>>>> Stashed changes
+/*   Updated: 2025/01/13 18:29:21 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +50,9 @@ void	heredoc_sigint_handler(int signum)
 	tcsetattr(STDIN_FILENO, TCSANOW, &orig_termios);
 }
 
-<<<<<<< Updated upstream
 void	set_signal(int signum, void (*handler)(int))
  {
  	struct sigaction	sa;
-=======
-void	handle_signal(int signum, void (*handler)(int))
-{
-	struct sigaction	sa;
->>>>>>> Stashed changes
 
 	sa.sa_handler = handler;
 	sa.sa_flags = SA_RESTART;

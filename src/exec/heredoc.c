@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 13:35:04 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/09 15:57:29 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/10 16:47:50 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,10 @@ static char	*handle_expansion(char *line, t_heredoc *hdoc, t_shell *sh, t_expand
 	expand_line = expand_heredoc_vars(line, sh, exp);
 	free(line);
 	if (!expand_line)
+	{
+		printf("Exp failure");
 		return (NULL);
+	}
 	return (expand_line);	
 }
 
@@ -62,12 +65,16 @@ static int	heredoc_child(t_heredoc *hdoc, t_shell *sh, t_expand *exp)
 	char	*line;
 	char	*proc_line;
 
-	// TODO set_heredoc_signals();
+	close(hdoc->pipe_fd[0]);
+	set_signal_heredoc();
 	while (1)
 	{
 		line = read_line(HEREDOC_PROMPT);
 		if (!line)
+		{
+			printf("!line\n");
 			return (heredoc_eof_handler(hdoc));
+		}
 		if (is_delimiter(line, hdoc->limiter))
 			return (free(line), EXIT_SUCCESS);
 		proc_line = handle_expansion(line, hdoc, sh, exp);
@@ -94,13 +101,17 @@ static int	heredoc_parent(pid_t child_pid)
 int	read_heredoc(t_heredoc *hdoc, t_shell *sh, t_expand *exp)
 {
 	hdoc->heredoc_pid = fork();
+	printf("PID_HEREDOC = %d\n", hdoc->heredoc_pid);
 	if (hdoc->heredoc_pid == -1)
 	{
 		perror("heredoc fork");
 		return (EXIT_FAILURE);
 	}
 	if (hdoc->heredoc_pid == 0)
+	{
+		sleep(10);
 		exit(heredoc_child(hdoc, sh, exp));
+	}
 	return (heredoc_parent(hdoc->heredoc_pid));
 }
 
@@ -109,7 +120,6 @@ int	handle_heredoc(t_ast_redirection *redir, t_shell *sh, t_expand *exp)
 	t_heredoc	*hdoc;
 	int			error_code;
 
-	sh->prompt_mode = HEREDOC_PROMPT;
 	hdoc = init_heredoc(redir->file);
 	if (!hdoc)
 		return (EXIT_FAILURE);

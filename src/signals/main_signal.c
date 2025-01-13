@@ -6,13 +6,11 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 17:46:57 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/08 18:20:20 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/10 15:30:10 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include "../../includes/libraries.h"
-#include "../../includes/structures.h"
 
 void	handle_eof(char *input, t_shell *sh)
 {
@@ -22,14 +20,16 @@ void	handle_eof(char *input, t_shell *sh)
 
 void	heredoc_sigint_handler(int signum)
 {
-	(void)signum;
-	write(STDOUT_FILENO, "\n", 1);
-	exit(130);
-}
+	struct termios	orig_termios;
+	struct termios	new_termios;
 
-void	set_heredoc_signals(void)
-{
-	
+	g_signal_value = signum;
+	tcgetattr(STDIN_FILENO, &orig_termios);
+	tcgetattr(STDIN_FILENO, &new_termios);
+	new_termios.c_lflag &= (tcflag_t)(~(ICANON | ECHO));
+	tcsetattr(STDIN_FILENO, TCSANOW, &new_termios);
+	ioctl(STDIN_FILENO, TIOCSTI, "\n");
+	tcsetattr(STDIN_FILENO, TCSANOW, &orig_termios);
 }
 
 void	sigint_handler(int signum)
@@ -42,43 +42,40 @@ void	sigint_handler(int signum)
 	rl_redisplay();
 }
 
+void	set_signal(int signum, void (*handler)(int))
+{
+	struct sigaction	sa;
 
-// void	handle_signal(int signum, void (*handler)(int))
-// {
-// 	struct sigaction	sa;
+	sa.sa_handler = handler;
+	sa.sa_flags = SA_RESTART;
+	sigemptyset(&sa.sa_mask);
+	sigaction(signum, &sa, NULL);
+}
 
-// 	sa.sa_handler = handler;
-// 	sa.sa_flags = 0;
-// 	sigemptyset(&sa.sa_mask);
-// 	sigaction(signum, &sa, NULL);
-// }
+void	set_signal_prompt(void)
+{
+	int	signum;
 
-// void	sigint_handler(int signum)
-// {
-// 	(void)signum;
-// 	g_signal_value = SIGINT;
-// 	write(1, "\n", 1);
-// 	rl_on_new_line();
-// 	rl_replace_line("", 0);
-// 	rl_redisplay();
-// }
+	(void)signum;
+	set_signal(SIGINT, sigint_handler);
+	set_signal(SIGQUIT, SIG_IGN);
+}
 
-// void	sigquit_handler(int signum)
-// {
-// 	(void)signum;
-// 	write(1, "\r", 1);
-// 	rl_on_new_line();
-// 	rl_redisplay();
-// }
+void	set_signal_main_process(void)
+{
+	set_signal(SIGINT, SIG_IGN);
+	set_signal(SIGQUIT, SIG_IGN);
+}
 
-// void	set_main_signals(void)
-// {
-// 	handle_signal(SIGINT, sigint_handler);
-// 	handle_signal(SIGQUIT, sigquit_handler);
-// }
+void	set_signal_child_process(void)
+{
+	set_signal(SIGINT, SIG_DFL);
+	set_signal(SIGQUIT, SIG_DFL);
+}
 
-// void	set_heredoc_signal(void)
-// {
-// 	handle_signal(SIGINT, sigint_handler);
-// 	handle_signal(SIGQUIT, SIG_IGN);
-// }
+void	set_signal_heredoc(void)
+{
+	printf("Configuring signals for heredoc\n");
+	set_signal(SIGINT, heredoc_sigint_handler);
+	set_signal(SIGQUIT, SIG_IGN);
+}

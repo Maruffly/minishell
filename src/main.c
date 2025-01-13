@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/09 15:55:11 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/10 16:02:31 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,22 +63,22 @@ char	*read_line(t_prompt_mode mode)
 	char	*input;
 
 	g_signal_value = 0; // reinitialise le signal global
-	signal(SIGINT, SIG_IGN); // ignore SIGINT et SIGQUIT au lancement
-	signal(SIGQUIT, SIG_IGN);
+	set_signal(SIGINT, SIG_IGN); // ignore SIGINT et SIGQUIT au lancement
+	set_signal(SIGQUIT, SIG_IGN);
 	if (mode == MAIN_PROMPT)
 	{
-		signal(SIGINT, sigint_handler);
+		set_signal(SIGINT, sigint_handler);
 		input = readline(GREEN"Omar&Fred > "RESET);
 	}
 	else if (mode == HEREDOC_PROMPT)
 	{
-		signal(SIGINT, sigint_handler);
+		set_signal(SIGINT, heredoc_sigint_handler);
 		input = readline("> ");
 	}
 	else
 		input = NULL;
-	signal(SIGINT, SIG_DFL); // restaure les signaux apres lecture de l'input
-	signal(SIGQUIT, SIG_DFL);
+	set_signal(SIGINT, SIG_DFL); // restaure les signaux apres lecture de l'input
+	set_signal(SIGQUIT, SIG_DFL);
 	return (input);
 }
 

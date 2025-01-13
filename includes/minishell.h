@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/09 13:35:00 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/10 13:14:00 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void 			print_ast(t_ast *node);
 void			sigint_handler(int signum);
 void			handle_eof(char *input, t_shell *sh);
 void			heredoc_sigint_handler(int signum);
+void			set_signal(int signum, void (*handler)(int));
+void			set_signal_heredoc(void);
 // void			set_main_signals(void);
 // void			set_heredoc_signal(void);
 // void			handle_signal(int signum, void (*handler)(int));

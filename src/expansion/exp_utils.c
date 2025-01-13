@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:04:17 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/08 15:43:37 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/10 16:59:26 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ bool	init_expansion(t_expand *exp, char *str, t_token **expanded_args,
 		exp->empty_quotes = false;
 		exp->tokens = expanded_args;
 		exp->wildcards_position = NULL;
-		exp->buf_size = ft_strlen(str) + 1;
+		exp->buf_size = ft_strlen(str) + 1; // SEGFAULT
 		exp->buf = ft_calloc(ft_strlen(str) + 1, sizeof(char));
 		return (true);
 	}

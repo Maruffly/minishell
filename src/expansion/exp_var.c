@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:03:22 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/08 18:49:41 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/10 16:19:53 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,10 @@ char *expand_heredoc_vars(char *line, t_shell *sh, t_expand *exp)
 	char	*result;
 
 	if (!init_expansion(exp, 0, 0, sh))
-		return (NULL); 
+	{
+		 printf("Expansion initialization failed\n"); 
+		return (NULL);
+	}
 	while (line[exp->i])
 	{
 		if (line[exp->i] == '$' && line[exp->i + 1] && line[exp->i + 1] != ' ')

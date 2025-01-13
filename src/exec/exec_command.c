@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jorislaine <jorislaine@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 15:19:04 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/12 18:24:28 by jorislaine       ###   ########.fr       */
+/*   Updated: 2025/01/13 14:15:46 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,12 @@ int	fork_command(t_ast_command *cmd, t_exit end, t_shell *sh)
 	pid_t	pid;
 	int		status;
 
+	(void)end;
 	pid = fork();
 	if (pid == 0)
 	{
 		sh->is_parent = false;
-		set_signal_child_process();
+		set_child_signals();
 		exec_extern_command(cmd, sh);
 		exit(EXIT_FAILURE);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipeline_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:44:13 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/09 17:17:04 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/13 14:14:37 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ pid_t	exec_one_pipeline_token(t_token *pipeline, int prev_read_end, int p[2],
 	if (pid != 0)
 		return (pid);
 	sh->is_parent = false;
-	set_signal_child_process();
+	set_child_signals();
 	if (prev_read_end != -1)
 	{
 		dup2(prev_read_end, STDIN_FILENO);
@@ -37,6 +37,8 @@ pid_t	exec_one_pipeline_token(t_token *pipeline, int prev_read_end, int p[2],
 
 void	setup_for_next_command(int *prev_read_end, int p[2], t_shell *sh)
 {
+	(void)sh;
+
 	if (*prev_read_end != -1)
 		close(*prev_read_end);
 	close(p[1]);

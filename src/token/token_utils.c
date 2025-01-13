@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/09 16:42:57 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/13 14:07:56 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,11 +114,12 @@ int	ft_lstsize_token(t_token *token)
 void	add_front_token(t_token **token_list, t_ast *node, t_shell *sh)
 {
 	t_token	*new_token;
+	(void)sh;
 
 	new_token = ft_calloc(1, sizeof(t_token));
 	if (!new_token)
 		return;
-	new_token->value = node;
+	new_token->node = node;
 	new_token->next = *token_list;
 	if (*token_list)
 		(*token_list)->prev = new_token;

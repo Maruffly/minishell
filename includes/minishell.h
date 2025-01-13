@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/13 12:20:27 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/13 13:27:59 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,12 @@
 void 			print_ast(t_ast *node);
 
 // signal //
-void			sigint_handler(int signum);
-void			handle_eof(char *input, t_shell *sh);
-void			heredoc_sigint_handler(int signum);
-
-void	set_signal_handler(int signum, void (*handler)(int));
-void	set_signal_child_process(void);
-
-
-// void			set_main_signals(void);
-// void			set_heredoc_signal(void);
-// void			handle_signal(int signum, void (*handler)(int));
+void		set_signal(int signum, void (*handler)(int));
+void		set_main_signals(void);
+void		set_heredoc_signals(void);
+void		set_exec_signals(void);
+void		set_child_signals(void);
+void		handle_eof(char *input, t_shell *sh);
 
 // readline //
 char			*read_line(t_prompt_mode mode);

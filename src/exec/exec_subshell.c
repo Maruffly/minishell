@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_subshell.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 14:43:03 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/10 14:47:12 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/13 14:15:14 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	exec_subshell(t_ast_subshell *subshell, t_shell *sh)
 	if (pid == 0)
 	{
 		sh->is_parent = false;
-		set_signal_child_process();
+		set_child_signals();
 		execute(subshell->child, EXIT_SHELL, sh);
 	}
 	wait(&status);

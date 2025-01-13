@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_signal.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 17:46:57 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/13 12:20:01 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/13 14:25:20 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,24 @@ void	handle_eof(char *input, t_shell *sh)
 {
 	if (!input)
 		exit_shell(sh->last_status, sh);
+}
+
+void	sigint_handler(int signum)
+{
+	(void)signum;
+	g_signal_value = SIGINT;
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
+
+void	sigquit_handler(int signum)
+{
+	(void)signum;
+
+	rl_on_new_line();
+	rl_redisplay();
 }
 
 void	heredoc_sigint_handler(int signum)
@@ -32,36 +50,9 @@ void	heredoc_sigint_handler(int signum)
 	tcsetattr(STDIN_FILENO, TCSANOW, &orig_termios);
 }
 
-void	sigint_handler(int signum)
-{
-	(void)signum;
-	g_signal_value = SIGINT;
-	write(1, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
-
-
-void	set_signal_handler(int signum, void (*handler)(int))
-{
-	struct sigaction	sa;
-
-	sa.sa_handler = handler;
-	sa.sa_flags = 0;
-	sigemptyset(&sa.sa_mask);
-	sigaction(signum, &sa, NULL);
-}
-
-void	set_signal_child_process(void)
-{
-	set_signal_handler(SIGINT, SIG_DFL);
-	set_signal_handler(SIGQUIT, SIG_DFL);
-}
-
-// void	handle_signal(int signum, void (*handler)(int))
-// {
-// 	struct sigaction	sa;
+void	set_signal(int signum, void (*handler)(int))
+ {
+ 	struct sigaction	sa;
 
 	sa.sa_handler = handler;
 	sa.sa_flags = SA_RESTART;
@@ -69,30 +60,27 @@ void	set_signal_child_process(void)
 	sigaction(signum, &sa, NULL);
 }
 
-void	set_signal_prompt(void)
+void	set_main_signals(void)
 {
-	int	signum;
-
-	(void)signum;
 	set_signal(SIGINT, sigint_handler);
+	set_signal(SIGQUIT, sigquit_handler);
+}
+
+void	set_heredoc_signals(void)
+{
+	printf("Configuring signals for heredoc\n");
+	set_signal(SIGINT, heredoc_sigint_handler);
 	set_signal(SIGQUIT, SIG_IGN);
 }
 
-void	set_signal_main_process(void)
+void	set_exec_signals(void)
 {
 	set_signal(SIGINT, SIG_IGN);
 	set_signal(SIGQUIT, SIG_IGN);
 }
 
-void	set_signal_child_process(void)
+void	set_child_signals(void)
 {
 	set_signal(SIGINT, SIG_DFL);
 	set_signal(SIGQUIT, SIG_DFL);
-}
-
-void	set_signal_heredoc(void)
-{
-	printf("Configuring signals for heredoc\n");
-	set_signal(SIGINT, heredoc_sigint_handler);
-	set_signal(SIGQUIT, SIG_IGN);
 }

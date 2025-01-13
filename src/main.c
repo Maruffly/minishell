@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/10 16:02:31 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/13 13:26:59 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,24 @@ int	launch_shell(t_shell *sh)
 {
 	char	*input;
 
+	set_main_signals();
 	while(1)
 	{
 		g_signal_value = 0;
 		input = read_line(MAIN_PROMPT);
 		handle_eof(input, sh);
 		if (g_signal_value == SIGINT)
+		{
 			sh->last_status = 130;
+			free(input);
+			continue;
+		}
 		if (input)
 		{
 			add_history(input);
 			sh->last_status = process_prompt(input, sh);
-			break ;
 		}
-		break ;
+		free(input);
 	}
 	return (0);
 }
@@ -63,22 +67,23 @@ char	*read_line(t_prompt_mode mode)
 	char	*input;
 
 	g_signal_value = 0; // reinitialise le signal global
-	set_signal(SIGINT, SIG_IGN); // ignore SIGINT et SIGQUIT au lancement
-	set_signal(SIGQUIT, SIG_IGN);
+	/* set_signal(SIGINT, SIG_IGN); // ignore SIGINT et SIGQUIT au lancement
+	set_signal(SIGQUIT, SIG_IGN); */
 	if (mode == MAIN_PROMPT)
 	{
-		set_signal(SIGINT, sigint_handler);
+		set_main_signals();
 		input = readline(GREEN"Omar&Fred > "RESET);
 	}
 	else if (mode == HEREDOC_PROMPT)
 	{
-		set_signal(SIGINT, heredoc_sigint_handler);
+		set_heredoc_signals();
 		input = readline("> ");
+		set_main_signals(); // restaure le main signal apres le heredoc
 	}
 	else
 		input = NULL;
-	set_signal(SIGINT, SIG_DFL); // restaure les signaux apres lecture de l'input
-	set_signal(SIGQUIT, SIG_DFL);
+	/* set_signal(SIGINT, SIG_DFL); // restaure les signaux apres lecture de l'input
+	set_signal(SIGQUIT, SIG_DFL); */
 	return (input);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 13:35:04 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/10 16:47:50 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/13 14:08:50 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static int	heredoc_child(t_heredoc *hdoc, t_shell *sh, t_expand *exp)
 	char	*proc_line;
 
 	close(hdoc->pipe_fd[0]);
-	set_signal_heredoc();
+	set_heredoc_signals();
 	while (1)
 	{
 		line = read_line(HEREDOC_PROMPT);

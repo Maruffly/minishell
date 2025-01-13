@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirection.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 17:44:28 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/10 14:38:16 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/13 14:14:51 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	redirect_output(t_ast_redirection *redir, t_shell *sh)
 	int	original_stdout;
 
 	output_fd = open(redir->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (output_fd = -1)
+	if (output_fd == -1)
 	{
 		write(STDERR_FILENO, "minishell: ", 11);
 		perror(redir->file);

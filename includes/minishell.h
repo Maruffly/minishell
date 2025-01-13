@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/10 13:14:00 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/13 12:20:27 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,11 @@ void 			print_ast(t_ast *node);
 void			sigint_handler(int signum);
 void			handle_eof(char *input, t_shell *sh);
 void			heredoc_sigint_handler(int signum);
-void			set_signal(int signum, void (*handler)(int));
-void			set_signal_heredoc(void);
+
+void	set_signal_handler(int signum, void (*handler)(int));
+void	set_signal_child_process(void);
+
+
 // void			set_main_signals(void);
 // void			set_heredoc_signal(void);
 // void			handle_signal(int signum, void (*handler)(int));
@@ -52,6 +55,8 @@ void 			ft_lstclear_env(t_env_list **lst, void (*del)(void *));
 void 			ft_lstdelone_env(t_env_list *env, void (*del)(void *));
 void			remove_list_node(t_token **node, t_token **head, 
 				void (*free_function)(void *), bool free_node);
+void			free_env_array(char **envp);
+
 
 // errors
 int				report_syntax_error(t_shell *sh);
@@ -74,6 +79,7 @@ void			ft_lstadd_back_token(t_token **token_list, t_token *new_token);
 void			ft_lstclear_token(t_token **lst, void (*del)(void *));
 void			ft_lstdelone_token(t_token *lst, void (*del)(void *));
 int				ft_lstsize_token(t_token *token);
+void			add_front_token(t_token **token_list, t_ast *node, t_shell *sh);
 
 
 
@@ -138,14 +144,10 @@ t_ast			*build_redir_cmd(t_ast *prefix, t_ast *suffix, t_ast *command);
 // HEREDOC //
 void			free_heredoc(t_heredoc *hdoc);
 
-// EXEC //
+// EXEC HEREDOC//
 int				execute_heredoc(t_ast *ast, t_shell *sh);
 int 			heredoc_eof_handler(t_heredoc *hdoc);
-int				fork_command(t_ast_command *cmd, t_shell *sh);
-void			exec_builtin(t_ast_command *cmd, t_env_list *env);
 
-// CHILD //
-char			*get_path(t_ast_command *cmd, char **envp);
 /* void	redir_command(t_command *cmd);
 void	close_unused_fds(t_command	*cmd);
 void	setup_pipes(t_command *cmd);
@@ -214,13 +216,45 @@ bool			pattern_match(char *filename, char *pattern, int pattern_index,
 bool			is_active_wildcard(int i, t_expand *exp);
 bool			only_active_wildcard_left(char *str, t_expand *exp);
 
+
+// EXEC
+int				execute(t_ast *node, t_exit end, t_shell *sh);
+int				check_process_child_exit(int status, bool *new_line, t_shell *sh);
+
+
 // EXEC LOGICAL
 int 			exec_logical(t_ast_logical *logical, t_shell *sh);
 
 // EXEC PIPELINE
 int				exec_pipeline(t_ast *node, t_shell *sh);
+t_token 		*build_cmd_list(t_ast *node, t_shell *sh);
+int 			execute_pipeline_token(t_token *pipeline, t_shell *sh);
+pid_t			exec_one_pipeline_token(t_token *pipeline, int prev_read_end, int p[2],
+				t_shell *sh);
+void			setup_for_next_command(int *prev_read_end, int p[2], t_shell *sh);
+int				wait_for_children(pid_t last_pid, int n_pipeline, t_shell *sh);
 
-int				execute(t_ast *node, t_exit end, t_shell *sh);
+// EXEC REDIRECTION
+int				redirect_input(t_ast_redirection *redir, t_shell *sh);
+int				redirect_output(t_ast_redirection *redir, t_shell *sh);
+int				append_output(t_ast_redirection *redir, t_shell *sh);
+int				exec_redirection(t_ast_redirection *redir, t_shell *sh);
+
+// EXEC SUBSHELL
+int				exec_subshell(t_ast_subshell *subshell, t_shell *sh);
+
+// EXEC COMMAND
+void			exec_extern_command(t_ast_command *cmd, t_shell *sh);
+int				fork_command(t_ast_command *cmd, t_exit end, t_shell *sh);
+int				exec_command(t_ast_command *cmd, t_exit end, t_shell *sh);
+char			**convert_env_list_to_array(t_env_list *env_list);
+char			*find_command_path(char *command, t_env_list *env);
+char			*search_in_path(char *command, t_env_list *env);
+char			*get_path_env(t_env_list *env);
+char			*build_path(char *dir, char *command);
+
+
+
 
 
 #endif

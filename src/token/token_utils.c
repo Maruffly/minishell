@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/20 13:43:40 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/09 16:42:57 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*extract_word(char *line, int pos)
 	return (ft_substr(line, start, pos - start));
 } */
 
-void ft_lstadd_back_token(t_token **token_list, t_token *new_token)
+void	ft_lstadd_back_token(t_token **token_list, t_token *new_token)
 {
 	t_token *last;
 
@@ -109,4 +109,18 @@ int	ft_lstsize_token(t_token *token)
 		token = token->next;
 	}
 	return (count);
+}
+
+void	add_front_token(t_token **token_list, t_ast *node, t_shell *sh)
+{
+	t_token	*new_token;
+
+	new_token = ft_calloc(1, sizeof(t_token));
+	if (!new_token)
+		return;
+	new_token->value = node;
+	new_token->next = *token_list;
+	if (*token_list)
+		(*token_list)->prev = new_token;
+	*token_list = new_token;
 }

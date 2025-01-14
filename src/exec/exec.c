@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 13:33:30 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/14 11:11:47 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/14 12:13:41 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,7 @@ int	execute(t_ast *node, t_exit end, t_shell *sh)
 		status = exec_redirection(&node->u_data.redirection, sh);
 	else if (node->type == AST_SUBSHELL)
 		status = exec_subshell(&node->u_data.subshell, sh);
+	else if (node->type == AST_COMMAND)
+		status = exec_command(&node->u_data.command, KEEP_RUNNING, sh);
 	return (status);
 }

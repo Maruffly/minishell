@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/13 13:26:59 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/01/14 11:06:12 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ int	process_prompt(char *input, t_shell *sh)
 		if (process == EXIT_SUCCESS && ast)
 		{
 			process = execute_heredoc(ast, sh);
-			//  if (process == EXIT_SUCCESS)
-				// process = execute();
+			 if (process == EXIT_SUCCESS)
+				process = execute(ast, KEEP_RUNNING, sh);
 		}
 	}
 	return (process);

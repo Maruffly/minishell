@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 13:35:04 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/13 18:34:47 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/01/14 10:56:29 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ static int	heredoc_child(t_heredoc *hdoc, t_shell *sh, t_expand *exp)
 	while (1)
 	{
 		printf("Waiting for input...\n");
+		sh->prompt_mode = HEREDOC_PROMPT;
 		line = read_line(HEREDOC_PROMPT);
 		if (!line)
 		{
@@ -134,7 +135,6 @@ static int	heredoc_child(t_heredoc *hdoc, t_shell *sh, t_expand *exp)
 			exit(EXIT_FAILURE);
 		}
 		free(proc_line);
-		free(line);
 	}
 }
 

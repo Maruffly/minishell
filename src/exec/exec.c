@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 13:33:30 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/13 14:08:24 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/01/14 11:11:47 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	execute(t_ast *node, t_exit end, t_shell *sh)
 {
 	int	status;
 
-	(void)end;
+	(void)end; 
 	status = 0;
 	if (!node)
 		return (EXIT_SUCCESS);

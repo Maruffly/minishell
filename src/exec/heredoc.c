@@ -6,7 +6,7 @@
 /*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 13:35:04 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/13 14:08:50 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/01/13 18:34:47 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ t_heredoc	*init_heredoc(char *delimiter)
 
 static bool	is_delimiter(char *line, char *delimiter)
 {
+	printf("Checking delimiter: line='%s', delimiter='%s'\n", line, delimiter);
 	return (ft_strcmp(line, delimiter) == 0);
 }
 
@@ -60,7 +61,7 @@ static bool	write_to_pipe(int fd, char *line)
 	return (true);
 }
 
-static int	heredoc_child(t_heredoc *hdoc, t_shell *sh, t_expand *exp)
+/* static int	heredoc_child(t_heredoc *hdoc, t_shell *sh, t_expand *exp)
 {
 	char	*line;
 	char	*proc_line;
@@ -84,22 +85,86 @@ static int	heredoc_child(t_heredoc *hdoc, t_shell *sh, t_expand *exp)
 			return (free(line), EXIT_FAILURE);
 		free(proc_line);
 	}
+} */
+
+static int	heredoc_child(t_heredoc *hdoc, t_shell *sh, t_expand *exp)
+{
+	char    *line;
+	char    *proc_line;
+
+	close(hdoc->pipe_fd[0]);
+	set_heredoc_signals();
+	printf("Child process started. PID: %d\n", getpid());
+	while (1)
+	{
+		printf("Waiting for input...\n");
+		line = read_line(HEREDOC_PROMPT);
+		if (!line)
+		{
+			if (g_signal_value == SIGINT)
+			{
+				printf("Child process received SIGINT. Exiting...\n");
+				close(hdoc->pipe_fd[1]);
+				exit(130);
+			}
+			close(hdoc->pipe_fd[1]);
+			return (heredoc_eof_handler(hdoc));
+		}
+		if (is_delimiter(line, hdoc->limiter))
+		{
+			printf("Delimiter found. Exiting...\n");
+			free(line);
+			close(hdoc->pipe_fd[1]);
+			exit(EXIT_SUCCESS);
+		}
+		proc_line = handle_expansion(line, hdoc, sh, exp);
+		if (!proc_line)
+		{
+			printf("Error: handle_expansion failed\n");
+			free(line);
+			close(hdoc->pipe_fd[1]);
+			exit(EXIT_FAILURE);
+		}
+		if (!write_to_pipe(hdoc->pipe_fd[1], proc_line))
+		{
+			printf("Error: write_to_pipe failed\n");
+			free(line);
+			free(proc_line);
+			close(hdoc->pipe_fd[1]);
+			exit(EXIT_FAILURE);
+		}
+		free(proc_line);
+		free(line);
+	}
 }
 
 static int	heredoc_parent(pid_t child_pid)
 {
 	int	status;
 
+	set_signal(SIGINT, SIG_IGN);
+	set_signal(SIGQUIT, SIG_IGN);
+	printf("Parent waiting for child process %d to finish...\n", child_pid);
 	waitpid(child_pid, &status, 0);
+	set_main_signals();
 	if (WIFSIGNALED(status))
-		return (130);
+	{
+		if (WTERMSIG(status) == SIGINT)
+			return (130);
+		printf("Child process exited with status %d\n", WEXITSTATUS(status));
+		return (131);
+	}
 	if (WIFEXITED(status))
+	{
 		return (WEXITSTATUS(status));
+	}
 	return (EXIT_SUCCESS);
 }
 
 int	read_heredoc(t_heredoc *hdoc, t_shell *sh, t_expand *exp)
 {
+	int	status;
+
 	hdoc->heredoc_pid = fork();
 	printf("PID_HEREDOC = %d\n", hdoc->heredoc_pid);
 	if (hdoc->heredoc_pid == -1)
@@ -109,8 +174,9 @@ int	read_heredoc(t_heredoc *hdoc, t_shell *sh, t_expand *exp)
 	}
 	if (hdoc->heredoc_pid == 0)
 	{
-		sleep(10);
-		exit(heredoc_child(hdoc, sh, exp));
+		/* sleep(30); */
+		status = heredoc_child(hdoc, sh, exp);
+		exit(status);
 	}
 	return (heredoc_parent(hdoc->heredoc_pid));
 }
@@ -156,7 +222,7 @@ int	execute_heredoc(t_ast *ast, t_shell *sh)
 		{
 			memset(&exp, 0, sizeof(t_expand));
 			status = handle_heredoc(&ast->u_data.redirection, sh, &exp);
-			if (!status)
+			if (status != EXIT_SUCCESS)
 				return (status);
 		}
 		return (execute_heredoc(ast->u_data.redirection.command, sh));

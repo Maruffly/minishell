@@ -3,14 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/15 14:19:23 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/15 16:20:39 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 # include "../../includes/minishell.h"
 
@@ -49,9 +47,9 @@ char	**convert_env_list_to_array(t_env_list *env_list)
 	int			i;
 	char		**envp;
 	t_env_list	*current;
-	
+
 	i = 0;
-	current = env_list;
+	current = env_list->head;
 	if (!env_list)
 		return (NULL);
 	while (current)
@@ -63,14 +61,22 @@ char	**convert_env_list_to_array(t_env_list *env_list)
 	if (!envp)
 		return (NULL);
 	i = 0;
-	current = env_list;
-	printf("var name %s\n", current->var_name);
+	current = env_list->head;
 	while (current)
 	{
-		envp[i] = ft_strjoin(current->var_name, "="); // segfault - var_name == NULL
-		envp[i] = ft_strjoin(envp[i], current->var_value);
-		i++;
+		if (current->var_name && current->var_value)
+		{
+			char *temp = ft_strjoin(current->var_name, "=");
+			if (!temp)
+				return (NULL);
+			envp[i] = ft_strjoin(temp, current->var_value);
+			free(temp);
+			if (!envp[i])
+				return (NULL);
+			i++;
+		}
 		current = current->next;
 	}
+	envp[i] = NULL;
 	return (envp);
 }

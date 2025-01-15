@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jorislaine <jorislaine@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:45:33 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/12 18:22:15 by jorislaine       ###   ########.fr       */
+/*   Updated: 2025/01/14 16:11:32 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ char	**convert_env_list_to_array(t_env_list *env_list)
 	
 	i = 0;
 	current = env_list;
+	if (!env_list)
+		return (NULL);
 	while (current)
 	{
 		i++;
@@ -52,9 +54,10 @@ char	**convert_env_list_to_array(t_env_list *env_list)
 		return (NULL);
 	i = 0;
 	current = env_list;
+	printf("var name %s\n", current->var_name);
 	while (current)
 	{
-		envp[i] = ft_strjoin(current->var_name, "=");
+		envp[i] = ft_strjoin(current->var_name, "="); // segfault - var_name == NULL
 		envp[i] = ft_strjoin(envp[i], current->var_value);
 		i++;
 		current = current->next;

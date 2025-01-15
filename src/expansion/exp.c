@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:22:15 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/08 15:43:55 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/14 15:25:51 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,9 @@ void	arg_expansion(char *str, t_token **expanded_args, t_shell *sh)
 	t_expand	exp;
 	
 	if (!init_expansion(&exp, str, expanded_args, sh))
-		return ;	
+		return ;
+	ft_bzero(exp.buf, exp.buf_size);
+	exp.buf_i = 0;
 	while (str[exp.i])
 	{
 		if (exp.context == NO_QUOTE)

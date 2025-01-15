@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 16:46:34 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/14 12:26:46 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/14 15:26:44 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	lexer(char *input, t_token **token_list, t_shell *sh)
 		token = create_token(type, input + i, len);
 		if (!token)
 			return (report_syntax_error(sh));
-		printf("Token created: value='%s', type=%d\n", token->value, token->type);
+		/* printf("Token created: value='%s', type=%d\n", token->value, token->type); */
 		ft_lstadd_back_token(token_list, token);
 		i += len;
 	}
@@ -66,13 +66,12 @@ t_token *init_token(char *value, t_token_type type)
 	return (token);
 }
 
-
 t_token	*create_token(t_token_type type, char *input, size_t len)
 {
 	char	*value;
 	t_token	*token;
 
-	value = malloc(len + 1);
+	value = ft_calloc(len + 1, sizeof(char));
 	if (!value)
 		return (NULL);
 	ft_strlcpy(value, input, len + 1);
@@ -80,7 +79,5 @@ t_token	*create_token(t_token_type type, char *input, size_t len)
 	token = init_token(value, type);
 	if (!token)
 		return (free(value), NULL);
-	/* printf("Token value: %s\n", token->value);
-	printf("Token type: %u\n", token->type); */
 	return (token);
 }

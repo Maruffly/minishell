@@ -23,7 +23,7 @@
 				"name": "Debug Parent Process",
 				"type": "cppdbg",
 				"request": "launch",
-				"program": "${workspaceFolder}/minishell",
+				"program": "${workspaceFolder}/125",
 				"args": [],
 				"stopAtEntry": false,
 				"cwd": "${workspaceFolder}",

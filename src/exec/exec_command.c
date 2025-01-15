@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 15:19:04 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/15 14:19:56 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/15 17:03:49 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,38 +51,6 @@ char	*find_command_path(char *command, t_env_list *env)
 	return (path);
 }
 
-
-
-char *clean_command(char *cmd) { /// testtt
-    char *cleaned_cmd;
-    int start = 0;
-    int end = strlen(cmd) - 1;
-
-    // Supprimer les espaces au début
-    while (isspace(cmd[start])) {
-        start++;
-    }
-
-    // Supprimer les espaces à la fin
-    while (isspace(cmd[end]) && end > start) {
-        end--;
-    }
-
-    // Allouer de la mémoire pour la chaîne nettoyée
-    cleaned_cmd = malloc(end - start + 2); // +1 pour le caractère nul
-    if (!cleaned_cmd) {
-        return NULL; // Gestion d'erreur
-    }
-
-    // Copier la chaîne nettoyée
-    strncpy(cleaned_cmd, &cmd[start], end - start + 1);
-    cleaned_cmd[end - start + 1] = '\0'; // Ajouter le caractère nul
-
-    return cleaned_cmd;
-}
-
-
-
 void	exec_extern_command(t_ast_command *cmd, t_shell *sh)
 {
 	char	*path;
@@ -117,6 +85,7 @@ int	fork_command(t_ast_command *cmd, t_exit end, t_shell *sh)
 	int		status;
 
 	(void)end;
+	status = 0;
 	pid = fork();
 	if (pid == 0)
 	{

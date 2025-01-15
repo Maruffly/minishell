@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_filename_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 17:40:18 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/08 14:01:56 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/15 17:52:25 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,16 @@ char	*extract_root_path(t_expand *exp, t_shell *sh)
 	char	*path;
 
 	(void)sh;
+	if (!exp || !sh)
+		return (NULL);
 	i = exp->buf_i - 1;
 	while (i >= 0 && exp->buf[i] != '/')
 		i--;
 	if (i == -1)
 		return (ft_strdup("."));
 	path = ft_calloc(i + 2, sizeof(char));
+	if (!path)
+		return (NULL);
 	ft_strlcpy(path, exp->buf, i + 2);
 	return (path);
 }
@@ -36,6 +40,8 @@ t_token	*pattern_filter(t_token *tokens, t_expand *exp)
 	(void)next;
 	(void)exp;
 
+	if (!tokens || !exp)
+		return (NULL);
 	current = tokens;
 	while (current)
 	{
@@ -54,9 +60,15 @@ t_token	*pattern_filter(t_token *tokens, t_expand *exp)
 
 void	list_of_file_to_token_list(t_token *tokens, t_expand *exp, t_shell *sh)
 {
+	if (!tokens || !exp || !sh)
+		return ;
 	while (tokens)
 	{
-		add_token_to_list(exp, sh);
+		if (!add_token_to_list(exp, sh))
+		{
+			error("expansion", "failed to add token to list", EXIT_FAILURE, sh);
+			return ;
+		}
 		tokens = tokens->next;
 	}
 }
@@ -65,7 +77,9 @@ void	list_of_file_to_token_list(t_token *tokens, t_expand *exp, t_shell *sh)
 bool	is_active_wildcard(int i, t_expand *exp)
 {
 	t_token	*current;
-	
+
+	if (!exp || !exp->wildcards_position)
+		return (false);
 	current = exp->wildcards_position;
 	while (current)
 	{
@@ -79,7 +93,7 @@ bool	is_active_wildcard(int i, t_expand *exp)
 // check if the end of a pattern is only active wildcards
 bool	only_active_wildcard_left(char *str, t_expand *exp)
 {
-	if (!str || !*str)
+	if (!str || !*str || !exp)
 		return (false);
 	while (*str)
 	{
@@ -93,6 +107,8 @@ bool	only_active_wildcard_left(char *str, t_expand *exp)
 bool	pattern_match(char *filename, char *pattern, int pattern_index,
 		t_expand *exp)
 {
+	if (!filename || !pattern || !exp)
+		return (false);
 	while (*filename && *pattern)
 	{
 		if (*pattern == '*' && is_active_wildcard(pattern_index, exp))
@@ -119,4 +135,3 @@ bool	pattern_match(char *filename, char *pattern, int pattern_index,
 		return (true);
 	return (*pattern == *filename);
 }
-

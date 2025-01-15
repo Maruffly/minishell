@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/15 10:13:35 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/15 17:03:40 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,10 +247,6 @@ char			*find_command_path(char *command, t_env_list *env);
 char			*search_in_path(char *command, t_env_list *env);
 char			*get_path_env(t_env_list *env);
 char			*build_path(char *dir, char *command);
-
-
-char *clean_command(char *cmd);
-
 
 
 

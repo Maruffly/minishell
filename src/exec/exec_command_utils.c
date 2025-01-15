@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/10 17:45:33 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/14 16:11:32 by jmaruffy         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/01/15 14:19:23 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 # include "../../includes/minishell.h"
 
@@ -30,7 +32,15 @@ char	*build_path(char *dir, char *command)
 	char	*path;
 
 	path = ft_strjoin(dir, "/");
+	if (!path)
+		return (NULL);
+	if (!path)
+		return (NULL);
 	path = ft_strjoin(path, command);
+	if (!path)
+		return (NULL);
+	if (!path)
+		return (NULL);
 	return (path);
 }
 

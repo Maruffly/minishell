@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:04:17 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/14 15:28:29 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/15 14:19:34 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,12 @@ void	*add_token_to_list(t_expand *exp, t_shell *sh)
 	if (exp->buf_i > 0 || exp->empty_quotes)
 	{
 		if (exp->buf_i > 0)
+		{
 			content = ft_strdup(exp->buf);
+			if (!content)
+				return (NULL);
+		}
+			// content = ft_strdup(exp->buf);
 		else
 			content = ft_strdup("");
 		if (!content)

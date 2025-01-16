@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/15 17:03:40 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/16 17:02:16 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ int		update_prev_output_fd(t_command *cmd);
 void	execute_command(t_command *cmd, t_env_list *env, int prev_output_fd);
  */
 // ENV
+void			shell_level(t_shell *sh);
 char 			*get_current_path(t_env_list *list);
 t_env_list		*init_env_list(void);
 void			free_env_list(void *list);

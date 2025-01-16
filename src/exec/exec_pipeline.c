@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 18:05:31 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/16 13:32:55 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/16 15:20:05 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,20 +79,15 @@ t_token	*build_cmd_list(t_ast *node, t_shell *sh)
 
 int	execute_pipeline_token(t_token *pipeline, t_shell *sh)
 {
-	int     p[2];
-	pid_t   last_pid;
-	int     n_pipeline;
-	int     prev_read_end;
-	int     last_cmd_status;
+	int		p[2];
+	pid_t	last_pid;
+	int		n_pipeline;
+	int		prev_read_end;
+	int		last_cmd_status;
 
-	n_pipeline = ft_lstsize_token(pipeline);
+	n_pipeline = ft_lstsize_token(pipeline) - 1;
 	last_pid = 0;
 	prev_read_end = -1;
-	if (n_pipeline == 2)
-	{
-		execute((t_ast *)pipeline->node, KEEP_RUNNING, sh);
-		return(sh->last_status);
-	}
 	while (pipeline)
 	{
 		pipe(p);

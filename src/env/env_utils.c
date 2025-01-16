@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 15:13:16 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/16 12:04:27 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/16 16:07:27 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ char	**list_to_envp(t_env_list *env)
 }
 
 
-t_env_list	*find_env_token(char *name, t_env_list *env_tokens)
+t_env_list	*_env_token(char *name, t_env_list *env_tokens)
 {
 	t_env_list	*current;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_dup_init.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:47:11 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/15 16:13:21 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/01/16 11:34:09 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,28 @@ t_env_list	*init_env_list(void)
 
 t_env_list	*init_envp(char **envp)
 {
+	int			i;
+	t_env_list	*list;
 	size_t 		name_len;
 	char		*var_name;
 	char		*var_value;
-	int			i;
-	t_env_list	*list;
 
 	list = init_env_list();
+	if (!list)
+		return (NULL);
 	i = -1;
 	while(envp[++i])
 	{
 		name_len = ft_strchr(envp[i], '=') - envp[i];
 		var_name = ft_substr(envp[i], 0, name_len);
 		var_value = ft_strdup(ft_strchr(envp[i], '=') + 1);
+		if (!var_name || !var_value)
+		{
+			free(var_name);
+			free(var_value);
+			ft_lstclear_env(&list, free_env_list);
+			return (NULL);
+		}
 		add_env_node(list, var_name, var_value);
 		free(var_name);
 		free(var_value);

@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:03:22 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/15 18:06:52 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/16 15:37:25 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,16 @@ char	*expand_env_var(char *str, t_expand *exp, t_shell *sh)
 
 	if (!str || !exp || !sh)
 		return (NULL);
-	env_value = NULL;
 	name = get_valid_name(str, exp, sh);
-	if (name == NULL)
+	if (!name)
+		return (NULL);
+	env_token = find_env_token(name, sh->env);
+	if (!env_token || !env_token->var_value) 
 	{
-		exp->buf[exp->buf_i++] = str[exp->i];
-		exp->buf[exp->buf_i] = '\0';
+		free(name);
 		return (NULL);
 	}
-	env_token = find_env_token(name, sh->env);
-	if (env_token != NULL && env_token->var_value != NULL && sh->prompt_mode == MAIN_PROMPT)
-		env_value = env_token->var_value;
-	else if (env_token && env_token->var_value && sh->prompt_mode == HEREDOC_PROMPT)
-		add_var_to_buffer(env_token->var_value,exp, sh);
-	// else
-	// 	env_value = NULL;
+	env_value = env_token->var_value;
 	exp->i += ft_strlen(name);
 	free(name);
 	return (env_value);

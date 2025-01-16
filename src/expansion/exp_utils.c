@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:04:17 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/15 18:11:41 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/16 15:47:07 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,7 @@ char	*get_valid_name(char *str, t_expand *exp, t_shell *sh)
 		return (NULL);
 	while (ft_isalnum(str[j]) || str[j] == '_')
 		j++;
-	name = ft_substr(str, exp->i + 1, j = exp->i - 1);
+	name = ft_substr(str, exp->i + 1, j - (exp->i + 1));
 	return (name);
 }
 

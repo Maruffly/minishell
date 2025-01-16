@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 15:13:16 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/10 17:30:24 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/16 12:04:27 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,10 +156,12 @@ t_env_list	*find_env_token(char *name, t_env_list *env_tokens)
 {
 	t_env_list	*current;
 
-	current = env_tokens;
+	if (!name || !env_tokens)
+		return (NULL);
+	current = env_tokens->head;
 	while (current)
 	{
-		if (ft_strcmp(current->var_name, name) == 0)
+		if (current->var_name && ft_strcmp(current->var_name, name) == 0)
 			return (current);
 		current = current->next;
 	}

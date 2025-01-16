@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:03:22 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/14 14:09:55 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/15 18:06:52 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*expand_env_var(char *str, t_expand *exp, t_shell *sh)
 	char		*env_value;
 	t_env_list	*env_token;
 
+	if (!str || !exp || !sh)
+		return (NULL);
 	env_value = NULL;
 	name = get_valid_name(str, exp, sh);
 	if (name == NULL)
@@ -31,8 +33,8 @@ char	*expand_env_var(char *str, t_expand *exp, t_shell *sh)
 		env_value = env_token->var_value;
 	else if (env_token && env_token->var_value && sh->prompt_mode == HEREDOC_PROMPT)
 		add_var_to_buffer(env_token->var_value,exp, sh);
-	else
-		env_value = NULL;
+	// else
+	// 	env_value = NULL;
 	exp->i += ft_strlen(name);
 	free(name);
 	return (env_value);
@@ -42,6 +44,8 @@ void	expand_var(char *str, t_expand *exp, t_shell *sh)
 {
 	char	*value;
 
+	if (!str || !exp || !sh)
+		return ;
 	if (str[exp->i + 1] == '?')
 		expand_last_status(exp, sh);
 	else if (exp->context == NO_QUOTE && (str[exp->i + 1] == '\"'
@@ -54,8 +58,7 @@ void	expand_var(char *str, t_expand *exp, t_shell *sh)
 			return ;
 		/* else if (exp->context == NO_QUOTE)
 			value = word_splitting(exp, value, sh); */ ///// TO DO
-		if (value)
-			add_var_to_buffer(value, exp, sh);
+		add_var_to_buffer(value, exp, sh);
 	}
 }
 
@@ -63,6 +66,8 @@ void	expand_last_status(t_expand *exp, t_shell *sh)
 {
 	char	*last_exit_status;
 
+	if (exp || !sh)
+		return ;
 	exp->i++;
 	last_exit_status = ft_itoa(sh->last_status);
 	if (!last_exit_status)
@@ -82,6 +87,8 @@ char *expand_heredoc_vars(char *line, t_shell *sh, t_expand *exp)
 {
 	char	*result;
 
+	if (!line || !sh || !exp)
+		return (NULL);
 	if (!init_expansion(exp, 0, 0, sh))
 	{
 		 printf("Expansion initialization failed\n"); 

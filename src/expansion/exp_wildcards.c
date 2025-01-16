@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 14:32:12 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/07 15:28:04 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/15 17:34:43 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	add_wildcard_pos(t_token **token_list, int pos, t_shell *sh)
 	t_token	*new_token;
 
 	(void)sh;
+	if (!token_list || !sh)
+		return ;
 	new_token = ft_calloc(1, sizeof(t_token));
 	if (!new_token)
 		return ;
@@ -34,6 +36,8 @@ void	save_wildcards_pos(char *to_check, t_expand *exp, t_shell *sh)
 	int	i;
 
 	(void)sh;
+	if (!to_check || !exp ||!sh)
+		return ;
 	i = 0;
 	if (exp->context != NO_QUOTE)
 		return ;

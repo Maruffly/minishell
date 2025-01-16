@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/15 16:20:39 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/01/15 16:46:29 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,16 @@ char	*get_path_env(t_env_list *env)
 char	*build_path(char *dir, char *command)
 {
 	char	*path;
+	char	*temp;
 
 	path = ft_strjoin(dir, "/");
 	if (!path)
 		return (NULL);
-	if (!path)
+	temp = ft_strjoin(path, command);
+	free(path);
+	if (!temp)
 		return (NULL);
-	path = ft_strjoin(path, command);
-	if (!path)
-		return (NULL);
-	if (!path)
-		return (NULL);
-	return (path);
+	return (temp);
 }
 
 char	**convert_env_list_to_array(t_env_list *env_list)

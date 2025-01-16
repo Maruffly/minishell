@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipeline_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:44:13 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/13 14:14:37 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/01/16 13:34:09 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ pid_t	exec_one_pipeline_token(t_token *pipeline, int prev_read_end, int p[2],
 	pid_t	pid;
 
 	pid = fork();
-	if (pid != 0)
+	if (pid != 0) // PB : avec 1 pipe, le programme devrait executer dans le parent.
 		return (pid);
 	sh->is_parent = false;
 	set_child_signals();
@@ -31,8 +31,8 @@ pid_t	exec_one_pipeline_token(t_token *pipeline, int prev_read_end, int p[2],
 		dup2(p[1], STDOUT_FILENO);
 	close(p[0]);
 	close(p[1]);
-	execute((t_ast *)pipeline->value, EXIT_SHELL, sh);
-	return (pid);
+	execute((t_ast *)pipeline->node, KEEP_RUNNING, sh);
+	exit(sh->last_status);
 }
 
 void	setup_for_next_command(int *prev_read_end, int p[2], t_shell *sh)

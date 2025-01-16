@@ -1,0 +1,10 @@
+includes
+libft
+Makefile
+minishell
+output
+output.txt
+pute.txt
+README.md
+src
+untitled.codediagram

@@ -6,12 +6,13 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:40:46 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/17 16:30:35 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/16 11:45:53 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+/*
 // Fonction pour afficher un nœud de type commande
 void print_command(t_ast_command *cmd) {
 	if (!cmd || !cmd->args)
@@ -107,3 +108,4 @@ void print_ast(t_ast *node) {
 			break;
 	}
 }
+ */

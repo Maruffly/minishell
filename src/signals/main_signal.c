@@ -6,7 +6,7 @@
 /*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 17:46:57 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/13 18:29:21 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/01/20 14:39:33 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	set_main_signals(void)
 
 void	set_heredoc_signals(void)
 {
-	printf("Configuring signals for heredoc\n");
+/* 	printf("Configuring signals for heredoc\n"); */
 	set_signal(SIGINT, heredoc_sigint_handler);
 	set_signal(SIGQUIT, SIG_IGN);
 }

@@ -6,7 +6,7 @@
 /*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:14:26 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/13 13:49:33 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/01/20 16:25:08 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,31 +55,31 @@ void free_token_list(t_token *tokens)
 
 void ft_lstclear_env(t_env_list **lst, void (*del)(void *))
 {
-    t_env_list *tmp;
+	t_env_list *tmp;
 
-    if (*lst == NULL || del == NULL)
-        return;
+	if (*lst == NULL || del == NULL)
+		return;
 
-    while (*lst)
-    {
-        tmp = (*lst)->next;
-        ft_lstdelone_env(*lst, del);
-        *lst = tmp;
-    }
-    *lst = NULL;
+	while (*lst)
+	{
+		tmp = (*lst)->next;
+		ft_lstdelone_env(*lst, del);
+		*lst = tmp;
+	}
+	*lst = NULL;
 }
 
 void ft_lstdelone_env(t_env_list *env, void (*del)(void *))
 {
-    if (env)
-    {
-        if (del)
-        {
-            del(env->var_name);
-            del(env->var_value);
-        }
-        free(env);
-    }
+	if (env)
+	{
+		if (del)
+		{
+			del(env->var_name);
+			del(env->var_value);
+		}
+		free(env);
+	}
 }
 
 void	remove_list_node(t_token **node, t_token **head, 
@@ -113,4 +113,30 @@ void	free_env_array(char **envp)
 		i++;
 	}
 	free(envp);
+}
+
+void	free_ast(t_ast *ast)
+{
+	if (!ast)
+		return;
+	if (ast->type == AST_COMMAND)
+	{
+		if (ast->u_data.command.args)
+			ft_free_split(ast->u_data.command.args);
+	}
+	else if (ast->type == AST_REDIRECTION)
+		free_ast(ast->u_data.redirection.command);
+	else if (ast->type == AST_PIPELINE)
+	{
+		free_ast(ast->u_data.pipeline.left);
+		free_ast(ast->u_data.pipeline.right);
+	}
+	else if (ast->type == AST_LOGICAL)
+	{
+		free_ast(ast->u_data.logical.left);
+		free_ast(ast->u_data.logical.right);
+	}
+	else if (ast->type == AST_SUBSHELL)
+		free_ast(ast->u_data.subshell.child);
+	free(ast);
 }

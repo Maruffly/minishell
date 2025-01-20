@@ -6,7 +6,7 @@
 /*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:35:41 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/13 14:07:20 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/01/20 15:50:25 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,11 @@ typedef struct s_ast
 typedef struct	s_heredoc
 {
 	int		pipe_fd[2];
+	char	buffer[1024];
+	ssize_t	bytes_read;
 	char	*limiter;
 	int		expand_vars;
+	int		saved_stdout;
 	size_t	content_size;
 	pid_t	heredoc_pid;
 }	t_heredoc;

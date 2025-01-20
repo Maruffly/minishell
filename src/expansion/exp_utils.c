@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:04:17 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/16 15:47:07 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/20 14:14:05 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,43 @@ void	*add_token_to_list(t_expand *exp, t_shell *sh)
 	return (NULL);
 }
 
-void	add_var_to_buffer(char *value, t_expand *exp, t_shell *sh)
+void add_var_to_buffer(char *value, t_expand *exp, t_shell *sh)
+{
+	char *new_buffer;
+	size_t value_len;
+	int i;
+	
+	if (!value || !exp || !sh)
+		return ;
+	value_len = ft_strlen(value);
+	if (sh->prompt_mode == MAIN_PROMPT)
+	{
+		exp->buf_size += value_len;
+		new_buffer = ft_calloc(exp->buf_size, sizeof(char));
+		if (!new_buffer)
+		{
+			free(exp->buf);
+			exp->buf = NULL;
+			return ;
+		}
+		if (exp->buf)
+			ft_strlcpy(new_buffer, exp->buf, exp->buf_i + 1);
+		ft_strlcat(new_buffer, value, exp->buf_size);
+		free(exp->buf);
+		exp->buf = new_buffer;
+		exp->buf_i += value_len;
+		save_wildcards_pos(value, exp, sh);
+	}
+	else
+	{
+		i = 0;
+		while (value[i] && exp->buf_i < exp->buf_size - 1)
+			exp->buf[exp->buf_i++] = value[i++];
+		exp->buf[exp->buf_i] = '\0';
+	}
+}
+
+/* void	add_var_to_buffer(char *value, t_expand *exp, t_shell *sh)
 {
 	char	*new_buffer;
 
@@ -170,7 +206,7 @@ void	add_var_to_buffer(char *value, t_expand *exp, t_shell *sh)
 		}
 		exp->buf[exp->buf_i] = '\0';
 	}
-}
+} */
 
 char	*get_valid_name(char *str, t_expand *exp, t_shell *sh)
 {

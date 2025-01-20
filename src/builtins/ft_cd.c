@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 14:55:10 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/11 19:18:37 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/20 13:06:35 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	exec_cd(t_ast_command *cmd, t_env_list *env_list)
 		path = home_node->var_value;
 	}
 	else
-		path = cmd->args[0];
+		path = cmd->args[1];
 	if (access(path, F_OK) < 0)
 	{
 		ft_putstr_fd("cd: ", 2);

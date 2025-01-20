@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:04:17 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/20 14:14:05 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/01/20 14:25:04 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,14 @@ bool	init_expansion(t_expand *exp, char *str, t_token **expanded_args,
 	return (false);
 }
 
+
+
+
 void	no_quote(char *str, t_expand *exp, t_shell *sh)
 {
 	if (!str || !exp || !sh)
 		return ;
-	if (str[exp->i] == '$')
+	if (str[exp->i] == '$' && exp->context != IN_SINGLE_QUOTE)
 		expand_var(str, exp, sh);
 	else if (str[exp->i] == ' ')
 		add_token_to_list(exp, sh);
@@ -67,6 +70,8 @@ void	no_quote(char *str, t_expand *exp, t_shell *sh)
 	}
 }
 
+
+
 void	single_quote(char *str, t_expand *exp)
 {
 	if (!str || !exp)
@@ -80,6 +85,8 @@ void	single_quote(char *str, t_expand *exp)
 	else
 		exp->buf[exp->buf_i++] = str[exp->i];
 }
+
+
 
 void	double_quote(char *str, t_expand *exp, t_shell *sh)
 {
@@ -102,6 +109,9 @@ void	double_quote(char *str, t_expand *exp, t_shell *sh)
 	else
 		exp->buf[exp->buf_i++] = str[exp->i];
 }
+
+
+
 
 void	*add_token_to_list(t_expand *exp, t_shell *sh)
 {
@@ -187,7 +197,7 @@ void add_var_to_buffer(char *value, t_expand *exp, t_shell *sh)
 		if (!new_buffer)
 			return ;
 		ft_strlcpy(new_buffer, exp->buf, exp->buf_i + 1);
-		ft_strlcpy(new_buffer, value, exp->buf_i + ft_strlen(value) + 1);
+		ft_strlcat(new_buffer, value, exp->buf_i + ft_strlen(value) + 1);
 		exp->buf = new_buffer;
 		exp->buf_i += ft_strlen(value);
 	}

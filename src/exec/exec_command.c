@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 15:19:04 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/15 17:03:49 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/20 14:02:09 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ int	fork_command(t_ast_command *cmd, t_exit end, t_shell *sh)
 	return (sh->last_status);
 }
 
+
 int	exec_command(t_ast_command *cmd, t_exit end, t_shell *sh)
 {
 	int	status;
@@ -130,5 +131,8 @@ int	exec_command(t_ast_command *cmd, t_exit end, t_shell *sh)
 		exec_unset(sh->env, cmd);
 	else
 		status = fork_command(cmd, end, sh);
+	sh->last_status = status;
 	return (status);
 }
+
+

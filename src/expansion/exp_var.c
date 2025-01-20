@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exp_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/17 16:03:22 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/20 14:07:01 by jbmy             ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/01/20 14:25:35 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "../../includes/minishell.h"
+
 
 char	*expand_env_var(char *str, t_expand *exp, t_shell *sh)
 {
@@ -34,6 +36,7 @@ char	*expand_env_var(char *str, t_expand *exp, t_shell *sh)
 	free(name);
 	return (env_value);
 }
+
 
 void	expand_var(char *str, t_expand *exp, t_shell *sh)
 {

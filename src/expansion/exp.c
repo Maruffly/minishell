@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:22:15 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/15 18:09:38 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/20 11:24:17 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ void	arg_expansion(char *str, t_token **expanded_args, t_shell *sh)
 {
 	t_expand	exp;
 	
-		if (!str || !expanded_args || !sh)
-			return ;
+	if (!str || !expanded_args || !sh)
+		return ;
 	if (!init_expansion(&exp, str, expanded_args, sh))
 		return ;
 	ft_bzero(exp.buf, exp.buf_size);
@@ -81,7 +81,7 @@ void	arg_expansion(char *str, t_token **expanded_args, t_shell *sh)
 		if (str[exp.i])
 			exp.i++;
 	}
-	if (exp.context == IN_SINGLE_QUOTE || exp.context == IN_DOUBLE_QUOTE)
+	if (exp.context != NO_QUOTE)
 		error("expansion", "unclosed quote", EXIT_FAILURE, sh);
 	add_token_to_list(&exp, sh);
 }

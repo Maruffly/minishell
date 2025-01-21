@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/20 14:25:35 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/21 09:49:46 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	expand_last_status(t_expand *exp, t_shell *sh)
 {
 	char	*last_exit_status;
 
-	if (exp || !sh)
+	if (!exp || !sh)
 		return ;
 	exp->i++;
 	last_exit_status = ft_itoa(sh->last_status);

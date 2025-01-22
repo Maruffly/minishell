@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_token.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 12:35:01 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/12 13:26:49 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/21 13:18:35 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ t_token_type	get_subshell(char *input, int *len)
 		return (CLOSE_PARENTHESIS);
 	return (ERROR);
 }
+
 
 t_token_type	get_word(char *input, char c, int *len, t_shell *sh)
 {

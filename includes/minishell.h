@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/20 14:02:13 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/21 17:55:03 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,6 +202,7 @@ void			add_wildcard_pos(t_token **token_list, int pos, t_shell *sh);
 void			save_wildcards_pos(char *to_check, t_expand *exp, t_shell *sh);
 void			filename_expansion(t_expand *exp, t_shell *sh);
 t_token			*get_files_list(t_expand *exp, t_shell *sh);
+void			insert_ordered(t_token **head, t_token *new_node, t_shell *sh); // testtt
 char			*extract_root_path(t_expand *exp, t_shell *sh);
 t_token			*pattern_filter(t_token *tokens, t_expand *exp);
 char			*expand_env_var(char *str, t_expand *exp, t_shell *sh);

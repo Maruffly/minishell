@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:04:17 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/20 14:25:04 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/21 14:55:23 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ bool	init_expansion(t_expand *exp, char *str, t_token **expanded_args,
 
 
 
-
 void	no_quote(char *str, t_expand *exp, t_shell *sh)
 {
 	if (!str || !exp || !sh)
@@ -65,7 +64,8 @@ void	no_quote(char *str, t_expand *exp, t_shell *sh)
 	else
 	{
 		if (str[exp->i] == '*')
-			save_wildcards_pos("*", exp, sh);
+			save_wildcards_pos(str + exp->i, exp, sh);
+		// save_wildcards_pos("*", exp, sh);
 		exp->buf[exp->buf_i++] = str[exp->i];
 	}
 }

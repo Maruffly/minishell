@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 14:32:12 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/15 17:34:43 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/21 14:20:49 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,9 @@ void	save_wildcards_pos(char *to_check, t_expand *exp, t_shell *sh)
 	int	i;
 
 	(void)sh;
-	if (!to_check || !exp ||!sh)
+	if (!to_check || !exp || !sh || exp->context != NO_QUOTE)
 		return ;
 	i = 0;
-	if (exp->context != NO_QUOTE)
-		return ;
 	while (to_check[i])
 	{
 		if (to_check[i] == '*')
@@ -48,4 +46,3 @@ void	save_wildcards_pos(char *to_check, t_expand *exp, t_shell *sh)
 		i++;
 	}
 }
-

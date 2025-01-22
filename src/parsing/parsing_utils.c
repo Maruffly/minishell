@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/12/12 13:35:55 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/21 11:04:07 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ char	*get_token_string(t_token_type type)
 		return (">>");
 	else if (type == HEREDOC)
 		return ("<<");
+	else if (type == WILDCARD)
+		return ("*");
 	else
 		return ("[unknown token]");
 }

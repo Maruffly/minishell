@@ -33,7 +33,6 @@ SRC_FILES = main.c\
 			/lexer/get_next_token.c\
 			/signals/main_signal.c\
 			/expansion/exp.c\
-			/expansion/test.c\
 			/expansion/exp_utils.c\
 			/expansion/exp_wildcards.c\
 			/expansion/exp_var.c\

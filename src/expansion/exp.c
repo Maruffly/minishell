@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:22:15 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/20 11:24:17 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/21 14:32:23 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	redirection_expansion(t_ast *node, t_shell *sh)
 	else
 		node->u_data.redirection.file = expanded_args->value;
 }
+
 
 void	arg_expansion(char *str, t_token **expanded_args, t_shell *sh)
 {

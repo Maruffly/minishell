@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/20 16:32:22 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/01/22 13:02:58 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,30 @@ int g_signal_value = 0;
 
 int	process_prompt(char *input, t_shell *sh)
 {
-	t_ast	*ast;
-	int		process;
-	t_token	*token_lst;
+	t_ast		*ast;
+	int			process;
+	t_token		*token_lst;
 
+	ast = NULL;
 	process = lexer(input, &token_lst, sh);
-	if (process == EXIT_SUCCESS && token_lst)
+	if (process != EXIT_SUCCESS || !token_lst)
+		return (process);
+	process = parser(token_lst, &ast, sh);
+	if (process != EXIT_SUCCESS || !ast)
 	{
-		process = parser(token_lst, &ast, sh);
-		/* print_ast(ast); */
-		/* return (0); */
-		if (process == EXIT_SUCCESS && ast)
-		{
-			process = execute_heredoc(ast, sh);
-			 if (process == EXIT_SUCCESS)
-				process = execute(ast, KEEP_RUNNING, sh);
-		}
+		free_token_list(token_lst);
+		return (process);
 	}
+	process = handle_heredoc_ast(ast, sh);
+	if (process != EXIT_SUCCESS)
+	{
+		free_ast(ast);
+		free_token_list(token_lst);
+		return (process);
+	}
+	process = execute(ast, KEEP_RUNNING, sh);
+	free_ast(ast);
+	free_token_list(token_lst);
 	return (process);
 }
 

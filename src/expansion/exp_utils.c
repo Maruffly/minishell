@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:04:17 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/20 14:25:04 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/21 13:26:39 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ bool	init_expansion(t_expand *exp, char *str, t_token **expanded_args,
 	}
 	else
 	{
-		ft_memset(exp, 0, sizeof(t_expand));
+		/* ft_memset(exp, 0, sizeof(t_expand)); */
 		exp->buf = ft_calloc(4096, sizeof(char));
 		if (!exp->buf)
 			return (false);
@@ -224,7 +224,7 @@ char	*get_valid_name(char *str, t_expand *exp, t_shell *sh)
 	char	*name;
 
 	(void)sh;
-	if (!str || !exp || !sh)
+	if (!str || !sh)
 		return (NULL);
 	j = exp->i + 1;
 	if (!ft_isalpha(str[j]) && str[j] != '_')

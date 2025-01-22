@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:04:17 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/22 13:44:32 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/22 14:09:44 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,9 +149,9 @@ void	*add_token_to_list(t_expand *exp, t_shell *sh)
 
 void add_var_to_buffer(char *value, t_expand *exp, t_shell *sh)
 {
-	char *new_buffer;
-	size_t value_len;
-	int i;
+	int		i;
+	char 	*new_buffer;
+	size_t 	value_len;
 	
 	if (!value || !exp || !sh)
 		return ;

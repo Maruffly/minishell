@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipeline_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:44:13 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/16 13:34:09 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/22 15:30:48 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	wait_for_children(pid_t last_pid, int n_pipeline, t_shell *sh)
 
 	new_line = false;
 	last_cmd_status = 0;
-	while (n_pipeline--)
+	while (n_pipeline-- >= 0) // testtt
 	{
 		child_pid = wait(&status);
 		if (child_pid == last_pid)

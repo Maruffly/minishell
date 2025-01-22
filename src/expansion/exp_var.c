@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/22 13:30:28 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/22 14:15:47 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,7 @@ void	expand_var(char *str, t_expand *exp, t_shell *sh)
 {
 	char	*value;
 
-	if (!
-	str || !exp || !sh)
-	if (!
-	str || !exp || !sh)
+	if (!str || !exp || !sh)
 		return ;
 	if (str[exp->i + 1] == '?')
 		expand_last_status(exp, sh);
@@ -66,22 +63,7 @@ void	expand_var(char *str, t_expand *exp, t_shell *sh)
 		value = expand_env_var(str, exp, sh);
 		if (!value)
 			return ;
-		if (exp->context == NO_QUOTE && exp->i > 0 && str[exp->i - 1] == '\"' && str[exp->i + ft_strlen(value) + 1] == '\"')
-		{
-			add_var_to_buffer("\"", exp, sh);
-			add_var_to_buffer(value, exp, sh);
-			add_var_to_buffer("\"", exp, sh);
-		}
-		else
-			add_var_to_buffer(value, exp, sh);
-		if (exp->context == NO_QUOTE && exp->i > 0 && str[exp->i - 1] == '\"' && str[exp->i + ft_strlen(value) + 1] == '\"')
-		{
-			add_var_to_buffer("\"", exp, sh);
-			add_var_to_buffer(value, exp, sh);
-			add_var_to_buffer("\"", exp, sh);
-		}
-		else
-			add_var_to_buffer(value, exp, sh);
+		add_var_to_buffer(value, exp, sh);
 	}
 }
 

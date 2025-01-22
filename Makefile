@@ -7,7 +7,6 @@ LDFLAGS = -L ./libft -L /opt/homebrew/opt/readline/lib
 LDLIBS = -lft -lreadline
 
 SRC_FILES = main.c\
-			/print_ast.c\
 			/builtins/ft_cd.c\
 			/builtins/ft_echo.c\
 			/builtins/ft_env.c\

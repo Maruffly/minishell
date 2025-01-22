@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 18:05:31 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/22 13:31:35 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/22 13:33:55 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,7 @@ int	execute_pipeline_token(t_token *pipeline, t_shell *sh)
 	int		n_pipeline;
 	int		prev_read_end;
 	int		last_cmd_status;
-	int		p[2];
-	pid_t	last_pid;
-	int		n_pipeline;
-	int		prev_read_end;
-	int		last_cmd_status;
 
-	n_pipeline = ft_lstsize_token(pipeline) - 1;
 	n_pipeline = ft_lstsize_token(pipeline) - 1;
 	last_pid = 0;
 	prev_read_end = -1;

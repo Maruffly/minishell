@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/22 13:32:31 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/22 13:33:34 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,32 +125,6 @@ void	init_shell(t_shell *sh, char **envp)
 	sh->last_status = EXIT_SUCCESS;
 	sh->env = init_envp(envp);
 	sh->parsing_error = NULL;
-	shell_level(sh);
-}
-
-void	shell_level(t_shell *sh)
-{
-	t_env_list	*shlvl_var;
-	int			new_value;
-	char		*new_value_str;
-
-	shlvl_var = find_env_node(sh->env, "SHLVL");
-	if (!shlvl_var)
-		return (add_env_node(sh->env, "SHLVL", "1"));
-	new_value = ft_atoi(shlvl_var->var_value) + 1;
-	new_value_str = ft_itoa(new_value);
-	if (new_value < 0)
-		update_env_node(sh->env, "SHLVL", "0");
-	else if (new_value > 1000)
-	{
-		error("warning: shell level", "("
-			") too high, resetting to 1", 2, sh);
-		update_env_node(sh->env, "SHLVL", "1");
-
-	}
-	else
-				update_env_node(sh->env, "SHLVL", new_value_str);
-	free(new_value_str);
 	shell_level(sh);
 }
 

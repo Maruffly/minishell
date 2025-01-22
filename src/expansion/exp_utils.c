@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:04:17 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/21 13:26:39 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/22 13:44:32 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ bool	init_expansion(t_expand *exp, char *str, t_token **expanded_args,
 	}
 	else
 	{
-		/* ft_memset(exp, 0, sizeof(t_expand)); */
+		ft_memset(exp, 0, sizeof(t_expand));
 		exp->buf = ft_calloc(4096, sizeof(char));
 		if (!exp->buf)
 			return (false);
@@ -44,7 +44,6 @@ bool	init_expansion(t_expand *exp, char *str, t_token **expanded_args,
 	}
 	return (false);
 }
-
 
 
 
@@ -65,7 +64,8 @@ void	no_quote(char *str, t_expand *exp, t_shell *sh)
 	else
 	{
 		if (str[exp->i] == '*')
-			save_wildcards_pos("*", exp, sh);
+			save_wildcards_pos(str + exp->i, exp, sh);
+		// save_wildcards_pos("*", exp, sh);
 		exp->buf[exp->buf_i++] = str[exp->i];
 	}
 }

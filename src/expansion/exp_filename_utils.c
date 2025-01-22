@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 17:40:18 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/15 17:52:25 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/22 12:12:13 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ char	*extract_root_path(t_expand *exp, t_shell *sh)
 	ft_strlcpy(path, exp->buf, i + 2);
 	return (path);
 }
+
 
 t_token	*pattern_filter(t_token *tokens, t_expand *exp)
 {
@@ -58,19 +59,28 @@ t_token	*pattern_filter(t_token *tokens, t_expand *exp)
 	return (tokens);
 }
 
-void	list_of_file_to_token_list(t_token *tokens, t_expand *exp, t_shell *sh)
+
+void	list_of_file_to_token_list(t_token *files, t_expand *exp, t_shell *sh)
 {
-	if (!tokens || !exp || !sh)
-		return ;
-	while (tokens)
-	{
-		if (!add_token_to_list(exp, sh))
-		{
-			error("expansion", "failed to add token to list", EXIT_FAILURE, sh);
-			return ;
-		}
-		tokens = tokens->next;
-	}
+    t_token	*current = files;
+    int		required_size;
+
+    while (current)
+    {
+        required_size = ft_strlen(current->value) + 1;
+        if (required_size > exp->buf_size)
+        {
+            free(exp->buf);
+            exp->buf_size = required_size * 2;
+            exp->buf = ft_calloc(exp->buf_size, sizeof(char));
+            if (!exp->buf)
+                error("expansion", "buffer allocation failed", EXIT_FAILURE, sh);
+        }
+        ft_strlcpy(exp->buf, current->value, exp->buf_size);
+        exp->buf_i = ft_strlen(current->value);
+        add_token_to_list(exp, sh);
+        current = current->next;
+    }
 }
 
 // Check if current char is wildcard that need to be expanded
@@ -104,6 +114,7 @@ bool	only_active_wildcard_left(char *str, t_expand *exp)
 	return (true);
 }
 
+
 bool	pattern_match(char *filename, char *pattern, int pattern_index,
 		t_expand *exp)
 {
@@ -135,3 +146,4 @@ bool	pattern_match(char *filename, char *pattern, int pattern_index,
 		return (true);
 	return (*pattern == *filename);
 }
+

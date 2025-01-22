@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/22 13:32:07 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/22 13:32:57 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,8 +152,6 @@ char	**list_to_envp(t_env_list *env)
 	return (envp);
 }
 
-
-t_env_list	*_env_token(char *name, t_env_list *env_tokens)
 t_env_list	*_env_token(char *name, t_env_list *env_tokens)
 {
 	t_env_list	*current;

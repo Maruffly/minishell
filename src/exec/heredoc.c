@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 13:35:04 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/22 13:09:06 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/22 13:41:50 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,7 @@ int	handle_heredoc_ast(t_ast *ast, t_shell *sh)
 	if (ast->type == AST_REDIRECTION && ast->u_data.redirection.direction == HEREDOC)
 	{
 		{
-			memset(&exp, 0, sizeof(t_expand));
+			ft_memset(&exp, 0, sizeof(t_expand));
 			status = handle_heredoc(&ast->u_data.redirection, sh, &exp);
 			if (status != EXIT_SUCCESS)
 				return (status);

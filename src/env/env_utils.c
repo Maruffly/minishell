@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/08 15:13:16 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/16 16:07:27 by jmaruffy         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/01/22 13:32:07 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 
 # include	"../../includes/minishell.h"
@@ -153,14 +154,19 @@ char	**list_to_envp(t_env_list *env)
 
 
 t_env_list	*_env_token(char *name, t_env_list *env_tokens)
+t_env_list	*_env_token(char *name, t_env_list *env_tokens)
 {
 	t_env_list	*current;
 
 	if (!name || !env_tokens)
 		return (NULL);
 	current = env_tokens->head;
+	if (!name || !env_tokens)
+		return (NULL);
+	current = env_tokens->head;
 	while (current)
 	{
+		if (current->var_name && ft_strcmp(current->var_name, name) == 0)
 		if (current->var_name && ft_strcmp(current->var_name, name) == 0)
 			return (current);
 		current = current->next;

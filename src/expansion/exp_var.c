@@ -6,12 +6,14 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/21 13:15:18 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/22 13:30:28 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
+
 #include "../../includes/minishell.h"
+
 
 
 char	*expand_env_var(char *str, t_expand *exp, t_shell *sh)
@@ -27,10 +29,16 @@ char	*expand_env_var(char *str, t_expand *exp, t_shell *sh)
 		return (NULL);
 	env_token = find_env_node(sh->env, name);
 	if (!env_token || !env_token->var_value) 
+	if (!name)
+		return (NULL);
+	env_token = find_env_node(sh->env, name);
+	if (!env_token || !env_token->var_value) 
 	{
+		free(name);
 		free(name);
 		return (NULL);
 	}
+	env_value = env_token->var_value;
 	env_value = env_token->var_value;
 	exp->i += ft_strlen(name);
 	free(name);
@@ -38,10 +46,13 @@ char	*expand_env_var(char *str, t_expand *exp, t_shell *sh)
 }
 
 
+
 void	expand_var(char *str, t_expand *exp, t_shell *sh)
 {
 	char	*value;
 
+	if (!
+	str || !exp || !sh)
 	if (!
 	str || !exp || !sh)
 		return ;
@@ -63,6 +74,14 @@ void	expand_var(char *str, t_expand *exp, t_shell *sh)
 		}
 		else
 			add_var_to_buffer(value, exp, sh);
+		if (exp->context == NO_QUOTE && exp->i > 0 && str[exp->i - 1] == '\"' && str[exp->i + ft_strlen(value) + 1] == '\"')
+		{
+			add_var_to_buffer("\"", exp, sh);
+			add_var_to_buffer(value, exp, sh);
+			add_var_to_buffer("\"", exp, sh);
+		}
+		else
+			add_var_to_buffer(value, exp, sh);
 	}
 }
 
@@ -70,7 +89,7 @@ void	expand_last_status(t_expand *exp, t_shell *sh)
 {
 	char	*last_exit_status;
 
-	if (exp || !sh)
+	if (!exp || !sh)
 		return ;
 	exp->i++;
 	last_exit_status = ft_itoa(sh->last_status);

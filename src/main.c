@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/22 15:27:10 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/22 16:53:28 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	process_prompt(char *input, t_shell *sh)
 	process = parser(token_lst, &ast, sh);
 	if (process != EXIT_SUCCESS || !ast)
 	{
+		if (sh->parsing_error) // testtt
+			syntax_error(sh->parsing_error, sh);
 		free_token_list(token_lst);
 		return (process);
 	}

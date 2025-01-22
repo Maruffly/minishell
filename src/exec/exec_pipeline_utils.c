@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:44:13 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/22 15:30:48 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/22 16:11:31 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	wait_for_children(pid_t last_pid, int n_pipeline, t_shell *sh)
 
 	new_line = false;
 	last_cmd_status = 0;
-	while (n_pipeline-- >= 0) // testtt
+	while (n_pipeline-- >= 0)
 	{
 		child_pid = wait(&status);
 		if (child_pid == last_pid)

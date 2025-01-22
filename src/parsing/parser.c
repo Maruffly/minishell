@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/14 10:33:22 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/22 16:42:50 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,14 @@ t_ast	*parse_redirection_list(t_token **token, t_ast *command, t_shell *sh)
 	cur = *token;
 	while (cur)
 	{
+		if (is_redirect(cur)) // testtt
+		{
+			if (!cur->next || !is_word(cur))
+			{
+				syntax_error(cur->value, sh);
+				return (NULL);
+			}
+		}
 		/* printf("Parsing token REDIRECTION: value='%s', type=%d, next=%p\n",
 			cur->value, cur->type, (void*)cur->next); */
 		 if (is_word(cur) && command && command->type == AST_COMMAND)

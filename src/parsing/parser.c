@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/22 16:42:50 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/24 15:31:51 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,31 @@ void debug_token_print(t_token *token)
 	token->value, token->type, (void*)token->next);
 }
 
-int	parser(t_token *token, t_ast **ast, t_shell *sh)
+
+int parser(t_token *token, t_ast **ast, t_shell *sh)
 {
-	*ast = parse_logical(&token, sh);
-	if (token)
-		syntax_error("...", sh);
-	if (sh->parsing_error)
-		return (report_syntax_error(sh));
-	return (EXIT_SUCCESS);
+    *ast = parse_logical(&token, sh);
+    if (token)
+    {
+        free_ast(*ast); // Libère l'AST partiel
+        *ast = NULL;
+        syntax_error("...", sh);
+        return (report_syntax_error(sh));
+    }
+    return (EXIT_SUCCESS);
 }
+
+
+// OLD testtt
+// int	parser(t_token *token, t_ast **ast, t_shell *sh)
+// {
+// 	*ast = parse_logical(&token, sh);
+// 	if (token)
+// 		syntax_error("...", sh);
+// 	if (sh->parsing_error)
+// 		return (report_syntax_error(sh));
+// 	return (EXIT_SUCCESS);
+// }
 
 t_ast	*parse_logical(t_token **token, t_shell *sh)
 {
@@ -112,7 +128,7 @@ t_ast	*parse_redirection_list(t_token **token, t_ast *command, t_shell *sh)
 	cur = *token;
 	while (cur)
 	{
-		if (is_redirect(cur)) // testtt
+		if (is_redirect(cur))
 		{
 			if (!cur->next || !is_word(cur))
 			{

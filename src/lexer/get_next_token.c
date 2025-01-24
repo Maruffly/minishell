@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 12:35:01 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/22 16:39:42 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/24 12:09:24 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_token_type	get_redirect(char *input, char c, int *len, t_shell *sh)
 		*len += 1;
 	if (c == '<' && *len > 2)
 	{
-		syntax_error("<<<", sh); // testtt
+		syntax_error("<<<", sh);
 		return (ERROR);
 	}
 	if (c == '<' && *len == 1)

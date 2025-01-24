@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 16:46:34 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/15 14:19:43 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/24 15:30:18 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,11 @@ int	lexer(char *input, t_token **token_list, t_shell *sh)
 			return (report_syntax_error(sh));
 		token = create_token(type, input + i, len);
 		if (!token)
+		{
+			ft_lstclear_token(token_list, free);
 			return (report_syntax_error(sh));
+		}
+			// return (report_syntax_error(sh)); // old , testtt
 		ft_lstadd_back_token(token_list, token);
 		i += len;
 	}

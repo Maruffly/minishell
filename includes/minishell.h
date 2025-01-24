@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/22 13:42:25 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/24 15:46:16 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,6 @@ void			exec_export(t_env_list *env_list, t_ast_command *cmd);
 void			exec_exit(t_ast_command *cmd);
 void			exec_export(t_env_list *env_list, t_ast_command *cmd);
 void			exec_pwd(void);
-void			exec_unset(t_env_list *env_list, t_ast_command *cmd);
 void			exec_unset(t_env_list *env_list, t_ast_command *cmd);
 
 

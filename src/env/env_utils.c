@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/22 13:32:57 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/24 13:25:54 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	add_env_node(t_env_list *list, char *var_name, char *var_value)
 		exit(EXIT_FAILURE);
 	}
 	new_node->next = list->head;
+	new_node->head = NULL; // testtt
 	list->head = new_node;
 }
 

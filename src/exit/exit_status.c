@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 17:58:12 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/22 16:54:07 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/24 15:34:29 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,21 @@ void	handle_exit_status(char *input, int *exit_code)
 		set_exit_code(exit_code, 1);
 }
 
+
+
 void	exit_shell(int exit_status, t_shell *sh)
 {
 	if (sh)
 	{
 		if (sh->is_parent && isatty(STDIN_FILENO))
 			ft_putstr_fd("exit\n", STDERR_FILENO);
-		ft_lstclear_env(&sh->env, free_env_list);
+		if (sh->env)
+			ft_lstclear_env(&sh->env, free_env_list);
 	}
 	rl_clear_history();
 	exit(exit_status);
 }
+
 
 void	error(char *context, char *description, int exit_status,
 	t_shell *sh)
@@ -73,7 +77,7 @@ void	error(char *context, char *description, int exit_status,
 	return (EXIT_FAILURE);
 } */
 
-void	*syntax_error(char *unexpected_token, t_shell *sh) // testtt
+void	*syntax_error(char *unexpected_token, t_shell *sh)
 {
 	ft_putstr_fd("Omar&Fred: syntax error near unexpected token `", STDERR_FILENO);
 	if (!unexpected_token || !!*unexpected_token)
@@ -85,14 +89,6 @@ void	*syntax_error(char *unexpected_token, t_shell *sh) // testtt
 	return (NULL);
 }
 
-
-// OLD VERSION
-// void	*syntax_error(char *unexpected_token, t_shell *sh)
-// {
-// 	if (!sh->parsing_error)
-// 		sh->parsing_error = unexpected_token;
-// 	return (NULL);
-// }
 
 int	report_syntax_error(t_shell *sh)
 {

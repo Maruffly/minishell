@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:14:26 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/20 16:25:08 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/01/24 13:35:05 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,58 @@
 
 void	free_env_node(t_env_list *node);
 
+
+// Corriger free_env_list
 void	free_env_list(void *list)
 {
 	t_env_list	*env_list;
 	t_env_list	*cur;
 	t_env_list	*next;
 
-	if (!list)
-		return ;
 	env_list = (t_env_list *)list;
-	if (!env_list->head)
-	{
-		free(list);
-		return ;
-	}
+	if (!env_list) // || !env_list->head) testtt
+		return;
 	cur = env_list->head;
 	while (cur)
 	{
 		next = cur->next;
-		if (cur)
-			free_env_node(cur);
+		// if (cur->var_name)
+		free(cur->var_name);
+		// if (cur->var_value)
+		free(cur->var_value);
+		free(cur);
 		cur = next;
 	}
-	env_list->head = NULL;
-	free(list);
+	free(env_list);
 }
+
+
+// OLD VERSION
+// void	free_env_list(void *list)
+// {
+// 	t_env_list	*env_list;
+// 	t_env_list	*cur;
+// 	t_env_list	*next;
+
+// 	if (!list)
+// 		return ;
+// 	env_list = (t_env_list *)list;
+// 	if (!env_list->head)
+// 	{
+// 		free(list);
+// 		return ;
+// 	}
+// 	cur = env_list->head;
+// 	while (cur)
+// 	{
+// 		next = cur->next;
+// 		if (cur)
+// 			free_env_node(cur);
+// 		cur = next;
+// 	}
+// 	env_list->head = NULL;
+// 	free(list);
+// }
 
 void free_token_list(t_token *tokens)
 {
@@ -53,21 +80,34 @@ void free_token_list(t_token *tokens)
 }
 
 
-void ft_lstclear_env(t_env_list **lst, void (*del)(void *))
+
+
+void	ft_lstclear_env(t_env_list **lst, void (*del)(void *))
 {
-	t_env_list *tmp;
+    if (!lst || !*lst || !del)
+        return;
 
-	if (*lst == NULL || del == NULL)
-		return;
-
-	while (*lst)
-	{
-		tmp = (*lst)->next;
-		ft_lstdelone_env(*lst, del);
-		*lst = tmp;
-	}
-	*lst = NULL;
+    del(*lst);
+    *lst = NULL;
 }
+
+
+// OLD
+// void ft_lstclear_env(t_env_list **lst, void (*del)(void *))
+// {
+// 	t_env_list *tmp;
+
+// 	if (*lst == NULL || del == NULL)
+// 		return;
+
+// 	while (*lst)
+// 	{
+// 		tmp = (*lst)->next;
+// 		ft_lstdelone_env(*lst, del);
+// 		*lst = tmp;
+// 	}
+// 	*lst = NULL;
+// }
 
 void ft_lstdelone_env(t_env_list *env, void (*del)(void *))
 {
@@ -115,17 +155,20 @@ void	free_env_array(char **envp)
 	free(envp);
 }
 
+
+
 void	free_ast(t_ast *ast)
 {
 	if (!ast)
 		return;
+	
 	if (ast->type == AST_COMMAND)
-	{
-		if (ast->u_data.command.args)
-			ft_free_split(ast->u_data.command.args);
-	}
+		ft_free_split(ast->u_data.command.args);
 	else if (ast->type == AST_REDIRECTION)
+	{
+		free(ast->u_data.redirection.file);
 		free_ast(ast->u_data.redirection.command);
+	}
 	else if (ast->type == AST_PIPELINE)
 	{
 		free_ast(ast->u_data.pipeline.left);
@@ -138,5 +181,34 @@ void	free_ast(t_ast *ast)
 	}
 	else if (ast->type == AST_SUBSHELL)
 		free_ast(ast->u_data.subshell.child);
+	
 	free(ast);
 }
+
+
+// OLD
+// void	free_ast(t_ast *ast)
+// {
+// 	if (!ast)
+// 		return;
+// 	if (ast->type == AST_COMMAND)
+// 	{
+// 		if (ast->u_data.command.args)
+// 			ft_free_split(ast->u_data.command.args);
+// 	}
+// 	else if (ast->type == AST_REDIRECTION)
+// 		free_ast(ast->u_data.redirection.command);
+// 	else if (ast->type == AST_PIPELINE)
+// 	{
+// 		free_ast(ast->u_data.pipeline.left);
+// 		free_ast(ast->u_data.pipeline.right);
+// 	}
+// 	else if (ast->type == AST_LOGICAL)
+// 	{
+// 		free_ast(ast->u_data.logical.left);
+// 		free_ast(ast->u_data.logical.right);
+// 	}
+// 	else if (ast->type == AST_SUBSHELL)
+// 		free_ast(ast->u_data.subshell.child);
+// 	free(ast);
+// }

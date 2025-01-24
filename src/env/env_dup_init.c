@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:47:11 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/16 11:34:09 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/22 17:16:19 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,15 @@ t_env_list	*init_env_list(void)
 {
 	t_env_list	*list;
 
-	list = malloc(sizeof(t_env_list));
+	list = ft_calloc(1, sizeof(t_env_list));
+	// list = malloc(sizeof(t_env_list)); // OLD
 	if (!list)
 	{
 		perror("malloc failed");
 		exit(EXIT_FAILURE);
 	}
 	list->head = NULL;
+	list->next = NULL;
 	return (list);
 }
 

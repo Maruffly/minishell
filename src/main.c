@@ -6,13 +6,14 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/22 16:53:28 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/24 12:08:55 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 int g_signal_value = 0;
+
 
 int	process_prompt(char *input, t_shell *sh)
 {
@@ -27,7 +28,7 @@ int	process_prompt(char *input, t_shell *sh)
 	process = parser(token_lst, &ast, sh);
 	if (process != EXIT_SUCCESS || !ast)
 	{
-		if (sh->parsing_error) // testtt
+		if (sh->parsing_error)
 			syntax_error(sh->parsing_error, sh);
 		free_token_list(token_lst);
 		return (process);

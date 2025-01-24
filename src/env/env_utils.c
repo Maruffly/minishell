@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/24 13:25:54 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/24 16:47:38 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	add_env_node(t_env_list *list, char *var_name, char *var_value)
 		exit(EXIT_FAILURE);
 	}
 	new_node->next = list->head;
-	new_node->head = NULL; // testtt
+	new_node->head = NULL;
 	list->head = new_node;
 }
 
@@ -87,15 +87,15 @@ void	remove_env_node(t_env_list *list, char *var_name)
 	}
 }
 
-void	free_env_node(t_env_list *node)
-{
-	if (node)
-	{
-		free(node->var_name);
-		free(node->var_value);
-		free(node);
-	}
-}
+// void	free_env_node(t_env_list *node)
+// {
+// 	if (node)
+// 	{
+// 		free(node->var_name);
+// 		free(node->var_value);
+// 		free(node);
+// 	}
+// }
 
 int	is_valid_var_name(char *name)
 {

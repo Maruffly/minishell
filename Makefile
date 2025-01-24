@@ -14,14 +14,15 @@ SRC_FILES = main.c\
 			/builtins/ft_export.c\
 			/builtins/ft_pwd.c\
 			/builtins/ft_unset.c\
-			/env/env_dup_init.c\
+			/env/env_init.c\
 			/env/env_utils.c\
 			/token/token_commands.c\
 			/token/token_specials.c\
 			/token/token_utils.c\
 			/token/token_words.c\
-			/exit/free.c\
-			/exit/exit_status.c\
+			/cleaning/free.c\
+			/cleaning/free_env.c\
+			/cleaning/exit.c\
 			/parsing/parser.c\
 			/parsing/ast.c\
 			/parsing/ast_utils.c\

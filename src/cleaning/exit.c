@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 17:58:12 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/24 15:34:29 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/24 17:05:36 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,44 +38,6 @@ void	handle_exit_status(char *input, int *exit_code)
 	else
 		set_exit_code(exit_code, 1);
 }
-
-
-
-void	exit_shell(int exit_status, t_shell *sh)
-{
-	if (sh)
-	{
-		if (sh->is_parent && isatty(STDIN_FILENO))
-			ft_putstr_fd("exit\n", STDERR_FILENO);
-		if (sh->env)
-			ft_lstclear_env(&sh->env, free_env_list);
-	}
-	rl_clear_history();
-	exit(exit_status);
-}
-
-
-void	error(char *context, char *description, int exit_status,
-	t_shell *sh)
-{
-	ft_putstr_fd("Omar&Fred: ", STDERR_FILENO);
-	ft_putstr_fd(description, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putstr_fd(context, STDERR_FILENO);
-	ft_putstr_fd("\n", STDERR_FILENO);
-	exit_shell(exit_status, sh);
-}
-
-/* int	report_error(char *context, char *element, char *description, t_shell *sh)
-{
-	write_s("minishell: ", STDERR_FILENO, sh);
-	write_s(context, STDERR_FILENO, sh);
-	if (element)
-		write_s(element, STDERR_FILENO, sh);
-	write_s(description, STDERR_FILENO, sh);
-	write_s("\n", STDERR_FILENO, sh);
-	return (EXIT_FAILURE);
-} */
 
 void	*syntax_error(char *unexpected_token, t_shell *sh)
 {

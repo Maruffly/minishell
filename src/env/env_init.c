@@ -1,29 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_dup_init.c                                     :+:      :+:    :+:   */
+/*   env_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:47:11 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/22 17:16:19 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/24 16:46:31 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include	"../../includes/minishell.h"
-
-void	print_env_list(t_env_list *list)
-{
-	t_env_list	*cur;
-
-	cur = list->head;
-	while (cur)
-	{
-		if (cur->var_name && cur->var_value)
-			printf("%s=%s\n", cur->var_name, cur->var_value);
-		cur = cur->next;
-	}
-}
 
 t_env_list	*init_env_list(void)
 {
@@ -42,36 +29,43 @@ t_env_list	*init_env_list(void)
 }
 
 
+#include "../../includes/minishell.h"
+
+static void	add_env_node_from_envp(t_env_list *list, char *envp_line)
+{
+	size_t	name_len;
+	char	*var_name;
+	char	*var_value;
+
+	name_len = ft_strchr(envp_line, '=') - envp_line;
+	var_name = ft_substr(envp_line, 0, name_len);
+	var_value = ft_strdup(ft_strchr(envp_line, '=') + 1);
+	if (!var_name || !var_value)
+	{
+		free(var_name);
+		free(var_value);
+		ft_lstclear_env(&list, free_env_list);
+		return ;
+	}
+	add_env_node(list, var_name, var_value);
+	free(var_name);
+	free(var_value);
+}
+
 t_env_list	*init_envp(char **envp)
 {
 	int			i;
 	t_env_list	*list;
-	size_t 		name_len;
-	char		*var_name;
-	char		*var_value;
 
 	list = init_env_list();
 	if (!list)
 		return (NULL);
 	i = -1;
-	while(envp[++i])
-	{
-		name_len = ft_strchr(envp[i], '=') - envp[i];
-		var_name = ft_substr(envp[i], 0, name_len);
-		var_value = ft_strdup(ft_strchr(envp[i], '=') + 1);
-		if (!var_name || !var_value)
-		{
-			free(var_name);
-			free(var_value);
-			ft_lstclear_env(&list, free_env_list);
-			return (NULL);
-		}
-		add_env_node(list, var_name, var_value);
-		free(var_name);
-		free(var_value);
-	}
+	while (envp[++i])
+		add_env_node_from_envp(list, envp[i]);
 	return (list);
 }
+
 
 t_env_list	*find_env_node(t_env_list *list, char *name)
 {

@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/24 15:46:16 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/24 17:06:02 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,23 @@ char			*read_line(t_prompt_mode mode);
 // INIT COMMAND STRUCT //
 
 // EXIT //
-void			exit_shell(int exit_status, t_shell *sh);
-void			free_ast(t_ast *node);
-void			free_token_list(t_token *tokens);
 void			handle_exit_status(char *input, int *exit_code);
-void			error(char *context, char *description, int exit_status,
-				t_shell *sh);
-void 			ft_lstclear_env(t_env_list **lst, void (*del)(void *));
-void 			ft_lstdelone_env(t_env_list *env, void (*del)(void *));
+
+// FREE
+void			free_ast(t_ast *node);
+void 			free_token_list(t_token *tokens);
+void			exit_shell(int exit_status, t_shell *sh);
 void			remove_list_node(t_token **node, t_token **head, 
 				void (*free_function)(void *), bool free_node);
-void			free_env_array(char **envp);
+void			error(char *context, char *description, int exit_status,
+				t_shell *sh);
 
+// FREE_ENV
+void			free_env_list(void *list);
+void			free_env_array(char **envp);
+void			free_env_node(t_env_list *node);
+void 			ft_lstclear_env(t_env_list **lst, void (*del)(void *));
+void 			ft_lstdelone_env(t_env_list *env, void (*del)(void *));
 
 // errors
 int				report_syntax_error(t_shell *sh);
@@ -154,8 +159,6 @@ void	execute_command(t_command *cmd, t_env_list *env, int prev_output_fd);
 void			shell_level(t_shell *sh);
 char 			*get_current_path(t_env_list *list);
 t_env_list		*init_env_list(void);
-void			free_env_list(void *list);
-void			print_env_list(t_env_list *list);
 void			update_env_node(t_env_list *list, char *var_name, char *var_value);
 void			add_env_node(t_env_list *list, char *var_name, char *var_value);
 void			remove_env_node(t_env_list *list, char *var_name);
@@ -170,6 +173,7 @@ t_env_list		*find_env_token(char *name, t_env_list *env_tokens);
 
 // BUILTINS
 void			exec_echo(t_ast_command *cmd);
+void			print_env_list(t_env_list *list);
 void			exec_cd(t_ast_command *cmd, t_env_list *env_list);
 void			exec_echo(t_ast_command *cmd);
 void			exec_env(t_env_list *env_list);
@@ -179,6 +183,7 @@ void			exec_exit(t_ast_command *cmd);
 void			exec_export(t_env_list *env_list, t_ast_command *cmd);
 void			exec_pwd(void);
 void			exec_unset(t_env_list *env_list, t_ast_command *cmd);
+
 
 
 // EXPANSION

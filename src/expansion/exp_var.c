@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jorislaine <jorislaine@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/22 14:15:47 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/25 01:01:20 by jorislaine       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ char	*expand_env_var(char *str, t_expand *exp, t_shell *sh)
 	env_token = find_env_node(sh->env, name);
 	if (!env_token || !env_token->var_value) 
 	{
-		free(name);
 		free(name);
 		return (NULL);
 	}

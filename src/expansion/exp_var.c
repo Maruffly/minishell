@@ -6,16 +6,41 @@
 /*   By: jorislaine <jorislaine@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/25 01:01:20 by jorislaine       ###   ########.fr       */
+/*   Updated: 2025/01/25 01:31:14 by jorislaine       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 #include "../../includes/minishell.h"
 
+char *expand_env_var(char *str, t_expand *exp, t_shell *sh)
+{
+    char *name;
+    char *env_value;
+    t_env_list *env_token;
+    int name_len;
+
+    if (!str || !exp || !sh)
+        return (NULL);
+    name = get_valid_name(str, exp, sh);
+    if (!name)
+        return (NULL);
+    name_len = ft_strlen(name); // Longueur du nom de la variable
+    env_token = find_env_node(sh->env, name);
+    if (!env_token || !env_token->var_value)
+    {
+        free(name);
+        exp->i += name_len; // Avance l'index après le nom de la variable
+        return (ft_strdup("")); // Retourne une chaîne vide
+    }
+    env_value = env_token->var_value;
+    exp->i += name_len; // Avance l'index après le nom de la variable
+    free(name);
+    return (ft_strdup(env_value));
+}
 
 
+// OLD
+/*
 char	*expand_env_var(char *str, t_expand *exp, t_shell *sh)
 {
 	char		*name;
@@ -38,12 +63,11 @@ char	*expand_env_var(char *str, t_expand *exp, t_shell *sh)
 		return (NULL);
 	}
 	env_value = env_token->var_value;
-	env_value = env_token->var_value;
 	exp->i += ft_strlen(name);
 	free(name);
 	return (env_value);
 }
-
+*/
 
 
 void	expand_var(char *str, t_expand *exp, t_shell *sh)

@@ -6,33 +6,11 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/24 15:31:51 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/27 13:07:19 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-// ici on utilise un double pointeur token pour faire passer en parametre
-// des fonctions la position courante dans le tableau de token.
-
-void print_token_list_debug(t_token *token_list)
-{
-    t_token *current = token_list;
-    while (current)
-    {
-        printf("Token: %s, Type: %u, Next: %p, Prev: %p\n",
-               current->value, current->type,
-               (void *)current->next, (void *)current->prev);
-        current = current->next;
-    }
-}
-
-void debug_token_print(t_token *token)
-{
-	printf("Current Token: value='%s', type=%d, next=%p\n",
-	token->value, token->type, (void*)token->next);
-}
-
 
 int parser(t_token *token, t_ast **ast, t_shell *sh)
 {
@@ -47,18 +25,6 @@ int parser(t_token *token, t_ast **ast, t_shell *sh)
     return (EXIT_SUCCESS);
 }
 
-
-// OLD testtt
-// int	parser(t_token *token, t_ast **ast, t_shell *sh)
-// {
-// 	*ast = parse_logical(&token, sh);
-// 	if (token)
-// 		syntax_error("...", sh);
-// 	if (sh->parsing_error)
-// 		return (report_syntax_error(sh));
-// 	return (EXIT_SUCCESS);
-// }
-
 t_ast	*parse_logical(t_token **token, t_shell *sh)
 {
 	t_ast			*left;
@@ -66,10 +32,6 @@ t_ast	*parse_logical(t_token **token, t_shell *sh)
 	t_token_type	logic_op;
 
 	left = parse_pipe(token, sh);
-	/* if (!token || !*token)
-		return (NULL); */
-	/* printf("Parsing token : value='%s', type=%d, next_value=%p\n",
-			(*token)->value, (*token)->type, (*token)->next->value); */
 	while (is_operator(*token))
 	{
 		logic_op = (*token)->type;
@@ -112,6 +74,7 @@ t_ast	*parse_redirection(t_token **token, t_shell *sh)
 		return (NULL);
 	return (build_redir_cmd(prefix, suffix, command));
 }
+
 // Il y a forcement une commande avant la redirection ou rien : cmd > file ; > file
 // Il peut y avoir des suites de redirections : cmd > file1 > file2
 t_ast	*parse_redirection_list(t_token **token, t_ast *command, t_shell *sh)
@@ -130,7 +93,7 @@ t_ast	*parse_redirection_list(t_token **token, t_ast *command, t_shell *sh)
 	{
 		if (is_redirect(cur))
 		{
-			if (!cur->next || !is_word(cur))
+			if (!cur->next || !is_word(cur->next))
 			{
 				syntax_error(cur->value, sh);
 				return (NULL);
@@ -167,7 +130,7 @@ t_ast	*parse_redirection_list(t_token **token, t_ast *command, t_shell *sh)
 	return (first);
 }
 
-int		argu_count(t_token *cur)
+static int		count_arg(t_token *cur)
 {
 	int	i;
 
@@ -187,9 +150,8 @@ t_ast	*parse_command(t_token **token)
 	char	**args;
 	int		i;
 
-	/* debug_token_print(*token); */
 	cur = *token;
-	arg_count = argu_count(cur);
+	arg_count = count_arg(cur);
 	if (!arg_count)
 		return (NULL);
 	args = ft_calloc((arg_count + 1), sizeof(char *));
@@ -202,7 +164,6 @@ t_ast	*parse_command(t_token **token)
 		args[i] = ft_strdup(cur->value);
 		if (!args)
 			return (ft_free_split(args), NULL);
-		/* printf("ARG_CMD : %s\n", args[i]); */
 		i++;
 		cur = cur->next;
 	}
@@ -214,7 +175,6 @@ t_ast	*parse_subshell(t_token **token, t_shell *sh)
 {
 	t_ast	*content;
 
-	/* debug_token_print(*token); */
 	if (is_open_parenthesis(*token))
 	{
 		*token = (*token)->next;

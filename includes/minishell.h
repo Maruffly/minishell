@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/24 17:06:02 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/27 14:40:09 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,6 @@ void			update_env_node(t_env_list *list, char *var_name, char *var_value);
 void			add_env_node(t_env_list *list, char *var_name, char *var_value);
 void			remove_env_node(t_env_list *list, char *var_name);
 t_env_list		*find_env_node(t_env_list *list, char *name);
-void			update_pwd_env(t_env_list *env_list, char *old_pwd);
 int				is_valid_var_name(char *name);
 t_env_list		*init_envp(char **envp);
 char			**list_to_envp(t_env_list *env);
@@ -193,9 +192,6 @@ void			redirection_expansion(t_ast *node, t_shell *sh);
 void			arg_expansion(char *str, t_token **expanded_args, t_shell *sh);
 bool			init_expansion(t_expand *exp, char *str, t_token **expanded_args, 
 						t_shell *sh);
-void			no_quote(char *str, t_expand *exp, t_shell *sh);
-void			single_quote(char *str, t_expand *exp);
-void			double_quote(char *str, t_expand *exp, t_shell *sh);
 void			*add_token_to_list(t_expand *exp, t_shell *sh);
 void			add_var_to_buffer(char *value, t_expand *exp, t_shell *sh);
 void			expand_var(char *str, t_expand *exp, t_shell *sh);
@@ -211,7 +207,7 @@ void			insert_ordered(t_token **head, t_token *new_node, t_shell *sh); // testtt
 char			*extract_root_path(t_expand *exp, t_shell *sh);
 t_token			*pattern_filter(t_token *tokens, t_expand *exp);
 char			*expand_env_var(char *str, t_expand *exp, t_shell *sh);
-char			*word_splitting(t_expand *exp, char *value, t_shell *sh);
+// char			*word_splitting(t_expand *exp, char *value, t_shell *sh);
 void			list_of_file_to_token_list(t_token *tokens, t_expand *exp, t_shell *sh);
 bool			pattern_match(char *filename, char *pattern, int pattern_index,
 				t_expand *exp);
@@ -247,11 +243,9 @@ int				exec_subshell(t_ast_subshell *subshell, t_shell *sh);
 
 // EXEC COMMAND
 void			exec_extern_command(t_ast_command *cmd, t_shell *sh);
-int				fork_command(t_ast_command *cmd, t_exit end, t_shell *sh);
 int				exec_command(t_ast_command *cmd, t_exit end, t_shell *sh);
 char			**convert_env_list_to_array(t_env_list *env_list);
 char			*find_command_path(char *command, t_env_list *env);
-char			*search_in_path(char *command, t_env_list *env);
 char			*get_path_env(t_env_list *env);
 char			*build_path(char *dir, char *command);
 

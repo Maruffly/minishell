@@ -3,73 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jorislaine <jorislaine@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 14:55:10 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/26 17:46:40 by jorislaine       ###   ########.fr       */
+/*   Updated: 2025/01/27 14:42:48 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../includes/minishell.h"
 
-/*
-void	exec_cd(t_ast_command *cmd, t_env_list *env_list)
-{
-	char		*path;
-	char		*cur_pwd;
-	t_env_list	*home_node;
-
-	if (!cmd->args || !cmd->args[0])
-	{
-		ft_putstr_fd("cd: No command\n", 2);
-		return;
-	}
-	cur_pwd = getcwd(NULL, 0);
-	if (!cur_pwd)
-	{
-		perror("cd");
-		return ;
-	}
-	if (cmd->args[2] != NULL)
-	{
-		ft_putstr_fd("cd: Too many arguments\n", 2);
-		free(cur_pwd);
-		return;
-	}
-	if (!cmd->args[1])
-	{
-		home_node = find_env_node(env_list, "HOME");
-		if (!home_node || !home_node->var_value)
-		{
-			ft_putstr_fd("cd: Home not set", 2);
-			free(cur_pwd);
-			return ;
-		}
-		path = home_node->var_value;
-	}
-	else
-		path = cmd->args[1];
-	if (access(path, F_OK) < 0)
-	{
-		ft_putstr_fd("cd: ", 2);
-		perror(path);
-		free(cur_pwd);
-		return ;
-	}
-	if (chdir(path) < 0)
-	{
-		ft_putstr_fd("cd: Home not set", 2);
-		perror(path);
-		free(cur_pwd);
-		return ;
-	}
-	update_pwd_env(env_list, cur_pwd);
-	free(cur_pwd);
-}
-*/
-
-
-void	update_pwd_env(t_env_list *env_list, char *old_pwd)
+static void	update_pwd_env(t_env_list *env_list, char *old_pwd)
 {
 	char		*new_pwd;
 
@@ -85,15 +28,7 @@ void	update_pwd_env(t_env_list *env_list, char *old_pwd)
 	free(new_pwd);
 }
 
-
-static void handle_cd_error(char *path, char *cur_pwd)
-{
-	ft_putstr_fd("Omar&Fred: cd: ", 2);
-	perror(path);
-	free(cur_pwd);
-}
-
-static char *get_cd_path(t_ast_command *cmd, t_env_list *env_list)
+static char	*get_cd_path(t_ast_command *cmd, t_env_list *env_list)
 {
 	char *path;
 	t_env_list *home_node;
@@ -113,16 +48,13 @@ static char *get_cd_path(t_ast_command *cmd, t_env_list *env_list)
 	return (path);
 }
 
-static int change_directory(char *path, char *cur_pwd, t_env_list *env_list)
+static int	change_directory(char *path, char *cur_pwd, t_env_list *env_list)
 {
-	if (access(path, F_OK) < 0)
+	if (access(path, F_OK) < 0 || chdir(path) < 0)
 	{
-		handle_cd_error(path, cur_pwd);
-		return (EXIT_FAILURE);
-	}
-	if (chdir(path) < 0)
-    {
-		handle_cd_error(path, cur_pwd);
+		ft_putstr_fd("Omar&Fred: cd: ", 2);
+		perror(path);
+		free(cur_pwd);
 		return (EXIT_FAILURE);
 	}
 	update_pwd_env(env_list, cur_pwd);
@@ -130,33 +62,40 @@ static int change_directory(char *path, char *cur_pwd, t_env_list *env_list)
 	return (EXIT_SUCCESS);
 }
 
+static int	check_cd_args(t_ast_command *cmd, char **cur_pwd)
+{
+	if (!cmd->args || !cmd->args[0])
+	{
+		ft_putstr_fd("Omar&Fred: cd: No command\n", 2);
+		return (EXIT_FAILURE);
+	}
+	*cur_pwd = getcwd(NULL, 0);
+	if (!*cur_pwd)
+	{
+		perror("cd");
+		return (EXIT_FAILURE);
+	}
+	if (cmd->args[2] != NULL)
+	{
+		ft_putstr_fd("Omar&Fred: cd: Too many arguments\n", 2);
+		free(*cur_pwd);
+		return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
+}
+
 void exec_cd(t_ast_command *cmd, t_env_list *env_list)
 {
-    char *path;
-    char *cur_pwd;
+    char	*cur_pwd;
+    char	*path;
 
-    if (!cmd->args || !cmd->args[0])
-    {
-        ft_putstr_fd("cd: No command\n", 2);
-        return;
-    }
-    cur_pwd = getcwd(NULL, 0);
-    if (!cur_pwd)
-    {
-        perror("cd");
-        return;
-    }
-    if (cmd->args[2] != NULL)
-    {
-        ft_putstr_fd("cd: Too many arguments\n", 2);
-        free(cur_pwd);
-        return;
-    }
-    path = get_cd_path(cmd, env_list);
-    if (!path)
-    {
-        free(cur_pwd);
-        return;
-    }
-    change_directory(path, cur_pwd, env_list);
+	if (check_cd_args(cmd, &cur_pwd) == EXIT_FAILURE)
+		return;
+	path = get_cd_path(cmd, env_list);
+	if (!path)
+	{
+		free(cur_pwd);
+		return;
+	}
+	change_directory(path, cur_pwd, env_list);
 }

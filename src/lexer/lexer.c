@@ -6,56 +6,13 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 16:46:34 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/24 15:30:18 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/27 10:32:24 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../includes/minishell.h"
 
-void	print_token(t_token *list)
-{
-	t_token *current = list;
-
-	while (current)
-	{
-		printf("value : %s\n", current->value);
-		current = current->next;
-	}
-}
-
-int	lexer(char *input, t_token **token_list, t_shell *sh)
-{
-	t_token			*token;
-	t_token_type	type;
-	int				i;
-	int				len;
-
-	i = 0;
-	*token_list = NULL;
-	while (input[i])
-	{
-		len = 0;
-		while (is_blank(input[i]))
-			i++;
-		if (!input[i])
-			break ;
-		type = get_next_token(input + i, &len, sh);
-		if (type == ERROR)
-			return (report_syntax_error(sh));
-		token = create_token(type, input + i, len);
-		if (!token)
-		{
-			ft_lstclear_token(token_list, free);
-			return (report_syntax_error(sh));
-		}
-			// return (report_syntax_error(sh)); // old , testtt
-		ft_lstadd_back_token(token_list, token);
-		i += len;
-	}
-	return (EXIT_SUCCESS);
-}
-
-t_token *init_token(char *value, t_token_type type)
+static t_token *init_token(char *value, t_token_type type)
 {
 	t_token	*token;
 
@@ -83,4 +40,35 @@ t_token	*create_token(t_token_type type, char *input, size_t len)
 	if (!token)
 		return (free(value), NULL);
 	return (token);
+}
+
+int	lexer(char *input, t_token **token_list, t_shell *sh)
+{
+	t_token			*token;
+	t_token_type	type;
+	int				i;
+	int				len;
+
+	i = 0;
+	*token_list = NULL;
+	while (input[i])
+	{
+		len = 0;
+		while (is_blank(input[i]))
+			i++;
+		if (!input[i])
+			break ;
+		type = get_next_token(input + i, &len, sh);
+		if (type == ERROR)
+			return (report_syntax_error(sh));
+		token = create_token(type, input + i, len);
+		if (!token)
+		{
+			ft_lstclear_token(token_list, free);
+			return (report_syntax_error(sh));
+		}
+		ft_lstadd_back_token(token_list, token);
+		i += len;
+	}
+	return (EXIT_SUCCESS);
 }

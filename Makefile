@@ -16,6 +16,8 @@ SRC_FILES = main.c\
 			/builtins/ft_unset.c\
 			/env/env_init.c\
 			/env/env_utils.c\
+			/env/env_init_utils.c\
+			/env/env_list_utils.c\
 			/token/token_commands.c\
 			/token/token_specials.c\
 			/token/token_utils.c\
@@ -31,11 +33,13 @@ SRC_FILES = main.c\
 			/parsing/ast_builder.c\
 			/lexer/lexer.c\
 			/lexer/get_next_token.c\
-			/signals/main_signal.c\
+			/signals/signal.c\
+			/signals/signal_utils.c\
 			/expansion/exp.c\
 			/expansion/exp_utils.c\
 			/expansion/exp_wildcards.c\
 			/expansion/exp_var.c\
+			/expansion/exp_arg_utils.c\
 			/expansion/exp_filename.c\
 			/expansion/exp_filename_utils.c\
 			/exec/exec.c\

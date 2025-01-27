@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:22:15 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/21 14:32:23 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/27 10:14:07 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,31 +58,4 @@ void	redirection_expansion(t_ast *node, t_shell *sh)
 		error("wrong redirection", NULL, 1, sh);
 	else
 		node->u_data.redirection.file = expanded_args->value;
-}
-
-
-void	arg_expansion(char *str, t_token **expanded_args, t_shell *sh)
-{
-	t_expand	exp;
-	
-	if (!str || !expanded_args || !sh)
-		return ;
-	if (!init_expansion(&exp, str, expanded_args, sh))
-		return ;
-	ft_bzero(exp.buf, exp.buf_size);
-	exp.buf_i = 0;
-	while (str[exp.i])
-	{
-		if (exp.context == NO_QUOTE)
-			no_quote(str, &exp, sh);
-		else if (exp.context == IN_SINGLE_QUOTE)
-			single_quote(str, &exp);
-		else if (exp.context == IN_DOUBLE_QUOTE)
-			double_quote(str, &exp, sh);
-		if (str[exp.i])
-			exp.i++;
-	}
-	if (exp.context != NO_QUOTE)
-		error("expansion", "unclosed quote", EXIT_FAILURE, sh);
-	add_token_to_list(&exp, sh);
 }

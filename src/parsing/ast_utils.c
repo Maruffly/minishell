@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 16:37:13 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/13 17:07:12 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/01/27 10:43:21 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,3 @@ t_ast	*build_redir_cmd(t_ast *prefix, t_ast *suffix, t_ast *command)
 	else
 		return (command);
 }
-

@@ -6,14 +6,11 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/24 16:47:38 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/27 09:47:28 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 # include	"../../includes/minishell.h"
-
 
 void	update_env_node(t_env_list *list, char *var_name, char *var_value)
 {
@@ -87,15 +84,6 @@ void	remove_env_node(t_env_list *list, char *var_name)
 	}
 }
 
-// void	free_env_node(t_env_list *node)
-// {
-// 	if (node)
-// 	{
-// 		free(node->var_name);
-// 		free(node->var_value);
-// 		free(node);
-// 	}
-// }
 
 int	is_valid_var_name(char *name)
 {
@@ -111,46 +99,6 @@ int	is_valid_var_name(char *name)
 		i++;
 	}
 	return (1);
-}
-
-char	**list_to_envp(t_env_list *env)
-{
-	t_env_list	*cur;
-	char		**envp;
-	int			size;
-	int			i;
-
-	cur = env->head;
-	size = 0;
-	while (cur)
-	{
-		size++;
-		cur = cur->next;
-	}
-	envp = malloc(sizeof(char *) * (size + 1));
-	if (!envp)
-	{
-		perror("malloc");
-		return (NULL);
-	}
-	cur = env->head;
-	i = 0;
-	while (cur)
-	{
-		envp[i] = malloc(ft_strlen(cur->var_name) + ft_strlen(cur->var_value) + 2);
-		if (!envp[i])
-		{
-			ft_free_split(envp);
-			return (NULL);
-		}
-		ft_strcpy(envp[i], cur->var_name);
-		ft_strcat(envp[i], "=");
-		ft_strcat(envp[i], cur->var_value);
-		cur = cur->next;
-		i++;
-	}
-	envp[i] = NULL;
-	return (envp);
 }
 
 t_env_list	*_env_token(char *name, t_env_list *env_tokens)

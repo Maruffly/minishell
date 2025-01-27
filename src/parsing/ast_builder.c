@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_builder.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:16:37 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/17 16:55:28 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/27 10:43:38 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_ast	*create_ast_subshell(t_ast *child, t_shell *sh)
 	node->u_data.subshell.child = child;
 	return (node);
 }
+
 // une redirection est forcement associé a une commande ou rien
 // filename c'est le fichier qui suit la redirection
 t_ast	*create_ast_redirection(t_token_type direction, t_token *filename,

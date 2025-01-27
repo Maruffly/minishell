@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:50:37 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/24 17:01:54 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/27 16:03:43 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,6 @@ void	ft_lstclear_env(t_env_list **lst, void (*del)(void *))
     *lst = NULL;
 }
 
-void ft_lstdelone_env(t_env_list *env, void (*del)(void *))
-{
-	if (env)
-	{
-		if (del)
-		{
-			del(env->var_name);
-			del(env->var_value);
-		}
-		free(env);
-	}
-}
-
 void	free_env_array(char **envp)
 {
 	int	i;
@@ -68,14 +55,4 @@ void	free_env_array(char **envp)
 		i++;
 	}
 	free(envp);
-}
-
-void	free_env_node(t_env_list *node)
-{
-	if (node)
-	{
-		free(node->var_name);
-		free(node->var_value);
-		free(node);
-	}
 }

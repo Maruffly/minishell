@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/27 14:40:09 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/27 16:03:39 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,7 @@ void			error(char *context, char *description, int exit_status,
 // FREE_ENV
 void			free_env_list(void *list);
 void			free_env_array(char **envp);
-void			free_env_node(t_env_list *node);
 void 			ft_lstclear_env(t_env_list **lst, void (*del)(void *));
-void 			ft_lstdelone_env(t_env_list *env, void (*del)(void *));
 
 // errors
 int				report_syntax_error(t_shell *sh);

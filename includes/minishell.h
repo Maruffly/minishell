@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/27 17:56:33 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/27 18:21:40 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 
 // print
 void 			print_ast(t_ast *node);
+void			print_token(t_token *list);
 
 // signal //
 void		set_signal(int signum, void (*handler)(int));
@@ -78,8 +79,6 @@ void			ft_lstclear_token(t_token **lst, void (*del)(void *));
 void			ft_lstdelone_token(t_token *lst, void (*del)(void *));
 int				ft_lstsize_token(t_token *token);
 void			add_front_token(t_token **token_list, t_ast *node, t_shell *sh);
-
-
 
 // lexer // find token type // create token
 int				lexer(char *input, t_token **token_list, t_shell *sh);
@@ -179,8 +178,6 @@ void			exec_export(t_env_list *env_list, t_ast_command *cmd);
 void			exec_pwd(void);
 void			exec_unset(t_env_list *env_list, t_ast_command *cmd);
 
-
-
 // EXPANSION
 t_ast			*node_expansion(t_ast *node, t_shell *sh);
 void			command_expansion(t_ast *node, t_shell *sh);
@@ -195,9 +192,9 @@ void			expand_last_status(t_expand *exp, t_shell *sh);
 char			*expand_heredoc_vars(char *line, t_shell *sh, t_expand *exp);
 char			*get_valid_name(char *str, t_expand *exp, t_shell *sh);
 char			**list_to_array(t_token **lst, t_shell *sh);
-void			add_wildcard_pos(t_token **token_list, int pos, t_shell *sh);
+void			add_wildcard_pos(t_wildcard **wildcard_list, int pos, t_shell *sh);
 void			save_wildcards_pos(char *to_check, t_expand *exp, t_shell *sh);
-void			filename_expansion(t_expand *exp, t_shell *sh);
+void			*filename_expansion(t_expand *exp, t_shell *sh);
 t_token			*get_files_list(t_expand *exp, t_shell *sh);
 void			insert_ordered(t_token **head, t_token *new_node, t_shell *sh); // testtt
 char			*extract_root_path(t_expand *exp, t_shell *sh);
@@ -205,12 +202,10 @@ t_token			*pattern_filter(t_token *tokens, t_expand *exp);
 char			*expand_env_var(char *str, t_expand *exp, t_shell *sh);
 // char			*word_splitting(t_expand *exp, char *value, t_shell *sh);
 void			list_of_file_to_token_list(t_token *tokens, t_expand *exp, t_shell *sh);
-bool			pattern_match(char *filename, char *pattern, int pattern_index,
-				t_expand *exp);
-bool			is_active_wildcard(int i, t_expand *exp);
+bool 			pattern_match(char *filename, char *pattern, int i);
 bool			only_active_wildcard_left(char *str, t_expand *exp);
-
-
+char			*remove_wildcard(char *buf);
+bool is_active_wildcard(int position, t_expand *exp);
 // EXEC
 int				execute(t_ast *node, t_exit end, t_shell *sh);
 

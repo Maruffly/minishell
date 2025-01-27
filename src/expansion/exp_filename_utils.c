@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_filename_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 17:40:18 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/22 12:12:13 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/27 18:12:11 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,118 +32,61 @@ char	*extract_root_path(t_expand *exp, t_shell *sh)
 	return (path);
 }
 
-
 t_token	*pattern_filter(t_token *tokens, t_expand *exp)
 {
-	t_token	*current;
+	t_token	*cur;
 	t_token	*next;
 	char	*full_filename;
-	(void)next;
-	(void)exp;
-
-	if (!tokens || !exp)
+	
+	if (!tokens)
 		return (NULL);
-	current = tokens;
-	while (current)
+	cur = tokens;
+	while (cur)
 	{
-		full_filename = (char *)current->value;
-		if (!pattern_match(full_filename, exp->buf, 0, exp))
+		full_filename = (char *)cur->value;
+		if (!pattern_match(full_filename, exp->buf, 0))
 		{
-			next = current->next;
-			remove_list_node(&current, &tokens, NULL, false);
-			current = next;
+			next = cur->next;
+			remove_list_node(&cur, &tokens, NULL, false);
+			cur = next;
 		}
 		else
-			current = current->next;
+			cur = cur->next;
 	}
 	return (tokens);
 }
 
-
-void	list_of_file_to_token_list(t_token *files, t_expand *exp, t_shell *sh)
+bool is_active_wildcard(int position, t_expand *exp)
 {
-    t_token	*current = files;
-    int		required_size;
-
-    while (current)
-    {
-        required_size = ft_strlen(current->value) + 1;
-        if (required_size > exp->buf_size)
-        {
-            free(exp->buf);
-            exp->buf_size = required_size * 2;
-            exp->buf = ft_calloc(exp->buf_size, sizeof(char));
-            if (!exp->buf)
-                error("expansion", "buffer allocation failed", EXIT_FAILURE, sh);
-        }
-        ft_strlcpy(exp->buf, current->value, exp->buf_size);
-        exp->buf_i = ft_strlen(current->value);
-        add_token_to_list(exp, sh);
-        current = current->next;
-    }
-}
-
-// Check if current char is wildcard that need to be expanded
-bool	is_active_wildcard(int i, t_expand *exp)
-{
-	t_token	*current;
+	t_wildcard	*cur;
 
 	if (!exp || !exp->wildcards_position)
 		return (false);
-	current = exp->wildcards_position;
-	while (current)
+	cur = exp->wildcards_position;
+	while (cur)
 	{
-		if (*((int *)(current->value)) == i)
+		if (cur->position == position)
 			return (true);
-		current = current->next;
+		cur = cur->next;
 	}
 	return (false);
 }
 
-// check if the end of a pattern is only active wildcards
-bool	only_active_wildcard_left(char *str, t_expand *exp)
+bool pattern_match(char *filename, char *pattern, int i)
 {
-	if (!str || !*str || !exp)
-		return (false);
-	while (*str)
+	if (!pattern[i])
+		return (!filename[0]);
+	if (pattern[i] == '*')
 	{
-		if (*str != '*' || !is_active_wildcard(exp->buf_i, exp))
-			return (false);
-		str++;
+		return (pattern_match(filename, pattern, i + 1) ||
+				(filename[0] && pattern_match(filename + 1, pattern, i)));
 	}
-	return (true);
+	if (!filename[0])
+		return (false);
+		
+	if (pattern[i] == '?' || pattern[i] == filename[0])
+		return pattern_match(filename + 1, pattern, i + 1);
+	return (false);
 }
 
-
-bool	pattern_match(char *filename, char *pattern, int pattern_index,
-		t_expand *exp)
-{
-	if (!filename || !pattern || !exp)
-		return (false);
-	while (*filename && *pattern)
-	{
-		if (*pattern == '*' && is_active_wildcard(pattern_index, exp))
-		{
-			pattern++;
-			pattern_index++;
-			if (!*pattern)
-				return (true);
-			while (*filename)
-			{
-				if (pattern_match(filename, pattern, pattern_index, exp))
-					return (true);
-				filename++;
-			}
-			return (false);
-		}
-		else if (*pattern != *filename)
-			return (false);
-		pattern++;
-		filename++;
-		pattern_index++;
-	}
-	if (only_active_wildcard_left(pattern, exp))
-		return (true);
-	return (*pattern == *filename);
-}
 

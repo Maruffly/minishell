@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jorislaine <jorislaine@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/25 01:31:14 by jorislaine       ###   ########.fr       */
+/*   Updated: 2025/01/27 16:50:14 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

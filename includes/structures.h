@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:35:41 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/21 13:27:34 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/27 14:19:26 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,11 +161,12 @@ typedef struct s_expand
 	int			i;
 	char		*buf;
 	int			buf_i;
+	bool		has_match;
 	t_quote		context;
 	int			buf_size;
 	t_token		**tokens;
 	bool		empty_quotes;
-	t_token		*wildcards_position;
+	t_wildcard	*wildcards_position;
 }	t_expand;
 
 typedef struct s_var

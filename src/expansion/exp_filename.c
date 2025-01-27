@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_filename.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 16:17:13 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/22 13:20:00 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/27 16:42:01 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,20 +32,37 @@
 // 	}
 // }
 
-
-void	filename_expansion(t_expand *exp, t_shell *sh)
+void	*filename_expansion(t_expand *exp, t_shell *sh)
 {
+	t_token	*new_token;
 	t_token	*files;
+	t_token	*cur;
+	char	*content;
 
 	exp->buf[exp->buf_i] = '\0';
 	files = get_files_list(exp, sh);
 	if (files)
 	{
 		files = pattern_filter(files, exp);
-		list_of_file_to_token_list(files, exp, sh);
-		exp->buf_i = 0;
-		ft_lstclear_token(&files, free); // Nettoyage mémoire
+		if (!files)
+			return (NULL);
+		cur = files;
+		while (cur)
+		{
+			content = ft_strdup(cur->value);
+			if (!content)
+				return (ft_lstclear_token(&files, free), NULL);
+			new_token = create_token(WORD, content, ft_strlen(content));
+			if (!new_token)
+					return (free(content), ft_lstclear_token(&files, free), NULL);
+			ft_lstadd_back_token(exp->tokens, new_token);
+			//print_token(new_token);
+			cur = cur->next;
+		}
+		ft_lstclear_token(&files, free);
+		exp->has_match = true;
 	}
+	return (NULL);
 }
 
 
@@ -54,6 +71,7 @@ t_token	*get_files_list(t_expand *exp, t_shell *sh)
 	DIR				*dir;
 	char			*path;
 	t_token			*files;
+	t_token			*new_token;
 	struct dirent	*entry;
 	char			*full_name;
 
@@ -76,17 +94,28 @@ t_token	*get_files_list(t_expand *exp, t_shell *sh)
 		{
 			closedir(dir);
 			free(path);
+			ft_lstclear_token(&files, free);
 			return (NULL);
 		}
-		if (ft_strcmp(path, "."))
-			full_name = ft_strjoin(path, full_name);
+		/* printf("%s\n", full_name); */
+		new_token = create_token(0, full_name, ft_strlen(full_name));
+		if (!new_token)
+		{
+			free(full_name);
+			closedir(dir);
+			free(path);
+			ft_lstclear_token(&files, free);
+			return (NULL);
+		}
+		/* if (ft_strcmp(path, "."))
+			full_name = ft_strjoin(path, full_name); */
+		ft_lstadd_back_token(&files, new_token);
 		entry = readdir(dir);
 	}
 	closedir(dir);
 	free(path);
 	return (files);
 }
-
 
 
 void	insert_ordered(t_token **head, t_token *new_node, t_shell *sh)

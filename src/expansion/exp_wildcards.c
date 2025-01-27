@@ -3,37 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   exp_wildcards.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 14:32:12 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/21 14:20:49 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/27 18:14:45 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	add_wildcard_pos(t_token **token_list, int pos, t_shell *sh)
+void	add_wildcard_pos(t_wildcard **wildcards, int pos, t_shell *sh)
 {
-	t_token	*new_token;
+	t_wildcard	*new_wildcard;
 
 	(void)sh;
-	if (!token_list || !sh)
+	if (!wildcards || !sh)
 		return ;
-	new_token = ft_calloc(1, sizeof(t_token));
-	if (!new_token)
+	new_wildcard = ft_calloc(1, sizeof(t_wildcard));
+	if (!new_wildcard)
 		return ;
-	new_token->value = ft_itoa(pos);
-	if (!new_token->value)
-	{
-		free(new_token);
-		return ;
-	}
-	ft_lstadd_back_token(token_list, new_token);
+	new_wildcard->position = pos;
+	new_wildcard->next = *wildcards;
+	*wildcards = new_wildcard;
 }
 
 void	save_wildcards_pos(char *to_check, t_expand *exp, t_shell *sh)
 {
-	int	i;
+	int			i;
+	t_wildcard *new_wildcard;
 
 	(void)sh;
 	if (!to_check || !exp || !sh || exp->context != NO_QUOTE)
@@ -42,7 +39,14 @@ void	save_wildcards_pos(char *to_check, t_expand *exp, t_shell *sh)
 	while (to_check[i])
 	{
 		if (to_check[i] == '*')
-			add_wildcard_pos(&exp->wildcards_position, exp->buf_i + i, sh);
+		{
+			new_wildcard = ft_calloc(1, sizeof(t_wildcard));
+			if (!new_wildcard)
+				return;
+			new_wildcard->position = exp->buf_i + i;
+			new_wildcard->next = exp->wildcards_position;
+			exp->wildcards_position = new_wildcard;
+		}
 		i++;
 	}
 }

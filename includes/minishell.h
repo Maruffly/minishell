@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/27 16:33:24 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/27 17:56:33 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,8 @@ void			remove_env_node(t_env_list *list, char *var_name);
 t_env_list		*find_env_node(t_env_list *list, char *name);
 int				is_valid_var_name(char *name);
 t_env_list		*init_envp(char **envp);
+char			*get_path_env(t_env_list *env);
+
 
 
 // BUILTINS
@@ -211,20 +213,17 @@ bool			only_active_wildcard_left(char *str, t_expand *exp);
 
 // EXEC
 int				execute(t_ast *node, t_exit end, t_shell *sh);
-int				check_process_child_exit(int status, bool *new_line, t_shell *sh);
 
 
 // EXEC LOGICAL
 int 			exec_logical(t_ast_logical *logical, t_shell *sh);
 
-// EXEC PIPELINE
+// EXEC PIPELINE UTILS
 int				exec_pipeline(t_ast *node, t_shell *sh);
-t_token 		*build_cmd_list(t_ast *node, t_shell *sh);
-int 			execute_pipeline_token(t_token *pipeline, t_shell *sh);
-pid_t			exec_one_pipeline_token(t_token *pipeline, int prev_read_end, int p[2],
-				t_shell *sh);
 void			setup_for_next_command(int *prev_read_end, int p[2], t_shell *sh);
 int				wait_for_children(pid_t last_pid, int n_pipeline, t_shell *sh);
+int				check_process_child_exit(int status, bool *new_line, t_shell *sh);
+
 
 // EXEC REDIRECTION
 int				redirect_input(t_ast_redirection *redir, t_shell *sh);
@@ -239,8 +238,6 @@ int				exec_subshell(t_ast_subshell *subshell, t_shell *sh);
 void			exec_extern_command(t_ast_command *cmd, t_shell *sh);
 int				exec_command(t_ast_command *cmd, t_exit end, t_shell *sh);
 char			**convert_env_list_to_array(t_env_list *env_list);
-char			*find_command_path(char *command, t_env_list *env);
-char			*get_path_env(t_env_list *env);
 char			*build_path(char *dir, char *command);
 
 #endif

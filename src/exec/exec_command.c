@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 15:19:04 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/27 10:05:49 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/27 17:47:22 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static char	*search_in_path(char *command, t_env_list *env)
 	return (NULL);
 }
 
-char	*find_command_path(char *command, t_env_list *env)
+static char	*find_command_path(char *command, t_env_list *env)
 {
 	char	*path;
 
@@ -106,7 +106,6 @@ static int	fork_command(t_ast_command *cmd, t_exit end, t_shell *sh)
 	}
 	return (sh->last_status);
 }
-
 
 int	exec_command(t_ast_command *cmd, t_exit end, t_shell *sh)
 {

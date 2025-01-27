@@ -6,24 +6,11 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/15 16:46:29 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/27 17:47:13 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../includes/minishell.h"
-
-char	*get_path_env(t_env_list *env)
-{
-	t_env_list	*path_node;
-
-	path_node = find_env_node(env, "PATH");
-	if (!path_node || !path_node->var_value)
-	{
-		ft_putstr_fd("minishell: PATH not set\n", STDERR_FILENO);
-		return (NULL);
-	}
-	return (path_node->var_value);
-}
 
 char	*build_path(char *dir, char *command)
 {
@@ -40,41 +27,71 @@ char	*build_path(char *dir, char *command)
 	return (temp);
 }
 
-char	**convert_env_list_to_array(t_env_list *env_list)
+static int	env_list_size(t_env_list *env_list)
 {
-	int			i;
-	char		**envp;
 	t_env_list	*current;
+	int			count;
 
-	i = 0;
-	current = env_list->head;
 	if (!env_list)
-		return (NULL);
+		return (0);
+	current = env_list->head;
+	count = 0;
 	while (current)
 	{
-		i++;
+		count++;
 		current = current->next;
 	}
-	envp = ft_calloc(i + 1, sizeof(char *));
-	if (!envp)
+	return (count);
+}
+
+static char	*build_env_pair(t_env_list *node)
+{
+	char	*temp;
+	char	*env_string;
+
+	temp = ft_strjoin(node->var_name, "=");
+	if (!temp)
 		return (NULL);
-	i = 0;
+	env_string = ft_strjoin(temp, node->var_value);
+	free(temp);
+	return (env_string);
+}
+
+static int	fill_env_array(char **envp, t_env_list *env_list)
+{
+	t_env_list	*current;
+	int			i;
+
 	current = env_list->head;
+	i = 0;
 	while (current)
 	{
 		if (current->var_name && current->var_value)
 		{
-			char *temp = ft_strjoin(current->var_name, "=");
-			if (!temp)
-				return (NULL);
-			envp[i] = ft_strjoin(temp, current->var_value);
-			free(temp);
+			envp[i] = build_env_pair(current);
 			if (!envp[i])
-				return (NULL);
+				return (EXIT_FAILURE);
 			i++;
 		}
 		current = current->next;
 	}
 	envp[i] = NULL;
+	return (EXIT_SUCCESS);
+}
+
+char	**convert_env_list_to_array(t_env_list *env_list)
+{
+	char	**envp;
+	int		size;
+
+	size = env_list_size(env_list);
+	envp = ft_calloc(size + 1, sizeof(char *));
+	if (!envp)
+		return (NULL);
+	if (fill_env_array(envp, env_list) == EXIT_FAILURE)
+	{
+		ft_free_split(envp);
+		return (NULL);
+	}
 	return (envp);
 }

@@ -1,16 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_init.c                                         :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:47:11 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/27 16:32:57 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/27 16:38:22 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include	"../../includes/minishell.h"
+
+char	*get_path_env(t_env_list *env)
+{
+	t_env_list	*path_node;
+
+	path_node = find_env_node(env, "PATH");
+	if (!path_node || !path_node->var_value)
+	{
+		ft_putstr_fd("minishell: PATH not set\n", STDERR_FILENO);
+		return (NULL);
+	}
+	return (path_node->var_value);
+}
 
 static void	add_env_node_from_envp(t_env_list *list, char *envp_line)
 {

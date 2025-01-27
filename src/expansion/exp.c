@@ -6,22 +6,11 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:22:15 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/27 10:14:07 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/27 17:55:07 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-t_ast	*node_expansion(t_ast *node, t_shell *sh)
-{
-	if (!node || !sh)
-		return (NULL);
-	if (node->type == AST_COMMAND)
-		command_expansion(node, sh);
-	else if (node->type == AST_REDIRECTION)
-		redirection_expansion(node, sh);
-	return (node);
-}
 
 void	command_expansion(t_ast *node, t_shell *sh)
 {
@@ -58,4 +47,15 @@ void	redirection_expansion(t_ast *node, t_shell *sh)
 		error("wrong redirection", NULL, 1, sh);
 	else
 		node->u_data.redirection.file = expanded_args->value;
+}
+
+t_ast	*node_expansion(t_ast *node, t_shell *sh)
+{
+	if (!node || !sh)
+		return (NULL);
+	if (node->type == AST_COMMAND)
+		command_expansion(node, sh);
+	else if (node->type == AST_REDIRECTION)
+		redirection_expansion(node, sh);
+	return (node);
 }

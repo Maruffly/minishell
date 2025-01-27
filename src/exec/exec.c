@@ -6,36 +6,11 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 13:33:30 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/15 14:43:21 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/27 17:56:46 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../includes/minishell.h"
-
-int	check_process_child_exit(int status, bool *new_line, t_shell *sh)
-{
-	int	signal;
-
-	(void)sh;
-	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
-	else if (WIFSIGNALED(status))
-	{
-		signal = WTERMSIG(status);
-		if (signal == SIGQUIT)
-			ft_putstr_fd("Quit: 3", STDERR_FILENO);
-		if (signal == SIGQUIT || signal == SIGINT)
-		{
-			if (!new_line || (new_line && *new_line == false))
-				ft_putstr_fd("\n", STDERR_FILENO);
-			if (new_line && *new_line == false)
-				*new_line = true;
-		}
-		return (128 + signal);
-	}
-	else
-		return (EXIT_FAILURE);
-}
 
 int	execute(t_ast *node, t_exit end, t_shell *sh)
 {

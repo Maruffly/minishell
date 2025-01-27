@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:54:02 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/09 16:03:01 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/27 17:57:20 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,21 +124,3 @@ int is_valid_delimiter(char *delimiter)
 	}
 	return (1);
 }
-
-/* t_expand	*get_var_name(char *str, t_expand *exp, t_shell *sh)
-{
-	size_t	i;
-	t_expand	*var;
-
-	exp->buf_size = 0;
-	if (!str || !*str)
-		return (var);
-	if (*str == '?')
-	{
-		var->buf = ft_substr(str, 0, 1);
-		var->buf_size = 1;
-		return (var);
-	}
-	var->buf = get_valid_name(str, exp, sh);
-	return (var->buf);
-} */

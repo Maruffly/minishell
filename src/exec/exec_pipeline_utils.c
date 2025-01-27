@@ -6,11 +6,36 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:44:13 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/22 16:11:31 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/27 17:56:11 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../includes/minishell.h"
+
+int	check_process_child_exit(int status, bool *new_line, t_shell *sh)
+{
+	int	signal;
+
+	(void)sh;
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	else if (WIFSIGNALED(status))
+	{
+		signal = WTERMSIG(status);
+		if (signal == SIGQUIT)
+			ft_putstr_fd("Quit: 3", STDERR_FILENO);
+		if (signal == SIGQUIT || signal == SIGINT)
+		{
+			if (!new_line || (new_line && *new_line == false))
+				ft_putstr_fd("\n", STDERR_FILENO);
+			if (new_line && *new_line == false)
+				*new_line = true;
+		}
+		return (128 + signal);
+	}
+	else
+		return (EXIT_FAILURE);
+}
 
 pid_t	exec_one_pipeline_token(t_token *pipeline, int prev_read_end, int p[2],
 		t_shell *sh)

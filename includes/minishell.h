@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/27 16:03:39 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/27 16:33:24 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,16 +156,12 @@ void	execute_command(t_command *cmd, t_env_list *env, int prev_output_fd);
 // ENV
 void			shell_level(t_shell *sh);
 char 			*get_current_path(t_env_list *list);
-t_env_list		*init_env_list(void);
 void			update_env_node(t_env_list *list, char *var_name, char *var_value);
 void			add_env_node(t_env_list *list, char *var_name, char *var_value);
 void			remove_env_node(t_env_list *list, char *var_name);
 t_env_list		*find_env_node(t_env_list *list, char *name);
 int				is_valid_var_name(char *name);
 t_env_list		*init_envp(char **envp);
-char			**list_to_envp(t_env_list *env);
-void			check_env_path(char **envp);
-t_env_list		*find_env_token(char *name, t_env_list *env_tokens);
 
 
 // BUILTINS

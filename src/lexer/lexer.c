@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 16:46:34 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/27 10:32:24 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/28 14:39:08 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,33 +42,43 @@ t_token	*create_token(t_token_type type, char *input, size_t len)
 	return (token);
 }
 
-int	lexer(char *input, t_token **token_list, t_shell *sh)
+static int	add_next_token(char *input, int *i, t_token **token_list, t_shell *sh)
 {
 	t_token			*token;
 	t_token_type	type;
-	int				i;
 	int				len;
+
+	len = 0;
+	while (is_blank(input[*i]))
+		(*i)++;
+	if (!input[*i])
+		return (EXIT_SUCCESS);
+	type = get_next_token(input + *i, &len, sh);
+	if (type == ERROR)
+		return (report_syntax_error(sh));
+	token = create_token(type, input + *i, len);
+	if (!token)
+	{
+		ft_lstclear_token(token_list, free);
+		return (report_syntax_error(sh));
+	}
+	ft_lstadd_back_token(token_list, token);
+	*i += len;
+	return (EXIT_SUCCESS);
+}
+
+int	lexer(char *input, t_token **token_list, t_shell *sh)
+{
+	int	i;
+	int	status;
 
 	i = 0;
 	*token_list = NULL;
 	while (input[i])
 	{
-		len = 0;
-		while (is_blank(input[i]))
-			i++;
-		if (!input[i])
-			break ;
-		type = get_next_token(input + i, &len, sh);
-		if (type == ERROR)
-			return (report_syntax_error(sh));
-		token = create_token(type, input + i, len);
-		if (!token)
-		{
-			ft_lstclear_token(token_list, free);
-			return (report_syntax_error(sh));
-		}
-		ft_lstadd_back_token(token_list, token);
-		i += len;
+		status = add_next_token(input, &i, token_list, sh);
+		if (status != EXIT_SUCCESS)
+			return (status);
 	}
 	return (EXIT_SUCCESS);
 }

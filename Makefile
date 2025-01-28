@@ -30,7 +30,7 @@ SRC_FILES = main.c\
 			/parsing/redirections.c\
 			/parsing/ast_builder.c\
 			/lexer/lexer.c\
-			/lexer/get_next_token.c\
+			/lexer/get_token.c\
 			/signals/signal.c\
 			/signals/signal_utils.c\
 			/expansion/exp.c\

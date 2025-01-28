@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 13:35:04 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/22 13:41:50 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/28 11:27:00 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,6 @@ t_heredoc	*init_heredoc(char *delimiter)
 	return (hdoc);
 }
 
-static bool	is_delimiter(char *line, char *delimiter)
-{
-	return (ft_strcmp(line, delimiter) == 0);
-}
-
 static char	*handle_expansion(char *line, t_heredoc *hdoc, t_shell *sh, t_expand *exp)
 {
 	char	*expand_line;
@@ -53,14 +48,6 @@ static char	*handle_expansion(char *line, t_heredoc *hdoc, t_shell *sh, t_expand
 		return (NULL);
 	}
 	return (expand_line);	
-}
-
-static bool	write_to_pipe(int fd, char *line)
-{
-	if (write(fd, line, ft_strlen(line)) == -1
-		|| write(fd, "\n", 1) == -1)
-		return (false);
-	return (true);
 }
 
 static int	heredoc_child(t_heredoc *hdoc, t_shell *sh, t_expand *exp)

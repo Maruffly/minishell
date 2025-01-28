@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/27 18:21:40 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/28 11:14:31 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,9 +142,12 @@ t_ast			*build_redir_cmd(t_ast *prefix, t_ast *suffix, t_ast *command);
 void			free_heredoc(t_heredoc *hdoc);
 
 // EXEC HEREDOC//
+bool			is_delimiter(char *line, char *delimiter);
 int				handle_heredoc_ast(t_ast *redir, t_shell *sh);
-int	handle_heredoc(t_ast_redirection *redir, t_shell *sh, t_expand *exp);
+int				handle_heredoc(t_ast_redirection *redir, t_shell *sh, t_expand *exp);
 int 			heredoc_eof_handler(t_heredoc *hdoc);
+bool			write_to_pipe(int fd, char *line);
+
 
 /* void	redir_command(t_command *cmd);
 void	close_unused_fds(t_command	*cmd);

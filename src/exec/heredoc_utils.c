@@ -6,13 +6,13 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:54:02 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/27 17:57:20 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/28 10:50:04 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../includes/minishell.h"
 
-void free_heredoc(t_heredoc *hdoc)
+void	free_heredoc(t_heredoc *hdoc)
 {
 	if (!hdoc)
 		return ;
@@ -20,7 +20,7 @@ void free_heredoc(t_heredoc *hdoc)
 	free(hdoc);
 }
 
-int is_quoted(char *str)
+int	is_quoted(char *str)
 {
 	size_t	len;
 	char	quote;
@@ -36,7 +36,7 @@ int is_quoted(char *str)
 	return (0);
 }
 
-void remove_quotes(char *str)
+void	remove_quotes(char *str)
 {
 	size_t	len;
 	size_t	i;
@@ -76,51 +76,10 @@ int heredoc_eof_handler(t_heredoc *hdoc)
 	return (EXIT_SUCCESS);
 }
 
-static int	is_valid_heredoc_delimiter(char *unquoted)
+bool	write_to_pipe(int fd, char *line)
 {
-	size_t i;
-
-	if (!unquoted || !ft_strlen(unquoted))
-		return (0);
-
-	i = 0;
-	while (unquoted[i])
-	{
-		if (!ft_isprint(unquoted[i]))
-			return (0);
-		
-		if (ft_strchr(" \t\n\v\f\r", unquoted[i]))
-			return (0);
-			
-		i++;
-	}
-	return (1);
-}
-
-int is_valid_delimiter(char *delimiter)
-{
-	size_t	i;
-	char	*unquoted;
-	int 	valid;
-
-	if (!delimiter || !ft_strlen(delimiter))
-		return (0);
-	if (is_quoted(delimiter))
-	{
-		unquoted = ft_strdup(delimiter);
-		if (!unquoted)
-			return (0);
-		remove_quotes(unquoted);
-		valid = is_valid_heredoc_delimiter(unquoted);
-		free(unquoted);
-		return (valid);
-	}
-	i = 0;
-	while (delimiter[i])
-	{
-		if (delimiter[i] < 32 || delimiter[i] > 126 || ft_strchr("<>|&;()", delimiter[i]))
-			return (0);
-		i++;
-	}
-	return (1);
+	if (write(fd, line, ft_strlen(line)) == -1
+		|| write(fd, "\n", 1) == -1)
+		return (false);
+	return (true);
 }

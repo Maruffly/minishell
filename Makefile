@@ -43,6 +43,7 @@ SRC_FILES = main.c\
 			/exec/exec.c\
 			/exec/heredoc_utils.c\
 			/exec/heredoc.c\
+			/exec/heredoc_validation.c\
 			/exec/exec_logical.c\
 			/exec/exec_pipeline.c\
 			/exec/exec_pipeline_utils.c\

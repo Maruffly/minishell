@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 16:17:13 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/28 14:07:46 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/28 14:29:55 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,76 +54,4 @@ void *filename_expansion(t_expand *exp, t_shell *sh)
     ft_lstclear_token(&files, free);
     exp->has_match = true;
     return (NULL);
-}
-
-t_token	*get_files_list(t_expand *exp, t_shell *sh)
-{
-	DIR				*dir;
-	char			*path;
-	t_token			*files;
-	t_token			*new_token;
-	struct dirent	*entry;
-	char			*full_name;
-
-	if (!exp || !sh)
-		return (NULL);
-	files = NULL;
-	full_name = NULL;
-	path = extract_root_path(exp, sh);
-	dir = opendir(path);
-	if (!dir)
-	{
-		free(path);
-		return (NULL);
-	}
-	entry = readdir(dir);
-	while (entry)
-	{
-		full_name = ft_strdup(entry->d_name);
-		if (!full_name)
-		{
-			closedir(dir);
-			free(path);
-			ft_lstclear_token(&files, free);
-			return (NULL);
-		}
-		/* printf("%s\n", full_name); */
-		new_token = create_token(0, full_name, ft_strlen(full_name));
-		if (!new_token)
-		{
-			free(full_name);
-			closedir(dir);
-			free(path);
-			ft_lstclear_token(&files, free);
-			return (NULL);
-		}
-		/* if (ft_strcmp(path, "."))
-			full_name = ft_strjoin(path, full_name); */
-		ft_lstadd_back_token(&files, new_token);
-		entry = readdir(dir);
-	}
-	closedir(dir);
-	free(path);
-	return (files);
-}
-
-
-void	insert_ordered(t_token **head, t_token *new_node, t_shell *sh)
-{
-	t_token	*current;
-
-	(void)sh;
-	if (!*head || ft_strcmp((*head)->value, new_node->value) >= 0)
-	{
-		new_node->next = *head;
-		*head = new_node;
-	}
-	else
-	{
-		current = *head;
-		while (current->next && ft_strcmp(current->next->value, new_node->value) < 0)
-			current = current->next;
-		new_node->next = current->next;
-		current->next = new_node;
-	}
 }

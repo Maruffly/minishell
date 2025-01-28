@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_filename_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 17:40:18 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/27 18:12:11 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/28 14:28:11 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,22 @@ bool pattern_match(char *filename, char *pattern, int i)
 	return (false);
 }
 
+void	insert_ordered(t_token **head, t_token *new_node, t_shell *sh)
+{
+	t_token	*current;
 
+	(void)sh;
+	if (!*head || ft_strcmp((*head)->value, new_node->value) >= 0)
+	{
+		new_node->next = *head;
+		*head = new_node;
+	}
+	else
+	{
+		current = *head;
+		while (current->next && ft_strcmp(current->next->value, new_node->value) < 0)
+			current = current->next;
+		new_node->next = current->next;
+		current->next = new_node;
+	}
+}

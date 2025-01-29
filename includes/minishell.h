@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/28 11:14:31 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/29 14:22:25 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@
 # define PURPLE	"\e[35m"
 # define CYAN	"\e[36m"
 
-// print
-void 			print_ast(t_ast *node);
-void			print_token(t_token *list);
+// main_utils
+int			launch_shell(t_shell *sh);
+void		init_shell(t_shell *sh, char **envp);
 
 // signal //
 void		set_signal(int signum, void (*handler)(int));
@@ -37,8 +37,6 @@ void		handle_eof(char *input, t_shell *sh);
 
 // readline //
 char			*read_line(t_prompt_mode mode);
-
-// INIT COMMAND STRUCT //
 
 // EXIT //
 void			handle_exit_status(char *input, int *exit_code);
@@ -55,6 +53,7 @@ void			error(char *context, char *description, int exit_status,
 // FREE_ENV
 void			free_env_list(void *list);
 void			free_env_array(char **envp);
+int				handle_parsing_error(t_shell *sh, t_token *token_lst);
 void 			ft_lstclear_env(t_env_list **lst, void (*del)(void *));
 
 // errors
@@ -156,7 +155,6 @@ int		update_prev_output_fd(t_command *cmd);
 void	execute_command(t_command *cmd, t_env_list *env, int prev_output_fd);
  */
 // ENV
-void			shell_level(t_shell *sh);
 char 			*get_current_path(t_env_list *list);
 void			update_env_node(t_env_list *list, char *var_name, char *var_value);
 void			add_env_node(t_env_list *list, char *var_name, char *var_value);

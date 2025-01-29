@@ -6,14 +6,13 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/24 12:08:55 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/29 14:24:41 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 int g_signal_value = 0;
-
 
 int	process_prompt(char *input, t_shell *sh)
 {
@@ -27,12 +26,7 @@ int	process_prompt(char *input, t_shell *sh)
 		return (process);
 	process = parser(token_lst, &ast, sh);
 	if (process != EXIT_SUCCESS || !ast)
-	{
-		if (sh->parsing_error)
-			syntax_error(sh->parsing_error, sh);
-		free_token_list(token_lst);
-		return (process);
-	}
+		return (handle_parsing_error(sh, token_lst));
 	process = handle_heredoc_ast(ast, sh);
 	if (process != EXIT_SUCCESS)
 	{
@@ -44,6 +38,32 @@ int	process_prompt(char *input, t_shell *sh)
 	free_ast(ast);
 	free_token_list(token_lst);
 	return (process);
+}
+
+
+char	*read_line(t_prompt_mode mode)
+{
+	char	*input;
+
+	g_signal_value = 0; // reinitialise le signal global
+	/* set_signal(SIGINT, SIG_IGN); // ignore SIGINT et SIGQUIT au lancement
+	set_signal(SIGQUIT, SIG_IGN); */
+	if (mode == MAIN_PROMPT)
+	{
+		set_main_signals();
+		input = readline(GREEN"Omar&Fred > "RESET);
+	}
+	else if (mode == HEREDOC_PROMPT)
+	{
+		set_heredoc_signals();
+		input = readline("> ");
+		set_main_signals(); // restaure le main signal apres le heredoc
+	}
+	else
+		input = NULL;
+	/* set_signal(SIGINT, SIG_DFL); // restaure les signaux apres lecture de l'input
+	set_signal(SIGQUIT, SIG_DFL); */
+	return (input);
 }
 
 int	launch_shell(t_shell *sh)
@@ -72,66 +92,7 @@ int	launch_shell(t_shell *sh)
 	return (0);
 }
 
-char	*read_line(t_prompt_mode mode)
-{
-	char	*input;
-
-	g_signal_value = 0; // reinitialise le signal global
-	/* set_signal(SIGINT, SIG_IGN); // ignore SIGINT et SIGQUIT au lancement
-	set_signal(SIGQUIT, SIG_IGN); */
-	if (mode == MAIN_PROMPT)
-	{
-		set_main_signals();
-		input = readline(GREEN"Omar&Fred > "RESET);
-	}
-	else if (mode == HEREDOC_PROMPT)
-	{
-		set_heredoc_signals();
-		input = readline("> ");
-		set_main_signals(); // restaure le main signal apres le heredoc
-	}
-	else
-		input = NULL;
-	/* set_signal(SIGINT, SIG_DFL); // restaure les signaux apres lecture de l'input
-	set_signal(SIGQUIT, SIG_DFL); */
-	return (input);
-}
-
-
-// char	*read_line(t_prompt_mode mode)
-// {
-// 	char		*input;
-
-// 	input = NULL;
-// 	g_signal_value = 0;
-// 	rl_replace_line("", 0);
-// 	rl_on_new_line();
-// 	if (mode == MAIN_PROMPT)
-// 	{
-// 		// input = "ls -l > output | cat output && (echo bonjour)";
-// 		input = readline(GREEN"Omar&Fred>"RESET);
-// 		set_main_signals();
-// 	}
-// 	else if (mode == HEREDOC_PROMPT)
-// 	{
-// 		set_heredoc_signal();
-// 		input = readline("> ");
-// 		set_main_signals();
-// 	}
-// 	return (input);
-// }
-
-void	init_shell(t_shell *sh, char **envp)
-{
-	sh->is_parent = true;
-	sh->prompt_mode = MAIN_PROMPT;
-	sh->last_status = EXIT_SUCCESS;
-	sh->env = init_envp(envp);
-	sh->parsing_error = NULL;
-	shell_level(sh);
-}
-
-void	shell_level(t_shell *sh)
+static void	shell_level(t_shell *sh)
 {
 	t_env_list	*shlvl_var;
 	int			new_value;
@@ -156,6 +117,16 @@ void	shell_level(t_shell *sh)
 	free(new_value_str);
 }
 
+void	init_shell(t_shell *sh, char **envp)
+{
+	sh->is_parent = true;
+	sh->prompt_mode = MAIN_PROMPT;
+	sh->last_status = EXIT_SUCCESS;
+	sh->env = init_envp(envp);
+	sh->parsing_error = NULL;
+	shell_level(sh);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	t_shell	sh;
@@ -170,18 +141,3 @@ int	main(int ac, char **av, char **envp)
 	exit_shell(status, &sh);
 	return (0);
 }
-
-/*
-Logical operation: &&
-Left:
-	Pipeline:
-			Left:
-				Redirection: > to file 'output'
-							Child of redirection:
-												Command: ls -l ls -l
-			Right:
-				Command: cat output cat output
-Right:
-	Subshell:
-			Command: echho bonjour echho bonjour
-*/

@@ -3,52 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/13 14:07:56 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/01/29 14:42:15 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 # include "../../includes/minishell.h"
-
-void	skip_whitespace(char *line, int *pos)
-{
-	while (line[*pos] && is_blank(line[*pos]))
-		(*pos)++;
-}
-
-/* t_token_type	get_token_type(char *token)
-{
-	if (is_NULL(token))
-		return (0);
-	if (ft_strcmp(token, "|") == 0)
-		return (PIPE);
-	if (ft_strcmp(token, "&&") == 0)
-		return (AND);
-	if (ft_strcmp(token, "||") == 0)
-		return (OR);
-	if (ft_strcmp(token, "<") == 0)
-		return (REDIRECT_IN);
-	if (ft_strcmp(token, ">") == 0)
-		return (REDIRECT_OUT);
-	if (ft_strcmp(token, ">>") == 0)
-		return (APPEND_OUT);
-	if (ft_strcmp(token, "<<") == 0)
-		return (HEREDOC);
-	return (WORD);
-} */
-/*
-char	*extract_word(char *line, int pos)
-{
-	int	start;
-
-	start = pos;
-	while (line[pos] && !is_blank(line[pos]) && !is_special_operator(line[pos]))
-		pos++;
-	return (ft_substr(line, start, pos - start));
-} */
 
 void	ft_lstadd_back_token(t_token **token_list, t_token *new_token)
 {

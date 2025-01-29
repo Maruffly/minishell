@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/29 14:31:28 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/29 14:42:09 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ void			*syntax_error(char *unexpected_token, t_shell *sh);
 
 // token_type.c
 int				is_blank(char c);
-int				is_builtin(char *word);
 bool			is_word(t_token *token);
 bool			is_redirect(t_token *token);
 bool			is_special_operator(char c);
@@ -71,7 +70,6 @@ bool			is_close_parenthesis(t_token *token);
 
 // token utils.c
 char			*get_token_string(t_token_type type);
-void			skip_whitespace(char *line, int *pos);
 void			ft_lstadd_back_token(t_token **token_list, t_token *new_token);
 void			ft_lstclear_token(t_token **lst, void (*del)(void *));
 void			ft_lstdelone_token(t_token *lst, void (*del)(void *));

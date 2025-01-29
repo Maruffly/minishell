@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:35:41 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/29 14:57:23 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/29 18:01:59 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,8 +135,8 @@ t_ast			*ast_from_tokens(t_token *tokens);
 t_ast			*build_redir_cmd(t_ast *prefix, t_ast *suffix, t_ast *command);
 
 // HEREDOC //
-void			free_heredoc(t_heredoc *hdoc);
-
+void			free_heredoc(t_heredoc *hdoc, t_expand *exp);
+t_env_list		*copy_env_list(t_env_list *env, t_shell *sh);
 // EXEC HEREDOC//
 bool			is_delimiter(char *line, char *delimiter);
 int				handle_heredoc_ast(t_ast *redir, t_shell *sh);

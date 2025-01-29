@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:04:17 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/27 18:24:21 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/29 17:44:07 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 bool	init_expansion(t_expand *exp, char *str, t_token **expanded_args,
 						t_shell *sh)
 {
-	if (!exp || !sh)
+if (!exp || !sh)
 		return (false);
+
 	if (sh->prompt_mode == MAIN_PROMPT)
 	{
 		exp->i = 0;
@@ -27,26 +28,15 @@ bool	init_expansion(t_expand *exp, char *str, t_token **expanded_args,
 		exp->tokens = expanded_args;
 		exp->wildcards_position = NULL;
 		exp->buf_size = ft_strlen(str) + 1;
-		exp->buf = ft_calloc(ft_strlen(str) + 1, sizeof(char));
-		if (!exp->buf)
-			return (false);
-		return (true);
+		/* exp->copy_env = copy_env_list(sh->env, sh); */
+		exp->buf = ft_calloc(exp->buf_size, sizeof(char));
+		return (exp->buf != NULL);
 	}
-	else
-	{
-		ft_memset(exp, 0, sizeof(t_expand));
-		exp->buf = ft_calloc(4096, sizeof(char));
-		if (!exp->buf)
-			return (false);
-		exp->buf_size = 4096;
-		exp->buf_i = 0;
-		exp->i = 0;
-		return (true);
-	}
-	return (false);
+	ft_memset(exp, 0, sizeof(t_expand));
+	exp->buf = ft_calloc(4096, sizeof(char));
+	exp->buf_size = 4096;
+	return (exp->buf != NULL);
 }
-
-
 
 void	no_quote(char *str, t_expand *exp, t_shell *sh)
 {

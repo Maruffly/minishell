@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 13:35:04 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/28 11:27:00 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/29 16:27:02 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ t_heredoc	*init_heredoc(char *delimiter)
 	if (!hdoc->expand_vars)
 		remove_quotes(hdoc->limiter);
 	hdoc->saved_stdout = 0;
-	/* hdoc->buffer[1024] = NULL; */
 	hdoc->bytes_read = 0;
 	return (hdoc);
 }
@@ -52,12 +51,11 @@ static char	*handle_expansion(char *line, t_heredoc *hdoc, t_shell *sh, t_expand
 
 static int	heredoc_child(t_heredoc *hdoc, t_shell *sh, t_expand *exp)
 {
-	char    *line;
-	char    *proc_line;
+	char	*line;
+	char	*expanded_var;
 
 	close(hdoc->pipe_fd[0]);
 	set_heredoc_signals();
-/* 	printf("Child process started. PID: %d\n", getpid()); */
 	while (1)
 	{
 		sh->prompt_mode = HEREDOC_PROMPT;
@@ -78,21 +76,16 @@ static int	heredoc_child(t_heredoc *hdoc, t_shell *sh, t_expand *exp)
 			close(hdoc->pipe_fd[1]);
 			exit(EXIT_SUCCESS);
 		}
-		proc_line = handle_expansion(line, hdoc, sh, exp);
-		if (!proc_line)
+		expanded_var = handle_expansion(line, hdoc, sh, exp);
+		free(line);
+		printf("Expanded heredoc: %s\n", expanded_var);
+		if (!write_to_pipe(hdoc->pipe_fd[1], line))
 		{
-			printf("Error: handle_expansion failed\n");
+			free(line);
 			close(hdoc->pipe_fd[1]);
 			exit(EXIT_FAILURE);
 		}
-		if (!write_to_pipe(hdoc->pipe_fd[1], proc_line))
-		{
-			free(proc_line);
-			close(hdoc->pipe_fd[1]);
-			exit(EXIT_FAILURE);
-		}
-		free(proc_line);
-		/* free(line); */
+		free(expanded_var);
 	}
 }
 
@@ -149,7 +142,7 @@ int	handle_heredoc(t_ast_redirection *redir, t_shell *sh, t_expand *exp)
 		return (EXIT_FAILURE);
 	if (pipe(hdoc->pipe_fd) == -1)
 	{
-		free_heredoc(hdoc);
+		free_heredoc(hdoc, exp);
 		return (perror("heredoc pipe"), EXIT_FAILURE);
 	}
 	error_code = read_heredoc(hdoc, sh, exp);
@@ -157,12 +150,12 @@ int	handle_heredoc(t_ast_redirection *redir, t_shell *sh, t_expand *exp)
 	{
 		close(hdoc->pipe_fd[0]);
 		close(hdoc->pipe_fd[1]);
-		free_heredoc(hdoc);
+		free_heredoc(hdoc, exp);
 		return (error_code);
 	}
 	redir->heredoc_fd = hdoc->pipe_fd[0];
 	close(hdoc->pipe_fd[1]);
-	free_heredoc(hdoc);
+	free_heredoc(hdoc, exp);
 	/* sh->prompt_mode = MAIN_PROMPT; */
 	return (EXIT_SUCCESS);
 }

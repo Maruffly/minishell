@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 15:19:04 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/27 17:47:22 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/29 17:21:52 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	exec_extern_command(t_ast_command *cmd, t_shell *sh)
 		ft_putstr_fd(": command not found\n", STDERR_FILENO);
 		exit(127);
 	}
-	if (access(path, X_OK) < 0) // gere le code de retour si pas de permission (condenser dans une sous fonction)
+	if (access(path, X_OK) < 0)
 	{
 		ft_putstr_fd("Omar&Fred: ", STDERR_FILENO);
 		ft_putstr_fd(cmd->args[0], STDERR_FILENO);

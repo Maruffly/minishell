@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:35:41 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/27 14:19:26 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/29 17:06:22 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,13 @@ typedef struct s_ast_syntax_error
 	char					*unexpected_token;
 }							t_ast_syntax_error;
 
+typedef enum	e_quote
+{
+	NO_QUOTE,
+	IN_DOUBLE_QUOTE,
+	IN_SINGLE_QUOTE,
+}	t_quote;
+
 typedef struct s_ast
 {
 	t_ast_type				type;
@@ -102,18 +109,6 @@ typedef struct s_ast
 		t_ast_syntax_error	s_error;
 	} u_data;
 }							t_ast;
-
-typedef struct	s_heredoc
-{
-	int					pipe_fd[2];
-	char				buffer[1024];
-	ssize_t				bytes_read;
-	char				*limiter;
-	int					expand_vars;
-	int					saved_stdout;
-	size_t				content_size;
-	pid_t				heredoc_pid;
-}	t_heredoc;
 
 typedef struct s_token
 {
@@ -132,6 +127,18 @@ typedef struct s_env_list
 	char				*var_value;
 }	t_env_list;
 
+typedef struct	s_heredoc
+{
+	int					pipe_fd[2];
+	char				buffer[1024];
+	ssize_t				bytes_read;
+	char				*limiter;
+	int					expand_vars;
+	int					saved_stdout;
+	size_t				content_size;
+	pid_t				heredoc_pid;
+}	t_heredoc;
+
 typedef struct s_shell
 {
 	t_env_list			*env;
@@ -142,13 +149,6 @@ typedef struct s_shell
 	bool				is_parent;
 	int					last_status;
 }	t_shell;
-
-typedef enum	e_quote
-{
-	NO_QUOTE,
-	IN_DOUBLE_QUOTE,
-	IN_SINGLE_QUOTE,
-}	t_quote;
 
 typedef struct s_wildcard
 {
@@ -161,6 +161,7 @@ typedef struct s_expand
 	int			i;
 	char		*buf;
 	int			buf_i;
+	t_env_list	*copy_env;
 	bool		has_match;
 	t_quote		context;
 	int			buf_size;

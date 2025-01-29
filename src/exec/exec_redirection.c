@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirection.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 17:44:28 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/21 12:03:39 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/29 16:03:33 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	redirect_output(t_ast_redirection *redir, t_shell *sh)
 	output_fd = open(redir->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (output_fd == -1)
 	{
-		write(STDERR_FILENO, "minishell: ", 11);
+		write(STDERR_FILENO, "Omar&Fred: ", 11);
 		perror(redir->file);
 		return (EXIT_FAILURE);
 	}
@@ -80,8 +80,8 @@ int	append_output(t_ast_redirection *redir, t_shell *sh)
 
 int	redirect_heredoc(t_ast_redirection *redir, t_shell *sh)
 {
-	int	status;
-	int	original_stdin;
+	int		status;
+	int		original_stdin;
 
 	original_stdin = dup(STDIN_FILENO);
 	if (original_stdin == -1)

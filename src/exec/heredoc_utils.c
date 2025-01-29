@@ -3,21 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:54:02 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/28 10:50:04 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/29 17:39:51 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../includes/minishell.h"
 
-void	free_heredoc(t_heredoc *hdoc)
+void	free_heredoc(t_heredoc *hdoc, t_expand *exp)
 {
 	if (!hdoc)
 		return ;
 	free(hdoc->limiter);
 	free(hdoc);
+	free_env_list(exp->copy_env);
 }
 
 int	is_quoted(char *str)
@@ -82,4 +83,31 @@ bool	write_to_pipe(int fd, char *line)
 		|| write(fd, "\n", 1) == -1)
 		return (false);
 	return (true);
+}
+
+t_env_list	*copy_env_list(t_env_list *head, t_shell *sh)
+{
+	t_env_list *new_env = NULL;
+	t_env_list *cur;
+	t_env_list *last;
+
+	if (!head)
+		return (NULL);
+	last = NULL;
+	while (head)
+	{
+		cur = malloc(sizeof(t_env_list));
+		if (!cur)
+			return (NULL);
+		cur->var_name = ft_strdup(sh->env->var_name);
+		cur->var_value = ft_strdup(sh->env->var_value);
+		cur->next = NULL;
+		if (!new_env)
+			new_env = cur;
+		else
+			last->next = cur;
+		last = cur;
+		head = head->next;
+	}
+	return (new_env);
 }

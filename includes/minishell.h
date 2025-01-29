@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/29 14:42:09 by jlaine           ###   ########.fr       */
+/*   Created: 2024/12/09 13:35:41 by jlaine            #+#    #+#             */
+/*   Updated: 2025/01/29 14:57:23 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# ifndef MINISHELL_H
+#ifndef MINISHELL_H
 # define MINISHELL_H
 
 # include "structures.h"
@@ -24,15 +24,15 @@
 # define CYAN	"\e[36m"
 
 // main_utils
-int			launch_shell(t_shell *sh);
-void		init_shell(t_shell *sh, char **envp);
+int				launch_shell(t_shell *sh);
+void			init_shell(t_shell *sh, char **envp);
 
 // signal //
-void		set_signal(int signum, void (*handler)(int));
-void		set_main_signals(void);
-void		set_heredoc_signals(void);
-void		set_child_signals(void);
-void		handle_eof(char *input, t_shell *sh);
+void			set_signal(int signum, void (*handler)(int));
+void			set_main_signals(void);
+void			set_heredoc_signals(void);
+void			set_child_signals(void);
+void			handle_eof(char *input, t_shell *sh);
 
 // readline //
 char			*read_line(t_prompt_mode mode);
@@ -42,18 +42,18 @@ void			handle_exit_status(char *input, int *exit_code);
 
 // FREE
 void			free_ast(t_ast *node);
-void 			free_token_list(t_token *tokens);
+void			free_token_list(t_token *tokens);
 void			exit_shell(int exit_status, t_shell *sh);
-void			remove_list_node(t_token **node, t_token **head, 
-				void (*free_function)(void *), bool free_node);
+void			remove_list_node(t_token **node, t_token **head,
+					void (*free_function)(void *), bool free_node);
 void			error(char *context, char *description, int exit_status,
-				t_shell *sh);
+					t_shell *sh);
 
 // FREE_ENV
 void			free_env_list(void *list);
 void			free_env_array(char **envp);
 int				handle_parsing_error(t_shell *sh, t_token *token_lst);
-void 			ft_lstclear_env(t_env_list **lst, void (*del)(void *));
+void			ft_lstclear_env(t_env_list **lst, void (*del)(void *));
 
 // errors
 int				report_syntax_error(t_shell *sh);
@@ -103,7 +103,7 @@ void			init_ast_node(t_ast **node, t_ast_type type);
 t_ast			*create_ast_cmd(char **args);
 t_ast			*create_ast_subshell(t_ast *child, t_shell *sh);
 t_ast			*create_ast_redirection(t_token_type direction, t_token *filename,
-				t_ast *command, t_shell *sh);
+					t_ast *command, t_shell *sh);
 t_ast			*create_ast_pipeline(t_ast	*left, t_ast *right, t_shell *sh);
 t_ast			*create_ast_logical(t_ast *left, t_token_type op, t_ast *right, t_shell *sh);
 
@@ -117,7 +117,7 @@ void			handle_redirection(char *input, int *pos, char **value);
 
 // quotes.c
 int				is_quoted(char *str);
-void 			remove_quotes(char *str);
+void			remove_quotes(char *str);
 void			add_char_to_value(char **value, char c);
 void			handle_quotes(char *input, int *pos, char **value);
 int				dup_value(t_token *cur, char **args, int count);
@@ -125,7 +125,7 @@ int				dup_value(t_token *cur, char **args, int count);
 // handle_tokens.c
 t_token			*free_token_value(char *value);
 void			*handle_all_tokens(char *input, int *pos, char **value,
-				t_env_list *env_list, int exit_status);
+					t_env_list *env_list, int exit_status);
 char			*handle_parentheses(char *input, int *pos);
 
 // ast_utils.c
@@ -141,9 +141,8 @@ void			free_heredoc(t_heredoc *hdoc);
 bool			is_delimiter(char *line, char *delimiter);
 int				handle_heredoc_ast(t_ast *redir, t_shell *sh);
 int				handle_heredoc(t_ast_redirection *redir, t_shell *sh, t_expand *exp);
-int 			heredoc_eof_handler(t_heredoc *hdoc);
+int				heredoc_eof_handler(t_heredoc *hdoc);
 bool			write_to_pipe(int fd, char *line);
-
 
 /* void	redir_command(t_command *cmd);
 void	close_unused_fds(t_command	*cmd);
@@ -152,7 +151,7 @@ int		update_prev_output_fd(t_command *cmd);
 void	execute_command(t_command *cmd, t_env_list *env, int prev_output_fd);
  */
 // ENV
-char 			*get_current_path(t_env_list *list);
+char			*get_current_path(t_env_list *list);
 void			update_env_node(t_env_list *list, char *var_name, char *var_value);
 void			add_env_node(t_env_list *list, char *var_name, char *var_value);
 void			remove_env_node(t_env_list *list, char *var_name);
@@ -160,8 +159,6 @@ t_env_list		*find_env_node(t_env_list *list, char *name);
 int				is_valid_var_name(char *name);
 t_env_list		*init_envp(char **envp);
 char			*get_path_env(t_env_list *env);
-
-
 
 // BUILTINS
 void			exec_echo(t_ast_command *cmd);
@@ -182,7 +179,7 @@ void			command_expansion(t_ast *node, t_shell *sh);
 void			redirection_expansion(t_ast *node, t_shell *sh);
 void			arg_expansion(char *str, t_token **expanded_args, t_shell *sh);
 bool			init_expansion(t_expand *exp, char *str, t_token **expanded_args, 
-						t_shell *sh);
+					t_shell *sh);
 void			*add_token_to_list(t_expand *exp, t_shell *sh);
 void			add_var_to_buffer(char *value, t_expand *exp, t_shell *sh);
 void			expand_var(char *str, t_expand *exp, t_shell *sh);
@@ -200,23 +197,21 @@ t_token			*pattern_filter(t_token *tokens, t_expand *exp);
 char			*expand_env_var(char *str, t_expand *exp, t_shell *sh);
 // char			*word_splitting(t_expand *exp, char *value, t_shell *sh);
 void			list_of_file_to_token_list(t_token *tokens, t_expand *exp, t_shell *sh);
-bool 			pattern_match(char *filename, char *pattern, int i);
+bool			pattern_match(char *filename, char *pattern, int i);
 bool			only_active_wildcard_left(char *str, t_expand *exp);
 char			*remove_wildcard(char *buf);
 bool is_active_wildcard(int position, t_expand *exp);
 // EXEC
 int				execute(t_ast *node, t_exit end, t_shell *sh);
 
-
 // EXEC LOGICAL
-int 			exec_logical(t_ast_logical *logical, t_shell *sh);
+int				exec_logical(t_ast_logical *logical, t_shell *sh);
 
 // EXEC PIPELINE UTILS
 int				exec_pipeline(t_ast *node, t_shell *sh);
 void			setup_for_next_command(int *prev_read_end, int p[2], t_shell *sh);
 int				wait_for_children(pid_t last_pid, int n_pipeline, t_shell *sh);
 int				check_process_child_exit(int status, bool *new_line, t_shell *sh);
-
 
 // EXEC REDIRECTION
 int				redirect_input(t_ast_redirection *redir, t_shell *sh);

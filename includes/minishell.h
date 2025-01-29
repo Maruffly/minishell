@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/29 14:22:25 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/29 14:31:28 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void		init_shell(t_shell *sh, char **envp);
 void		set_signal(int signum, void (*handler)(int));
 void		set_main_signals(void);
 void		set_heredoc_signals(void);
-void		set_exec_signals(void);
 void		set_child_signals(void);
 void		handle_eof(char *input, t_shell *sh);
 

@@ -6,12 +6,11 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 17:46:57 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/29 14:39:34 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/30 15:24:06 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
 
 void	handle_eof(char *input, t_shell *sh)
 {
@@ -36,8 +35,8 @@ void	sigint_handler(int signum)
 }
 
 void	set_signal(int signum, void (*handler)(int))
- {
- 	struct sigaction	sa;
+{
+	struct sigaction	sa;
 
 	sa.sa_handler = handler;
 	sa.sa_flags = SA_RESTART;

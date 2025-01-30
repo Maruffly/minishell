@@ -6,13 +6,22 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 16:46:34 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/28 14:39:08 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/30 15:22:05 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-static t_token *init_token(char *value, t_token_type type)
+bool	should_break(char c, bool in_quote)
+{
+	if (in_quote)
+		return (false);
+	if (is_special_operator(c) || is_blank(c))
+		return (true);
+	return (false);
+}
+
+static t_token	*init_token(char *value, t_token_type type)
 {
 	t_token	*token;
 
@@ -42,7 +51,8 @@ t_token	*create_token(t_token_type type, char *input, size_t len)
 	return (token);
 }
 
-static int	add_next_token(char *input, int *i, t_token **token_list, t_shell *sh)
+static int	add_next_token(char *input, int *i, t_token **token_list,
+							t_shell *sh)
 {
 	t_token			*token;
 	t_token_type	type;

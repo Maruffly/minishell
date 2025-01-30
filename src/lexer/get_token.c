@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_token.c                                   :+:      :+:    :+:   */
+/*   get_token.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 12:35:01 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/28 14:00:32 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/30 15:22:15 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../includes/minishell.h"
-
+#include "../../includes/minishell.h"
 
 t_token_type	get_next_token(char *input, int *len, t_shell *sh)
 {
@@ -53,11 +52,6 @@ t_token_type	get_redirect(char *input, char c, int *len, t_shell *sh)
 {
 	while (input[*len] == c)
 		*len += 1;
-	// if (c == '<' && *len > 2)
-	// {
-	// 	syntax_error("<<<", sh);
-	// 	return (ERROR);
-	// }
 	if (c == '<' && *len == 1)
 		return (REDIRECT_IN);
 	else if (c == '<' && *len == 2)
@@ -80,7 +74,6 @@ t_token_type	get_subshell(char *input, int *len)
 	return (ERROR);
 }
 
-
 t_token_type	get_word(char *input, char c, int *len, t_shell *sh)
 {
 	bool	in_quote;
@@ -101,7 +94,7 @@ t_token_type	get_word(char *input, char c, int *len, t_shell *sh)
 			else if (in_quote && input[*len] == c)
 				in_quote = false;
 		}
-		else if ((is_special_operator(input[*len]) || is_blank(input[*len])) && !in_quote)
+		else if (should_break(input[*len], in_quote))
 			break ;
 		*len += 1;
 	}

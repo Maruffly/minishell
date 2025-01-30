@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:35:41 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/30 14:36:59 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/30 15:22:28 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void			handle_eof(char *input, t_shell *sh);
 void			set_signal(int signum, void (*handler)(int));
 
 // LEXER
+bool			should_break(char c, bool in_quote);
 t_token_type	get_subshell(char *input, int *len);
 t_token_type	get_next_token(char *input, int *len, t_shell *sh);
 t_token_type	get_word(char *input, char c, int *len, t_shell *sh);

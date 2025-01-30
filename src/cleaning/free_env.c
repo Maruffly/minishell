@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:50:37 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/29 11:02:05 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/30 15:13:24 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	free_env_list(void *list)
 
 	env_list = (t_env_list *)list;
 	if (!env_list)
-		return;
+		return ;
 	cur = env_list->head;
 	while (cur)
 	{
@@ -35,11 +35,10 @@ void	free_env_list(void *list)
 
 void	ft_lstclear_env(t_env_list **lst, void (*del)(void *))
 {
-    if (!lst || !*lst || !del)
-        return;
-
-    del(*lst);
-    *lst = NULL;
+	if (!lst || !*lst || !del)
+		return ;
+	del(*lst);
+	*lst = NULL;
 }
 
 void	free_env_array(char **envp)

@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:14:26 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/24 17:05:29 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/30 15:12:29 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,10 @@ void	exit_shell(int exit_status, t_shell *sh)
 	exit(exit_status);
 }
 
-void free_token_list(t_token *tokens)
+void	free_token_list(t_token *tokens)
 {
-	t_token *temp;
+	t_token	*temp;
+
 	while (tokens)
 	{
 		temp = tokens;
@@ -48,7 +49,7 @@ void free_token_list(t_token *tokens)
 	}
 }
 
-void	remove_list_node(t_token **node, t_token **head, 
+void	remove_list_node(t_token **node, t_token **head,
 		void (*free_function)(void *), bool free_node)
 {
 	t_token	*to_remove;
@@ -66,12 +67,10 @@ void	remove_list_node(t_token **node, t_token **head,
 		ft_lstdelone_token(to_remove, free_function);
 }
 
-
 void	free_ast(t_ast *ast)
 {
 	if (!ast)
-		return;
-	
+		return ;
 	if (ast->type == AST_COMMAND)
 		ft_free_split(ast->u_data.command.args);
 	else if (ast->type == AST_REDIRECTION)
@@ -91,6 +90,5 @@ void	free_ast(t_ast *ast)
 	}
 	else if (ast->type == AST_SUBSHELL)
 		free_ast(ast->u_data.subshell.child);
-	
 	free(ast);
 }

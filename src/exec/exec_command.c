@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 15:19:04 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/29 17:21:52 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/01/30 16:47:24 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int	exec_command(t_ast_command *cmd, t_exit end, t_shell *sh)
 	else if (ft_strcmp(cmd->args[0], "env") == 0)
 		exec_env(sh->env);
 	else if (ft_strcmp(cmd->args[0], "exit") == 0)
-		exec_exit(cmd);
+		exec_exit(sh, cmd);
 	else if (ft_strcmp(cmd->args[0], "export") == 0)
 		exec_export(sh->env, cmd);
 	else if (ft_strcmp(cmd->args[0], "pwd") == 0)

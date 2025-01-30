@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 13:35:04 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/30 15:19:28 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/30 15:56:35 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ int	handle_heredoc(t_ast_redirection *redir, t_shell *sh, t_expand *exp)
 		return (EXIT_FAILURE);
 	if (pipe(hdoc->pipe_fd) == -1)
 	{
-		free_heredoc(hdoc, exp);
+		free_heredoc(hdoc);
 		return (perror("heredoc pipe"), EXIT_FAILURE);
 	}
 	error_code = read_heredoc(hdoc, sh, exp);
@@ -158,12 +158,12 @@ int	handle_heredoc(t_ast_redirection *redir, t_shell *sh, t_expand *exp)
 	{
 		close(hdoc->pipe_fd[0]);
 		close(hdoc->pipe_fd[1]);
-		free_heredoc(hdoc, exp);
+		free_heredoc(hdoc);
 		return (error_code);
 	}
 	redir->heredoc_fd = hdoc->pipe_fd[0];
 	close(hdoc->pipe_fd[1]);
-	free_heredoc(hdoc, exp);
+	free_heredoc(hdoc);
 	/* sh->prompt_mode = MAIN_PROMPT; */
 	return (EXIT_SUCCESS);
 }

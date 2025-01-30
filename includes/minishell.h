@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/30 15:38:34 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/30 16:47:41 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ t_token			*create_token(t_token_type type, char *input, size_t len);
 t_token_type	get_pipe_logic(char *input, char c, int *len, t_shell *sh);
 
 // HEREDOC
+void			free_heredoc(t_heredoc *hdoc);
 bool			write_to_pipe(int fd, char *line);
 int				heredoc_eof_handler(t_heredoc *hdoc);
 bool			is_delimiter(char *line, char *delimiter);
-void			free_heredoc(t_heredoc *hdoc, t_expand *exp);
 // t_env_list		*copy_env_list(t_env_list *env, t_shell *sh); // check to delete
 int				handle_heredoc_ast(t_ast *redir, t_shell *sh);
 int				handle_heredoc(t_ast_redirection *redir, t_shell *sh,
@@ -68,7 +68,7 @@ void			add_env_node(t_env_list *list, char *var_name, char *var_value);
 
 // BUILTINS
 void			exec_pwd(void);
-void			exec_exit(t_ast_command *cmd);
+void			exec_exit(t_shell *sh, t_ast_command *cmd);
 void			exec_echo(t_ast_command *cmd);
 void			exec_env(t_env_list *env_list);
 void			print_env_list(t_env_list *list);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:35:41 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/29 17:06:22 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/01/30 13:27:59 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,21 @@ extern sig_atomic_t	g_signal_value;
 
 typedef enum e_token_type
 {
-	OR,					/* 0 */
-	AND,				/* 1 */
-	PAR,				/* 2 */
-	PIPE,				/* 3 */
-	WORD,				/* 4 */
-	ERROR,				/* 5 */
-	INFILE,				/* 6 */
-	OUTFILE,			/* 7 */
-	HEREDOC,			/* 8 */
-	WILDCARD,			/* 9 */
-	APPEND_OUT,			/* 10 */
-	REDIRECT_IN,		/* 11 */
-	REDIRECT_OUT,		/* 12 */
-	OPEN_PARENTHESIS,	/* 13 */
-	CLOSE_PARENTHESIS,	/* 14 */
+	OR,
+	AND,
+	PAR,
+	PIPE,
+	WORD,
+	ERROR,
+	INFILE,
+	OUTFILE,
+	HEREDOC,
+	WILDCARD,
+	APPEND_OUT,
+	REDIRECT_IN,
+	REDIRECT_OUT,
+	OPEN_PARENTHESIS,
+	CLOSE_PARENTHESIS,
 }	t_token_type;
 
 typedef enum e_prompt_mode
@@ -50,7 +50,6 @@ typedef enum e_ast_type
 	AST_PIPELINE,
 	AST_REDIRECTION,
 	AST_SYNTAX_ERROR
-
 }							t_ast_type;
 
 typedef struct s_ast_command
@@ -89,7 +88,7 @@ typedef struct s_ast_syntax_error
 	char					*unexpected_token;
 }							t_ast_syntax_error;
 
-typedef enum	e_quote
+typedef enum e_quote
 {
 	NO_QUOTE,
 	IN_DOUBLE_QUOTE,
@@ -127,7 +126,7 @@ typedef struct s_env_list
 	char				*var_value;
 }	t_env_list;
 
-typedef struct	s_heredoc
+typedef struct s_heredoc
 {
 	int					pipe_fd[2];
 	char				buffer[1024];
@@ -144,7 +143,6 @@ typedef struct s_shell
 	t_env_list			*env;
 	t_prompt_mode		prompt_mode;
 	char				*home;
-	/* t_list			*allocated_pointers[3]; */
 	char				*parsing_error;
 	bool				is_parent;
 	int					last_status;
@@ -177,15 +175,10 @@ typedef struct s_var
 	size_t		len;
 }	t_var;
 
-
 typedef enum e_exit
 {
-	KEEP_RUNNING, 
+	KEEP_RUNNING,
 	EXIT_SHELL
 }	t_exit;
 
-
-
-
 #endif
-

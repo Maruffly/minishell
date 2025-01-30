@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/21 11:04:07 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/30 13:56:37 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,49 +89,42 @@ void	add_char_to_value(char **value, char c)
 	free (*value);
 	*value = new_value;
 }
-/* bool	is_syntax_ok(t_token *new_token, t_token *head)
+
+int	is_quoted(char *str)
 {
-	if (!head && new_token->type == PIPE)
+	size_t	len;
+	char	quote;
+
+	if (!str || !*str)
+		return (0);
+	len = ft_strlen(str);
+	if (len < 2)
+		return (0);
+	quote = str[0];
+	if ((quote == '\'' || quote == '\"') && str[len - 1] == quote)
+		return (1);
+	return (0);
+}
+
+void	remove_quotes(char *str)
+{
+	size_t	len;
+	size_t	i;
+
+	if (!str || !*str)
+		return ;
+
+	len = ft_strlen(str);
+	if (len < 2)
+		return ;
+	if (str[0] == '\'' || str[0] == '\"')
 	{
-		printf("Syntax error : unexpected token '|'\n ");
-		return (false);
-	}
-	if (new_token->type == PIPE && (!head || !head->next))
-	{
-		printf("Syntax error : incomplete pipe sequence\n");
-		return (false);
-	}
-	if ((new_token->type == REDIRECT_IN || new_token->type == REDIRECT_OUT
-		|| new_token->type == APPEND_OUT || new_token->type == HEREDOC)
-		&& (!head || !head->next))
+		i = 0;
+		while (i < len - 1)
 		{
-			ft_putstr_fd("Syntax error: invalid redirection missing argument\n", STDERR_FILENO);
-			return (false);
-}
-	return (true);
-}
-
-bool	is_blank_line(char *line)
-{
-	if (!line)
-		return (true);
-	while (*line)
-	{
-		if (!is_blank(*line))
-			return (false);
-		line++;
+			str[i] = str[i + 1];
+			i++;
+		}
+		str[len - 2] = '\0';
 	}
-	return (true);
 }
-
-bool	is_empty_line(char *input)
-{
-	int	i;
-
-	if (!input) // Si la ligne est NULL (sécurité supplémentaire)
-		return (true);
-	i = 0;
-	while (input[i] && (input[i] == ' ' || input[i] == '\t'))
-		i++;
-	return (input[i] == '\0'); // Retourne true si la ligne est vide après trim
-} */

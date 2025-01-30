@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 12:43:53 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/06/19 12:22:28 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/30 15:03:46 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,13 @@ char	*get_next_line(int fd)
 
 int	main(int argc, char **argv)
 {
-	int	fd;
-	int fd2;
-	char *next_line;
+	int		fd;
+	int		fd2;
+	char	*next_line;
 	char	*line2;
 	char	*line3;
-	(void)argc;
 
+	(void)argc;
 	fd = open(argv[1], O_RDONLY);
 	fd2 = open(argv[2], O_RDONLY);
 	if (fd == -1 || fd2 == -1)
@@ -93,7 +93,7 @@ int	main(int argc, char **argv)
 		printf("error file");
 		return (1);
 	}
-	while (((next_line = get_next_line(fd)) != NULL) 
+	while (((next_line = get_next_line(fd)) != NULL)
 		&& ((line2 = get_next_line(fd2)) != NULL) && (line3 = get_next_line(fd2)))
 	{
 		printf("LINE = %s\n LINE2 = %s\n LINE3 = %s\n", next_line, line2, line3);

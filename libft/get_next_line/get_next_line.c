@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 11:29:18 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/06/19 12:10:34 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/30 15:00:42 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,10 @@ char	*get_next_line(int fd)
 	return (readed);
 }
 
-int	main()
+int	main(void)
 {
-	int	fd;
-	char *next_line;
+	int		fd;
+	char	*next_line;
 
 	fd = open("test.txt", O_RDONLY);
 	if (fd == -1)
@@ -88,10 +88,12 @@ int	main()
 		printf("error file");
 		return (1);
 	}
-	while ((next_line = get_next_line(fd)) != NULL)
+	next_line = get_next_line(fd);
+	while ((next_line != NULL))
 	{
 		printf("LINE = %s\n", next_line);
 		free(next_line);
+		next_line = get_next_line(fd);
 	}
 	close(fd);
 	return (0);

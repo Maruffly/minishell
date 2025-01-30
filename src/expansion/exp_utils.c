@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:04:17 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/29 17:44:07 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/01/30 15:17:39 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ if (!exp || !sh)
 		exp->tokens = expanded_args;
 		exp->wildcards_position = NULL;
 		exp->buf_size = ft_strlen(str) + 1;
-		/* exp->copy_env = copy_env_list(sh->env, sh); */
 		exp->buf = ft_calloc(exp->buf_size, sizeof(char));
 		return (exp->buf != NULL);
 	}

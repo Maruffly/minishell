@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 13:35:04 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/29 16:27:02 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/01/30 15:19:28 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ t_heredoc	*init_heredoc(char *delimiter)
 	hdoc->bytes_read = 0;
 	return (hdoc);
 }
-
 static char	*handle_expansion(char *line, t_heredoc *hdoc, t_shell *sh, t_expand *exp)
 {
 	char	*expand_line;
@@ -49,11 +48,23 @@ static char	*handle_expansion(char *line, t_heredoc *hdoc, t_shell *sh, t_expand
 	return (expand_line);	
 }
 
+bool	process_heredoc_line(char *line, t_heredoc *hdoc, t_expand *exp, t_shell *sh)
+{
+	char	*expanded_line;
+
+	expanded_line = handle_expansion(line, hdoc, sh, exp);
+	if (!expanded_line)
+		return (false);
+	if (!write_to_pipe(hdoc->pipe_fd[1], expanded_line))
+		return (false);
+	free(expanded_line);
+	return (true);
+}
 static int	heredoc_child(t_heredoc *hdoc, t_shell *sh, t_expand *exp)
 {
 	char	*line;
-	char	*expanded_var;
 
+	(void)exp;
 	close(hdoc->pipe_fd[0]);
 	set_heredoc_signals();
 	while (1)
@@ -76,16 +87,13 @@ static int	heredoc_child(t_heredoc *hdoc, t_shell *sh, t_expand *exp)
 			close(hdoc->pipe_fd[1]);
 			exit(EXIT_SUCCESS);
 		}
-		expanded_var = handle_expansion(line, hdoc, sh, exp);
-		free(line);
-		printf("Expanded heredoc: %s\n", expanded_var);
-		if (!write_to_pipe(hdoc->pipe_fd[1], line))
+		if (!process_heredoc_line(line, hdoc, exp, sh))
 		{
 			free(line);
 			close(hdoc->pipe_fd[1]);
 			exit(EXIT_FAILURE);
 		}
-		free(expanded_var);
+		/* free(line); */
 	}
 }
 

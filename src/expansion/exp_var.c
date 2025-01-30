@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/29 17:14:36 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/01/30 15:26:25 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,20 @@ char	*expand_env_var(char *str, t_expand *exp, t_shell *sh)
 
 	if (!str || !exp || !sh)
 		return (NULL);
+	exp->i = 0;
 	name = get_valid_name(str, exp, sh);
 	if (!name)
 		return (NULL);
-	name_len = ft_strlen(name); // Longueur du nom de la variable
-	env_token = find_env_node(exp->copy_env, name);
-	printf("NODE : %s", env_token->var_value);
+	name_len = ft_strlen(name);
+	env_token = find_env_node(sh->env, name);
 	if (!env_token || !env_token->var_value)
 	{
 		free(name);
-		exp->i += name_len; // Avance l'index après le nom de la variable
-		return (ft_strdup("")); // Retourne une chaîne vide
+		exp->i += name_len;
+		return (ft_strdup(""));
 	}
 	env_value = env_token->var_value;
-	exp->i += name_len; // Avance l'index après le nom de la variable
+	exp->i += name_len;
 	free(name);
 	return (ft_strdup(env_value));
 }
@@ -83,15 +83,11 @@ void	expand_last_status(t_expand *exp, t_shell *sh)
 char *expand_heredoc_vars(char *line, t_shell *sh, t_expand *exp)
 {
 	char	*result;
-	char	*expanded_var;
 
 	if (!line || !sh || !exp)
 		return (NULL);
 	if (!init_expansion(exp, 0, 0, sh))
-	{
-		 printf("Expansion initialization failed\n"); 
 		return (NULL);
-	}
 	while (line[exp->i])
 	{
 		if (line[exp->i] == '$' && line[exp->i + 1] && line[exp->i + 1] != ' ')
@@ -100,12 +96,7 @@ char *expand_heredoc_vars(char *line, t_shell *sh, t_expand *exp)
 			if (line[exp->i] == '?')
 				expand_last_status(exp, sh);	
 			else
-			{
-
-				expanded_var = expand_env_var(line, exp, sh);
-				printf("expanded = %s\n", expanded_var);
-				free(expanded_var);
-			}
+				return (expand_env_var(line, exp, sh));
 		}
 		else
 		{

@@ -6,11 +6,11 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:47:11 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/27 16:38:22 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/31 16:02:11 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include	"../../includes/minishell.h"
+#include	"../../includes/minishell.h"
 
 char	*get_path_env(t_env_list *env)
 {

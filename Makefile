@@ -26,7 +26,6 @@ SRC_FILES = main.c\
 			/parsing/ast.c\
 			/parsing/ast_utils.c\
 			/parsing/parsing_utils.c\
-			/parsing/redirections.c\
 			/parsing/ast_builder.c\
 			/lexer/lexer.c\
 			/lexer/get_token.c\
@@ -44,7 +43,6 @@ SRC_FILES = main.c\
 			/exec/heredoc_utils.c\
 			/exec/heredoc.c\
 			/exec/heredoc_exec.c\
-			/exec/heredoc_validation.c\
 			/exec/exec_logical.c\
 			/exec/exec_pipeline.c\
 			/exec/exec_pipeline_utils.c\

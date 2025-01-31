@@ -6,13 +6,13 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:54:02 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/31 17:08:36 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/31 18:20:33 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	free_heredoc(t_heredoc *hdoc)
+static void	free_heredoc(t_heredoc *hdoc)
 {
 	if (!hdoc)
 		return ;
@@ -45,7 +45,7 @@ int	heredoc_eof_handler(t_heredoc *hdoc)
 	return (EXIT_SUCCESS);
 }
 
-t_heredoc	*init_heredoc(char *delimiter)
+static t_heredoc	*init_heredoc(char *delimiter)
 {
 	t_heredoc	*hdoc;
 

@@ -6,11 +6,16 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 13:35:04 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/31 17:54:21 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/31 18:24:13 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static bool	is_delimiter(char *line, char *delimiter)
+{
+	return (ft_strcmp(line, delimiter) == 0);
+}
 
 static int	heredoc_parent(pid_t child_pid)
 {

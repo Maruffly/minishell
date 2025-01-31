@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/27 17:47:13 by jlaine           ###   ########.fr       */
+/*   Created: 2025/01/10 15:19:04 by jlaine            #+#    #+#             */
+/*   Updated: 2025/01/31 16:27:39 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 char	*build_path(char *dir, char *command)
 {

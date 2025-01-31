@@ -6,11 +6,11 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:44:13 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/27 17:56:11 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/31 16:28:16 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	check_process_child_exit(int status, bool *new_line, t_shell *sh)
 {
@@ -43,7 +43,7 @@ pid_t	exec_one_pipeline_token(t_token *pipeline, int prev_read_end, int p[2],
 	pid_t	pid;
 
 	pid = fork();
-	if (pid != 0) // PB : avec 1 pipe, le programme devrait executer dans le parent.
+	if (pid != 0)
 		return (pid);
 	sh->is_parent = false;
 	set_child_signals();
@@ -63,7 +63,6 @@ pid_t	exec_one_pipeline_token(t_token *pipeline, int prev_read_end, int p[2],
 void	setup_for_next_command(int *prev_read_end, int p[2], t_shell *sh)
 {
 	(void)sh;
-
 	if (*prev_read_end != -1)
 		close(*prev_read_end);
 	close(p[1]);

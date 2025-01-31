@@ -6,17 +6,17 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 13:33:30 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/27 17:56:46 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/31 16:26:03 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	execute(t_ast *node, t_exit end, t_shell *sh)
 {
 	int	status;
 
-	(void)end; 
+	(void)end;
 	status = 0;
 	if (!node)
 		return (EXIT_SUCCESS);

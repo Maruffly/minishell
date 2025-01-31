@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_subshell.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 14:43:03 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/22 13:07:00 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/31 16:36:10 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	exec_subshell(t_ast_subshell *subshell, t_shell *sh)
 {

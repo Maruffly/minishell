@@ -6,42 +6,46 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 18:05:31 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/27 17:53:26 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/31 16:35:55 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 static t_token	*build_cmd_list(t_ast *node, t_shell *sh)
 {
-	t_token *pipeline;
+	t_token	*pipeline;
+	t_ast	*right;
+	t_ast	*left;
 
 	pipeline = NULL;
 	while (node->type == AST_PIPELINE)
 	{
-		add_front_token(&pipeline, node->u_data.pipeline.right, sh);
-		if (node->u_data.pipeline.right->type == AST_COMMAND)
-			pipeline->value = node->u_data.pipeline.right->u_data.command.args[0];
-		if (node->u_data.pipeline.left->type == AST_PIPELINE)
-			node = node->u_data.pipeline.left;
+		right = node->u_data.pipeline.right;
+		add_front_token(&pipeline, right, sh);
+		if (right->type == AST_COMMAND)
+			pipeline->value = right->u_data.command.args[0];
+		left = node->u_data.pipeline.left;
+		if (left->type == AST_PIPELINE)
+			node = left;
 		else
 		{
-			add_front_token(&pipeline, node->u_data.pipeline.left, sh);
-			if (node->u_data.pipeline.left->type == AST_COMMAND)
-				pipeline->value = node->u_data.pipeline.left->u_data.command.args[0];
-			break;
+			add_front_token(&pipeline, left, sh);
+			if (left->type == AST_COMMAND)
+				pipeline->value = left->u_data.command.args[0];
+			break ;
 		}
 	}
 	return (pipeline);
 }
 
-static pid_t	exec_one_pipeline_token(t_token *pipeline, int prev_read_end, int p[2],
-		t_shell *sh)
+static pid_t	exec_one_pipeline_token(t_token *pipeline, int prev_read_end,
+				int p[2], t_shell *sh)
 {
 	pid_t	pid;
 
 	pid = fork();
-	if (pid != 0) // PB : avec 1 pipe, le programme devrait executer dans le parent.
+	if (pid != 0)
 		return (pid);
 	sh->is_parent = false;
 	set_child_signals();
@@ -82,7 +86,7 @@ static int	exec_pipeline_token(t_token *pipeline, t_shell *sh)
 
 int	exec_pipeline(t_ast *node, t_shell *sh)
 {
-	t_token *pipeline;
+	t_token	*pipeline;
 
 	pipeline = build_cmd_list(node, sh);
 	if (!pipeline)

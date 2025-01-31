@@ -6,11 +6,11 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 10:38:50 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/28 11:14:21 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/31 16:37:49 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 bool	is_delimiter(char *line, char *delimiter)
 {
@@ -19,30 +19,27 @@ bool	is_delimiter(char *line, char *delimiter)
 
 static int	is_valid_heredoc_delimiter(char *unquoted)
 {
-	size_t i;
+	size_t	i;
 
 	if (!unquoted || !ft_strlen(unquoted))
 		return (0);
-
 	i = 0;
 	while (unquoted[i])
 	{
 		if (!ft_isprint(unquoted[i]))
 			return (0);
-		
 		if (ft_strchr(" \t\n\v\f\r", unquoted[i]))
 			return (0);
-			
 		i++;
 	}
 	return (1);
 }
 
-int is_valid_delimiter(char *delimiter)
+int	is_valid_delimiter(char *delimiter)
 {
 	size_t	i;
 	char	*unquoted;
-	int 	valid;
+	int		valid;
 
 	if (!delimiter || !ft_strlen(delimiter))
 		return (0);
@@ -59,7 +56,8 @@ int is_valid_delimiter(char *delimiter)
 	i = 0;
 	while (delimiter[i])
 	{
-		if (delimiter[i] < 32 || delimiter[i] > 126 || ft_strchr("<>|&;()", delimiter[i]))
+		if (delimiter[i] < 32 || delimiter[i] > 126
+			|| ft_strchr("<>|&;()", delimiter[i]))
 			return (0);
 		i++;
 	}

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirection.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 17:44:28 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/29 16:03:33 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/01/31 16:38:21 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	redirect_input(t_ast_redirection *redir, t_shell *sh)
 {
@@ -61,7 +61,7 @@ int	append_output(t_ast_redirection *redir, t_shell *sh)
 	int	status;
 	int	output_fd;
 	int	original_stdout;
-	
+
 	output_fd = open(redir->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (output_fd == -1)
 	{

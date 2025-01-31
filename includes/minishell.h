@@ -3,14 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/30 16:47:41 by jmaruffy         ###   ########.fr       */
+/*   Created: 2024/12/09 13:35:41 by jlaine            #+#    #+#             */
+/*   Updated: 2025/01/31 17:54:11 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -49,12 +47,16 @@ t_token_type	get_pipe_logic(char *input, char c, int *len, t_shell *sh);
 // HEREDOC
 void			free_heredoc(t_heredoc *hdoc);
 bool			write_to_pipe(int fd, char *line);
+void			heredoc_signal_exit(t_heredoc *hdoc);
 int				heredoc_eof_handler(t_heredoc *hdoc);
 bool			is_delimiter(char *line, char *delimiter);
-// t_env_list		*copy_env_list(t_env_list *env, t_shell *sh); // check to delete
 int				handle_heredoc_ast(t_ast *redir, t_shell *sh);
+bool			process_heredoc_line(char *line, t_heredoc *hdoc,
+					t_expand *exp, t_shell *sh);
 int				handle_heredoc(t_ast_redirection *redir, t_shell *sh,
 					t_expand *exp);
+int				read_heredoc(t_heredoc *hdoc, t_shell *sh, t_expand *exp);
+
 
 // ENV
 t_env_list		*init_envp(char **envp);
@@ -147,6 +149,7 @@ t_ast			*create_ast_logical(t_ast *left, t_token_type op,
 					t_ast *right, t_shell *sh);
 t_ast			*create_ast_pipeline(t_ast	*left, t_ast *right, t_shell *sh);
 t_ast			*build_redir_cmd(t_ast *prefix, t_ast *suffix, t_ast *command);
+
 
 // EXPANSION
 char			*remove_wildcard(char *buf);

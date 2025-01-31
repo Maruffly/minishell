@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:16:37 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/27 10:43:38 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/31 18:07:55 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 t_ast	*create_ast_cmd(char **args)
 {
 	t_ast	*node;
+
 	init_ast_node(&node, AST_COMMAND);
 	node->u_data.command.args = args;
 	return (node);
@@ -31,8 +32,6 @@ t_ast	*create_ast_subshell(t_ast *child, t_shell *sh)
 	return (node);
 }
 
-// une redirection est forcement associé a une commande ou rien
-// filename c'est le fichier qui suit la redirection
 t_ast	*create_ast_redirection(t_token_type direction, t_token *filename,
 		t_ast *command, t_shell *sh)
 {
@@ -59,9 +58,10 @@ t_ast	*create_ast_pipeline(t_ast	*left, t_ast *right, t_shell *sh)
 	return (node);
 }
 
-t_ast	*create_ast_logical(t_ast *left, t_token_type op, t_ast *right, t_shell *sh)
+t_ast	*create_ast_logical(t_ast *left, t_token_type op, t_ast *right,
+		t_shell *sh)
 {
-		t_ast	*node;
+	t_ast	*node;
 
 	if (!left || !right)
 		return (syntax_error(get_token_string(op), sh));

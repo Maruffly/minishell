@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/30 13:56:37 by jlaine           ###   ########.fr       */
+/*   Created: 2024/12/02 15:26:54 by jlaine            #+#    #+#             */
+/*   Updated: 2025/01/31 18:31:39 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,33 +63,6 @@ void	add_arg_tab(char ***array, char *new_arg)
 	*array = new_array;
 }
 
-void	add_char_to_value(char **value, char c)
-{
-	size_t	len;
-	char	*new_value;
-
-	if (!value)
-		return ;
-	if (!*value)
-	{
-		*value = malloc(2); // 1 caractère + '\0'
-		if (!*value)
-			return ;
-		(*value)[0] = c;
-		(*value)[1] = '\0';
-		return ;
-	}
-	len = ft_strlen(*value);
-	new_value = malloc(len + 2);  // +1 pour nouveau char , +1 pour \0
-	if (!new_value)
-		return ;
-	ft_strcpy(new_value, *value);
-	new_value[len] = c;
-	new_value[len + 1] = '\0';
-	free (*value);
-	*value = new_value;
-}
-
 int	is_quoted(char *str)
 {
 	size_t	len;
@@ -113,7 +86,6 @@ void	remove_quotes(char *str)
 
 	if (!str || !*str)
 		return ;
-
 	len = ft_strlen(str);
 	if (len < 2)
 		return ;

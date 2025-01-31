@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:35:41 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/31 18:24:07 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/31 18:38:46 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,12 +129,9 @@ int				is_quoted(char *str);
 void			remove_quotes(char *str);
 t_ast			*create_ast_cmd(char **args);
 t_ast			*parse_command(t_token **token);
-void			add_char_to_value(char **value, char c);
 void			add_arg_tab(char ***array, char *new_arg);
-t_ast			*parse_pipe(t_token **token, t_shell *sh);
 t_ast			*parse_logical(t_token **token, t_shell *sh);
 void			init_ast_node(t_ast **node, t_ast_type type);
-t_ast			*parse_subshell(t_token **token, t_shell *sh);
 t_ast			*create_ast_subshell(t_ast *child, t_shell *sh);
 int				parser(t_token *token, t_ast **ast, t_shell *sh);
 t_ast			*parse_redirection(t_token **token, t_shell *sh);

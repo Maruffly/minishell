@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 16:37:13 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/27 10:43:21 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/31 18:09:55 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 t_ast	*get_last_command_redir(t_ast *node)
 {
 	while (node && node->type == AST_REDIRECTION
-	&& node->u_data.redirection.command
-	&& node->u_data.redirection.command->type == AST_REDIRECTION)
+		&& node->u_data.redirection.command
+		&& node->u_data.redirection.command->type == AST_REDIRECTION)
 	node = node->u_data.redirection.command;
 	return (node);
 }

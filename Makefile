@@ -26,6 +26,7 @@ SRC_FILES = main.c\
 			/parsing/ast.c\
 			/parsing/ast_utils.c\
 			/parsing/parsing_utils.c\
+			/parsing/parsing_redirection.c\
 			/parsing/ast_builder.c\
 			/lexer/lexer.c\
 			/lexer/get_token.c\

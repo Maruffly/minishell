@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:35:41 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/31 17:54:11 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/01/31 18:04:53 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ bool			process_heredoc_line(char *line, t_heredoc *hdoc,
 int				handle_heredoc(t_ast_redirection *redir, t_shell *sh,
 					t_expand *exp);
 int				read_heredoc(t_heredoc *hdoc, t_shell *sh, t_expand *exp);
-
 
 // ENV
 t_env_list		*init_envp(char **envp);
@@ -149,7 +148,6 @@ t_ast			*create_ast_logical(t_ast *left, t_token_type op,
 					t_ast *right, t_shell *sh);
 t_ast			*create_ast_pipeline(t_ast	*left, t_ast *right, t_shell *sh);
 t_ast			*build_redir_cmd(t_ast *prefix, t_ast *suffix, t_ast *command);
-
 
 // EXPANSION
 char			*remove_wildcard(char *buf);

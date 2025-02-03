@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 15:26:54 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/03 13:18:43 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/03 15:13:51 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,16 +56,16 @@ int	is_quoted(char *str)
 	return (0);
 }
 
-void	remove_quotes(char *str)
+char	*remove_quotes(char *str)
 {
 	size_t	len;
 	size_t	i;
 
 	if (!str || !*str)
-		return ;
+		return (NULL);
 	len = ft_strlen(str);
 	if (len < 2)
-		return ;
+		return (NULL);
 	if (str[0] == '\'' || str[0] == '\"')
 	{
 		i = 0;
@@ -76,6 +76,7 @@ void	remove_quotes(char *str)
 		}
 		str[len - 2] = '\0';
 	}
+	return (str);
 }
 
 int	count_arg(t_token *cur)

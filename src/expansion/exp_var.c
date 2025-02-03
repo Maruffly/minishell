@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/30 15:26:25 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/31 18:13:44 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ char	*expand_env_var(char *str, t_expand *exp, t_shell *sh)
 	if (!str || !exp || !sh)
 		return (NULL);
 	exp->i = 0;
+	if (exp->context == IN_SINGLE_QUOTE)
+		return (ft_strdup(str));
 	name = get_valid_name(str, exp, sh);
 	if (!name)
 		return (NULL);

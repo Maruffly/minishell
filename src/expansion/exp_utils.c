@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:04:17 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/30 15:17:39 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/01/31 19:51:15 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,18 +166,104 @@ char	*get_valid_name(char *str, t_expand *exp, t_shell *sh)
 {
 	int		j;
 	char	*name;
+	char	*cleaned_str;
 
 	(void)sh;
 	if (!str || !sh)
 		return (NULL);
-	j = exp->i + 1;
-	if (!ft_isalpha(str[j]) && str[j] != '_')
+	if (exp->context == IN_SINGLE_QUOTE)
 		return (NULL);
-	while (ft_isalnum(str[j]) || str[j] == '_')
+	if (exp->context == IN_DOUBLE_QUOTE)
+	{
+		cleaned_str = remove_quotes(str);
+		if (!cleaned_str)
+			return (NULL);
+	}
+	else
+	{
+		cleaned_str = ft_strdup(str);
+		if (!cleaned_str)
+			return (NULL);
+	}
+	j = exp->i + 1;
+	/* if (cleaned_str[j] == '\'')
+		j++; */
+	if (!ft_isalpha(cleaned_str[j]) && cleaned_str[j] != '_')
+	{
+		free(cleaned_str);
+		return (NULL);
+	}
+	while (ft_isalnum(cleaned_str[j]) || cleaned_str[j] == '_')
 		j++;
-	name = ft_substr(str, exp->i + 1, j - (exp->i + 1));
+	name = ft_substr(cleaned_str, exp->i + 1, j - (exp->i + 1));
+	free(cleaned_str);
 	return (name);
 }
+/* char	*get_valid_name(char *str, t_expand *exp, t_shell *sh)
+{
+	int		j;
+	char	*name;
+	char	*cleaned_str;
+
+	(void)sh;
+	if (!str || !sh)
+		return (NULL);
+	if (exp->context == IN_SINGLE_QUOTE)
+		return (NULL);
+	if (exp->context == IN_DOUBLE_QUOTE)
+	{
+		cleaned_str = remove_quotes(str);
+		if (!cleaned_str)
+			return (NULL);
+	}
+	else
+	{
+		cleaned_str = ft_strdup(str);
+		if (!cleaned_str)
+			return (NULL);
+	}
+	j = exp->i + 1;
+	if (!ft_isalpha(cleaned_str[j]) && cleaned_str[j] != '_')
+		return (free(cleaned_str), NULL);
+	while (ft_isalnum(cleaned_str[j]) || cleaned_str[j] == '_')
+		j++;
+	name = ft_substr(cleaned_str, exp->i + 1, j - (exp->i + 1));
+	free(cleaned_str);
+	return (name);
+} */
+
+/* char *get_valid_name(char *str, t_expand *exp, t_shell *sh)
+{
+    int j;
+    char quote_type;
+    
+    (void)sh;
+    if (!str)
+        return (NULL);
+    
+    j = exp->i + 1;
+    
+    // Handle potential quotes
+    quote_type = 0;
+    if (str[j] == '\'' || str[j] == '"') {
+        quote_type = str[j];
+        j++;
+    }
+    
+    // Check first character
+    if (!ft_isalpha(str[j]) && str[j] != '_')
+        return (NULL);
+    
+    // Extract variable name
+    while (ft_isalnum(str[j]) || str[j] == '_')
+        j++;
+    
+    // Handle closing quote if present
+    if (quote_type && str[j] == quote_type)
+        j++;
+    
+    return ft_substr(str, exp->i + 1, j - (exp->i + 1));
+} */
 
 char	**list_to_array(t_token **lst, t_shell *sh)
 {

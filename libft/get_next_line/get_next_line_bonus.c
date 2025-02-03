@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 12:43:53 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/30 15:03:46 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/03 16:20:40 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,32 @@ char	*get_next_line(int fd)
 	return (readed);
 }
 
-int	main(int argc, char **argv)
+static void	read_and_print_lines(int fd, int fd2)
 {
-	int		fd;
-	int		fd2;
 	char	*next_line;
 	char	*line2;
 	char	*line3;
+
+	next_line = get_next_line(fd);
+	line2 = get_next_line(fd2);
+	line3 = get_next_line(fd2);
+	while (next_line && line2 && line3)
+	{
+		printf("LINE = %s\nLINE2 = %s\nLINE3 = %s\n",
+			next_line, line2, line3);
+		free(next_line);
+		free(line2);
+		free(line3);
+		next_line = get_next_line(fd);
+		line2 = get_next_line(fd2);
+		line3 = get_next_line(fd2);
+	}
+}
+
+int	main(int argc, char **argv)
+{
+	int	fd;
+	int	fd2;
 
 	(void)argc;
 	fd = open(argv[1], O_RDONLY);
@@ -93,14 +112,7 @@ int	main(int argc, char **argv)
 		printf("error file");
 		return (1);
 	}
-	while (((next_line = get_next_line(fd)) != NULL)
-		&& ((line2 = get_next_line(fd2)) != NULL) && (line3 = get_next_line(fd2)))
-	{
-		printf("LINE = %s\n LINE2 = %s\n LINE3 = %s\n", next_line, line2, line3);
-		free(next_line);
-		free(line2);
-		free(line3);
-	}
+	read_and_print_lines(fd, fd2);
 	close(fd);
 	close(fd2);
 	return (0);

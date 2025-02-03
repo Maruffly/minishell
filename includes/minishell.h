@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:35:41 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/31 18:38:46 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/03 13:17:51 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,11 +126,10 @@ int				wait_for_children(pid_t last_pid, int n_pipeline, t_shell *sh);
 
 // PARSING
 int				is_quoted(char *str);
+int				count_arg(t_token *cur);
 void			remove_quotes(char *str);
 t_ast			*create_ast_cmd(char **args);
 t_ast			*parse_command(t_token **token);
-void			add_arg_tab(char ***array, char *new_arg);
-t_ast			*parse_logical(t_token **token, t_shell *sh);
 void			init_ast_node(t_ast **node, t_ast_type type);
 t_ast			*create_ast_subshell(t_ast *child, t_shell *sh);
 int				parser(t_token *token, t_ast **ast, t_shell *sh);

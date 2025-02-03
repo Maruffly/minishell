@@ -6,110 +6,45 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 15:26:54 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/31 18:39:24 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/03 15:02:14 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_ast	*parse_redirection_list(t_token **token, t_ast *command, t_shell *sh)
+static t_ast	*parse_pipe(t_token **token, t_shell *sh)
 {
-	t_ast	*first;
-	t_ast	*last;
-	t_ast	*new;
-	t_token	*cur;
+	t_ast	*left;
+	t_ast	*right;
 
-	first = NULL;
-	last = NULL;
-	if (!token || !*token)
-		return (NULL);
-	cur = *token;
-	while (cur)
+	left = parse_redirection(token, sh);
+	while (*token && (*token)->type == PIPE)
 	{
-		if (is_redirect(cur))
-		{
-			if (!cur->next || !is_word(cur->next))
-			{
-				syntax_error(cur->value, sh);
-				return (NULL);
-			}
-		}
-		if (is_word(cur) && command && command->type == AST_COMMAND)
-		{
-			if (!command->u_data.command.args
-				|| !command->u_data.command.args[0])
-				add_arg_tab(&command->u_data.command.args, cur->value);
-			cur = cur->next;
-			continue ;
-		}
-		if (!is_redirect(cur))
-			break ;
-		new = create_ast_redirection(cur->type, cur->next, NULL, sh);
-		if (!new)
-			return (NULL);
-		if (!first)
-		{
-			first = new;
-			last = new;
-		}
-		else
-		{
-			last->u_data.redirection.command = new;
-			last = new;
-		}
-		cur = cur->next->next;
+		*token = (*token)->next;
+		right = parse_redirection(token, sh);
+		left = create_ast_pipeline(left, right, sh);
 	}
-	*token = cur;
-	return (first);
+	return (left);
 }
 
-static int	count_arg(t_token *cur)
+static t_ast	*parse_logical(t_token **token, t_shell *sh)
 {
-	int	i;
+	t_ast			*left;
+	t_ast			*right;
+	t_token_type	logic_op;
 
-	i = 0;
-	while (cur && is_word(cur))
-	{
-		i++;
-		cur = cur->next;
-	}
-	return (i);
-}
-
-t_ast	*parse_command(t_token **token)
-{
-	t_token	*cur;
-	int		arg_count;
-	char	**args;
-	int		i;
-
-	cur = *token;
-	arg_count = count_arg(cur);
-	if (!arg_count)
+	left = parse_pipe(token, sh);
+	if (sh->parsing_error)
 		return (NULL);
-	args = ft_calloc((arg_count + 1), sizeof(char *));
-	if (!args)
-		return (NULL);
-	i = 0;
-	cur = *token;
-	while (cur && is_word(cur))
+	while (is_operator(*token))
 	{
-		args[i] = ft_strdup(cur->value);
-		if (!args)
-			return (ft_free_split(args), NULL);
-		i++;
-		cur = cur->next;
+		logic_op = (*token)->type;
+		*token = (*token)->next;
+		right = parse_pipe(token, sh);
+		left = create_ast_logical(left, logic_op, right, sh);
 	}
-	args[arg_count] = NULL;
-	return (create_ast_cmd(args));
+	return (left);
 }
-
-
-
-
-
-
-
 
 static t_ast	*parse_subshell(t_token **token, t_shell *sh)
 {
@@ -152,38 +87,6 @@ t_ast	*parse_redirection(t_token **token, t_shell *sh)
 	if (sh->parsing_error)
 		return (NULL);
 	return (build_redir_cmd(prefix, suffix, command));
-}
-
-static t_ast	*parse_pipe(t_token **token, t_shell *sh)
-{
-	t_ast	*left;
-	t_ast	*right;
-
-	left = parse_redirection(token, sh);
-	while (*token && (*token)->type == PIPE)
-	{
-		*token = (*token)->next;
-		right = parse_redirection(token, sh);
-		left = create_ast_pipeline(left, right, sh);
-	}
-	return (left);
-}
-
-t_ast	*parse_logical(t_token **token, t_shell *sh)
-{
-	t_ast			*left;
-	t_ast			*right;
-	t_token_type	logic_op;
-
-	left = parse_pipe(token, sh);
-	while (is_operator(*token))
-	{
-		logic_op = (*token)->type;
-		*token = (*token)->next;
-		right = parse_pipe(token, sh);
-		left = create_ast_logical(left, logic_op, right, sh);
-	}
-	return (left);
 }
 
 int	parser(t_token *token, t_ast **ast, t_shell *sh)

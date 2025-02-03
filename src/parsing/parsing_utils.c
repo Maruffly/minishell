@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 15:26:54 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/31 18:31:39 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/03 13:18:43 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,29 +38,6 @@ char	*get_token_string(t_token_type type)
 		return ("*");
 	else
 		return ("[unknown token]");
-}
-
-void	add_arg_tab(char ***array, char *new_arg)
-{
-	char	**new_array;
-	int		i;
-	int		j;
-
-	i = 0;
-	while ((*array) && (*array)[i])
-		i++;
-	new_array = ft_calloc(i + 2, sizeof(char *));
-	if (!new_array)
-		return ;
-	j = 0;
-	while (j < i)
-	{
-		new_array[j] = (*array)[j];
-		j++;
-	}
-	new_array[i] = new_arg;
-	new_array[i + 1] = NULL;
-	*array = new_array;
 }
 
 int	is_quoted(char *str)
@@ -99,4 +76,45 @@ void	remove_quotes(char *str)
 		}
 		str[len - 2] = '\0';
 	}
+}
+
+int	count_arg(t_token *cur)
+{
+	int	i;
+
+	i = 0;
+	while (cur && is_word(cur))
+	{
+		i++;
+		cur = cur->next;
+	}
+	return (i);
+}
+
+t_ast	*parse_command(t_token **token)
+{
+	t_token	*cur;
+	int		arg_count;
+	char	**args;
+	int		i;
+
+	cur = *token;
+	arg_count = count_arg(cur);
+	if (!arg_count)
+		return (NULL);
+	args = ft_calloc((arg_count + 1), sizeof(char *));
+	if (!args)
+		return (NULL);
+	i = 0;
+	cur = *token;
+	while (cur && is_word(cur))
+	{
+		args[i] = ft_strdup(cur->value);
+		if (!args)
+			return (ft_free_split(args), NULL);
+		i++;
+		cur = cur->next;
+	}
+	args[arg_count] = NULL;
+	return (create_ast_cmd(args));
 }

@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:47:11 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/31 16:02:11 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/03 15:51:42 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,14 @@ t_env_list	*init_envp(char **envp)
 	while (envp[++i])
 		add_env_node_from_envp(list, envp[i]);
 	return (list);
+}
+
+void	init_shell(t_shell *sh, char **envp)
+{
+	sh->is_parent = true;
+	sh->prompt_mode = MAIN_PROMPT;
+	sh->last_status = EXIT_SUCCESS;
+	sh->env = init_envp(envp);
+	sh->parsing_error = NULL;
+	shell_level(sh);
 }

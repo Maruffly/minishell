@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:35:41 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/03 15:12:31 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/03 15:52:24 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,11 @@
 # define CYAN	"\e[36m"
 
 // MAIN UTILS
+void			shell_level(t_shell *sh);
 int				launch_shell(t_shell *sh);
 char			*read_line(t_prompt_mode mode);
 void			init_shell(t_shell *sh, char **envp);
+
 
 // SIGNAL
 void			set_main_signals(void);

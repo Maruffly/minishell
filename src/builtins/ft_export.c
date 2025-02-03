@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:09:49 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/30 15:07:22 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/03 17:42:14 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,31 @@ static void	process_export_arg(t_env_list *env_list, char *arg)
 	}
 }
 
+static void	print_export_list(t_env_list *list)
+{
+	t_env_list	*cur;
+
+	cur = list->head;
+	while (cur)
+	{
+		if (cur->var_name)
+		{
+			printf("export %s", cur->var_name);
+			if (cur->var_value)
+				printf("=\"%s\"", cur->var_value);
+			printf("\n");
+		}
+		cur = cur->next;
+	}
+}
+
 void	exec_export(t_env_list *env_list, t_ast_command *cmd)
 {
 	int	i;
 
 	if (!cmd->args[1])
 	{
-		print_env_list(env_list);
+		print_export_list(env_list);
 		return ;
 	}
 	i = 1;

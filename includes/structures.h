@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:35:41 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/03 15:02:49 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/03 16:59:40 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,6 @@ typedef struct s_ast_subshell
 	struct s_ast			*child;
 }							t_ast_subshell;
 
-typedef struct s_ast_syntax_error
-{
-	char					*unexpected_token;
-}							t_ast_syntax_error;
-
 typedef enum e_quote
 {
 	NO_QUOTE,
@@ -105,7 +100,6 @@ typedef struct s_ast
 		t_ast_logical		logical;
 		t_ast_redirection	redirection;
 		t_ast_subshell		subshell;
-		t_ast_syntax_error	s_error;
 	} u_data;
 }							t_ast;
 

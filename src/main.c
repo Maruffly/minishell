@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/03 15:52:08 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/03 17:12:18 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,16 +110,6 @@ void	shell_level(t_shell *sh)
 		update_env_node(sh->env, "SHLVL", new_value_str);
 	free(new_value_str);
 }
-
-// void	init_shell(t_shell *sh, char **envp)
-// {
-// 	sh->is_parent = true;
-// 	sh->prompt_mode = MAIN_PROMPT;
-// 	sh->last_status = EXIT_SUCCESS;
-// 	sh->env = init_envp(envp);
-// 	sh->parsing_error = NULL;
-// 	shell_level(sh);
-// }
 
 int	main(int ac, char **av, char **envp)
 {

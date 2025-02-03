@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:35:41 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/31 18:38:46 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/03 10:23:02 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ int				wait_for_children(pid_t last_pid, int n_pipeline, t_shell *sh);
 
 // PARSING
 int				is_quoted(char *str);
-void			remove_quotes(char *str);
+char			*remove_quotes(char *str);
 t_ast			*create_ast_cmd(char **args);
 t_ast			*parse_command(t_token **token);
 void			add_arg_tab(char ***array, char *new_arg);

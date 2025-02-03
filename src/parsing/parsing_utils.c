@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 15:26:54 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/31 18:31:39 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/03 10:21:03 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,16 +79,16 @@ int	is_quoted(char *str)
 	return (0);
 }
 
-void	remove_quotes(char *str)
+char	*remove_quotes(char *str)
 {
 	size_t	len;
 	size_t	i;
 
 	if (!str || !*str)
-		return ;
+		return (NULL);
 	len = ft_strlen(str);
 	if (len < 2)
-		return ;
+		return (NULL);
 	if (str[0] == '\'' || str[0] == '\"')
 	{
 		i = 0;
@@ -99,4 +99,29 @@ void	remove_quotes(char *str)
 		}
 		str[len - 2] = '\0';
 	}
+	return (str);
 }
+
+/* char	*remove_quotes(char *str)
+{
+	size_t	len;
+	char	*result;
+
+	if (!str || !*str)
+		return (NULL);
+
+	len = ft_strlen(str);
+
+	// Vérifier si la chaîne commence et se termine par des guillemets correspondants
+	if ((str[0] == '\'' && str[len - 1] == '\'') || (str[0] == '\"' && str[len - 1] == '\"'))
+	{
+		// Allouer une nouvelle chaîne pour stocker le résultat sans les guillemets
+		result = ft_substr(str, 1, len - 2);
+		if (!result)
+			return (NULL);
+		return (result);
+	}
+
+	// Si la chaîne ne commence et ne se termine pas par des guillemets correspondants, retourner une copie de la chaîne
+	return (ft_strdup(str));
+} */

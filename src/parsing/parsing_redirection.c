@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 18:36:18 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/03 15:02:29 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/03 15:23:00 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,7 @@ static void	add_arg_tab(char ***array, char *new_arg)
 
 static bool	handle_command_argument(t_token **cur, t_ast *command)
 {
-    bool	is_argument;
-    
-	is_argument = is_word(*cur) && command && command->type == AST_COMMAND;
-	if (is_argument)
+	if (is_word(*cur) && command && command->type == AST_COMMAND)
 	{
 		if (!command->u_data.command.args || !command->u_data.command.args[0])
 			add_arg_tab(&command->u_data.command.args, (*cur)->value);
@@ -50,9 +47,10 @@ static bool	handle_command_argument(t_token **cur, t_ast *command)
 	return (false);
 }
 
-static t_ast	*validate_and_create_redirection(t_token **cur, t_ast **first, t_ast **last, t_shell *sh)
+static t_ast	*validate_and_create_redirection(t_token **cur,
+					t_ast **first, t_ast **last, t_shell *sh)
 {
-    t_ast	*new_redir;
+	t_ast	*new_redir;
 
 	if (!(*cur)->next || !is_word((*cur)->next))
 	{
@@ -73,7 +71,7 @@ static t_ast	*validate_and_create_redirection(t_token **cur, t_ast **first, t_as
 		*last = new_redir;
 	}
 	*cur = (*cur)->next->next;
-	return new_redir;
+	return (new_redir);
 }
 
 t_ast	*parse_redirection_list(t_token **token, t_ast *command, t_shell *sh)

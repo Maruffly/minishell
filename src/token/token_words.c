@@ -6,11 +6,11 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:02:12 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/29 14:43:33 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/03 15:25:22 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	is_blank(char c)
 {

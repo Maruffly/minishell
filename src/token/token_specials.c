@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   token_specials.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:03:33 by jlaine            #+#    #+#             */
-/*   Updated: 2024/12/17 16:45:56 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/03 15:25:14 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../includes/minishell.h"
-
+#include "../../includes/minishell.h"
 
 bool	is_special_operator(char c)
 {
@@ -25,7 +24,7 @@ bool	is_redirect(t_token *token)
 	if (token == NULL)
 		return (false);
 	return (token->type == REDIRECT_IN || token->type == REDIRECT_OUT
-			|| token->type == APPEND_OUT || token->type == HEREDOC);
+		|| token->type == APPEND_OUT || token->type == HEREDOC);
 }
 
 bool	is_operator(t_token *token)
@@ -34,7 +33,6 @@ bool	is_operator(t_token *token)
 		return (false);
 	return (token->type == AND || token->type == OR);
 }
-
 
 bool	is_open_parenthesis(t_token *token)
 {

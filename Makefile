@@ -36,6 +36,7 @@ SRC_FILES = main.c\
 			/expansion/exp_utils.c\
 			/expansion/exp_wildcards.c\
 			/expansion/exp_var.c\
+			/expansion/exp_var_heredoc.c\
 			/expansion/exp_arg_utils.c\
 			/expansion/exp_filename.c\
 			/expansion/exp_filename_utils.c\

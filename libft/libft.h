@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:40:16 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/30 14:58:21 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/03 15:06:54 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	*ft_memset(void *dest, int c, size_t n);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 void	*ft_memchr(const void *str, int c, size_t n);
 void	*ft_calloc(size_t nb_element, size_t size_element);
-
+void	*ft_realloc(void *ptr, int new_size);
 // FD PRINT
 void	ft_putchar_fd(char c, int fd);
 void	ft_putnbr_fd(int n, int fd);

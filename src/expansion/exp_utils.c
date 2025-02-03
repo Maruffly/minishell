@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:04:17 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/31 19:51:15 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/02/03 18:58:27 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,6 @@ void	double_quote(char *str, t_expand *exp, t_shell *sh)
 		exp->buf[exp->buf_i++] = str[exp->i];
 }
 
-
-
-
 void	*add_token_to_list(t_expand *exp, t_shell *sh)
 {
 	char	*content;
@@ -126,144 +123,75 @@ void	*add_token_to_list(t_expand *exp, t_shell *sh)
 	return (NULL);
 }
 
-void add_var_to_buffer(char *value, t_expand *exp, t_shell *sh)
+void add_var_to_buffer(char *str, t_expand *exp, t_shell *sh)
 {
-	int		i;
 	char 	*new_buffer;
-	size_t 	value_len;
+	size_t 	str_len;
 	
-	if (!value || !exp || !sh)
+	if (!str || !exp || !sh)
 		return ;
-	value_len = ft_strlen(value);
-	if (sh->prompt_mode == MAIN_PROMPT)
+	str_len = ft_strlen(str);
+	exp->buf_size += str_len;
+	new_buffer = ft_calloc(exp->buf_size, sizeof(char));
+	if (!new_buffer)
 	{
-		exp->buf_size += value_len;
-		new_buffer = ft_calloc(exp->buf_size, sizeof(char));
-		if (!new_buffer)
-		{
-			free(exp->buf);
-			exp->buf = NULL;
-			return ;
-		}
-		if (exp->buf)
-			ft_strlcpy(new_buffer, exp->buf, exp->buf_i + 1);
-		ft_strlcat(new_buffer, value, exp->buf_size);
 		free(exp->buf);
-		exp->buf = new_buffer;
-		exp->buf_i += value_len;
-		save_wildcards_pos(value, exp, sh);
+		exp->buf = NULL;
+		return ;
 	}
-	else
+	if (exp->buf)
+		ft_strlcpy(new_buffer, exp->buf, exp->buf_i + 1);
+	ft_strlcat(new_buffer, str, exp->buf_size);
+	free(exp->buf);
+	exp->buf = new_buffer;
+	exp->buf_i += str_len;
+	save_wildcards_pos(str, exp, sh);
+}
+
+void	add_to_buffer(char *str, t_expand *exp)
+{
+	int	len;
+
+	len = ft_strlen(str);
+	if (exp->buf_i + len >= exp->buf_size)
 	{
-		i = 0;
-		while (value[i] && exp->buf_i < exp->buf_size - 1)
-			exp->buf[exp->buf_i++] = value[i++];
-		exp->buf[exp->buf_i] = '\0';
+		exp->buf_size = exp->buf_i + len + 1;
+		exp->buf = ft_realloc(exp->buf, exp->buf_size);
+		if (!exp->buf)
+			return ;
 	}
+	ft_strlcpy(exp->buf + exp->buf_i, str, len + 1);
+	exp->buf_i += len;
 }
 
 char	*get_valid_name(char *str, t_expand *exp, t_shell *sh)
 {
 	int		j;
 	char	*name;
-	char	*cleaned_str;
+	int		start;
 
 	(void)sh;
 	if (!str || !sh)
 		return (NULL);
 	if (exp->context == IN_SINGLE_QUOTE)
 		return (NULL);
-	if (exp->context == IN_DOUBLE_QUOTE)
-	{
-		cleaned_str = remove_quotes(str);
-		if (!cleaned_str)
-			return (NULL);
-	}
-	else
-	{
-		cleaned_str = ft_strdup(str);
-		if (!cleaned_str)
-			return (NULL);
-	}
 	j = exp->i + 1;
-	/* if (cleaned_str[j] == '\'')
-		j++; */
-	if (!ft_isalpha(cleaned_str[j]) && cleaned_str[j] != '_')
+	if (sh->prompt_mode == HEREDOC_PROMPT)
 	{
-		free(cleaned_str);
-		return (NULL);
+		while (str[j] == '\'' || str[j] == '\"')
+			j++;
 	}
-	while (ft_isalnum(cleaned_str[j]) || cleaned_str[j] == '_')
+	if (!ft_isalpha(str[j]) && str[j] != '_')
+		return (NULL);
+	if (sh->prompt_mode == HEREDOC_PROMPT)
+		start = j - 1;
+	if (sh->prompt_mode == MAIN_PROMPT)
+		start = j;
+	while (ft_isalnum(str[j]) || str[j] == '_')
 		j++;
-	name = ft_substr(cleaned_str, exp->i + 1, j - (exp->i + 1));
-	free(cleaned_str);
+	name = ft_substr(str, start, j - start);
 	return (name);
 }
-/* char	*get_valid_name(char *str, t_expand *exp, t_shell *sh)
-{
-	int		j;
-	char	*name;
-	char	*cleaned_str;
-
-	(void)sh;
-	if (!str || !sh)
-		return (NULL);
-	if (exp->context == IN_SINGLE_QUOTE)
-		return (NULL);
-	if (exp->context == IN_DOUBLE_QUOTE)
-	{
-		cleaned_str = remove_quotes(str);
-		if (!cleaned_str)
-			return (NULL);
-	}
-	else
-	{
-		cleaned_str = ft_strdup(str);
-		if (!cleaned_str)
-			return (NULL);
-	}
-	j = exp->i + 1;
-	if (!ft_isalpha(cleaned_str[j]) && cleaned_str[j] != '_')
-		return (free(cleaned_str), NULL);
-	while (ft_isalnum(cleaned_str[j]) || cleaned_str[j] == '_')
-		j++;
-	name = ft_substr(cleaned_str, exp->i + 1, j - (exp->i + 1));
-	free(cleaned_str);
-	return (name);
-} */
-
-/* char *get_valid_name(char *str, t_expand *exp, t_shell *sh)
-{
-    int j;
-    char quote_type;
-    
-    (void)sh;
-    if (!str)
-        return (NULL);
-    
-    j = exp->i + 1;
-    
-    // Handle potential quotes
-    quote_type = 0;
-    if (str[j] == '\'' || str[j] == '"') {
-        quote_type = str[j];
-        j++;
-    }
-    
-    // Check first character
-    if (!ft_isalpha(str[j]) && str[j] != '_')
-        return (NULL);
-    
-    // Extract variable name
-    while (ft_isalnum(str[j]) || str[j] == '_')
-        j++;
-    
-    // Handle closing quote if present
-    if (quote_type && str[j] == quote_type)
-        j++;
-    
-    return ft_substr(str, exp->i + 1, j - (exp->i + 1));
-} */
 
 char	**list_to_array(t_token **lst, t_shell *sh)
 {
@@ -288,32 +216,3 @@ char	**list_to_array(t_token **lst, t_shell *sh)
 	return (args);
 }
 
-// char	*word_splitting(t_expand *exp, char *value, t_shell *sh)
-// {
-// 	int		i;
-// 	char	**split;
-
-// 	if (!exp || !value || !sh)
-// 		return (NULL);
-// 	i = 0;
-// 	split = ft_split(value, ' ');
-// 	if (!split)
-// 		return (NULL);
-// 	while (split[i])
-// 	{
-// 		if (!add_token_to_list(exp, sh))
-// 		{
-// 			ft_free_split(split);
-// 			return (NULL);
-// 		}
-// 		i++;
-// 	}
-// 	i = 0;
-// 	while (split[i])
-// 	{
-// 		free(split[i]);
-// 		i++;
-// 	}
-// 	free(split);
-// 	return (value);
-// }

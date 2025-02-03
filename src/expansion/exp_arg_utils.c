@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_arg_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 10:12:59 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/31 18:59:20 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/02/03 12:05:12 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	arg_expansion(char *str, t_token **expanded_args, t_shell *sh)
 		if (str[exp.i])
 			exp.i++;
 	}
-	/* if (exp.context != NO_QUOTE)
-		error("expansion", "unclosed quote", EXIT_FAILURE, sh); */
+	if (exp.context != NO_QUOTE)
+		error("expansion", "unclosed quote", EXIT_FAILURE, sh);
 	add_token_to_list(&exp, sh);
 }

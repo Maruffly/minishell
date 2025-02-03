@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/31 18:13:44 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/02/03 12:58:28 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ char	*expand_env_var(char *str, t_expand *exp, t_shell *sh)
 
 	if (!str || !exp || !sh)
 		return (NULL);
-	exp->i = 0;
 	if (exp->context == IN_SINGLE_QUOTE)
 		return (ft_strdup(str));
 	name = get_valid_name(str, exp, sh);
@@ -31,9 +30,8 @@ char	*expand_env_var(char *str, t_expand *exp, t_shell *sh)
 	env_token = find_env_node(sh->env, name);
 	if (!env_token || !env_token->var_value)
 	{
-		free(name);
 		exp->i += name_len;
-		return (ft_strdup(""));
+		return (free(name), ft_strdup(""));
 	}
 	env_value = env_token->var_value;
 	exp->i += name_len;
@@ -80,35 +78,4 @@ void	expand_last_status(t_expand *exp, t_shell *sh)
 	else
 		add_var_to_buffer(last_exit_status, exp, sh);
 	free(last_exit_status);
-}
-
-char *expand_heredoc_vars(char *line, t_shell *sh, t_expand *exp)
-{
-	char	*result;
-
-	if (!line || !sh || !exp)
-		return (NULL);
-	if (!init_expansion(exp, 0, 0, sh))
-		return (NULL);
-	while (line[exp->i])
-	{
-		if (line[exp->i] == '$' && line[exp->i + 1] && line[exp->i + 1] != ' ')
-		{
-			exp->i++;
-			if (line[exp->i] == '?')
-				expand_last_status(exp, sh);	
-			else
-				return (expand_env_var(line, exp, sh));
-		}
-		else
-		{
-			if (exp->buf_i < exp->buf_size - 1)
-				exp->buf[exp->buf_i++] = line[exp->i];
-			exp->i++;
-		}
-	}
-	exp->buf[exp->buf_i] = '\0';
-	result = ft_strdup(exp->buf);
-	free(exp->buf);
-	return (result);
 }

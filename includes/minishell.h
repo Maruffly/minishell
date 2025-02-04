@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/03 19:00:18 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/04 13:22:19 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,5 @@ void			add_var_to_buffer(char *value, t_expand *exp, t_shell *sh);
 char			*expand_heredoc_vars(char *line, t_shell *sh, t_expand *exp);
 void			arg_expansion(char *str, t_token **expanded_args, t_shell *sh);
 void			save_wildcards_pos(char *to_check, t_expand *exp, t_shell *sh);
-void			insert_ordered(t_token **head, t_token *new_node, t_shell *sh);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:09:49 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/03 17:42:14 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/04 18:30:21 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,37 @@ static void	add_or_update_env(t_env_list *env_list, char *var_name,
 		update_env_node(env_list, var_name, var_value);
 	else
 		add_env_node(env_list, var_name, var_value);
+}
+
+static void	sort_env_list(t_env_list *list)
+{
+	t_env_list	*sorted;
+	t_env_list	*cur;
+	t_env_list	*next;
+
+	if (!list || !list->head)
+		return;
+	sorted = NULL;
+	cur = list->head;
+	while (cur)
+	{
+		next = cur->next;
+		if (!sorted || ft_strcmp(cur->var_name, sorted->var_name) < 0)
+		{
+			cur->next = sorted;
+			sorted = cur;
+		}
+		else
+		{
+			t_env_list *tmp = sorted;
+			while (tmp->next && ft_strcmp(cur->var_name, tmp->next->var_name) >= 0)
+				tmp = tmp->next;
+			cur->next = tmp->next;
+			tmp->next = cur;
+		}
+		cur = next;
+	}
+	list->head = sorted;
 }
 
 static void	process_export_arg(t_env_list *env_list, char *arg)
@@ -59,6 +90,7 @@ static void	print_export_list(t_env_list *list)
 {
 	t_env_list	*cur;
 
+	sort_env_list(list);
 	cur = list->head;
 	while (cur)
 	{

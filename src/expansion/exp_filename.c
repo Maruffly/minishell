@@ -3,14 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   exp_filename.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 16:17:13 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/28 14:29:55 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/04 18:44:41 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void sort_tokens(t_token **tokens)
+{
+	t_token *cur;
+	t_token *next;
+	char *tmp_value;
+
+	if (!tokens || !*tokens)
+		return;
+	cur = *tokens;
+	while (cur)
+	{
+		next = cur->next;
+		while (next)
+		{
+			if (ft_strcmp(cur->value, next->value) > 0)
+			{
+				tmp_value = cur->value;
+				cur->value = next->value;
+				next->value = tmp_value;
+			}
+			next = next->next;
+		}
+		cur = cur->next;
+	}
+}
 
 static void	process_file_token(t_token *cur, t_token **files, t_expand *exp)
 {
@@ -33,25 +59,26 @@ static void	process_file_token(t_token *cur, t_token **files, t_expand *exp)
 	ft_lstadd_back_token(exp->tokens, new_token);
 }
 
-void *filename_expansion(t_expand *exp, t_shell *sh)
+void	*filename_expansion(t_expand *exp, t_shell *sh)
 {
-    t_token *files;
-    t_token *cur;
+	t_token *files;
+	t_token *cur;
 
-    exp->buf[exp->buf_i] = '\0';
-    files = get_files_list(exp, sh);
-    if (!files)
-        return (NULL);
-    files = pattern_filter(files, exp);
-    if (!files)
-        return (NULL);
-    cur = files;
-    while (cur)
-    {
-        process_file_token(cur, &files, exp);
-        cur = cur->next;
-    }
-    ft_lstclear_token(&files, free);
-    exp->has_match = true;
-    return (NULL);
+	exp->buf[exp->buf_i] = '\0';
+	files = get_files_list(exp, sh);
+	if (!files)
+		return (NULL);
+	files = pattern_filter(files, exp);
+	if (!files)
+		return (NULL);
+	cur = files;
+	sort_tokens(&files);
+	while (cur)
+	{
+		process_file_token(cur, &files, exp);
+		cur = cur->next;
+	}
+	ft_lstclear_token(&files, free);
+	exp->has_match = true;
+	return (NULL);
 }

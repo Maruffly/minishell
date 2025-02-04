@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_var_heredoc.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:58:59 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/03 18:55:45 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/04 12:49:19 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ char *expand_heredoc_vars(char *str, t_shell *sh, t_expand *exp)
 		if (str[exp->i] == '$' && str[exp->i + 1] && str[exp->i + 1] != ' ')
 		{
 			tmp = copy_before_$(str, exp, j);
-			printf("tmp after copy before $ = %s\n", tmp);
 			if (tmp)
 			{
 				add_to_buffer(tmp, exp);
@@ -79,7 +78,6 @@ char *expand_heredoc_vars(char *str, t_shell *sh, t_expand *exp)
 				tmp = handle_exit_status(sh, exp);
 			else
 				tmp = handle_variable(str, exp, sh);
-			printf("tmp after handle variable = %s\n", tmp);
 			if (tmp)
 			{
 				add_to_buffer(tmp, exp);
@@ -91,7 +89,6 @@ char *expand_heredoc_vars(char *str, t_shell *sh, t_expand *exp)
 			exp->i++;
 	}
 	tmp = ft_substr(str, j, exp->i - j);
-	printf("tmp after ft_substr = %s\n", tmp);
 	if (tmp)
 	{
 		add_to_buffer(tmp, exp);

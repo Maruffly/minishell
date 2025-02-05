@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:09:49 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/04 18:30:21 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/02/05 11:14:18 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	add_or_update_env(t_env_list *env_list, char *var_name,
 		add_env_node(env_list, var_name, var_value);
 }
 
-static void	sort_env_list(t_env_list *list)
+void	sort_env_list(t_env_list *list)
 {
 	t_env_list	*sorted;
 	t_env_list	*cur;

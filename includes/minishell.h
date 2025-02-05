@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/04 13:22:19 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/02/05 11:14:49 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int				read_heredoc(t_heredoc *hdoc, t_shell *sh, t_expand *exp);
 t_env_list		*init_envp(char **envp);
 int				is_valid_var_name(char *name);
 char			*get_path_env(t_env_list *env);
+void			sort_env_list(t_env_list *list);
 t_env_list		*find_env_node(t_env_list *list, char *name);
 void			update_env_node(t_env_list *list, char *var_name,
 					char *var_value);

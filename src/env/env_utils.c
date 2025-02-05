@@ -6,11 +6,11 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:47:11 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/31 16:02:54 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/05 11:16:07 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include	"../../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void	add_env_node(t_env_list *list, char *var_name, char *var_value)
 {

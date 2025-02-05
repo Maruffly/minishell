@@ -5,11 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/05 11:36:40 by jlaine           ###   ########.fr       */
+/*   Created: 2025/01/29 14:48:14 by jlaine            #+#    #+#             */
+/*   Updated: 2025/02/05 12:47:24 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H

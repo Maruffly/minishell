@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_wildcards.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 14:32:12 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/27 18:14:45 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/05 11:54:24 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	add_wildcard_pos(t_wildcard **wildcards, int pos, t_shell *sh)
 void	save_wildcards_pos(char *to_check, t_expand *exp, t_shell *sh)
 {
 	int			i;
-	t_wildcard *new_wildcard;
+	t_wildcard	*new_wildcard;
 
 	(void)sh;
 	if (!to_check || !exp || !sh || exp->context != NO_QUOTE)
@@ -42,7 +42,7 @@ void	save_wildcards_pos(char *to_check, t_expand *exp, t_shell *sh)
 		{
 			new_wildcard = ft_calloc(1, sizeof(t_wildcard));
 			if (!new_wildcard)
-				return;
+				return ;
 			new_wildcard->position = exp->buf_i + i;
 			new_wildcard->next = exp->wildcards_position;
 			exp->wildcards_position = new_wildcard;

@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   exp_filename.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 16:17:13 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/05 11:28:22 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/05 12:30:56 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void sort_tokens(t_token **tokens)
+void	sort_tokens(t_token **tokens)
 {
-	t_token *cur;
-	t_token *next;
-	char *tmp_value;
+	t_token	*cur;
+	t_token	*next;
+	char	*tmp_value;
 
 	if (!tokens || !*tokens)
-		return;
+		return ;
 	cur = *tokens;
 	while (cur)
 	{
@@ -47,22 +47,22 @@ static void	process_file_token(t_token *cur, t_token **files, t_expand *exp)
 	if (!content)
 	{
 		ft_lstclear_token(files, free);
-		return;
+		return ;
 	}
 	new_token = create_token(WORD, content, ft_strlen(content));
 	if (!new_token)
 	{
 		free(content);
 		ft_lstclear_token(files, free);
-		return;
+		return ;
 	}
 	ft_lstadd_back_token(exp->tokens, new_token);
 }
 
 void	*filename_expansion(t_expand *exp, t_shell *sh)
 {
-	t_token *files;
-	t_token *cur;
+	t_token	*files;
+	t_token	*cur;
 
 	exp->buf[exp->buf_i] = '\0';
 	files = get_files_list(exp, sh);

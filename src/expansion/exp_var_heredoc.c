@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:58:59 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/05 11:27:57 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/05 12:36:58 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,42 +49,92 @@ static char	*handle_variable(char *str, t_expand *exp, t_shell *sh)
 	exp->i += ft_strlen(var_name);
 	return (ft_strdup(var_value));
 }
+// char	*expand_heredoc_vars(char *str, t_shell *sh, t_expand *exp)
+// {
+// 	char	*result;
+// 	char	*tmp;
+// 	int		j;
+// 	bool		in_quotes;
 
-char *expand_heredoc_vars(char *str, t_shell *sh, t_expand *exp)
+// 	in_quotes = false;
+// 	j = 0;
+// 	if (!str || !sh || !exp)
+// 		return (NULL);
+// 	if (!init_expansion(exp, 0, 0, sh))
+// 		return (NULL);
+// 	while (str[exp->i])
+// 	{
+// 		if (str[exp->i] == '$' && str[exp->i + 1] && str[exp->i + 1] != ' ')
+// 		{
+// 			tmp = copy_before_dollar(str, exp, j);
+// 			if (tmp)
+// 			{
+// 				add_to_buffer(tmp, exp);
+// 				free(tmp);
+// 			}
+// 			exp->i++;
+// 			if (str[exp->i] == '?')
+// 				tmp = handle_exit_status(sh, exp);
+// 			else
+// 				tmp = handle_variable(str, exp, sh);
+// 			if (tmp)
+// 			{
+// 				add_to_buffer(tmp, exp);
+// 				free(tmp);
+// 			}
+// 			j = exp->i;
+// 		}
+// 		else
+// 			exp->i++;
+// 	}
+// 	tmp = ft_substr(str, j, exp->i - j);
+// 	if (tmp)
+// 	{
+// 		add_to_buffer(tmp, exp);
+// 		free(tmp);
+// 	}
+// 	exp->buf[exp->buf_i] = '\0';
+// 	result = ft_strdup(exp->buf);
+// 	free(exp->buf);
+// 	return (result);
+// }
+static void	process_dollar_expansion(char *str, t_expand *exp,
+									t_shell *sh, int *j)
 {
+	char	*tmp;
+
+	tmp = copy_before_dollar(str, exp, *j);
+	if (tmp)
+	{
+		add_to_buffer(tmp, exp);
+		free(tmp);
+	}
+	exp->i++;
+	if (str[exp->i] == '?')
+		tmp = handle_exit_status(sh, exp);
+	else
+		tmp = handle_variable(str, exp, sh);
+	if (tmp)
+	{
+		add_to_buffer(tmp, exp);
+		free(tmp);
+	}
+	*j = exp->i;
+}
+
+char	*expand_heredoc_vars(char *str, t_shell *sh, t_expand *exp)
+{
+	int		j;
 	char	*result;
 	char	*tmp;
-	int		j;
-	bool		in_quotes;
 
-	in_quotes = false;
 	j = 0;
-	if (!str || !sh || !exp)
-		return (NULL);
-	if (!init_expansion(exp, 0, 0, sh))
+	if (!str || !sh || !exp || !init_expansion(exp, 0, 0, sh))
 		return (NULL);
 	while (str[exp->i])
 	{
 		if (str[exp->i] == '$' && str[exp->i + 1] && str[exp->i + 1] != ' ')
-		{
-			tmp = copy_before_dollar(str, exp, j);
-			if (tmp)
-			{
-				add_to_buffer(tmp, exp);
-				free(tmp);
-			}
-			exp->i++;
-			if (str[exp->i] == '?')
-				tmp = handle_exit_status(sh, exp);
-			else
-				tmp = handle_variable(str, exp, sh);
-			if (tmp)
-			{
-				add_to_buffer(tmp, exp);
-				free(tmp);
-			}
-			j = exp->i;
-		}
+			process_dollar_expansion(str, exp, sh, &j);
 		else
 			exp->i++;
 	}

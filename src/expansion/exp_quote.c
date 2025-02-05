@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exp_arg_utils.c                                    :+:      :+:    :+:   */
+/*   exp_quote.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/27 10:12:59 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/05 11:56:00 by jlaine           ###   ########.fr       */
+/*   Created: 2025/02/05 12:08:43 by jlaine            #+#    #+#             */
+/*   Updated: 2025/02/05 12:09:40 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	no_quote(char *str, t_expand *exp, t_shell *sh)
+void	no_quote(char *str, t_expand *exp, t_shell *sh)
 {
 	if (!str || !exp || !sh)
 		return ;
@@ -34,7 +34,7 @@ static void	no_quote(char *str, t_expand *exp, t_shell *sh)
 	}
 }
 
-static void	single_quote(char *str, t_expand *exp)
+void	single_quote(char *str, t_expand *exp)
 {
 	if (!str || !exp)
 		return ;
@@ -48,7 +48,7 @@ static void	single_quote(char *str, t_expand *exp)
 		exp->buf[exp->buf_i++] = str[exp->i];
 }
 
-static void	double_quote(char *str, t_expand *exp, t_shell *sh)
+void	double_quote(char *str, t_expand *exp, t_shell *sh)
 {
 	if (!str || !exp || !sh)
 		return ;
@@ -60,8 +60,8 @@ static void	double_quote(char *str, t_expand *exp, t_shell *sh)
 			exp->empty_quotes = true;
 		exp->context = NO_QUOTE;
 	}
-	else if (str[exp->i] == '\\'
-		&& (str[exp->i + 1] == '\"' || str[exp->i + 1] == '\\'))
+	else if (str[exp->i] == '\\' && (str[exp->i + 1] == '\"'
+			|| str[exp->i + 1] == '\\'))
 	{
 		exp->i++;
 		exp->buf[exp->buf_i++] = str[exp->i];
@@ -70,28 +70,29 @@ static void	double_quote(char *str, t_expand *exp, t_shell *sh)
 		exp->buf[exp->buf_i++] = str[exp->i];
 }
 
-void	arg_expansion(char *str, t_token **expanded_args, t_shell *sh)
+void	*add_token_to_list(t_expand *exp, t_shell *sh)
 {
-	t_expand	exp;
+	char	*content;
+	t_token	*new_token;
 
-	if (!str || !expanded_args || !sh)
-		return ;
-	if (!init_expansion(&exp, str, expanded_args, sh))
-		return ;
-	ft_bzero(exp.buf, exp.buf_size);
-	exp.buf_i = 0;
-	while (str[exp.i])
+	if (!exp || !sh)
+		return (NULL);
+	if (exp->wildcards_position)
+		filename_expansion(exp, sh);
+	if (!exp->wildcards_position || (exp->buf_i > 0 && !exp->has_match))
 	{
-		if (exp.context == NO_QUOTE)
-			no_quote(str, &exp, sh);
-		else if (exp.context == IN_SINGLE_QUOTE)
-			single_quote(str, &exp);
-		else if (exp.context == IN_DOUBLE_QUOTE)
-			double_quote(str, &exp, sh);
-		if (str[exp.i])
-			exp.i++;
+		if (exp->buf_i > 0)
+			content = ft_strdup(exp->buf);
+		else
+			content = ft_strdup("");
+		if (!content)
+			return (NULL);
+		new_token = create_token(WORD, content, ft_strlen(content));
+		if (!new_token)
+			return (free(content), NULL);
+		ft_lstadd_back_token(exp->tokens, new_token);
+		exp->buf_i = 0;
+		exp->empty_quotes = false;
 	}
-	if (exp.context != NO_QUOTE)
-		error("expansion", "unclosed quote", EXIT_FAILURE, sh);
-	add_token_to_list(&exp, sh);
+	return (NULL);
 }

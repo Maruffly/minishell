@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_filename_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 17:40:18 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/04 14:01:18 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/02/05 12:03:36 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_token	*pattern_filter(t_token *tokens, t_expand *exp)
 {
 	t_token	*cur;
 	t_token	*next;
-	t_token *prev;
+	t_token	*prev;
 	char	*full_filename;
 
 	prev = NULL;
@@ -56,7 +56,7 @@ t_token	*pattern_filter(t_token *tokens, t_expand *exp)
 	return (tokens);
 }
 
-bool is_active_wildcard(int position, t_expand *exp)
+bool	is_active_wildcard(int position, t_expand *exp)
 {
 	t_wildcard	*cur;
 
@@ -72,33 +72,40 @@ bool is_active_wildcard(int position, t_expand *exp)
 	return (false);
 }
 
-bool pattern_match(char *filename, char *pattern, int f_pos)
+static bool	handle_wildcard(char *filename, char *pattern, int f_pos,
+							int p_pos)
 {
-	int p_pos;
-	bool match_rest;
+	bool	match_rest;
+
+	if (!pattern[p_pos])
+		return (true);
+	while (filename[f_pos])
+	{
+		match_rest = pattern_match(filename + f_pos, pattern + p_pos, 0);
+		if (match_rest)
+			return (true);
+		f_pos++;
+	}
+	return (pattern_match(filename + f_pos, pattern + p_pos, 0));
+}
+
+bool	pattern_match(char *filename, char *pattern, int f_pos)
+{
+	int	p_pos;
 
 	if (f_pos == 0 && filename[0] == '.' && pattern[0] != '.')
 		return (false);
 	if (!pattern[f_pos])
 		return (!filename[f_pos]);
 	if (!filename[f_pos])
-		return (!pattern[f_pos] || (pattern[f_pos] == '*' && pattern[f_pos + 1] == '\0'));
+		return (!pattern[f_pos] || (pattern[f_pos] == '*'
+				&& pattern[f_pos + 1] == '\0'));
 	if (pattern[f_pos] == '*')
 	{
 		p_pos = f_pos + 1;
-		if (!pattern[p_pos])
-			return (true);
-		while (filename[f_pos])
-		{
-			match_rest = pattern_match(filename + f_pos, pattern + p_pos, 0);
-			if (match_rest)
-				return (true);
-			f_pos++;
-		}
-		return (pattern_match(filename + f_pos, pattern + p_pos, 0));
+		return (handle_wildcard(filename, pattern, f_pos, p_pos));
 	}
 	if (pattern[f_pos] == '?' || pattern[f_pos] == filename[f_pos])
-		return pattern_match(filename, pattern, f_pos + 1);
-		
+		return (pattern_match(filename, pattern, f_pos + 1));
 	return (false);
 }

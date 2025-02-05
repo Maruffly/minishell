@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/03 12:58:28 by jmaruffy         ###   ########.fr       */
+/*   Created: 2024/12/17 15:04:17 by jlaine            #+#    #+#             */
+/*   Updated: 2025/02/05 12:13:32 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 char	*expand_env_var(char *str, t_expand *exp, t_shell *sh)
 {
-	char *name;
-	char *env_value;
-	t_env_list *env_token;
-	int name_len;
+	char		*name;
+	int			name_len;
+	char		*env_value;
+	t_env_list	*env_token;
 
 	if (!str || !exp || !sh)
 		return (NULL);

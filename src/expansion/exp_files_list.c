@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:29:31 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/28 14:29:44 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/05 11:55:03 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static DIR	*initialize_directory(t_expand *exp, t_shell *sh, char **path)
 {
-    DIR	*dir;
+	DIR	*dir;
 
 	*path = extract_root_path(exp, sh);
 	if (!*path)
@@ -58,7 +58,7 @@ static t_token	*process_directory(DIR *dir)
 		new_token = create_file_entry(entry);
 		if (!new_token)
 		{
-    		ft_lstclear_token(&files, free);
+			ft_lstclear_token(&files, free);
 			return (NULL);
 		}
 		ft_lstadd_back_token(&files, new_token);
@@ -67,7 +67,7 @@ static t_token	*process_directory(DIR *dir)
 	return (files);
 }
 
-t_token *get_files_list(t_expand *exp, t_shell *sh)
+t_token	*get_files_list(t_expand *exp, t_shell *sh)
 {
 	DIR		*dir;
 	char	*path;

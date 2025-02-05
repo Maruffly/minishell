@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:22:15 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/27 18:24:57 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/05 11:53:54 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	command_expansion(t_ast *node, t_shell *sh)
 	t_token	*expanded_args;
 
 	if (!node || !sh || !node->u_data.command.args)
-		return;
+		return ;
 	expanded_args = NULL;
 	args = node->u_data.command.args;
 	while (*args)
@@ -29,7 +29,8 @@ void	command_expansion(t_ast *node, t_shell *sh)
 	}
 	node->u_data.command.args = list_to_array(&expanded_args, sh);
 	if (!node->u_data.command.args)
-		error("expansion", "failed to convert tokens to array", EXIT_FAILURE, sh);
+		error("expansion", "failed to convert tokens to array",
+			EXIT_FAILURE, sh);
 }
 
 void	redirection_expansion(t_ast *node, t_shell *sh)
@@ -42,8 +43,8 @@ void	redirection_expansion(t_ast *node, t_shell *sh)
 	expanded_args = NULL;
 	str = node->u_data.redirection.file;
 	arg_expansion(str, &expanded_args, sh);
-	if (ft_lstsize_token(expanded_args) != 1 || !ft_strcmp(expanded_args->value
-		, ""))
+	if (ft_lstsize_token(expanded_args) != 1
+		|| !ft_strcmp(expanded_args->value, ""))
 		error("wrong redirection", NULL, 1, sh);
 	else
 		node->u_data.redirection.file = expanded_args->value;

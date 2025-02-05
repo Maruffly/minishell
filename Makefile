@@ -16,6 +16,7 @@ SRC_FILES = main.c\
 			/builtins/ft_unset.c\
 			/env/env.c\
 			/env/env_utils.c\
+			/env/env_sorting.c\
 			/token/token_specials.c\
 			/token/token_utils.c\
 			/token/token_words.c\

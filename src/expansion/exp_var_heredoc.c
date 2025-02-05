@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exp_var_heredoc.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:58:59 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/04 12:49:19 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/02/05 11:27:57 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static char	*copy_before_$(char *str, t_expand *exp, int start)
+static char	*copy_before_dollar(char *str, t_expand *exp, int start)
 {
 	char	*tmp;
 
@@ -67,7 +67,7 @@ char *expand_heredoc_vars(char *str, t_shell *sh, t_expand *exp)
 	{
 		if (str[exp->i] == '$' && str[exp->i + 1] && str[exp->i + 1] != ' ')
 		{
-			tmp = copy_before_$(str, exp, j);
+			tmp = copy_before_dollar(str, exp, j);
 			if (tmp)
 			{
 				add_to_buffer(tmp, exp);
@@ -99,4 +99,3 @@ char *expand_heredoc_vars(char *str, t_shell *sh, t_expand *exp)
 	free(exp->buf);
 	return (result);
 }
-

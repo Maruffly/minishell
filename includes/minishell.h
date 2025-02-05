@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/05 11:14:49 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/05 11:35:20 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void			shell_level(t_shell *sh);
 int				launch_shell(t_shell *sh);
 char			*read_line(t_prompt_mode mode);
 void			init_shell(t_shell *sh, char **envp);
-
 
 // SIGNAL
 void			set_main_signals(void);
@@ -71,10 +70,10 @@ void			add_env_node(t_env_list *list, char *var_name, char *var_value);
 
 // BUILTINS
 void			exec_pwd(void);
-void			exec_exit(t_shell *sh, t_ast_command *cmd);
 void			exec_echo(t_ast_command *cmd);
 void			exec_env(t_env_list *env_list);
 void			print_env_list(t_env_list *list);
+void			exec_exit(t_shell *sh, t_ast_command *cmd);
 void			exec_cd(t_ast_command *cmd, t_env_list *env_list);
 void			exec_unset(t_env_list *env_list, t_ast_command *cmd);
 void			exec_export(t_env_list *env_list, t_ast_command *cmd);

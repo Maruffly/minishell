@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_var_heredoc.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:58:59 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/05 12:36:58 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/05 15:23:27 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,55 +49,7 @@ static char	*handle_variable(char *str, t_expand *exp, t_shell *sh)
 	exp->i += ft_strlen(var_name);
 	return (ft_strdup(var_value));
 }
-// char	*expand_heredoc_vars(char *str, t_shell *sh, t_expand *exp)
-// {
-// 	char	*result;
-// 	char	*tmp;
-// 	int		j;
-// 	bool		in_quotes;
 
-// 	in_quotes = false;
-// 	j = 0;
-// 	if (!str || !sh || !exp)
-// 		return (NULL);
-// 	if (!init_expansion(exp, 0, 0, sh))
-// 		return (NULL);
-// 	while (str[exp->i])
-// 	{
-// 		if (str[exp->i] == '$' && str[exp->i + 1] && str[exp->i + 1] != ' ')
-// 		{
-// 			tmp = copy_before_dollar(str, exp, j);
-// 			if (tmp)
-// 			{
-// 				add_to_buffer(tmp, exp);
-// 				free(tmp);
-// 			}
-// 			exp->i++;
-// 			if (str[exp->i] == '?')
-// 				tmp = handle_exit_status(sh, exp);
-// 			else
-// 				tmp = handle_variable(str, exp, sh);
-// 			if (tmp)
-// 			{
-// 				add_to_buffer(tmp, exp);
-// 				free(tmp);
-// 			}
-// 			j = exp->i;
-// 		}
-// 		else
-// 			exp->i++;
-// 	}
-// 	tmp = ft_substr(str, j, exp->i - j);
-// 	if (tmp)
-// 	{
-// 		add_to_buffer(tmp, exp);
-// 		free(tmp);
-// 	}
-// 	exp->buf[exp->buf_i] = '\0';
-// 	result = ft_strdup(exp->buf);
-// 	free(exp->buf);
-// 	return (result);
-// }
 static void	process_dollar_expansion(char *str, t_expand *exp,
 									t_shell *sh, int *j)
 {
@@ -138,7 +90,7 @@ char	*expand_heredoc_vars(char *str, t_shell *sh, t_expand *exp)
 		else
 			exp->i++;
 	}
-	tmp = ft_substr(str, j, exp->i - j);
+	tmp = ft_substr(str, j + 1, exp->i - j);
 	if (tmp)
 	{
 		add_to_buffer(tmp, exp);

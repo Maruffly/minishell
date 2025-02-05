@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 12:08:43 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/05 12:09:40 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/05 18:45:43 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	*add_token_to_list(t_expand *exp, t_shell *sh)
 	char	*content;
 	t_token	*new_token;
 
+	content = NULL;
 	if (!exp || !sh)
 		return (NULL);
 	if (exp->wildcards_position)
@@ -94,5 +95,7 @@ void	*add_token_to_list(t_expand *exp, t_shell *sh)
 		exp->buf_i = 0;
 		exp->empty_quotes = false;
 	}
+	free(exp->buf);
+	free(content);
 	return (NULL);
 }

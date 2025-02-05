@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_filename.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 16:17:13 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/04 18:44:41 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/02/05 11:28:22 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void sort_tokens(t_token **tokens)
 		next = cur->next;
 		while (next)
 		{
-			if (ft_strcmp(cur->value, next->value) > 0)
+			if (ft_strcasecmp(cur->value, next->value) > 0)
 			{
 				tmp_value = cur->value;
 				cur->value = next->value;

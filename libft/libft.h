@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:40:16 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/03 15:06:54 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/05 11:31:35 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int		ft_isascii(int c);
 int		ft_toupper(int c);
 int		ft_tolower(int c);
 int		ft_strcmp(char *s1, char *s2);
+int		ft_strcasecmp(char *s1, char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t length);
 int		ft_atoi(const char *str);
 char	*ft_strcpy(char *dest, char *src);

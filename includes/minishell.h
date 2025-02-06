@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:48:14 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/05 12:47:24 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/06 17:28:10 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,9 @@ void			exec_export(t_env_list *env_list, t_ast_command *cmd);
 // CLEANING
 void			free_ast(t_ast *node);
 void			free_env_list(void *list);
+void			handle_malloc_error(void);
 void			free_env_array(char **envp);
+void			handle_strdup_error(void *ptr);
 void			free_token_list(t_token *tokens);
 int				report_syntax_error(t_shell *sh);
 void			exit_shell(int exit_status, t_shell *sh);

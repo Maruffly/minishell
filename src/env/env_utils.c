@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:47:11 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/05 11:16:07 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/06 17:30:14 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,14 @@ void	add_env_node(t_env_list *list, char *var_name, char *var_value)
 
 	new_node = malloc(sizeof(t_env_list));
 	if (!new_node)
-	{
-		perror("malloc failed");
-		exit(EXIT_FAILURE);
-	}
+		handle_malloc_error();
 	new_node->var_name = ft_strdup(var_name);
-	new_node->var_value = ft_strdup(var_value);
-	if (!new_node->var_name || !new_node->var_value)
-	{
-		perror("strdup failed");
-		exit(EXIT_FAILURE);
-	}
+	handle_strdup_error(new_node->var_name);
+	if (var_value)
+		new_node->var_value = ft_strdup(var_value);
+	else
+		new_node->var_value = ft_strdup("");
+	handle_strdup_error(new_node->var_value);
 	new_node->next = list->head;
 	new_node->head = NULL;
 	list->head = new_node;

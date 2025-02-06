@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 15:19:04 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/05 17:58:23 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/06 17:30:33 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,6 @@ static int	fork_command(t_ast_command *cmd, t_exit end, t_shell *sh)
 	}
 	return (sh->last_status);
 }
-
-
 
 int	exec_command(t_ast_command *cmd, t_exit end, t_shell *sh)
 {

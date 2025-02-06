@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_var_heredoc.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:58:59 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/06 13:26:23 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/02/06 17:30:51 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void	process_dollar_expansion(char *str, t_expand *exp,
 {
 	char	*tmp;
 	char	*var_value;
-	
+
 	tmp = copy_before_dollar(str, exp, *j);
 	if (tmp)
 	{

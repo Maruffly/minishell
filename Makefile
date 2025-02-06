@@ -23,6 +23,7 @@ SRC_FILES = main.c\
 			/cleaning/free.c\
 			/cleaning/free_env.c\
 			/cleaning/exit.c\
+			/cleaning/error_handling.c\
 			/parsing/parser.c\
 			/parsing/ast.c\
 			/parsing/ast_utils.c\

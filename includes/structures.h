@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:35:41 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/05 18:35:55 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/06 12:45:36 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,7 @@ typedef struct s_expand
 	t_quote		context;
 	int			buf_size;
 	t_token		**tokens;
+	bool		expandable;
 	bool		empty_quotes;
 	t_wildcard	*wildcards_position;
 }	t_expand;

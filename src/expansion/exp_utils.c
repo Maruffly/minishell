@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:04:17 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/05 15:23:00 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/06 12:46:15 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ bool	init_expansion(t_expand *exp, char *str, t_token **expanded_args,
 	{
 		exp->i = 0;
 		exp->buf_i = 0;
+		exp->expandable = true;
 		exp->has_match = false;
 		exp->context = NO_QUOTE;
 		exp->empty_quotes = false;

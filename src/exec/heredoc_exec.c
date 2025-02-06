@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 17:14:53 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/03 18:32:11 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/06 12:22:48 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ static char	*handle_expansion(char *line, t_heredoc *hdoc,
 
 	if (!hdoc->expand_vars)
 		return (line);
+	if (!line || !sh || !exp || !init_expansion(exp, 0, 0, sh))
+		return (NULL);
 	expand_line = expand_heredoc_vars(line, sh, exp);
 	free(line);
 	if (!expand_line)

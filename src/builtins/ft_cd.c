@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 14:55:10 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/30 15:08:30 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/06 14:03:41 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ static void	update_pwd_env(t_env_list *env_list, char *old_pwd)
 
 static char	*get_cd_path(t_ast_command *cmd, t_env_list *env_list)
 {
-	char		*path;
 	t_env_list	*home_node;
 
 	if (!cmd->args[1])
@@ -41,11 +40,14 @@ static char	*get_cd_path(t_ast_command *cmd, t_env_list *env_list)
 			ft_putstr_fd("cd: Home not set", 2);
 			return (NULL);
 		}
-		path = home_node->var_value;
+		return (home_node->var_value);
 	}
-	else
-		path = cmd->args[1];
-	return (path);
+	if (cmd->args[2] != NULL)
+	{
+		ft_putstr_fd("Omar&Fred: cd: Too many arguments\n", 2);
+		return (NULL);
+	}
+	return (cmd->args[1]);
 }
 
 static int	change_directory(char *path, char *cur_pwd, t_env_list *env_list)
@@ -73,12 +75,6 @@ static int	check_cd_args(t_ast_command *cmd, char **cur_pwd)
 	if (!*cur_pwd)
 	{
 		perror("cd");
-		return (EXIT_FAILURE);
-	}
-	if (cmd->args[2] != NULL)
-	{
-		ft_putstr_fd("Omar&Fred: cd: Too many arguments\n", 2);
-		free(*cur_pwd);
 		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);

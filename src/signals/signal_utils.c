@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 12:08:46 by jlaine            #+#    #+#             */
-/*   Updated: 2025/01/30 15:24:22 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/07 18:16:05 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,8 @@ static void	sigint_handler(int signum)
 	rl_redisplay();
 }
 
-static void	sigquit_handler(int signum)
-{
-	(void)signum;
-	rl_on_new_line();
-	rl_redisplay();
-}
-
 void	set_main_signals(void)
 {
 	set_signal(SIGINT, sigint_handler);
-	set_signal(SIGQUIT, sigquit_handler);
+	set_signal(SIGQUIT, SIG_IGN);
 }

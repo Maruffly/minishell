@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:22:15 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/07 18:02:26 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/07 18:06:12 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void	command_expansion(t_ast *node, t_shell *sh)
 		args++;
 	}
 	node->u_data.command.args = list_to_array(&expanded_args, sh);
-	/* if (args)
-		ft_free_split(args); */
+	if (expanded_args)
+		free(expanded_args);
 	if (!node->u_data.command.args)
 		error("expansion", "failed to convert tokens to array",
 			EXIT_FAILURE, sh);

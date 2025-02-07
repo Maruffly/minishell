@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 10:48:58 by jmaruffy          #+#    #+#             */
-/*   Updated: 2024/12/12 17:02:51 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/07 16:14:56 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,17 @@
 
 void	*ft_calloc(size_t nmb, size_t size)
 {
-	char	*tab;
-	size_t	i;
+	char *tab;
+	size_t total_size;
 
 	if (nmb > UINT_MAX / size)
 		return (NULL);
-	tab = malloc(nmb * size);
+
+	total_size = nmb * size;
+	tab = malloc(total_size);
 	if (tab == NULL)
 		return (NULL);
-	i = 0;
-	while (i < size)
-	{
-		tab[i++] = 0;
-	}
+
+	memset(tab, 0, total_size);
 	return (tab);
 }

@@ -3,18 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:21:14 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/06 14:09:37 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/02/07 17:59:03 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	exec_exit(t_shell *sh, t_ast_command *cmd)
+void	exec_exit(t_shell *sh, t_ast_command *cmd, t_ast *ast)
 {
+	(void)ast;
 	write(1, "exit\n", 5);
+	/* ft_free_split(ast->u_data.command.args);
+	free(ast); */
 	if (!sh || !cmd->args[1])
 		exit(sh->last_status);
 	if (ft_isalnum(ft_atoi(cmd->args[1])))

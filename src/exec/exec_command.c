@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 15:19:04 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/06 17:30:33 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/07 16:28:44 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ static int	fork_command(t_ast_command *cmd, t_exit end, t_shell *sh)
 	return (sh->last_status);
 }
 
-int	exec_command(t_ast_command *cmd, t_exit end, t_shell *sh)
+int	exec_command(t_ast_command *cmd, t_exit end, t_shell *sh, t_ast *ast)
 {
 	int	status;
 
@@ -121,7 +121,7 @@ int	exec_command(t_ast_command *cmd, t_exit end, t_shell *sh)
 	else if (ft_strcmp(cmd->args[0], "env") == 0)
 		exec_env(sh->env);
 	else if (ft_strcmp(cmd->args[0], "exit") == 0)
-		exec_exit(sh, cmd);
+		exec_exit(sh, cmd, ast);
 	else if (ft_strcmp(cmd->args[0], "export") == 0)
 		exec_export(sh->env, cmd);
 	else if (ft_strcmp(cmd->args[0], "pwd") == 0)

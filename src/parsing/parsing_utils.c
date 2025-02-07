@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 15:26:54 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/05 18:36:24 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/07 16:17:43 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ t_ast	*parse_command(t_token **token)
 	while (cur && is_word(cur))
 	{
 		args[i] = ft_strdup(cur->value);
-		if (!args)
+		if (!args[i])
 			return (ft_free_split(args), NULL);
 		i++;
 		cur = cur->next;

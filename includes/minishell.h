@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:48:14 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/06 17:28:10 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/07 16:31:06 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void			exec_pwd(void);
 void			exec_echo(t_ast_command *cmd);
 void			exec_env(t_env_list *env_list);
 void			print_env_list(t_env_list *list);
-void			exec_exit(t_shell *sh, t_ast_command *cmd);
+void			exec_exit(t_shell *sh, t_ast_command *cmd, t_ast *ast);
 void			exec_cd(t_ast_command *cmd, t_env_list *env_list);
 void			exec_unset(t_env_list *env_list, t_ast_command *cmd);
 void			exec_export(t_env_list *env_list, t_ast_command *cmd);
@@ -125,7 +125,7 @@ void			exec_extern_command(t_ast_command *cmd, t_shell *sh);
 int				redirect_input(t_ast_redirection *redir, t_shell *sh);
 int				redirect_output(t_ast_redirection *redir, t_shell *sh);
 int				exec_redirection(t_ast_redirection *redir, t_shell *sh);
-int				exec_command(t_ast_command *cmd, t_exit end, t_shell *sh);
+int				exec_command(t_ast_command *cmd, t_exit end, t_shell *sh, t_ast *ast);
 int				wait_for_children(pid_t last_pid, int n_pipeline, t_shell *sh);
 
 // PARSING

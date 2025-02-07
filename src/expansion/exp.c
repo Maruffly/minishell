@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:22:15 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/06 16:33:47 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/07 18:02:26 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	command_expansion(t_ast *node, t_shell *sh)
 		args++;
 	}
 	node->u_data.command.args = list_to_array(&expanded_args, sh);
+	/* if (args)
+		ft_free_split(args); */
 	if (!node->u_data.command.args)
 		error("expansion", "failed to convert tokens to array",
 			EXIT_FAILURE, sh);

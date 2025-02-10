@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:47:11 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/06 17:30:14 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/10 15:16:50 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,21 @@ void	add_env_node(t_env_list *list, char *var_name, char *var_value)
 	if (!new_node)
 		handle_malloc_error();
 	new_node->var_name = ft_strdup(var_name);
-	handle_strdup_error(new_node->var_name);
+	if (!new_node->var_name)
+	{
+		free(new_node);
+		handle_strdup_error(NULL);
+	}
 	if (var_value)
 		new_node->var_value = ft_strdup(var_value);
 	else
 		new_node->var_value = ft_strdup("");
-	handle_strdup_error(new_node->var_value);
+	if (!new_node->var_name)
+	{
+		free(new_node->var_name);
+		free(new_node);
+		handle_strdup_error(new_node->var_value);
+	}
 	new_node->next = list->head;
 	new_node->head = NULL;
 	list->head = new_node;
@@ -40,7 +49,8 @@ void	update_env_node(t_env_list *list, char *var_name, char *var_value)
 	{
 		if (!ft_strcmp(cur->var_name, var_name))
 		{
-			free(cur->var_value);
+			if (cur->var_value)
+				free(cur->var_value);
 			cur->var_value = ft_strdup(var_value);
 			if (!cur->var_value)
 			{

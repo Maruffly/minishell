@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/07 16:24:10 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:13:04 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,10 @@ int	process_prompt(char *input, t_shell *sh)
 		return (process);
 	}
 	process = execute(ast, KEEP_RUNNING, sh);
-	free_ast(ast);
 	free_token_list(token_lst);
+	free_ast(ast);
+	if (sh->must_exit == true)
+		exit(sh->last_status);
 	return (process);
 }
 
@@ -45,6 +47,8 @@ char	*read_line(t_prompt_mode mode)
 	char	*input;
 
 	g_signal_value = 0;
+	rl_replace_line("", 0);
+	rl_on_new_line();
 	if (mode == MAIN_PROMPT)
 	{
 		set_main_signals();

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:35:41 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/06 12:45:36 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/02/07 18:48:55 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ typedef struct s_ast
 
 typedef struct s_token
 {
+	char			**args;
 	t_ast			*node;
 	t_token_type	type;
 	char			*value;
@@ -141,6 +142,7 @@ typedef struct s_shell
 	char				*parsing_error;
 	bool				is_parent;
 	int					last_status;
+	bool				must_exit;
 }	t_shell;
 
 typedef struct s_wildcard

@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:14:26 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/10 17:31:46 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/10 17:35:47 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	free_token_list(t_token *tokens)
 		free(temp->value);
 		free(temp);
 	}
+	free(tokens);
 }
 
 void	remove_list_node(t_token **node, t_token **head,

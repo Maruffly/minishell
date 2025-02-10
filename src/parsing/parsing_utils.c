@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 15:26:54 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/10 15:53:29 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/10 17:31:53 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	count_arg(t_token *cur)
 	return (i);
 }
 
-/* t_ast	*parse_command(t_token **token)
+t_ast	*parse_command(t_token **token)
 {
 	t_token	*cur;
 	int		arg_count;
@@ -118,44 +118,4 @@ int	count_arg(t_token *cur)
 	}
 	args[arg_count] = NULL;
 	return (create_ast_cmd(args));
-} */
-
-t_ast *parse_command(t_token **token)
-{
-	t_token *cur;
-	int arg_count;
-	t_ast *node;
-	int i;
-
-	cur = *token;
-	arg_count = count_arg(cur);
-	if (!arg_count)
-		return (NULL);
-
-	node = malloc(sizeof(t_ast));
-	if (!node)
-		return (NULL);
-	node->type = AST_COMMAND;
-	node->u_data.command.args = ft_calloc((arg_count + 1), sizeof(char *));
-	if (!node->u_data.command.args)
-	{
-		free(node);
-		return (NULL);
-	}
-	i = 0;
-	cur = *token;
-	while (cur && is_word(cur))
-	{
-		node->u_data.command.args[i] = ft_strdup(cur->value);
-		if (!node->u_data.command.args[i])
-		{
-			ft_free_split(node->u_data.command.args);
-			free(node);
-			return (NULL);
-		}
-		i++;
-		cur = cur->next;
-	}
-	node->u_data.command.args[arg_count] = NULL;
-	return (node);
 }

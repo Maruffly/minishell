@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:05:33 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/03 15:27:50 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/10 19:04:11 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ void	ft_lstdelone_token(t_token *lst, void (*del)(void *))
 {
 	if (lst == NULL || del == NULL)
 		return ;
-	del(lst->value);
+	if (lst->value)
+		del(lst->value);
 	free(lst);
 }
 
@@ -54,7 +55,7 @@ void	ft_lstclear_token(t_token **lst, void (*del)(void *))
 		ft_lstdelone_token(*lst, del);
 		*lst = tmp;
 	}
-	free(*lst);
+	/* free(*lst); */
 	*lst = NULL;
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 16:46:34 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/04 13:50:23 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/02/10 18:58:45 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,11 @@ static t_token	*init_token(char *value, t_token_type type)
 	token = malloc(sizeof(t_token));
 	if (!token)
 		return (NULL);
+	if (!value)
+	{
+		free(token);
+		return (NULL);
+	}
 	token->value = value;
 	token->type = type;
 	token->next = NULL;
@@ -89,7 +94,10 @@ int	lexer(char *input, t_token **token_list, t_shell *sh)
 	{
 		status = add_next_token(input, &i, token_list, sh);
 		if (status != EXIT_SUCCESS)
+		{
+			ft_lstclear_token(token_list, free);
 			return (status);
+		}
 	}
 	return (EXIT_SUCCESS);
 }

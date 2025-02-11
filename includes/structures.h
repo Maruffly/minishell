@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:35:41 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/07 18:48:55 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/11 17:36:54 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ typedef struct s_ast
 		t_ast_redirection	redirection;
 		t_ast_subshell		subshell;
 	} u_data;
+	bool					is_freed;
 }							t_ast;
 
 typedef struct s_token

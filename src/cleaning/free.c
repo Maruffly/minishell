@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:14:26 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/11 18:08:36 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/11 18:12:31 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	free_token_list(t_token *tokens)
 		free(cur->value);
 		free(cur);
 	}
-	free(tokens);
+	/* free(tokens); */
 }
 
 void	remove_list_node(t_token **node, t_token **head,
@@ -73,7 +73,10 @@ void	free_ast(t_ast *ast)
 	if (!ast)
 		return ;
 	if (ast->type == AST_COMMAND)
-		ft_free_split(ast->u_data.command.args);
+	{
+		if (ast->u_data.command.args)
+			ft_free_split(ast->u_data.command.args);
+	}
 	else if (ast->type == AST_REDIRECTION)
 	{
 		free(ast->u_data.redirection.file);
@@ -103,6 +106,21 @@ void	free_wildcards(t_wildcard *wildcards)
 	while (cur)
 	{
 		next = cur->next;
+		free(cur);
+		cur = next;
+	}
+}
+
+void	free_list_token(t_token *token_list)
+{
+	t_token *cur;
+	t_token *next;
+
+	cur = token_list;
+	while (cur) 
+	{
+		next = cur->next;
+		/* free(cur->value); */
 		free(cur);
 		cur = next;
 	}

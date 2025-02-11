@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 15:26:54 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/10 17:04:56 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/11 16:07:14 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ int	parser(t_token *token, t_ast **ast, t_shell *sh)
 	*ast = parse_logical(&token, sh);
 	if (token)
 	{
-		free_ast(*ast);
+		ft_free_split((*ast)->u_data.command.args);
+		free(*ast);
 		*ast = NULL;
 		syntax_error("...", sh);
 		return (report_syntax_error(sh));

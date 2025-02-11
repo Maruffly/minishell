@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:48:14 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/11 15:49:42 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/11 18:12:11 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,9 @@ void			free_env_list(void *list);
 void			handle_malloc_error(void);
 void			free_env_array(char **envp);
 void			handle_strdup_error(void *ptr);
+
+void 			free_list_token(t_token *token_list);
+
 void			free_token_list(t_token *tokens);
 int				report_syntax_error(t_shell *sh);
 void			free_wildcards(t_wildcard *wildcards);

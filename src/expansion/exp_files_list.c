@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_files_list.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:29:31 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/11 14:40:12 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/11 17:50:37 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static t_token	*process_directory(DIR *dir)
 		ft_lstadd_back_token(&files, new_token);
 		entry = readdir(dir);
 	}
-	/* free_token_list(new_token); */
+	// free_token_list(new_token);
 	return (files);
 }
 

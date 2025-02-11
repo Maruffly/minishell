@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:48:14 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/11 14:52:22 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/11 15:49:42 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,7 @@ t_ast			*build_redir_cmd(t_ast *prefix, t_ast *suffix, t_ast *command);
 
 // EXPANSION
 char			*remove_wildcard(char *buf);
+char			 **expand_wildcard_dirs(void);
 void			add_to_buffer(char *str, t_expand *exp);
 bool			init_expansion(t_expand *exp, char *str,
 					t_token **expanded_args, t_shell *sh);
@@ -171,6 +172,8 @@ void			redirection_expansion(t_ast *node, t_shell *sh);
 bool			is_active_wildcard(int position, t_expand *exp);
 void			expand_var(char *str, t_expand *exp, t_shell *sh);
 bool			pattern_match(char *filename, char *pattern, int i);
+t_token			*append_tokens_to_list(t_token *list, char **to_add);
+
 bool			only_active_wildcard_left(char *str, t_expand *exp);
 void			add_wildcard_pos(t_wildcard **wildcard_list, int pos,
 					t_shell *sh);

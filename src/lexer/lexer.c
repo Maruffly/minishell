@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 16:46:34 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/10 18:58:45 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/11 17:30:39 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ static t_token	*init_token(char *value, t_token_type type)
 {
 	t_token	*token;
 
+	if (!value)
+		return (NULL);
 	token = malloc(sizeof(t_token));
 	if (!token)
-		return (NULL);
-	if (!value)
 	{
-		free(token);
+		free(value);
 		return (NULL);
 	}
 	token->value = value;

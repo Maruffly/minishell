@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:14:26 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/10 19:19:08 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/11 14:36:35 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,14 @@ void	exit_shell(int exit_status, t_shell *sh)
 
 void	free_token_list(t_token *tokens)
 {
-	t_token	*temp;
+	t_token	*cur;
 
 	while (tokens)
 	{
-		temp = tokens;
+		cur = tokens;
 		tokens = tokens->next;
-		free(temp->value);
-		free(temp);
+		free(cur->value);
+		free(cur);
 	}
 	free(tokens);
 }
@@ -92,4 +92,18 @@ void	free_ast(t_ast *ast)
 	else if (ast->type == AST_SUBSHELL)
 		free_ast(ast->u_data.subshell.child);
 	free(ast);
+}
+
+void	free_wildcards(t_wildcard *wildcards)
+{
+	t_wildcard	*cur;
+	t_wildcard	*next;
+
+	cur = wildcards;
+	while (cur)
+	{
+		next = cur->next;
+		free(cur);
+		cur = next;
+	}
 }

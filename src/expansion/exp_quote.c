@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 12:08:43 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/10 15:25:14 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/11 13:53:36 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,5 +97,10 @@ void	*add_token_to_list(t_expand *exp, t_shell *sh)
 	}
 	free(exp->buf);
 	free(content);
+	if (exp->wildcards_position)
+	{
+        free_wildcards(exp->wildcards_position);
+        exp->wildcards_position = NULL;
+    }
 	return (NULL);
 }

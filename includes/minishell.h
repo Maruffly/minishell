@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:48:14 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/11 14:41:57 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/11 14:52:22 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void			free_env_array(char **envp);
 void			handle_strdup_error(void *ptr);
 void			free_token_list(t_token *tokens);
 int				report_syntax_error(t_shell *sh);
+void			free_wildcards(t_wildcard *wildcards);
 void			exit_shell(int exit_status, t_shell *sh);
 void			*syntax_error(char *unexpected_token, t_shell *sh);
 void			remove_list_node(t_token **node, t_token **head,

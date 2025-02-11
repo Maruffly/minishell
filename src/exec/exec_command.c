@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 15:19:04 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/11 14:34:55 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/11 14:51:55 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ int	exec_command(t_ast_command *cmd, t_exit end, t_shell *sh, t_ast *ast)
 {
 	int	status;
 
+	printf("Executing command: %s\n", cmd->args[0]);
 	status = EXIT_SUCCESS;
 	if (!cmd->args || !cmd->args[0])
 		return (status);

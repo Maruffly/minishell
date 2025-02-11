@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:58:59 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/10 19:53:09 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/11 12:14:53 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ static char	*handle_variable(char *str, t_expand *exp, t_shell *sh)
 	if (!var_name)
 		return (NULL);
 	env_token = find_env_node(sh->env, var_name);
-	free(var_name);
 	if (!env_token || !env_token->var_value)
 	{
 		exp->expandable = false;
@@ -50,6 +49,7 @@ static char	*handle_variable(char *str, t_expand *exp, t_shell *sh)
 	}
 	var_value = env_token->var_value;
 	exp->i += ft_strlen(var_name);
+	free(var_name);
 	return (ft_strdup(var_value));
 }
 

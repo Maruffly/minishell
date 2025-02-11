@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:04:17 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/10 19:16:54 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/11 13:34:42 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,25 +107,26 @@ char	*get_valid_name(char *str, t_expand *exp, t_shell *sh)
 	return (name);
 }
 
-char	**list_to_array(t_token **lst, t_shell *sh)
+char	**list_to_array(t_token **lst, t_shell *sh) 
 {
 	int		i;
 	char	**args;
-	t_token	*current;
+	t_token	*cur;
 
 	if (!lst || !sh)
-		return (NULL);
+		return NULL;
+
 	i = 0;
-	(void)sh;
-	current = *lst;
-	args = (char **)ft_calloc(ft_lstsize_token(current) + 1, sizeof(char *));
+	cur = *lst;
+	args = (char **)ft_calloc(ft_lstsize_token(cur) + 1, sizeof(char *));
 	if (!args)
-		return (NULL);
-	while (current)
+		return NULL;
+
+	while (cur)
 	{
-		args[i++] = (char *)current->value;
-		current = current->next;
+		args[i++] = ft_strdup(cur->value);
+		cur = cur->next;
 	}
 	args[i] = NULL;
-	return (args);
+	return args;
 }

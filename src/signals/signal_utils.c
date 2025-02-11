@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 12:08:46 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/10 14:04:30 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/11 14:27:46 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,14 @@ void	set_heredoc_signals(void)
 	set_signal(SIGQUIT, SIG_IGN);
 }
 
-static void	sigint_handler(int signum)
-{
-	g_signal_value = signum;
-	write(1, "\n", 1);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-}
-
 void	set_main_signals(void)
 {
 	set_signal(SIGINT, sigint_handler);
+	set_signal(SIGQUIT, SIG_IGN);
+}
+
+void	main_signal(void)
+{
+	set_signal(SIGINT, SIG_IGN);
 	set_signal(SIGQUIT, SIG_IGN);
 }

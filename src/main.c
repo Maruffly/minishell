@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/10 19:23:00 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/11 14:27:54 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int	g_signal_value = 0;
 
 int	process_prompt(char *input, t_shell *sh)
 {
@@ -47,12 +45,14 @@ char	*read_line(t_prompt_mode mode)
 	char	*input;
 
 	g_signal_value = 0;
+	input = NULL;
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	if (mode == MAIN_PROMPT)
 	{
 		set_main_signals();
 		input = readline(GREEN"Omar&Fred > "RESET);
+		main_signal();
 	}
 	else if (mode == HEREDOC_PROMPT)
 	{
@@ -69,19 +69,14 @@ int	launch_shell(t_shell *sh)
 {
 	char	*input;
 
-	set_main_signals();
-	while (1)
+	while (42)
 	{
 		g_signal_value = 0;
 		input = read_line(MAIN_PROMPT);
-		handle_eof(input, sh);
 		if (g_signal_value == SIGINT)
-		{
 			sh->last_status = 130;
-			free(input);
-			continue ;
-		}
-		if (input)
+		handle_eof(input, sh);
+		if (ft_strlen(input) > 0)
 		{
 			add_history(input);
 			sh->last_status = process_prompt(input, sh);
@@ -123,6 +118,7 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	if (ac != 1)
 		exit(EXIT_FAILURE);
+	main_signal();
 	init_shell(&sh, envp);
 	status = launch_shell(&sh);
 	exit_shell(status, &sh);

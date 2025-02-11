@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:48:14 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/10 17:31:43 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/11 14:28:13 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,11 @@ char			*read_line(t_prompt_mode mode);
 void			init_shell(t_shell *sh, char **envp);
 
 // SIGNAL
+void			main_signal(void);
 void			set_main_signals(void);
 void			set_child_signals(void);
 void			set_heredoc_signals(void);
+void			sigint_handler(int signum);
 void			handle_eof(char *input, t_shell *sh);
 void			set_signal(int signum, void (*handler)(int));
 
@@ -178,7 +180,5 @@ void			add_var_to_buffer(char *value, t_expand *exp, t_shell *sh);
 char			*expand_heredoc_vars(char *line, t_shell *sh, t_expand *exp);
 void			arg_expansion(char *str, t_token **expanded_args, t_shell *sh);
 void			save_wildcards_pos(char *to_check, t_expand *exp, t_shell *sh);
-
-
 
 #endif

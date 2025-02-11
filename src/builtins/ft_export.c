@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:09:49 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/11 14:36:59 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/11 14:41:44 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,48 +17,6 @@ static void	handle_invalid_identifier(char *var_name, char *var_value)
 	ft_putstr_fd("export: invalid identifier\n", 2);
 	free(var_name);
 	free(var_value);
-}
-
-static void	add_exported_var(t_env_list *list, char *var_name)
-{
-	t_env_list	*new_node;
-
-	new_node = malloc(sizeof(t_env_list));
-	if (!new_node)
-		handle_malloc_error();
-	new_node->var_name = ft_strdup(var_name);
-	handle_strdup_error(new_node->var_name);
-	new_node->var_value = NULL;
-	new_node->next = list->head;
-	list->head = new_node;
-}
-
-void	add_or_update_env(t_env_list *list, char *var_name, char *var_value)
-{
-	t_env_list	*current;
-
-	if (!list || !var_name)
-		return ;
-	current = list->head;
-	while (current)
-	{
-		if (ft_strcmp(current->var_name, var_name) == 0)
-		{
-			free(current->var_value);
-			if (var_value)
-				current->var_value = ft_strdup(var_value);
-			else
-				current->var_value = NULL;
-			return ;
-		}
-		current = current->next;
-	}
-	if (!var_value)
-	{
-		add_exported_var(list, var_name);
-		return ;
-	}
-	add_env_node(list, var_name, var_value);
 }
 
 static void	process_export_arg(t_env_list *env_list, char *arg)

@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:48:14 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/11 14:30:38 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/11 14:41:57 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ void			update_env_node(t_env_list *list, char *var_name,
 					char *var_value);
 void			remove_env_node(t_env_list *list, char *var_name);
 void			add_env_node(t_env_list *list, char *var_name, char *var_value);
+void			add_or_update_env(t_env_list *list, char *var_name, char *var_value);
+
 
 // BUILTINS
 void			exec_pwd(void);

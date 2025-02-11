@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 11:15:56 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/05 11:25:14 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/11 14:41:54 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,46 @@ void	sort_env_list(t_env_list *list)
 		cur = next;
 	}
 	list->head = sorted;
+}
+
+static void	add_exported_var(t_env_list *list, char *var_name)
+{
+	t_env_list	*new_node;
+
+	new_node = malloc(sizeof(t_env_list));
+	if (!new_node)
+		handle_malloc_error();
+	new_node->var_name = ft_strdup(var_name);
+	handle_strdup_error(new_node->var_name);
+	new_node->var_value = NULL;
+	new_node->next = list->head;
+	list->head = new_node;
+}
+
+void	add_or_update_env(t_env_list *list, char *var_name, char *var_value)
+{
+	t_env_list	*current;
+
+	if (!list || !var_name)
+		return ;
+	current = list->head;
+	while (current)
+	{
+		if (ft_strcmp(current->var_name, var_name) == 0)
+		{
+			free(current->var_value);
+			if (var_value)
+				current->var_value = ft_strdup(var_value);
+			else
+				current->var_value = NULL;
+			return ;
+		}
+		current = current->next;
+	}
+	if (!var_value)
+	{
+		add_exported_var(list, var_name);
+		return ;
+	}
+	add_env_node(list, var_name, var_value);
 }

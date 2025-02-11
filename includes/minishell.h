@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:48:14 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/11 14:28:13 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/11 14:30:38 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,8 @@ void			exec_extern_command(t_ast_command *cmd, t_shell *sh);
 int				redirect_input(t_ast_redirection *redir, t_shell *sh);
 int				redirect_output(t_ast_redirection *redir, t_shell *sh);
 int				exec_redirection(t_ast_redirection *redir, t_shell *sh);
-int				exec_command(t_ast_command *cmd, t_exit end, t_shell *sh, t_ast *ast);
+int				exec_command(t_ast_command *cmd, t_exit end, t_shell *sh,
+					t_ast *ast);
 int				wait_for_children(pid_t last_pid, int n_pipeline, t_shell *sh);
 
 // PARSING

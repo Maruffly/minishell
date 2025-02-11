@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:22:15 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/10 19:34:10 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/11 14:38:02 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	command_expansion(t_ast *node, t_shell *sh)
 {
-	char    **args;
-	int        i;
-	t_token    *expanded_args;
+	char	**args;
+	int		i;
+	t_token	*expanded_args;
 
 	if (!node || !sh || !node->u_data.command.args)
 		return ;

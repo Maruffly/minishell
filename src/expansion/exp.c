@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:22:15 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/11 18:00:35 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/12 16:43:14 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 void command_expansion(t_ast *node, t_shell *sh)
 {
-    char **args;
-    int i;
-    char **expanded_dirs;
-    t_token *expanded_args;
+    char    **args;
+    int     i;
+	char    **expanded_dirs;
+	t_token *expanded_args;
 
-    if (!node || !sh || !node->u_data.command.args)
+	if (!node || !sh || !node->u_data.command.args)
         return;
     expanded_args = NULL;
     args = node->u_data.command.args;
@@ -31,6 +31,7 @@ void command_expansion(t_ast *node, t_shell *sh)
             expanded_dirs = expand_wildcard_dirs();
             if (expanded_dirs)
                 expanded_args = append_tokens_to_list(expanded_args, expanded_dirs);
+			ft_free_split(expanded_dirs);
         }
         else
             arg_expansion(args[i], &expanded_args, sh);

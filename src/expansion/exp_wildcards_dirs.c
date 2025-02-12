@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:43:26 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/11 17:22:06 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/12 16:39:01 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,10 @@ static char	**ft_realloc_add(char **array, char *new_str)
 
 char	**expand_wildcard_dirs(void)
 {
-    DIR *dir;
-    struct dirent *entry;
-    char **result;
-    char *tmp;
+    DIR 			*dir;
+    struct dirent	*entry;
+    char			**result;
+    char			*tmp;
     
     dir = opendir(".");
     if (!dir)
@@ -83,6 +83,7 @@ char	**expand_wildcard_dirs(void)
             tmp = append_slash(entry->d_name);
             if (tmp)
                 result = ft_realloc_add(result, tmp);
+			free(tmp);
         }
     }
     closedir(dir);

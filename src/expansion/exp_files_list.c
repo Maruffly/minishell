@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_files_list.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:29:31 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/11 18:13:20 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/12 16:43:03 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static t_token	*create_file_entry(struct dirent *entry)
 	return (new_token);
 }
 
+// OLD
 static t_token	*process_directory(DIR *dir)
 {
 	t_token			*files;
@@ -53,8 +54,7 @@ static t_token	*process_directory(DIR *dir)
 	struct dirent	*entry;
 
 	files = NULL;
-	entry = readdir(dir);
-	while (entry)
+	while ((entry = readdir(dir)))
 	{
 		new_token = create_file_entry(entry);
 		if (!new_token)
@@ -63,8 +63,8 @@ static t_token	*process_directory(DIR *dir)
 			return (NULL);
 		}
 		ft_lstadd_back_token(&files, new_token);
-		entry = readdir(dir);
-		/* free_token_list(new_token); */
+		// // entry = readdir(dir);
+		// free_token_list(new_token); // testtt
 	}
 	return (files);
 }

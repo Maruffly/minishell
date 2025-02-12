@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:05:33 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/11 17:49:16 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/12 16:21:23 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+// OLD
 void	ft_lstadd_back_token(t_token **token_list, t_token *new_token)
 {
 	t_token	*last;

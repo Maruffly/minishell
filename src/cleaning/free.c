@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:14:26 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/11 18:12:31 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/12 15:57:05 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	free_token_list(t_token *tokens)
 		free(cur->value);
 		free(cur);
 	}
-	/* free(tokens); */
+	tokens = NULL;
 }
 
 void	remove_list_node(t_token **node, t_token **head,

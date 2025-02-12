@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_filename.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 16:17:13 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/11 14:32:30 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/12 16:42:47 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ static void	process_file_token(t_token *cur, t_token **files, t_expand *exp)
 	char	*content;
 	t_token	*new_token;
 
+	if (!cur->value)
+		return ;
 	content = ft_strdup(cur->value);
 	if (!content)
 	{

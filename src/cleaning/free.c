@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:14:26 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/12 15:57:05 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/12 19:13:22 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,9 @@ void	free_token_list(t_token *tokens)
 		cur = tokens;
 		tokens = tokens->next;
 		free(cur->value);
+		cur->value = NULL; // testtt
 		free(cur);
+		cur = NULL; // testtt
 	}
 	tokens = NULL;
 }

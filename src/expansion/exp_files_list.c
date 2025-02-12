@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:29:31 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/12 16:43:03 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/12 19:17:42 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ static t_token	*create_file_entry(struct dirent *entry)
 		free(full_name);
 		return (NULL);
 	}
+	printf("[ALLOC] Token créé: %s @ %p\n", new_token->value, new_token);
 	free(full_name);
 	return (new_token);
 }
@@ -56,6 +57,8 @@ static t_token	*process_directory(DIR *dir)
 	files = NULL;
 	while ((entry = readdir(dir)))
 	{
+		if (entry->d_name[0] == '.') 
+			continue ;
 		new_token = create_file_entry(entry);
 		if (!new_token)
 		{
@@ -63,8 +66,6 @@ static t_token	*process_directory(DIR *dir)
 			return (NULL);
 		}
 		ft_lstadd_back_token(&files, new_token);
-		// // entry = readdir(dir);
-		// free_token_list(new_token); // testtt
 	}
 	return (files);
 }

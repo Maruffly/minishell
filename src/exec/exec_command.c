@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 15:19:04 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/14 17:46:53 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/14 18:08:11 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static char	*search_in_path(char *command, t_env_list *env)
 	return (NULL);
 }
 
-static char	*find_command_path(char *command, t_env_list *env)
+char	*find_command_path(char *command, t_env_list *env)
 {
 	char	*path;
 
@@ -49,34 +49,6 @@ static char	*find_command_path(char *command, t_env_list *env)
 		return (ft_strdup(command));
 	path = search_in_path(command, env);
 	return (path);
-}
-
-void	exec_extern_command(t_ast_command *cmd, t_shell *sh)
-{
-	char	*path;
-	char	**envp;
-
-	path = find_command_path(cmd->args[0], sh->env);
-	if (!path)
-	{
-		ft_putstr_fd("Omar&Fred: ", STDERR_FILENO);
-		ft_putstr_fd(cmd->args[0], STDERR_FILENO);
-		ft_putstr_fd(": command not found\n", STDERR_FILENO);
-		exit(127);
-	}
-	if (access(path, X_OK) < 0)
-	{
-		ft_putstr_fd("Omar&Fred: ", STDERR_FILENO);
-		ft_putstr_fd(cmd->args[0], STDERR_FILENO);
-		ft_putstr_fd(": permission denied\n", STDERR_FILENO);
-		exit(126);
-	}
-	envp = convert_env_list_to_array(sh->env);
-	execve(path, cmd->args, envp);
-	perror("execve");
-	free(path);
-	free_env_array(envp);
-	exit(EXIT_FAILURE);
 }
 
 static int	fork_command(t_ast_command *cmd, t_exit end, t_shell *sh)

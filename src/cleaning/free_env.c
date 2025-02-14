@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:50:37 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/11 16:44:03 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/14 17:09:59 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,18 @@ int	handle_parsing_error(t_shell *sh, t_token *token_lst)
 		syntax_error(sh->parsing_error, sh);
 	free_token_list(token_lst);
 	return (EXIT_FAILURE);
+}
+
+void	free_wildcards(t_wildcard *wildcards)
+{
+	t_wildcard	*cur;
+	t_wildcard	*next;
+
+	cur = wildcards;
+	while (cur)
+	{
+		next = cur->next;
+		free(cur);
+		cur = next;
+	}
 }

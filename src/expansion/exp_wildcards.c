@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 14:32:12 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/11 15:44:45 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/14 16:31:16 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,42 @@ void	save_wildcards_pos(char *to_check, t_expand *exp, t_shell *sh)
 		}
 		i++;
 	}
+}
+
+static char	**add_if_directory(char **result, struct dirent *entry)
+{
+	char	*tmp;
+
+	if (entry->d_name[0] != '.' && is_directory(entry->d_name))
+	{
+		tmp = append_slash(entry->d_name);
+		if (!tmp)
+			return (result);
+		result = ft_realloc_add(result, tmp);
+		free(tmp);
+	}
+	return (result);
+}
+
+char	**expand_wildcard_dirs(void)
+{
+	DIR				*dir;
+	struct dirent	*entry;
+	char			**result;
+
+	dir = opendir(".");
+	if (!dir)
+		return (NULL);
+	result = ft_calloc(1, sizeof(char *));
+	if (!result)
+		return (closedir(dir), NULL);
+	while (1)
+	{
+		entry = readdir(dir);
+		if (!entry)
+			break ;
+		result = add_if_directory(result, entry);
+	}
+	closedir(dir);
+	return (result);
 }

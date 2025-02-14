@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 17:58:12 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/06 16:31:56 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/14 17:11:01 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,17 @@ int	report_syntax_error(t_shell *sh)
 {
 	sh->parsing_error = NULL;
 	return (2);
+}
+
+void	exit_shell(int exit_status, t_shell *sh)
+{
+	if (sh)
+	{
+		if (sh->is_parent && isatty(STDIN_FILENO))
+			ft_putstr_fd("exit\n", STDERR_FILENO);
+		if (sh->env)
+			ft_lstclear_env(&sh->env, free_env_list);
+	}
+	rl_clear_history();
+	exit(exit_status);
 }

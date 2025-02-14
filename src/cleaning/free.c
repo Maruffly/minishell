@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:14:26 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/14 16:04:21 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/14 17:11:06 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,6 @@ void	error(char *context, char *description, int exit_status,
 	ft_putstr_fd(context, STDERR_FILENO);
 	ft_putstr_fd("\n", STDERR_FILENO);
 	exit_shell(exit_status, sh);
-}
-
-void	exit_shell(int exit_status, t_shell *sh)
-{
-	if (sh)
-	{
-		if (sh->is_parent && isatty(STDIN_FILENO))
-			ft_putstr_fd("exit\n", STDERR_FILENO);
-		if (sh->env)
-			ft_lstclear_env(&sh->env, free_env_list);
-	}
-	rl_clear_history();
-	exit(exit_status);
 }
 
 void	free_token_list(t_token *tokens)
@@ -97,20 +84,6 @@ void	free_ast(t_ast *ast)
 	else if (ast->type == AST_SUBSHELL)
 		free_ast(ast->u_data.subshell.child);
 	free(ast);
-}
-
-void	free_wildcards(t_wildcard *wildcards)
-{
-	t_wildcard	*cur;
-	t_wildcard	*next;
-
-	cur = wildcards;
-	while (cur)
-	{
-		next = cur->next;
-		free(cur);
-		cur = next;
-	}
 }
 
 void	free_list_token(t_token *token_list)

@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 12:08:43 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/14 15:55:51 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/14 16:42:27 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,33 +70,36 @@ void	double_quote(char *str, t_expand *exp, t_shell *sh)
 		exp->buf[exp->buf_i++] = str[exp->i];
 }
 
-void	*add_token_to_list(t_expand *exp, t_shell *sh)
+static void	create_and_add_token(t_expand *exp)
 {
 	char	*content;
 	t_token	*new_token;
 
 	content = NULL;
+	if (exp->buf_i > 0)
+		content = ft_strdup(exp->buf);
+	else
+		content = ft_strdup("");
+	if (!content)
+		return ;
+	new_token = create_token(WORD, content, ft_strlen(content));
+	if (!new_token)
+		return (free(content));
+	ft_lstadd_back_token(exp->tokens, new_token);
+	exp->buf_i = 0;
+	exp->empty_quotes = false;
+	free(content);
+}
+
+void	*add_token_to_list(t_expand *exp, t_shell *sh)
+{
 	if (!exp || !sh)
 		return (NULL);
 	if (exp->wildcards_position)
 		filename_expansion(exp, sh);
 	if (!exp->wildcards_position || (exp->buf_i > 0 && !exp->has_match))
-	{
-		if (exp->buf_i > 0)
-			content = ft_strdup(exp->buf);
-		else
-			content = ft_strdup("");
-		if (!content)
-			return (NULL);
-		new_token = create_token(WORD, content, ft_strlen(content));
-		if (!new_token)
-			return (free(content), NULL);
-		ft_lstadd_back_token(exp->tokens, new_token);
-		exp->buf_i = 0;
-		exp->empty_quotes = false;
-	}
+		create_and_add_token(exp);
 	free(exp->buf);
-	free(content);
 	if (exp->wildcards_position)
 	{
 		free_wildcards(exp->wildcards_position);

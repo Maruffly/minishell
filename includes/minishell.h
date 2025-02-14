@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:48:14 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/14 13:13:12 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/14 17:01:20 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,13 +87,12 @@ void			free_env_list(void *list);
 void			handle_malloc_error(void);
 void			free_env_array(char **envp);
 void			handle_strdup_error(void *ptr);
-
 void			free_list_token(t_token *token_list);
-
 void			free_token_list(t_token *tokens);
 int				report_syntax_error(t_shell *sh);
 void			free_wildcards(t_wildcard *wildcards);
 void			exit_shell(int exit_status, t_shell *sh);
+char			*handle_exit_status(t_shell *sh, t_expand *exp);
 void			*syntax_error(char *unexpected_token, t_shell *sh);
 void			remove_list_node(t_token **node, t_token **head,
 					void (*free_function)(void *), bool free_node);
@@ -157,6 +156,8 @@ t_ast			*create_ast_pipeline(t_ast	*left, t_ast *right, t_shell *sh);
 t_ast			*build_redir_cmd(t_ast *prefix, t_ast *suffix, t_ast *command);
 
 // EXPANSION
+int				is_directory(char *name);
+char			*append_slash(char *name);
 char			*remove_wildcard(char *buf);
 char			**expand_wildcard_dirs(void);
 void			add_to_buffer(char *str, t_expand *exp);
@@ -166,6 +167,7 @@ t_ast			*node_expansion(t_ast *node, t_shell *sh);
 void			command_expansion(t_ast *node, t_shell *sh);
 t_token			*get_files_list(t_expand *exp, t_shell *sh);
 char			**list_to_array(t_token **lst, t_shell *sh);
+char			**ft_realloc_add(char **array, char *new_str);
 char			*extract_root_path(t_expand *exp, t_shell *sh);
 void			*add_token_to_list(t_expand *exp, t_shell *sh);
 void			expand_last_status(t_expand *exp, t_shell *sh);

@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:58:59 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/14 14:29:31 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/14 17:03:25 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,6 @@ static char	*copy_before_dollar(char *str, t_expand *exp, int start)
 	tmp = ft_substr(str, start, exp->i - start);
 	if (!tmp)
 		return (NULL);
-	return (tmp);
-}
-
-static char	*handle_exit_status(t_shell *sh, t_expand *exp)
-{
-	char	*tmp;
-
-	tmp = ft_itoa(sh->last_status);
-	exp->i += 2;
 	return (tmp);
 }
 
@@ -102,21 +93,16 @@ char	*expand_heredoc_vars(char *str, t_shell *sh, t_expand *exp)
 {
 	int		j;
 	char	*tmp;
-	bool	to_expand;
 
 	j = 0;
-	to_expand = false;
 	while (str[exp->i])
 	{
 		if (str[exp->i] == '$' && str[exp->i + 1] && str[exp->i + 1] != ' ')
-		{
 			process_dollar_expansion(str, exp, sh, &j);
-			to_expand = true;
-		}
 		else
 			exp->i++;
 	}
-	if (str[j] && j < exp->i && to_expand)
+	if (str[j] && j < exp->i)
 	{
 		tmp = ft_substr(str, j, exp->i - j);
 		if (tmp && *tmp)

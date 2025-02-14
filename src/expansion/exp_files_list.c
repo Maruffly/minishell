@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:29:31 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/14 15:58:26 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/14 17:08:20 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,18 @@ static t_token	*create_file_entry(struct dirent *entry)
 	return (new_token);
 }
 
-static t_token	*process_directory(DIR *dir)
+static t_token	*list_directory_tokens(DIR *dir)
 {
 	t_token			*files;
-	t_token			*new_token;
 	struct dirent	*entry;
+	t_token			*new_token;
 
 	files = NULL;
-	while ((entry = readdir(dir)))
+	while (1)
 	{
+		entry = readdir(dir);
+		if (!entry)
+			break ;
 		if (entry->d_name[0] == '.')
 			continue ;
 		new_token = create_file_entry(entry);
@@ -81,7 +84,7 @@ t_token	*get_files_list(t_expand *exp, t_shell *sh)
 	dir = initialize_directory(exp, sh, &path);
 	if (!dir)
 		return (NULL);
-	files = process_directory(dir);
+	files = list_directory_tokens(dir);
 	closedir(dir);
 	free(path);
 	return (files);

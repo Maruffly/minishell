@@ -6,17 +6,33 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:22:15 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/14 13:21:42 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/14 16:37:54 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+static void	exp_wildcard_or_arg(char *arg, t_token **expanded_args,
+								t_shell *sh)
+{
+	char	**exp_dirs;
+
+	if (ft_strcmp(arg, "*/") == 0)
+	{
+		exp_dirs = expand_wildcard_dirs();
+		if (exp_dirs)
+			*expanded_args = append_tokens_to_list(*expanded_args, exp_dirs);
+		ft_free_split(exp_dirs);
+	}
+	else
+		arg_expansion(arg, expanded_args, sh);
+	free(arg);
+}
+
 void	command_expansion(t_ast *node, t_shell *sh)
 {
 	char	**args;
 	int		i;
-	char	**expanded_dirs;
 	t_token	*expanded_args;
 
 	if (!node || !sh || !node->u_data.command.args)
@@ -26,17 +42,7 @@ void	command_expansion(t_ast *node, t_shell *sh)
 	i = 0;
 	while (args[i])
 	{
-		if (ft_strcmp(args[i], "*/") == 0)
-		{
-			expanded_dirs = expand_wildcard_dirs();
-			if (expanded_dirs)
-				expanded_args = append_tokens_to_list(expanded_args,
-						expanded_dirs);
-			ft_free_split(expanded_dirs);
-		}
-		else
-			arg_expansion(args[i], &expanded_args, sh);
-		free(args[i]);
+		exp_wildcard_or_arg(args[i], &expanded_args, sh);
 		i++;
 	}
 	free(args);

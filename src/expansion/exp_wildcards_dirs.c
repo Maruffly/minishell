@@ -6,13 +6,13 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:43:26 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/14 13:17:58 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/14 16:27:34 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	is_directory(char *name)
+int	is_directory(char *name)
 {
 	DIR	*dir;
 
@@ -23,7 +23,7 @@ static int	is_directory(char *name)
 	return (1);
 }
 
-static char	*append_slash(char *name)
+char	*append_slash(char *name)
 {
 	char	*new_name;
 	int		len;
@@ -38,7 +38,7 @@ static char	*append_slash(char *name)
 	return (new_name);
 }
 
-static char	**ft_realloc_add(char **array, char *new_str)
+char	**ft_realloc_add(char **array, char *new_str)
 {
 	int		i;
 	char	**new_array;
@@ -61,33 +61,6 @@ static char	**ft_realloc_add(char **array, char *new_str)
 	new_array[i + 1] = NULL;
 	free(array);
 	return (new_array);
-}
-
-char	**expand_wildcard_dirs(void)
-{
-	DIR				*dir;
-	struct dirent	*entry;
-	char			**result;
-	char			*tmp;
-
-	dir = opendir(".");
-	if (!dir)
-		return (NULL);
-	result = ft_calloc(1, sizeof(char *));
-	if (!result)
-		return (NULL);
-	while ((entry = readdir(dir)))
-	{
-		if (entry->d_name[0] != '.' && is_directory(entry->d_name))
-		{
-			tmp = append_slash(entry->d_name);
-			if (tmp)
-				result = ft_realloc_add(result, tmp);
-			free(tmp);
-		}
-	}
-	closedir(dir);
-	return (result);
 }
 
 t_token	*append_tokens_to_list(t_token *list, char **to_add)

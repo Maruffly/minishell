@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:47:11 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/14 14:42:58 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/14 15:07:41 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ t_env_list	*init_envp(char **envp)
 	list = init_env_list();
 	if (!list)
 		return (NULL);
-	if (!envp || !envp[0]) // testtt
+	if (!envp || !envp[0])
 		return (list);
 	i = -1;
 	while (envp[++i])
@@ -85,6 +85,6 @@ void	init_shell(t_shell *sh, char **envp)
 	sh->env = init_envp(envp);
 	sh->parsing_error = NULL;
 	sh->must_exit = false;
-	if (envp && envp[0]) // testtt
-	shell_level(sh);
+	if (envp && envp[0])
+		shell_level(sh);
 }

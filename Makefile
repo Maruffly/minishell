@@ -26,7 +26,6 @@ SRC_FILES = main.c\
 			/cleaning/error_handling.c\
 			/parsing/parser.c\
 			/parsing/ast.c\
-			/parsing/ast_utils.c\
 			/parsing/parsing_utils.c\
 			/parsing/parsing_redirection.c\
 			/parsing/ast_builder.c\
@@ -76,7 +75,7 @@ $(LIBFT_LIB):
 $(NAME): $(LIBFT_LIB) $(OBJ)
 	@echo "$(CYAN)$(BOLD)$(NAME)$(RESET) $(GREEN)building files..$(RESET)"
 	@$(CC) $(OBJ) $(CFLAGS) $(LDFLAGS) $(LDLIBS) -o $(NAME)
-	@echo "$(CYAN)$(BOLD)$(NAME)$(RESET) $(GREEN)$(BLINK)minishell created!$(RESET)"
+	@echo "$(CYAN)$(BOLD)$(NAME)$(RESET) $(GREEN)$(BLINK)♥♥♥ minishell created! ♥♥♥$(RESET)"
 
 %.o: %.c
 	@$(CC) $(CFLAGS) $(INC) -c -o $@ $<

@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 16:17:13 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/12 19:13:16 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/14 15:54:45 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,7 @@ void	*filename_expansion(t_expand *exp, t_shell *sh)
 	exp->buf[exp->buf_i] = '\0';
 	files = get_files_list(exp, sh);
 	if (!files)
-	{
 		return (NULL);
-
-	}
-		// return (NULL);
 	files = pattern_filter(files, exp);
 	if (!files)
 		return (NULL);
@@ -86,10 +82,7 @@ void	*filename_expansion(t_expand *exp, t_shell *sh)
 		cur = cur->next;
 	}
 	if (files)
-	{
 		free_token_list(files);
-	}
-		// free_token_list(files);
 	exp->has_match = true;
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:44:13 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/14 12:40:58 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/14 15:58:53 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ int	check_process_child_exit(int status, bool *new_line, t_shell *sh)
 
 	(void)sh;
 	if (status == 0)
-		return (EXIT_SUCCESS); // testtt
+		return (EXIT_SUCCESS);
 	if (status < 0)
-		return (EXIT_FAILURE); // testtt
+		return (EXIT_FAILURE);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	else if (WIFSIGNALED(status))

@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:14:26 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/12 19:13:22 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/14 16:04:21 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ void	free_token_list(t_token *tokens)
 		cur = tokens;
 		tokens = tokens->next;
 		free(cur->value);
-		cur->value = NULL; // testtt
+		cur->value = NULL;
 		free(cur);
-		cur = NULL; // testtt
+		cur = NULL;
 	}
 	tokens = NULL;
 }
@@ -115,14 +115,13 @@ void	free_wildcards(t_wildcard *wildcards)
 
 void	free_list_token(t_token *token_list)
 {
-	t_token *cur;
-	t_token *next;
+	t_token	*cur;
+	t_token	*next;
 
 	cur = token_list;
-	while (cur) 
+	while (cur)
 	{
 		next = cur->next;
-		/* free(cur->value); */
 		free(cur);
 		cur = next;
 	}

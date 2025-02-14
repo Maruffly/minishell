@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 15:26:54 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/11 17:22:29 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/14 16:03:29 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,41 @@ void	init_ast_node(t_ast **node, t_ast_type type)
 	*node = ft_calloc(1, sizeof(t_ast));
 	(*node)->is_freed = false;
 	(*node)->type = type;
-	/* if (type == AST_COMMAND)
-		(*node)->u_data.command.args = NULL;
-	else if (type == AST_REDIRECTION)
+}
+
+t_ast	*get_last_command_redir(t_ast *node)
+{
+	while (node && node->type == AST_REDIRECTION
+		&& node->u_data.redirection.command
+		&& node->u_data.redirection.command->type == AST_REDIRECTION)
+	node = node->u_data.redirection.command;
+	return (node);
+}
+
+t_ast	*build_redir_cmd(t_ast *prefix, t_ast *suffix, t_ast *command)
+{
+	t_ast	*last_command;
+
+	if (prefix && suffix)
 	{
-		(*node)->u_data.redirection.file = NULL;
-		(*node)->u_data.redirection.command = NULL;
-	} 
-	else if (type == AST_PIPELINE) 
+		last_command = get_last_command_redir(prefix);
+		last_command->u_data.redirection.command = suffix;
+		last_command = get_last_command_redir(suffix);
+		last_command->u_data.redirection.command = command;
+		return (prefix);
+	}
+	else if (!prefix && suffix)
 	{
-		(*node)->u_data.pipeline.left = NULL;
-		(*node)->u_data.pipeline.right = NULL;
-	} 
-	else if (type == AST_LOGICAL) 
+		last_command = get_last_command_redir(suffix);
+		last_command->u_data.redirection.command = command;
+		return (suffix);
+	}
+	else if (prefix && !suffix)
 	{
-		(*node)->u_data.logical.left = NULL;
-		(*node)->u_data.logical.right = NULL;
-	} 
-	else if (type == AST_SUBSHELL) {
-		(*node)->u_data.subshell.child = NULL;
-	} */
+		last_command = get_last_command_redir(prefix);
+		last_command->u_data.redirection.command = command;
+		return (prefix);
+	}
+	else
+		return (command);
 }

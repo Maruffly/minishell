@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:04:17 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/11 13:34:42 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/14 15:57:52 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,26 +107,24 @@ char	*get_valid_name(char *str, t_expand *exp, t_shell *sh)
 	return (name);
 }
 
-char	**list_to_array(t_token **lst, t_shell *sh) 
+char	**list_to_array(t_token **lst, t_shell *sh)
 {
 	int		i;
 	char	**args;
 	t_token	*cur;
 
 	if (!lst || !sh)
-		return NULL;
-
+		return (NULL);
 	i = 0;
 	cur = *lst;
 	args = (char **)ft_calloc(ft_lstsize_token(cur) + 1, sizeof(char *));
 	if (!args)
-		return NULL;
-
+		return (NULL);
 	while (cur)
 	{
 		args[i++] = ft_strdup(cur->value);
 		cur = cur->next;
 	}
 	args[i] = NULL;
-	return args;
+	return (args);
 }

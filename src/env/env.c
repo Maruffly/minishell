@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:47:11 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/07 18:31:36 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/14 14:42:58 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ t_env_list	*init_envp(char **envp)
 	list = init_env_list();
 	if (!list)
 		return (NULL);
+	if (!envp || !envp[0]) // testtt
+		return (list);
 	i = -1;
 	while (envp[++i])
 		add_env_node_from_envp(list, envp[i]);
@@ -83,5 +85,6 @@ void	init_shell(t_shell *sh, char **envp)
 	sh->env = init_envp(envp);
 	sh->parsing_error = NULL;
 	sh->must_exit = false;
+	if (envp && envp[0]) // testtt
 	shell_level(sh);
 }

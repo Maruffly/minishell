@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_token.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 12:35:01 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/30 15:22:15 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/14 16:06:58 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,11 @@ t_token_type	get_redirect(char *input, char c, int *len, t_shell *sh)
 {
 	while (input[*len] == c)
 		*len += 1;
+	if (input[*len] == '\0' && !is_blank(input[*len]))
+	{
+		syntax_error(input, sh);
+		return (ERROR);
+	}
 	if (c == '<' && *len == 1)
 		return (REDIRECT_IN);
 	else if (c == '<' && *len == 2)

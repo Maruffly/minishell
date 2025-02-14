@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 15:19:04 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/11 15:02:37 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/14 17:46:53 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,11 +106,12 @@ static int	fork_command(t_ast_command *cmd, t_exit end, t_shell *sh)
 	return (sh->last_status);
 }
 
-int	exec_command(t_ast_command *cmd, t_exit end, t_shell *sh, t_ast *ast)
+int	exec_command(t_ast_command *cmd, t_exit end, t_shell *sh)
 {
 	int	status;
 
 	status = EXIT_SUCCESS;
+	sh->last_status = status;
 	if (!cmd->args || !cmd->args[0])
 		return (status);
 	if (ft_strcmp(cmd->args[0], "cd") == 0)
@@ -120,7 +121,7 @@ int	exec_command(t_ast_command *cmd, t_exit end, t_shell *sh, t_ast *ast)
 	else if (ft_strcmp(cmd->args[0], "env") == 0)
 		exec_env(sh->env);
 	else if (ft_strcmp(cmd->args[0], "exit") == 0)
-		exec_exit(sh, cmd, ast);
+		exec_exit(sh, cmd);
 	else if (ft_strcmp(cmd->args[0], "export") == 0)
 		exec_export(sh->env, cmd);
 	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
@@ -129,6 +130,5 @@ int	exec_command(t_ast_command *cmd, t_exit end, t_shell *sh, t_ast *ast)
 		exec_unset(sh->env, cmd);
 	else
 		status = fork_command(cmd, end, sh);
-	sh->last_status = status;
 	return (status);
 }

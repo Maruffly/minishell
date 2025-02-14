@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:48:14 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/14 17:01:20 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/14 17:49:37 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ int				exec_pipeline(t_ast *node, t_shell *sh);
 int				execute(t_ast *node, t_exit end, t_shell *sh);
 int				exec_logical(t_ast_logical *logical, t_shell *sh);
 char			**convert_env_list_to_array(t_env_list *env_list);
+char			*find_command_path(char *command, t_env_list *env);
 int				check_process_child_exit(int status, bool *new_line,
 					t_shell *sh);
 void			setup_for_next_command(int *prev_read_end, int p[2],

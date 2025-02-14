@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 17:47:42 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/14 17:50:52 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/14 17:52:59 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	check_executable_access(char *path, char *cmd)
 	{
 		ft_putstr_fd("Omar&Fred: ", STDERR_FILENO);
 		ft_putstr_fd(cmd, STDERR_FILENO);
-		ft_putstr_fd(": permission denied\n", STDERR_FILENO);
+		ft_putstr_fd(": no such file or directory\n", STDERR_FILENO);
 		free(path);
 		exit(126);
 	}

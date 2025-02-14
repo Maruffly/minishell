@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_var_heredoc.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:58:59 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/11 12:14:53 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/14 14:29:31 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ char	*expand_heredoc_vars(char *str, t_shell *sh, t_expand *exp)
 	}
 	if (str[j] && j < exp->i && to_expand)
 	{
-		tmp = ft_substr(str, j + 1, exp->i - j);
+		tmp = ft_substr(str, j, exp->i - j);
 		if (tmp && *tmp)
 			add_to_buffer(tmp, exp);
 		free(tmp);

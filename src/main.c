@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/11 18:13:36 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/14 13:14:14 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	process_prompt(char *input, t_shell *sh)
 		return (process);
 	}
 	process = execute(ast, KEEP_RUNNING, sh);
-	/* free_token_list(token_lst);*/
 	free_token_list(token_lst);
 	free_ast(ast);
 	if (sh->must_exit == true)

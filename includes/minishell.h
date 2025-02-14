@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:48:14 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/12 15:43:27 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/14 13:13:12 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,9 @@ t_env_list		*find_env_node(t_env_list *list, char *name);
 void			update_env_node(t_env_list *list, char *var_name,
 					char *var_value);
 void			remove_env_node(t_env_list *list, char *var_name);
+void			add_or_update_env(t_env_list *list, char *var_name,
+					char *var_value);
 void			add_env_node(t_env_list *list, char *var_name, char *var_value);
-void			add_or_update_env(t_env_list *list, char *var_name, char *var_value);
-
 
 // BUILTINS
 void			exec_pwd(void);
@@ -88,7 +88,7 @@ void			handle_malloc_error(void);
 void			free_env_array(char **envp);
 void			handle_strdup_error(void *ptr);
 
-void 			free_list_token(t_token *token_list);
+void			free_list_token(t_token *token_list);
 
 void			free_token_list(t_token *tokens);
 int				report_syntax_error(t_shell *sh);
@@ -158,7 +158,7 @@ t_ast			*build_redir_cmd(t_ast *prefix, t_ast *suffix, t_ast *command);
 
 // EXPANSION
 char			*remove_wildcard(char *buf);
-char			 **expand_wildcard_dirs(void);
+char			**expand_wildcard_dirs(void);
 void			add_to_buffer(char *str, t_expand *exp);
 bool			init_expansion(t_expand *exp, char *str,
 					t_token **expanded_args, t_shell *sh);

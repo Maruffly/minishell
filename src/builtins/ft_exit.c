@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:21:14 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/14 18:03:03 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/14 18:28:00 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 bool	not_numeric_args(char **args, t_shell *sh)
 {
-	char	*arg;
 	int		i;
+	char	*arg;
 
 	if (!args[1])
 		return (false);
@@ -49,6 +49,12 @@ void	exec_exit(t_shell *sh, t_ast_command *cmd)
 	if (not_num_arg)
 		return ;
 	not_numeric_args(cmd->args, sh);
+	if (cmd->args[1] && cmd->args[2])
+	{
+		ft_putstr_fd("Omar&Fred: exit: too many arguments\n", STDERR_FILENO);
+		sh->last_status = 1;
+		return ;
+	}
 	if (sh->env)
 		ft_lstclear_env(&sh->env, free_env_list);
 	rl_clear_history();

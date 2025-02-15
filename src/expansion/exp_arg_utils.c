@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_arg_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 10:12:59 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/11 17:44:11 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/15 12:06:51 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	no_quote(char *str, t_expand *exp, t_shell *sh)
 		return ;
 	if (str[exp->i] == '$' && exp->context != IN_SINGLE_QUOTE)
 		expand_var(str, exp, sh);
-	else if (str[exp->i] == ' ')
+	else if (str[exp->i] == ' ' && exp->context == NO_QUOTE)
 		add_token_to_list(exp, sh);
 	else if (str[exp->i] == '\"')
 		exp->context = IN_DOUBLE_QUOTE;
@@ -94,4 +94,11 @@ void	arg_expansion(char *str, t_token **expanded_args, t_shell *sh)
 	if (exp.context != NO_QUOTE)
 		error("expansion", "unclosed quote", EXIT_FAILURE, sh);
 	add_token_to_list(&exp, sh);
+}
+
+bool	is_variable_exp(char *cmd)
+{
+	if (cmd[0] == '$' && (ft_isalnum(cmd[1]) || cmd[1] == '_'))
+		return (true);
+	return (false);
 }

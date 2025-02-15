@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:48:14 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/14 18:08:50 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/15 12:07:35 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,7 @@ t_ast			*build_redir_cmd(t_ast *prefix, t_ast *suffix, t_ast *command);
 // EXPANSION
 int				is_directory(char *name);
 char			*append_slash(char *name);
+bool			is_variable_exp(char *cmd);
 char			*remove_wildcard(char *buf);
 char			**expand_wildcard_dirs(void);
 void			add_to_buffer(char *str, t_expand *exp);

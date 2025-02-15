@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 14:55:10 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/14 15:08:21 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/15 12:55:15 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static char	*get_cd_path(t_ast_command *cmd, t_env_list *env_list)
 		home_node = find_env_node(env_list, "HOME");
 		if (!home_node || !home_node->var_value)
 		{
-			ft_putstr_fd("cd: Home not set", 2);
+			ft_putstr_fd("cd: Home not set\n", 2);
 			return (NULL);
 		}
 		return (home_node->var_value);

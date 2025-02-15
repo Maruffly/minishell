@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:04:17 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/14 16:23:50 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/15 12:49:36 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	expand_var(char *str, t_expand *exp, t_shell *sh)
 	else if (exp->context == NO_QUOTE && (str[exp->i + 1] == '\"'
 			|| str[exp->i + 1] == '\''))
 		return ;
-	else
+	else if (ft_isalpha(str[exp->i + 1]) || str[exp->i + 1] == '_')
 	{
 		value = expand_env_var(str, exp, sh);
 		if (!value)
@@ -58,6 +58,8 @@ void	expand_var(char *str, t_expand *exp, t_shell *sh)
 		add_var_to_buffer(value, exp, sh);
 		free(value);
 	}
+	else
+		exp->buf[exp->buf_i++] = '$';
 }
 
 void	expand_last_status(t_expand *exp, t_shell *sh)

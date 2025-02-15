@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_quote.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 12:08:43 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/14 16:42:27 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/15 11:23:47 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	no_quote(char *str, t_expand *exp, t_shell *sh)
 		return ;
 	if (str[exp->i] == '$' && exp->context != IN_SINGLE_QUOTE)
 		expand_var(str, exp, sh);
-	else if (str[exp->i] == ' ')
+	else if (str[exp->i] == ' ' && exp->context == NO_QUOTE)
 		add_token_to_list(exp, sh);
 	else if (str[exp->i] == '\"')
 		exp->context = IN_DOUBLE_QUOTE;

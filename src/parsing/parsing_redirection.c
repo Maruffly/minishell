@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_redirection.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 18:36:18 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/03 15:23:00 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/15 14:02:15 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,24 @@ static bool	handle_command_argument(t_token **cur, t_ast *command)
 	return (false);
 }
 
+void handle_redirection_error(char *file, t_shell *sh) 
+{
+	if (access(file, F_OK) == -1) 
+	{
+		ft_putstr_fd("Omar&Fred: ", STDERR_FILENO);
+		ft_putstr_fd(file, STDERR_FILENO);
+		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+	} 
+	else 
+	{
+		ft_putstr_fd("Omar&Fred: ", STDERR_FILENO);
+		ft_putstr_fd(file, STDERR_FILENO);
+		ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
+	}
+	sh->parsing_error = "No such file";
+}
+
+
 static t_ast	*validate_and_create_redirection(t_token **cur,
 					t_ast **first, t_ast **last, t_shell *sh)
 {
@@ -55,6 +73,11 @@ static t_ast	*validate_and_create_redirection(t_token **cur,
 	if (!(*cur)->next || !is_word((*cur)->next))
 	{
 		syntax_error((*cur)->value, sh);
+		return (NULL);
+	}
+	if (access((*cur)->next->value, F_OK) == -1) 
+	{
+		handle_redirection_error((*cur)->next->value, sh);
 		return (NULL);
 	}
 	new_redir = create_ast_redirection((*cur)->type, (*cur)->next, NULL, sh);

@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/14 15:46:00 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/15 14:15:46 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int	launch_shell(t_shell *sh)
 		{
 			add_history(input);
 			sh->last_status = process_prompt(input, sh);
+			sh->parsing_error = NULL;
 		}
 		free(input);
 	}

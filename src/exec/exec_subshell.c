@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_subshell.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 14:43:03 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/14 15:59:06 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/15 13:49:20 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@ int	exec_subshell(t_ast_subshell *subshell, t_shell *sh)
 
 	status = 0;
 	pid = fork();
+	if (pid == -1) 
+	{
+		ft_putstr_fd("Omar&Fred: fork error\n", STDERR_FILENO);
+		return (EXIT_FAILURE);
+	}
 	if (pid == 0)
 	{
 		sh->is_parent = false;
@@ -26,7 +31,10 @@ int	exec_subshell(t_ast_subshell *subshell, t_shell *sh)
 		execute(subshell->child, EXIT_SHELL, sh);
 		exit(EXIT_SUCCESS);
 	}
-	wait(&status);
-	status = check_process_child_exit(status, NULL, sh);
+	else
+	{
+		wait(&status);
+		status = check_process_child_exit(status, NULL, sh);
+	}
 	return (status);
 }

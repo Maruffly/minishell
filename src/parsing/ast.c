@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 15:26:54 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/14 16:03:29 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/16 15:17:33 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 void	init_ast_node(t_ast **node, t_ast_type type)
 {
 	*node = ft_calloc(1, sizeof(t_ast));
-	(*node)->is_freed = false;
+	if (!(*node))
+		return ;
 	(*node)->type = type;
 }
 

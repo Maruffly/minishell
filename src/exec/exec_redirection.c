@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 17:44:28 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/10 17:04:07 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/16 17:30:59 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	append_output(t_ast_redirection *redir, t_shell *sh)
 	output_fd = open(redir->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (output_fd == -1)
 	{
-		write(STDERR_FILENO, "minishell: ", 11);
+		write(STDERR_FILENO, "Omar&Fred: ", 11);
 		perror(redir->file);
 		return (EXIT_FAILURE);
 	}

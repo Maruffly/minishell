@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 15:26:54 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/17 17:13:00 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/17 18:25:43 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	init_ast_node(t_ast **node, t_ast_type type)
 	if (!(*node))
 		return ;
 	(*node)->type = type;
-	(*node)->is_freed = false; // testtt
+	(*node)->is_freed = false;
 }
 
 t_ast	*get_last_command_redir(t_ast *node)

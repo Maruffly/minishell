@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:54:02 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/17 17:34:08 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/17 18:29:30 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,30 +85,30 @@ int	handle_heredoc(t_ast_redirection *redir, t_shell *sh, t_expand *exp)
 	return (EXIT_SUCCESS);
 }
 
-void    close_heredoc_fds(t_ast *ast)
+void	close_heredoc_fds(t_ast *ast)
 {
-    if (!ast)
-        return ;
-    if (ast->type == AST_REDIRECTION 
-    && ast->u_data.redirection.direction == HEREDOC)
-    {
-        if (ast->u_data.redirection.heredoc_fd > 2)
-        {
-            close(ast->u_data.redirection.heredoc_fd);
-            ast->u_data.redirection.heredoc_fd = -1;
-        }
-        close_heredoc_fds(ast->u_data.redirection.command);
-    }
-    else if (ast->type == AST_PIPELINE)
-    {
-        close_heredoc_fds(ast->u_data.pipeline.left);
-        close_heredoc_fds(ast->u_data.pipeline.right);
-    }
-    else if (ast->type == AST_LOGICAL)
-    {
-        close_heredoc_fds(ast->u_data.logical.left);
-        close_heredoc_fds(ast->u_data.logical.right);
-    }
-    else if (ast->type == AST_SUBSHELL)
-        close_heredoc_fds(ast->u_data.subshell.child);
+	if (!ast)
+		return ;
+	if (ast->type == AST_REDIRECTION
+		&& ast->u_data.redirection.direction == HEREDOC)
+	{
+		if (ast->u_data.redirection.heredoc_fd > 2)
+		{
+			close(ast->u_data.redirection.heredoc_fd);
+			ast->u_data.redirection.heredoc_fd = -1;
+		}
+		close_heredoc_fds(ast->u_data.redirection.command);
+	}
+	else if (ast->type == AST_PIPELINE)
+	{
+		close_heredoc_fds(ast->u_data.pipeline.left);
+		close_heredoc_fds(ast->u_data.pipeline.right);
+	}
+	else if (ast->type == AST_LOGICAL)
+	{
+		close_heredoc_fds(ast->u_data.logical.left);
+		close_heredoc_fds(ast->u_data.logical.right);
+	}
+	else if (ast->type == AST_SUBSHELL)
+		close_heredoc_fds(ast->u_data.subshell.child);
 }

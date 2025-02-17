@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/17 17:47:58 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/17 18:24:20 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	process_prompt(char *input, t_shell *sh)
 	if (process != EXIT_SUCCESS || !ast)
 		return (handle_parsing_error(sh, token_lst));
 	process = handle_heredoc_ast(ast, sh);
-	close_heredoc_fds(ast); // testtt
+	close_heredoc_fds(ast);
 	if (process != EXIT_SUCCESS)
 	{
 		free_ast(ast);

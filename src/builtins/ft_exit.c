@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:21:14 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/17 17:33:40 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/17 18:28:20 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void	exec_exit(t_shell *sh, t_ast_command *cmd)
 	sh->last_status = ft_atoi(cmd->args[1]) % 256;
 	sh->must_exit = true;
 }
-
 
 void	free_heredoc(t_heredoc *hdoc)
 {

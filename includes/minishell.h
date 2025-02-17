@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:48:14 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/16 14:09:49 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/17 17:33:50 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ t_token			*create_token(t_token_type type, char *input, size_t len);
 t_token_type	get_pipe_logic(char *input, char c, int *len, t_shell *sh);
 
 // HEREDOC
+void			free_heredoc(t_heredoc *hdoc);
+void			close_heredoc_fds(t_ast *ast);
 bool			write_to_pipe(int fd, char *line);
 void			heredoc_signal_exit(t_heredoc *hdoc);
 int				heredoc_eof_handler(t_heredoc *hdoc);

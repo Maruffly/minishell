@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:14:26 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/17 12:29:39 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/17 18:02:00 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,39 @@ void	error(char *context, char *description, int exit_status,
 
 void	free_token_list(t_token *tokens)
 {
-	t_token	*cur;
+	t_token	*tmp;
 
 	while (tokens)
 	{
-		cur = tokens;
-		// printf("[FREE] Token @ %p - Value: %s (Type: %d)\n", cur, cur->value, cur->type); // printfff
-		tokens = tokens->next;
-		free(cur->value);
-		cur->value = NULL;
-		free(cur);
-		cur = NULL;
+		tmp = tokens->next;
+
+		if (tokens->value)
+		{
+			free(tokens->value);
+			tokens->value = NULL; // ✅ Éviter le double free
+		}
+
+		free(tokens);
+		tokens = tmp;
 	}
-	tokens = NULL;
 }
+
+
+// void	free_token_list(t_token *tokens)
+// {
+// 	t_token	*cur;
+
+// 	while (tokens)
+// 	{
+// 		cur = tokens;
+// 		tokens = tokens->next;
+// 		free(cur->value);
+// 		cur->value = NULL;
+// 		free(cur);
+// 		cur = NULL;
+// 	}
+// 	tokens = NULL;
+// }
 
 void	remove_list_node(t_token **node, t_token **head,
 		void (*free_function)(void *), bool free_node)
@@ -58,32 +77,97 @@ void	remove_list_node(t_token **node, t_token **head,
 		ft_lstdelone_token(to_remove, free_function);
 }
 
+// void	free_ast(t_ast *ast)
+// {
+// 	if (!ast)
+// 		return ;
+// 	if (ast->type == AST_COMMAND)
+// 	{
+// 		if (ast->u_data.command.args)
+// 			ft_free_split(ast->u_data.command.args);
+// 	}
+// 	else if (ast->type == AST_REDIRECTION)
+// 	{
+// 		free(ast->u_data.redirection.file);
+// 		free_ast(ast->u_data.redirection.command);
+// 	}
+// 	else if (ast->type == AST_PIPELINE)
+// 	{
+// 		free_ast(ast->u_data.pipeline.left);
+// 		free_ast(ast->u_data.pipeline.right);
+// 	}
+// 	else if (ast->type == AST_LOGICAL)
+// 	{
+// 		free_ast(ast->u_data.logical.left);
+// 		free_ast(ast->u_data.logical.right);
+// 	}
+// 	else if (ast->type == AST_SUBSHELL)
+// 		free_ast(ast->u_data.subshell.child);
+// 	free(ast);
+// 	ast->is_freed = true;
+// }
+
 void	free_ast(t_ast *ast)
 {
 	if (!ast)
 		return ;
+
 	if (ast->type == AST_COMMAND)
 	{
 		if (ast->u_data.command.args)
+		{
 			ft_free_split(ast->u_data.command.args);
+			ast->u_data.command.args = NULL; // ✅ Sécurité pour éviter un double free
+		}
 	}
 	else if (ast->type == AST_REDIRECTION)
 	{
-		free(ast->u_data.redirection.file);
-		free_ast(ast->u_data.redirection.command);
+		if (ast->u_data.redirection.file)
+		{
+			free(ast->u_data.redirection.file);
+			ast->u_data.redirection.file = NULL; // ✅ Sécurité pour éviter un double free
+		}
+		if (ast->u_data.redirection.command)
+		{
+			free_ast(ast->u_data.redirection.command);
+			ast->u_data.redirection.command = NULL;
+		}
 	}
 	else if (ast->type == AST_PIPELINE)
 	{
-		free_ast(ast->u_data.pipeline.left);
-		free_ast(ast->u_data.pipeline.right);
+		if (ast->u_data.pipeline.left)
+		{
+			free_ast(ast->u_data.pipeline.left);
+			ast->u_data.pipeline.left = NULL;
+		}
+		if (ast->u_data.pipeline.right)
+		{
+			free_ast(ast->u_data.pipeline.right);
+			ast->u_data.pipeline.right = NULL;
+		}
 	}
 	else if (ast->type == AST_LOGICAL)
 	{
-		free_ast(ast->u_data.logical.left);
-		free_ast(ast->u_data.logical.right);
+		if (ast->u_data.logical.left)
+		{
+			free_ast(ast->u_data.logical.left);
+			ast->u_data.logical.left = NULL;
+		}
+		if (ast->u_data.logical.right)
+		{
+			free_ast(ast->u_data.logical.right);
+			ast->u_data.logical.right = NULL;
+		}
 	}
 	else if (ast->type == AST_SUBSHELL)
-		free_ast(ast->u_data.subshell.child);
+	{
+		if (ast->u_data.subshell.child)
+		{
+			free_ast(ast->u_data.subshell.child);
+			ast->u_data.subshell.child = NULL;
+		}
+	}
+
 	free(ast);
 }
 

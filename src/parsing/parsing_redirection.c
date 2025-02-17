@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 18:36:18 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/16 17:52:18 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/17 12:09:02 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,39 +64,33 @@ void	handle_redirection_error(char *file, t_shell *sh)
 	sh->parsing_error = "No such file";
 }
 
-// testtt
 static t_ast	*validate_and_create_redirection(t_token **cur,
 					t_ast **first, t_ast **last, t_shell *sh)
 {
 	t_ast	*new_redir;
 	int		fd;
-	int		flags;
 
 	if (!(*cur)->next || !is_word((*cur)->next))
 		return (syntax_error((*cur)->value, sh), NULL);
-	// Gestion des fichiers selon le type de redirection
+
+	// Gérer les fichiers selon le type de redirection
 	if ((*cur)->type == REDIRECT_IN)
 	{
 		if (access((*cur)->next->value, F_OK) == -1)
 			return (handle_redirection_error((*cur)->next->value, sh), NULL);
 	}
-	else
+	else if ((*cur)->type == REDIRECT_OUT || (*cur)->type == APPEND_OUT)
 	{
-		flags = O_WRONLY | O_CREAT;
-		if ((*cur)->type == REDIRECT_OUT)
-			flags |= O_TRUNC;
-		else
-			flags |= O_APPEND;
-		fd = open((*cur)->next->value, flags, 0644);
+		fd = open((*cur)->next->value, O_WRONLY | O_CREAT | 
+			((*cur)->type == REDIRECT_OUT ? O_TRUNC : O_APPEND), 0644);
 		if (fd == -1)
 			return (handle_redirection_error((*cur)->next->value, sh), NULL);
 		close(fd);
 	}
-	// Création de l'AST pour la redirection
+
 	new_redir = create_ast_redirection((*cur)->type, (*cur)->next, NULL, sh);
 	if (!new_redir)
 		return (NULL);
-	// Ajout du nœud de redirection à l'AST
 	if (!*first)
 		*first = new_redir;
 	else
@@ -105,7 +99,6 @@ static t_ast	*validate_and_create_redirection(t_token **cur,
 	*cur = (*cur)->next->next;
 	return (new_redir);
 }
-
 
 // OLD
 // static t_ast	*validate_and_create_redirection(t_token **cur,

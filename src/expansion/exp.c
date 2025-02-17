@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:22:15 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/14 16:37:54 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/17 11:36:07 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,11 @@ void	command_expansion(t_ast *node, t_shell *sh)
 		free_token_list(expanded_args);
 }
 
-void	redirection_expansion(t_ast *node, t_shell *sh)
+void    redirection_expansion(t_ast *node, t_shell *sh) // testtt
 {
 	char	*str;
 	t_token	*expanded_args;
+	char	*tmp;  // Add this line
 
 	if (!node || !sh || node->u_data.redirection.direction == HEREDOC)
 		return ;
@@ -65,8 +66,30 @@ void	redirection_expansion(t_ast *node, t_shell *sh)
 		|| !ft_strcmp(expanded_args->value, ""))
 		error("wrong redirection", NULL, 1, sh);
 	else
-		node->u_data.redirection.file = expanded_args->value;
+	{
+		tmp = ft_strdup(expanded_args->value);  // Add this line
+		node->u_data.redirection.file = tmp;    // Modified line
+	}
+	free_token_list(expanded_args);  // Add this line
 }
+
+// OLD
+// void	redirection_expansion(t_ast *node, t_shell *sh)
+// {
+// 	char	*str;
+// 	t_token	*expanded_args;
+
+// 	if (!node || !sh || node->u_data.redirection.direction == HEREDOC)
+// 		return ;
+// 	expanded_args = NULL;
+// 	str = node->u_data.redirection.file;
+// 	arg_expansion(str, &expanded_args, sh);
+// 	if (ft_lstsize_token(expanded_args) != 1
+// 		|| !ft_strcmp(expanded_args->value, ""))
+// 		error("wrong redirection", NULL, 1, sh);
+// 	else
+// 		node->u_data.redirection.file = expanded_args->value;
+// }
 
 t_ast	*node_expansion(t_ast *node, t_shell *sh)
 {

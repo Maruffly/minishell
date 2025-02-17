@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 16:46:34 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/16 18:18:18 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/17 11:36:36 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ static t_token	*init_token(char *value, t_token_type type)
 	token->next = NULL;
 	token->prev = NULL;
 	token->filtered = NULL;
+	// printf("[ALLOC] Token créé @ %p - Value: %s (Type: %d)\n", token, token->value, token->type); // printfff
 	return (token);
 }
 
@@ -54,6 +55,7 @@ t_token	*create_token(t_token_type type, char *input, size_t len)
 	token = init_token(value, type);
 	if (!token)
 		return (free(value), NULL);
+	// printf("[DEBUG] Création Token: %s @ %p (Type: %d)\n", token->value, token, token->type); // printfff
 	return (token);
 }
 

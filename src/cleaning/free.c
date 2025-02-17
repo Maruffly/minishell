@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:14:26 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/16 18:18:15 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/17 12:29:39 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	free_token_list(t_token *tokens)
 	while (tokens)
 	{
 		cur = tokens;
+		// printf("[FREE] Token @ %p - Value: %s (Type: %d)\n", cur, cur->value, cur->type); // printfff
 		tokens = tokens->next;
 		free(cur->value);
 		cur->value = NULL;

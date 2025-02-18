@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 14:55:10 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/18 13:59:24 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/18 16:52:30 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static char	*get_cd_path(t_ast_command *cmd, t_env_list *env_list)
 	}
 	if (cmd->args[2] != NULL)
 	{
-		ft_putstr_fd("Omar&Fred: cd: Too many arguments\n", 2);
+		ft_putstr_fd("Omar&Fred: cd: too many arguments\n", 2);
 		return (NULL);
 	}
 	return (cmd->args[1]);

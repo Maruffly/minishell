@@ -6,31 +6,44 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:21:14 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/18 10:53:30 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/18 17:16:29 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-bool	not_numeric_args(char **args, t_shell *sh)
+bool	is_valid_numeric_argument(char *arg)
 {
-	int		i;
-	char	*arg;
+	int	i;
 
-	if (!args[1])
+	if (!arg || !arg[0])
 		return (false);
 	i = 0;
-	arg = args[1];
+	if (arg[i] == '+' || arg[i] == '-')
+		i++;
+	if (!arg[i])
+		return (false);
 	while (arg[i])
 	{
 		if (!ft_isdigit((unsigned char)arg[i]))
-		{
-			error("numeric argument required", arg, 2, sh);
-			sh->last_status = 2;
-			sh->must_exit = true;
-			return (true);
-		}
+			return (false);
 		i++;
+	}
+	return (true);
+}
+
+bool	not_numeric_args(char **args, t_shell *sh)
+{
+	if (!args[1])
+		return (false);
+	if (!is_valid_numeric_argument(args[1]))
+	{
+		ft_putstr_fd("Omar&Fred: exit: ", STDERR_FILENO);
+		ft_putstr_fd(args[1], STDERR_FILENO);
+		ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
+		sh->last_status = 2;
+		sh->must_exit = true;
+		return (true);
 	}
 	return (false);
 }
@@ -38,30 +51,28 @@ bool	not_numeric_args(char **args, t_shell *sh)
 void	exec_exit(t_shell *sh, t_ast_command *cmd)
 {
 	bool	not_num_arg;
+	long	exit_code;
 
+	ft_putstr_fd("exit\n", STDOUT_FILENO);
 	if (!cmd->args[1])
 	{
-		write(1, "exit\n", 5);
 		sh->must_exit = true;
-		return ;
+		return;
 	}
 	not_num_arg = not_numeric_args(cmd->args, sh);
 	if (not_num_arg)
-		return ;
-	not_numeric_args(cmd->args, sh);
+		return;
 	if (cmd->args[1] && cmd->args[2])
 	{
 		ft_putstr_fd("Omar&Fred: exit: too many arguments\n", STDERR_FILENO);
 		sh->last_status = 1;
-		return ;
+		return;
 	}
-	if (sh->env)
-		ft_lstclear_env(&sh->env, free_env_list);
-	rl_clear_history();
-	write(1, "exit\n", 5);
-	sh->last_status = ft_atoi(cmd->args[1]) % 256;
+	exit_code = ft_atoi(cmd->args[1]);
+	sh->last_status = (unsigned char)exit_code;
 	sh->must_exit = true;
 }
+
 
 void	free_heredoc(t_heredoc *hdoc)
 {

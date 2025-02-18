@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_builder.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:16:37 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/18 10:56:41 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/18 16:54:54 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ t_ast	*create_ast_redirection(t_token_type direction, t_token *filename,
 		return (syntax_error(get_token_string(direction), sh));
 	init_ast_node(&node, AST_REDIRECTION);
 	node->u_data.redirection.direction = direction;
+	node->u_data.redirection.file_free = false;
 	existing_token = filename;
 	while (existing_token)
 	{

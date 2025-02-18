@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:35:41 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/18 10:26:51 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/18 16:54:10 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct s_ast_redirection
 	struct s_ast			*command;
 	char					*file;
 	int						heredoc_fd;
+	bool					file_free;
 }							t_ast_redirection;
 
 typedef struct s_ast_subshell

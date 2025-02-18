@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 14:43:03 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/16 15:58:28 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/18 11:56:03 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,11 @@ int	exec_subshell(t_ast_subshell *subshell, t_shell *sh)
 	{
 		sh->is_parent = false;
 		set_child_signals();
-		execute(subshell->child, EXIT_SHELL, sh);
-		exit(EXIT_SUCCESS);
+		exit(execute(subshell->child, EXIT_SHELL, sh));
 	}
 	else
 	{
-		wait(&status);
+		waitpid(pid, &status, 0);
 		status = check_process_child_exit(status, NULL, sh);
 	}
 	return (status);

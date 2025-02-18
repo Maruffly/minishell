@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:35:41 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/15 12:50:23 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/18 10:26:51 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ typedef struct s_token
 	struct s_token	*next;
 	struct s_token	*prev;
 	struct s_token	*filtered;
+	bool			is_freed;
 }	t_token;
 
 typedef struct s_env_list

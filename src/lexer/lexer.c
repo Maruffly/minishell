@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 16:46:34 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/17 18:25:57 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/18 10:56:27 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ static t_token	*init_token(char *value, t_token_type type)
 	token->next = NULL;
 	token->prev = NULL;
 	token->filtered = NULL;
+	token->is_freed = false;
 	return (token);
 }
 
@@ -48,12 +49,19 @@ t_token	*create_token(t_token_type type, char *input, size_t len)
 
 	value = ft_calloc(len + 1, sizeof(char));
 	if (!value)
+	{
+		printf("Failed to allocate token value\n");
 		return (NULL);
+	}
 	ft_strlcpy(value, input, len + 1);
 	value[len] = '\0';
 	token = init_token(value, type);
 	if (!token)
-		return (free(value), NULL);
+	{
+		printf("Failed to initialize token\n");
+		free(value);
+		return (NULL);
+	}
 	return (token);
 }
 

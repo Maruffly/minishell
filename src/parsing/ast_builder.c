@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_builder.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:16:37 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/17 17:18:27 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/18 10:41:47 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,23 +32,6 @@ t_ast	*create_ast_subshell(t_ast *child, t_shell *sh)
 	return (node);
 }
 
-// OLD , leaks strdup
-// t_ast	*create_ast_redirection(t_token_type direction, t_token *filename,
-// 		t_ast *command, t_shell *sh)
-// {
-// 	t_ast	*node;
-
-// 	if (!filename || !is_word(filename))
-// 		return (syntax_error(get_token_string(direction), sh));
-// 	init_ast_node(&node, AST_REDIRECTION);
-// 	node->u_data.redirection.direction = direction;
-// 	node->u_data.redirection.file = ft_strdup(filename->value);
-// 	node->u_data.redirection.command = command;
-// 	return (node);
-// }
-
-
-// testtt
 t_ast	*create_ast_redirection(t_token_type direction, t_token *filename,
 		t_ast *command, t_shell *sh)
 {
@@ -57,29 +40,21 @@ t_ast	*create_ast_redirection(t_token_type direction, t_token *filename,
 
 	if (!filename || !is_word(filename))
 		return (syntax_error(get_token_string(direction), sh));
-
 	init_ast_node(&node, AST_REDIRECTION);
 	node->u_data.redirection.direction = direction;
-	// 🔥 Vérification : Réutiliser un token existant au lieu d’un ft_strdup
 	existing_token = filename;
 	while (existing_token)
 	{
-		if (existing_token->type == WORD && ft_strcmp(existing_token->value, filename->value) == 0)
+		if (existing_token->type == WORD
+			&& ft_strcmp(existing_token->value, filename->value) == 0)
 		{
-			printf("[DEBUG] Pas de strdup pour %s, réutilisation du token @ %p\n",
-				   existing_token->value, existing_token->value);
 			node->u_data.redirection.file = existing_token->value;
-			break;
+			break ;
 		}
 		existing_token = existing_token->next;
 	}
-	// Si aucun token n'a été trouvé, on fait un ft_strdup
 	if (!existing_token)
-	{
 		node->u_data.redirection.file = ft_strdup(filename->value);
-		printf("[ALLOC] Redirection File @ %p - Value: %s\n",
-			   node->u_data.redirection.file, node->u_data.redirection.file);
-	}
 	node->u_data.redirection.command = command;
 	return (node);
 }

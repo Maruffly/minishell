@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 17:14:53 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/06 12:22:48 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/02/18 10:32:35 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ bool	process_heredoc_line(char *line, t_heredoc *hdoc,
 	if (!expanded_line)
 		return (false);
 	if (!write_to_pipe(hdoc->pipe_fd[1], expanded_line))
-		return (false);
+		return (free(expanded_line), false);
 	free(expanded_line);
 	return (true);
 }

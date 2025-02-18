@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipeline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 18:05:31 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/17 17:30:37 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/18 10:32:18 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static int	exec_pipeline_token(t_token *pipeline, t_shell *sh)
 		setup_for_next_command(&prev_read_end, p, sh);
 		pipeline = pipeline->next;
 	}
-	if (prev_read_end != -1) // testtt
+	if (prev_read_end != -1)
 		close(prev_read_end);
 	last_cmd_status = wait_for_children(last_pid, n_pipeline, sh);
 	return (last_cmd_status);

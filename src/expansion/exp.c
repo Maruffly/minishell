@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:22:15 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/18 10:56:16 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/18 12:54:29 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	redirection_expansion(t_ast *node, t_shell *sh)
 	{
 		tmp = ft_strdup(expanded_args->value);
 		node->u_data.redirection.file = tmp;
+		free(tmp);
 	}
 	free_token_list(expanded_args);
 }

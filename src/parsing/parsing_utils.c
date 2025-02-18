@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 15:26:54 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/18 10:41:38 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/18 13:00:51 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,13 @@ int	check_redirection_access(t_token *cur, t_shell *sh)
 	else if (cur->type == REDIRECT_OUT || cur->type == APPEND_OUT)
 	{
 		fd = open(cur->next->value, O_WRONLY | O_CREAT, 0644);
+		if (fd == -1)
+			return (handle_redirection_error(cur->next->value, sh), -1);
+		close(fd);
 		if (cur->type == REDIRECT_OUT)
-			fd = open(cur->next->value, O_TRUNC);
+			fd = open(cur->next->value, O_WRONLY | O_TRUNC);
 		else
-			fd = open(cur->next->value, O_APPEND);
+			fd = open(cur->next->value, O_WRONLY | O_APPEND);
 		if (fd == -1)
 			return (handle_redirection_error(cur->next->value, sh), -1);
 		close(fd);

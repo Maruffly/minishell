@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 17:28:12 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/01/30 15:05:31 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/18 16:42:37 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,16 @@
 
 void	exec_unset(t_env_list *env_list, t_ast_command *cmd)
 {
-	int		i;
+	int i;
 
 	i = 1;
 	while (cmd->args[i])
 	{
 		if (is_valid_var_name(cmd->args[i]))
-			remove_env_node(env_list, cmd->args[i]);
-		else
-			ft_putstr_fd("unset: invalid identifier\n", STDERR_FILENO);
+		{
+			if (find_env_node(env_list, cmd->args[i]))
+				remove_env_node(env_list, cmd->args[i]); 
+		}
 		i++;
 	}
 }

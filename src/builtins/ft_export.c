@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:09:49 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/11 14:41:44 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/18 16:34:13 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	handle_invalid_identifier(char *var_name, char *var_value)
 {
-	ft_putstr_fd("export: invalid identifier\n", 2);
+	ft_putstr_fd("export: not a valid identifier\n", 2);
 	free(var_name);
 	free(var_value);
 }

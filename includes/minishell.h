@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:48:14 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/17 17:33:50 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/18 10:43:38 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,10 +148,12 @@ void			init_ast_node(t_ast **node, t_ast_type type);
 t_ast			*create_ast_subshell(t_ast *child, t_shell *sh);
 int				parser(t_token *token, t_ast **ast, t_shell *sh);
 t_ast			*parse_redirection(t_token **token, t_shell *sh);
+void			handle_redirection_error(char *file, t_shell *sh);
 t_ast			*parse_redirection_list(t_token **token, t_ast *command,
 					t_shell *sh);
 t_ast			*create_ast_redirection(t_token_type direction,
 					t_token *filename, t_ast *command, t_shell *sh);
+int				check_redirection_access(t_token *cur, t_shell *sh);
 t_ast			*create_ast_logical(t_ast *left, t_token_type op,
 					t_ast *right, t_shell *sh);
 t_ast			*create_ast_pipeline(t_ast	*left, t_ast *right, t_shell *sh);

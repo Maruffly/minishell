@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:14:26 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/17 18:31:44 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/18 10:47:52 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,8 @@ void	free_ast(t_ast *ast)
 {
 	if (!ast)
 		return ;
-	if (ast->type == AST_COMMAND)
-	{
-		if (ast->u_data.command.args)
-			ft_free_split(ast->u_data.command.args);
-	}
+	if (ast->type == AST_COMMAND && ast->u_data.command.args)
+		ft_free_split(ast->u_data.command.args);
 	else if (ast->type == AST_REDIRECTION)
 	{
 		free(ast->u_data.redirection.file);

@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 18:36:18 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/17 18:30:54 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/18 10:44:18 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,23 +68,13 @@ static t_ast	*validate_and_create_redirection(t_token **cur,
 					t_ast **first, t_ast **last, t_shell *sh)
 {
 	t_ast	*new_redir;
-	int		fd;
+	int		check;
 
 	if (!(*cur)->next || !is_word((*cur)->next))
 		return (syntax_error((*cur)->value, sh), NULL);
-	if ((*cur)->type == REDIRECT_IN)
-	{
-		if (access((*cur)->next->value, F_OK) == -1)
-			return (handle_redirection_error((*cur)->next->value, sh), NULL);
-	}
-	else if ((*cur)->type == REDIRECT_OUT || (*cur)->type == APPEND_OUT)
-	{
-		fd = open((*cur)->next->value, O_WRONLY | O_CREAT |
-			((*cur)->type == REDIRECT_OUT ? O_TRUNC : O_APPEND), 0644);
-		if (fd == -1)
-			return (handle_redirection_error((*cur)->next->value, sh), NULL);
-		close(fd);
-	}
+	check = check_redirection_access(*cur, sh);
+	if (check == -1)
+		return (NULL);
 	new_redir = create_ast_redirection((*cur)->type, (*cur)->next, NULL, sh);
 	if (!new_redir)
 		return (NULL);

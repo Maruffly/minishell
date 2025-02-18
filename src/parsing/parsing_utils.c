@@ -6,39 +6,11 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 15:26:54 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/16 15:14:33 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/18 10:41:38 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-char	*get_token_string(t_token_type type)
-{
-	if (type == PIPE)
-		return ("|");
-	else if (type == AND)
-		return ("&&");
-	else if (type == OR)
-		return ("||");
-	else if (type == OPEN_PARENTHESIS)
-		return ("(");
-	else if (type == CLOSE_PARENTHESIS)
-		return (")");
-	else if (type == WORD)
-		return ("word");
-	else if (type == REDIRECT_IN)
-		return ("<");
-	else if (type == REDIRECT_OUT)
-		return (">");
-	else if (type == APPEND_OUT)
-		return (">>");
-	else if (type == HEREDOC)
-		return ("<<");
-	else if (type == WILDCARD)
-		return ("*");
-	else
-		return ("[unknown token]");
-}
 
 int	is_quoted(char *str)
 {
@@ -118,4 +90,27 @@ t_ast	*parse_command(t_token **token)
 	}
 	args[arg_count] = NULL;
 	return (create_ast_cmd(args));
+}
+
+int	check_redirection_access(t_token *cur, t_shell *sh)
+{
+	int	fd;
+
+	if (cur->type == REDIRECT_IN)
+	{
+		if (access(cur->next->value, F_OK) == -1)
+			return (handle_redirection_error(cur->next->value, sh), -1);
+	}
+	else if (cur->type == REDIRECT_OUT || cur->type == APPEND_OUT)
+	{
+		fd = open(cur->next->value, O_WRONLY | O_CREAT, 0644);
+		if (cur->type == REDIRECT_OUT)
+			fd = open(cur->next->value, O_TRUNC);
+		else
+			fd = open(cur->next->value, O_APPEND);
+		if (fd == -1)
+			return (handle_redirection_error(cur->next->value, sh), -1);
+		close(fd);
+	}
+	return (0);
 }

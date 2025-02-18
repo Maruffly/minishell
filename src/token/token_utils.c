@@ -6,13 +6,12 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:05:33 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/12 16:21:23 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/18 10:38:17 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// OLD
 void	ft_lstadd_back_token(t_token **token_list, t_token *new_token)
 {
 	t_token	*last;

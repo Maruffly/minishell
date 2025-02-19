@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 17:47:42 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/19 11:55:57 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/19 17:38:18 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ void	exec_extern_command(t_ast_command *cmd, t_shell *sh)
 	char	*path;
 	char	**envp;
 
+	if (!cmd->args[0] || cmd->args[0][0] == '\0')
+		exit(0);
 	path = find_command_path(cmd->args[0], sh->env);
 	if (!path)
 	{

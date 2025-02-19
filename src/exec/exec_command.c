@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 15:19:04 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/18 16:41:22 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/19 15:15:30 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	exec_command(t_ast_command *cmd, t_exit end, t_shell *sh)
 	if (!cmd->args || !cmd->args[0])
 		return (status);
 	if (ft_strcmp(cmd->args[0], "cd") == 0)
-		exec_cd(cmd, sh->env);
+		exec_cd(cmd, sh->env, sh);
 	else if (ft_strcmp(cmd->args[0], "echo") == 0)
 		exec_echo(cmd);
 	else if (ft_strcmp(cmd->args[0], "env") == 0)
@@ -95,7 +95,7 @@ int	exec_command(t_ast_command *cmd, t_exit end, t_shell *sh)
 	else if (ft_strcmp(cmd->args[0], "exit") == 0)
 		exec_exit(sh, cmd);
 	else if (ft_strcmp(cmd->args[0], "export") == 0)
-		exec_export(sh->env, cmd);
+		exec_export(sh->env, cmd, sh);
 	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
 		exec_pwd();
 	else if (ft_strcmp(cmd->args[0], "unset") == 0)

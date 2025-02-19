@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:47:11 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/11 14:45:00 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/19 15:35:36 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	is_valid_var_name(char *name)
 	i = 1;
 	while (name[i])
 	{
-		if (!ft_isalpha(name[i]) && name[i] != '_')
+		if (!ft_isalnum(name[i]) && name[i] != '_')
 			return (0);
 		i++;
 	}

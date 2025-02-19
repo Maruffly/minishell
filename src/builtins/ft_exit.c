@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:21:14 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/18 17:16:29 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/19 16:17:12 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,22 +57,21 @@ void	exec_exit(t_shell *sh, t_ast_command *cmd)
 	if (!cmd->args[1])
 	{
 		sh->must_exit = true;
-		return;
+		return ;
 	}
 	not_num_arg = not_numeric_args(cmd->args, sh);
 	if (not_num_arg)
-		return;
+		return ;
 	if (cmd->args[1] && cmd->args[2])
 	{
 		ft_putstr_fd("Omar&Fred: exit: too many arguments\n", STDERR_FILENO);
 		sh->last_status = 1;
-		return;
+		return ;
 	}
 	exit_code = ft_atoi(cmd->args[1]);
 	sh->last_status = (unsigned char)exit_code;
 	sh->must_exit = true;
 }
-
 
 void	free_heredoc(t_heredoc *hdoc)
 {

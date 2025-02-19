@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:48:14 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/18 10:43:38 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/19 15:50:02 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,10 @@ void			exec_echo(t_ast_command *cmd);
 void			exec_env(t_env_list *env_list);
 void			print_env_list(t_env_list *list);
 void			exec_exit(t_shell *sh, t_ast_command *cmd);
-void			exec_cd(t_ast_command *cmd, t_env_list *env_list);
 void			exec_unset(t_env_list *env_list, t_ast_command *cmd);
-void			exec_export(t_env_list *env_list, t_ast_command *cmd);
+void			exec_export(t_env_list *env_list, t_ast_command *cmd,
+					t_shell *sh);
+void			exec_cd(t_ast_command *cmd, t_env_list *env_list, t_shell *sh);
 
 // CLEANING
 void			free_ast(t_ast *node);

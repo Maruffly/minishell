@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/18 17:15:13 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/19 15:50:22 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ char	*read_line(t_prompt_mode mode)
 int	launch_shell(t_shell *sh)
 {
 	char	*input;
+	int		process_status;
 
 	while (42)
 	{
@@ -86,7 +87,9 @@ int	launch_shell(t_shell *sh)
 		if (ft_strlen(input) > 0)
 		{
 			add_history(input);
-			sh->last_status = process_prompt(input, sh);
+			process_status = process_prompt(input, sh);
+			if (sh->last_status == 0)
+				sh->last_status = process_status;
 			sh->parsing_error = NULL;
 		}
 		free(input);

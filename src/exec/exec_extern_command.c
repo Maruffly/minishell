@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_extern_command.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 17:47:42 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/15 12:46:45 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/19 11:55:57 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	check_executable_access(char *path, char *cmd)
 	{
 		ft_putstr_fd("Omar&Fred: ", STDERR_FILENO);
 		ft_putstr_fd(cmd, STDERR_FILENO);
-		ft_putstr_fd(": no such file or directory\n", STDERR_FILENO);
+		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
 		free(path);
 		exit(126);
 	}

@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 17:44:28 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/18 12:45:10 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/18 18:16:05 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,40 @@ int	redirect_input(t_ast_redirection *redir, t_shell *sh)
 	original_stdin = dup(STDIN_FILENO);
 	dup2(input_fd, STDIN_FILENO);
 	close(input_fd);
-	status = execute(redir->command, KEEP_RUNNING, sh);
+	
+	/* ✅ Exécuter la commande avec ses arguments */
+	if (redir->command)
+		status = execute(redir->command, KEEP_RUNNING, sh);
+	else
+		status = EXIT_SUCCESS;
+
 	dup2(original_stdin, STDIN_FILENO);
 	close(original_stdin);
 	return (status);
 }
+
+
+// int	redirect_input(t_ast_redirection *redir, t_shell *sh)
+// {
+// 	int	status;
+// 	int	input_fd;
+// 	int	original_stdin;
+
+// 	input_fd = open(redir->file, O_RDONLY);
+// 	if (input_fd == -1)
+// 	{
+// 		write(STDERR_FILENO, "minishell: ", 11);
+// 		perror(redir->file);
+// 		return (EXIT_FAILURE);
+// 	}
+// 	original_stdin = dup(STDIN_FILENO);
+// 	dup2(input_fd, STDIN_FILENO);
+// 	close(input_fd);
+// 	status = execute(redir->command, KEEP_RUNNING, sh);
+// 	dup2(original_stdin, STDIN_FILENO);
+// 	close(original_stdin);
+// 	return (status);
+// }
 
 int	redirect_output(t_ast_redirection *redir, t_shell *sh)
 {

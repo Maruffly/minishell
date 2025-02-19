@@ -6,17 +6,21 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:09:49 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/18 16:34:13 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/19 12:09:33 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	handle_invalid_identifier(char *var_name, char *var_value)
+static void	handle_invalid_identifier(char *arg, char *var_name, char *var_value)
 {
-	ft_putstr_fd("export: not a valid identifier\n", 2);
-	free(var_name);
-	free(var_value);
+	ft_putstr_fd("bash: export: `", STDERR_FILENO);
+	ft_putstr_fd(arg, STDERR_FILENO);
+	ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
+	if (var_name)
+		free(var_name);
+	if (var_value)
+		free(var_value);
 }
 
 static void	process_export_arg(t_env_list *env_list, char *arg)
@@ -37,13 +41,13 @@ static void	process_export_arg(t_env_list *env_list, char *arg)
 		var_value = NULL;
 	}
 	if (!is_valid_var_name(var_name))
-		handle_invalid_identifier(var_name, var_value);
-	else
 	{
-		add_or_update_env(env_list, var_name, var_value);
-		free(var_name);
-		free(var_value);
+		handle_invalid_identifier(arg, var_name, var_value);
+		return ;
 	}
+	add_or_update_env(env_list, var_name, var_value);
+	free(var_name);
+	free(var_value);
 }
 
 static void	print_export_list(t_env_list *list)

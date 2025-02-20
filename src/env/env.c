@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:47:11 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/15 12:50:31 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/20 12:50:08 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ void	init_shell(t_shell *sh, char **envp)
 	sh->env = init_envp(envp);
 	sh->parsing_error = NULL;
 	sh->must_exit = false;
+	sh->is_next_word = false;
+	sh->extra_args = NULL;
 	if (envp && envp[0])
 		shell_level(sh);
 }

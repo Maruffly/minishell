@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:14:26 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/18 17:03:57 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/20 16:38:14 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,26 +23,24 @@ void	error(char *context, char *description, int exit_status,
 	exit_shell(exit_status, sh);
 }
 
+
 void	free_token_list(t_token *tokens)
 {
 	t_token	*tmp;
 
-	while (tokens)
-	{
-		tmp = tokens->next;
-		if (!tokens->is_freed)
+		while (tokens)
 		{
-			if (tokens->value)
-			{
-				free(tokens->value);
-				tokens->value = NULL;
-			}
-			tokens->node = NULL;
-			tokens->is_freed = true;
-			free(tokens);
+				tmp = tokens->next;
+				if (tokens->value)
+				{
+					free(tokens->value);
+					tokens->value = NULL;
+				}
+				free(tokens);
+				tokens = tmp;
+		
 		}
-		tokens = tmp;
-	}
+		tokens = NULL;
 }
 
 void	remove_list_node(t_token **node, t_token **head,

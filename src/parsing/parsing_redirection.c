@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_redirection.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 18:36:18 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/18 18:21:09 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/20 16:58:29 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	add_arg_tab(char ***array, char *new_arg)
+void	add_arg_tab(char ***array, char *new_arg)
 {
 	char	**new_array;
 	int		i;
@@ -32,7 +32,7 @@ static void	add_arg_tab(char ***array, char *new_arg)
 	}
 	new_array[i] = new_arg;
 	new_array[i + 1] = NULL;
-	*array = new_array;
+	*array = new_array;;
 }
 
 static bool	handle_command_argument(t_token **cur, t_ast *command)
@@ -69,9 +69,19 @@ static t_ast	*validate_and_create_redirection(t_token **cur,
 {
 	t_ast	*new_redir;
 	int		check;
+	t_token	*extra_token;
 
-	if (!(*cur)->next || !is_word((*cur)->next))
-		return (syntax_error((*cur)->value, sh), NULL);
+	if ((*cur)->next->next && is_word((*cur)->next))
+	{
+		sh->is_next_word = true;
+		extra_token = (*cur)->next->next;
+		extra_token = (*cur)->next->next;
+		sh->extra_args = extra_token;
+		*cur = (*cur)->next->next;
+		return (NULL);
+	}
+	/* if (!(*cur)->next || !is_word((*cur)->next))
+		return (syntax_error((*cur)->value, sh), NULL); */
 	check = check_redirection_access(*cur, sh);
 	if (check == -1)
 		return (NULL);

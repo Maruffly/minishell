@@ -6,7 +6,7 @@
 /*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:35:41 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/18 16:54:10 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/20 12:38:35 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,11 +141,12 @@ typedef struct s_shell
 {
 	t_env_list			*env;
 	t_prompt_mode		prompt_mode;
-	char				*home;
 	char				*parsing_error;
 	bool				is_parent;
 	int					last_status;
 	bool				must_exit;
+	bool				is_next_word;
+	t_token				*extra_args;
 }	t_shell;
 
 typedef struct s_wildcard

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:48:14 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/19 15:50:02 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/20 16:29:31 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void			shell_level(t_shell *sh);
 int				launch_shell(t_shell *sh);
 char			*read_line(t_prompt_mode mode);
 void			init_shell(t_shell *sh, char **envp);
+void			add_arg_tab(char ***array, char *new_arg);
+
 
 // SIGNAL
 void			main_signal(void);

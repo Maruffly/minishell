@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 15:19:04 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/19 15:15:30 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/20 16:41:15 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,26 @@ static int	fork_command(t_ast_command *cmd, t_exit end, t_shell *sh)
 
 int	exec_command(t_ast_command *cmd, t_exit end, t_shell *sh)
 {
-	int	status;
+	int		status;
+	t_token	*cur;
+ 	char	*dup;
 
+	if (sh->is_next_word && sh->extra_args)
+	{
+		cur = sh->extra_args;
+		while (cur && is_word(cur))
+		{
+			dup = ft_strdup(cur->value);
+			if (dup)
+			{
+				add_arg_tab(&cmd->args,dup);
+				/* free(dup); */
+			}
+				cur = cur->next;
+		}
+		sh->is_next_word = false;
+		sh->extra_args = NULL;
+	}
 	status = EXIT_SUCCESS;
 	sh->last_status = status;
 	if (!cmd->args || !cmd->args[0])

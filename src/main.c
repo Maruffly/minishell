@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/20 16:29:56 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/21 13:58:11 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,9 @@ int	launch_shell(t_shell *sh)
 			process_status = process_prompt(input, sh);
 			if (sh->last_status == 0)
 				sh->last_status = process_status;
-			sh->parsing_error = NULL;
 		}
+		sh->parsing_error = NULL;
+		sh->redirection_error = false;
 		free(input);
 	}
 	return (0);

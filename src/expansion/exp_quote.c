@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_quote.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 12:08:43 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/15 11:23:47 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/19 16:38:25 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,11 @@ void	*add_token_to_list(t_expand *exp, t_shell *sh)
 		filename_expansion(exp, sh);
 	if (!exp->wildcards_position || (exp->buf_i > 0 && !exp->has_match))
 		create_and_add_token(exp);
-	free(exp->buf);
+	if (exp->buf)
+	{
+		free(exp->buf);
+		exp->buf = NULL;
+	}
 	if (exp->wildcards_position)
 	{
 		free_wildcards(exp->wildcards_position);

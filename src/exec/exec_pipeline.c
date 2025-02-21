@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipeline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 18:05:31 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/18 10:55:19 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/21 12:58:31 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,28 @@ static pid_t	exec_one_pipeline_token(t_token *pipeline, int prev_read_end,
 		return (pid);
 	sh->is_parent = false;
 	set_child_signals();
-	if (prev_read_end != -1)
+	/* if (prev_read_end != -1)
 	{
 		dup2(prev_read_end, STDIN_FILENO);
-		close(prev_read_end);
+		close(prev_read_end); 
 	}
 	if (pipeline->next != NULL)
 		dup2(p[1], STDOUT_FILENO);
+	close(p[0]);
+	close(p[1]);
+	execute((t_ast *)pipeline->node, KEEP_RUNNING, sh);
+	exit(sh->last_status); */
+	if (prev_read_end != -1)
+	{
+		if (dup2(prev_read_end, STDIN_FILENO) == -1)
+			exit(EXIT_FAILURE);
+		close(prev_read_end);
+	}
+	if (pipeline->next != NULL)
+	{
+		if (dup2(p[1], STDOUT_FILENO) == -1)
+			exit(EXIT_FAILURE);
+	}
 	close(p[0]);
 	close(p[1]);
 	execute((t_ast *)pipeline->node, KEEP_RUNNING, sh);
@@ -95,6 +110,11 @@ int	exec_pipeline(t_ast *node, t_shell *sh)
 	if (!pipeline)
 		return (EXIT_FAILURE);
 	status = exec_pipeline_token(pipeline, sh);
+	if (sh->redirection_error)
+	{
+		sh->redirection_error = false;
+		return (EXIT_SUCCESS);
+	}
 	free_list_token(pipeline);
 	return (status);
 }

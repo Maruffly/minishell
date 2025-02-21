@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_redirection.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/31 18:36:18 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/20 16:58:29 by jmaruffy         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/02/21 13:39:06 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../includes/minishell.h"
 
@@ -49,6 +50,7 @@ static bool	handle_command_argument(t_token **cur, t_ast *command)
 
 void	handle_redirection_error(char *file, t_shell *sh)
 {
+	(void)sh;
 	if (access(file, F_OK) == -1)
 	{
 		ft_putstr_fd("Omar&Fred: ", STDERR_FILENO);
@@ -61,7 +63,7 @@ void	handle_redirection_error(char *file, t_shell *sh)
 		ft_putstr_fd(file, STDERR_FILENO);
 		ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
 	}
-	sh->parsing_error = "No such file";
+	sh->redirection_error = true;
 }
 
 static t_ast	*validate_and_create_redirection(t_token **cur,
@@ -69,22 +71,16 @@ static t_ast	*validate_and_create_redirection(t_token **cur,
 {
 	t_ast	*new_redir;
 	int		check;
-	t_token	*extra_token;
 
-	if ((*cur)->next->next && is_word((*cur)->next))
+	if (!(*cur)->next || !is_word((*cur)->next))
+		return (syntax_error((*cur)->value, sh), NULL);
+	check = check_redirection_access(*cur, sh);
+	if (check == -1)
 	{
-		sh->is_next_word = true;
-		extra_token = (*cur)->next->next;
-		extra_token = (*cur)->next->next;
-		sh->extra_args = extra_token;
+		sh->redirection_error = true;
 		*cur = (*cur)->next->next;
 		return (NULL);
 	}
-	/* if (!(*cur)->next || !is_word((*cur)->next))
-		return (syntax_error((*cur)->value, sh), NULL); */
-	check = check_redirection_access(*cur, sh);
-	if (check == -1)
-		return (NULL);
 	new_redir = create_ast_redirection((*cur)->type, (*cur)->next, NULL, sh);
 	if (!new_redir)
 		return (NULL);
@@ -94,6 +90,11 @@ static t_ast	*validate_and_create_redirection(t_token **cur,
 		(*last)->u_data.redirection.command = new_redir;
 	*last = new_redir;
 	*cur = (*cur)->next->next;
+	if (*cur && is_word(*cur)) 
+	{
+		sh->is_next_word = true;
+		sh->extra_args = *cur;
+	}
 	return (new_redir);
 }
 
@@ -113,9 +114,14 @@ t_ast	*parse_redirection_list(t_token **token, t_ast *command, t_shell *sh)
 		if (!is_redirect(cur))
 			break ;
 		if (!validate_and_create_redirection(&cur, &first, &last, sh))
-			return (NULL);
+			continue ;
 		if (!cur)
 			break ;
+	}
+	while (cur && is_word(cur) && command && command->type == AST_COMMAND)
+   	{
+		add_arg_tab(&command->u_data.command.args, ft_strdup(cur->value));
+		cur = cur->next;
 	}
 	*token = cur;
 	return (first);

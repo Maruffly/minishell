@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_builder.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:16:37 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/18 16:54:54 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/21 12:13:12 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,14 @@ t_ast	*create_ast_redirection(t_token_type direction, t_token *filename,
 		t_ast *command, t_shell *sh)
 {
 	t_ast	*node;
-	t_token	*existing_token;
+	/* t_token	*existing_token; */
 
 	if (!filename || !is_word(filename))
 		return (syntax_error(get_token_string(direction), sh));
 	init_ast_node(&node, AST_REDIRECTION);
 	node->u_data.redirection.direction = direction;
 	node->u_data.redirection.file_free = false;
-	existing_token = filename;
+	/* existing_token = filename;
 	while (existing_token)
 	{
 		if (existing_token->type == WORD
@@ -54,8 +54,8 @@ t_ast	*create_ast_redirection(t_token_type direction, t_token *filename,
 		}
 		existing_token = existing_token->next;
 	}
-	if (!existing_token)
-		node->u_data.redirection.file = ft_strdup(filename->value);
+	if (!existing_token) */
+	node->u_data.redirection.file = ft_strdup(filename->value); //testt
 	node->u_data.redirection.command = command;
 	return (node);
 }
@@ -64,7 +64,7 @@ t_ast	*create_ast_pipeline(t_ast	*left, t_ast *right, t_shell *sh)
 {
 	t_ast	*node;
 
-	if (!left || !right)
+	if (!left && !right)
 		return (syntax_error("|", sh));
 	init_ast_node(&node, AST_PIPELINE);
 	node->u_data.pipeline.left = left;

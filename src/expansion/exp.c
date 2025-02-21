@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:22:15 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/20 14:50:46 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/20 19:31:06 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	command_expansion(t_ast *node, t_shell *sh)
 		free_token_list(expanded_args);
 }
 
-void	redirection_expansion(t_ast *node, t_shell *sh)
+/* void	redirection_expansion(t_ast *node, t_shell *sh)
 {
 	char	*str;
 	t_token	*expanded_args;
@@ -72,6 +72,21 @@ void	redirection_expansion(t_ast *node, t_shell *sh)
 		node->u_data.redirection.file_free = true;
 	}
 	free_token_list(expanded_args);
+} */
+
+void	redirection_expansion(t_ast *node, t_shell *sh) {
+	char *filename;
+
+	if (!node || !sh || node->u_data.redirection.direction == HEREDOC)
+		return;
+	filename = remove_quotes(node->u_data.redirection.file);
+	if (filename) {
+		if (node->u_data.redirection.file_free) {
+			free(node->u_data.redirection.file);
+		}
+		node->u_data.redirection.file = filename;
+		node->u_data.redirection.file_free = true;
+	}
 }
 
 t_ast	*node_expansion(t_ast *node, t_shell *sh)

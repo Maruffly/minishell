@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/29 14:48:14 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/20 16:29:31 by jmaruffy         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/02/20 19:36:15 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -193,7 +194,7 @@ void			add_wildcard_pos(t_wildcard **wildcard_list, int pos,
 void			add_expanded_value(char **value, char *expanded_value);
 char			*get_valid_name(char *str, t_expand *exp, t_shell *sh);
 char			*expand_env_var(char *str, t_expand *exp, t_shell *sh);
-void			handle_redirection(char *input, int *pos, char **value);
+/* void			handle_redirection(char *input, int *pos, char **value); */
 void			list_of_file_to_token_list(t_token *tokens, t_expand *exp,
 					t_shell *sh);
 void			add_var_to_buffer(char *value, t_expand *exp, t_shell *sh);

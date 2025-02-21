@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:21:14 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/19 16:17:12 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/21 10:09:27 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ bool	not_numeric_args(char **args, t_shell *sh)
 		ft_putstr_fd("Omar&Fred: exit: ", STDERR_FILENO);
 		ft_putstr_fd(args[1], STDERR_FILENO);
 		ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
-		sh->last_status = 2;
+		sh->last_status = 255;
 		sh->must_exit = true;
 		return (true);
 	}

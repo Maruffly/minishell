@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/10 15:19:04 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/20 16:41:15 by jmaruffy         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/02/21 15:25:30 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../includes/minishell.h"
 
@@ -64,6 +65,7 @@ static int	fork_command(t_ast_command *cmd, t_exit end, t_shell *sh)
 		sh->is_parent = false;
 		set_child_signals();
 		exec_extern_command(cmd, sh);
+		exit(EXIT_FAILURE);
 	}
 	else if (pid > 0)
 	{
@@ -89,13 +91,16 @@ int	exec_command(t_ast_command *cmd, t_exit end, t_shell *sh)
 		cur = sh->extra_args;
 		while (cur && is_word(cur))
 		{
-			dup = ft_strdup(cur->value);
-			if (dup)
+			if (cur->value)
 			{
-				add_arg_tab(&cmd->args,dup);
-				/* free(dup); */
+				dup = ft_strdup(cur->value);
+				if (dup)
+				{
+					add_arg_tab(&cmd->args,remove_quotes(dup));
+					/* free(dup); */
+				}
 			}
-				cur = cur->next;
+			cur = cur->next;
 		}
 		sh->is_next_word = false;
 		sh->extra_args = NULL;

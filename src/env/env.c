@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:47:11 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/20 12:50:08 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/21 11:20:13 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void	init_shell(t_shell *sh, char **envp)
 	sh->must_exit = false;
 	sh->is_next_word = false;
 	sh->extra_args = NULL;
+	sh->redirection_error = false;
 	if (envp && envp[0])
 		shell_level(sh);
 }

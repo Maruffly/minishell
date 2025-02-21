@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 14:55:10 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/19 16:16:47 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/21 10:08:38 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,7 @@ static char	*get_cd_path(t_ast_command *cmd, t_env_list *env_list, t_shell *sh)
 	}
 	else if (cmd->args[2] != NULL)
 	{
-		ft_putstr_fd("Omar&Fred: cd: too many arguments\n", STDERR_FILENO);
-		sh->last_status = 1;
+		sh->last_status = 0;
 		return (NULL);
 	}
 	else

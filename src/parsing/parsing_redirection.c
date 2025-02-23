@@ -6,7 +6,7 @@
 /*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/21 13:39:06 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/02/23 23:34:57 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,16 +74,15 @@ static t_ast	*validate_and_create_redirection(t_token **cur,
 
 	if (!(*cur)->next || !is_word((*cur)->next))
 		return (syntax_error((*cur)->value, sh), NULL);
-	check = check_redirection_access(*cur, sh);
-	if (check == -1)
-	{
-		sh->redirection_error = true;
-		*cur = (*cur)->next->next;
-		return (NULL);
-	}
 	new_redir = create_ast_redirection((*cur)->type, (*cur)->next, NULL, sh);
 	if (!new_redir)
 		return (NULL);
+	check = check_redirection_access(*cur, sh);
+	if (check == -1)
+	{
+		*cur = (*cur)->next->next;
+		return (NULL);
+	}
 	if (!*first)
 		*first = new_redir;
 	else
@@ -113,6 +112,12 @@ t_ast	*parse_redirection_list(t_token **token, t_ast *command, t_shell *sh)
 			continue ;
 		if (!is_redirect(cur))
 			break ;
+		if (!cur->next || !is_word(cur->next))
+		{
+			syntax_error(cur->value, sh);
+			*token = cur;
+			return (NULL);
+		}
 		if (!validate_and_create_redirection(&cur, &first, &last, sh))
 			continue ;
 		if (!cur)

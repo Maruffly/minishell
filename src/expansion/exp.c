@@ -6,7 +6,7 @@
 /*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:22:15 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/20 19:31:06 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/02/23 23:13:26 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,34 @@ static void	exp_wildcard_or_arg(char *arg, t_token **expanded_args,
 	free(arg);
 }
 
+void	filter_empty_arg(t_token **expanded_args)
+{
+	t_token	*cur;
+	t_token	*next;
+	t_token	*prev;
+
+	cur = *expanded_args;
+	while (cur)
+	{
+		next = cur->next;
+		if (cur->value && cur->value[0] == '\0')
+		{
+			if (cur == *expanded_args)
+				*expanded_args = next;
+			else
+			{
+				prev = *expanded_args;
+				while (prev->next != cur)
+					prev = prev->next;
+				prev->next = next;
+			}
+			free(cur->value);
+			free(cur);
+		}
+		cur = next;
+	}
+}
+
 void	command_expansion(t_ast *node, t_shell *sh)
 {
 	char	**args;
@@ -46,6 +74,7 @@ void	command_expansion(t_ast *node, t_shell *sh)
 		i++;
 	}
 	free(args);
+	filter_empty_arg(&expanded_args);
 	node->u_data.command.args = list_to_array(&expanded_args, sh);
 	if (expanded_args)
 		free_token_list(expanded_args);
@@ -80,10 +109,10 @@ void	redirection_expansion(t_ast *node, t_shell *sh) {
 	if (!node || !sh || node->u_data.redirection.direction == HEREDOC)
 		return;
 	filename = remove_quotes(node->u_data.redirection.file);
-	if (filename) {
-		if (node->u_data.redirection.file_free) {
+	if (filename) 
+	{
+		if (node->u_data.redirection.file_free)
 			free(node->u_data.redirection.file);
-		}
 		node->u_data.redirection.file = filename;
 		node->u_data.redirection.file_free = true;
 	}

@@ -6,7 +6,7 @@
 /*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:16:37 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/21 12:13:12 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/02/23 22:44:39 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ t_ast	*create_ast_pipeline(t_ast	*left, t_ast *right, t_shell *sh)
 {
 	t_ast	*node;
 
-	if (!left && !right)
+	if (!left || !right)
 		return (syntax_error("|", sh));
 	init_ast_node(&node, AST_PIPELINE);
 	node->u_data.pipeline.left = left;

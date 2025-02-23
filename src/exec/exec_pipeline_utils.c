@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipeline_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:44:13 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/14 15:58:53 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/23 21:51:47 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,25 +53,29 @@ pid_t	exec_one_pipeline_token(t_token *pipeline, int prev_read_end, int p[2],
 	set_child_signals();
 	if (prev_read_end != -1)
 	{
-		dup2(prev_read_end, STDIN_FILENO);
+		if (dup2(prev_read_end, STDIN_FILENO) == -1)
+			exit(EXIT_FAILURE);
 		close(prev_read_end);
 	}
 	if (pipeline->next != NULL)
-		dup2(p[1], STDOUT_FILENO);
+	{
+		if (dup2(p[1], STDOUT_FILENO) == -1)
+			exit(EXIT_FAILURE);
+		close(p[1]);
+	}
 	close(p[0]);
-	close(p[1]);
 	execute((t_ast *)pipeline->node, KEEP_RUNNING, sh);
 	exit(sh->last_status);
 }
 
-void	setup_for_next_command(int *prev_read_end, int p[2], t_shell *sh)
+/* void	setup_for_next_command(int *prev_read_end, int p[2], t_shell *sh)
 {
 	(void)sh;
 	if (*prev_read_end != -1)
 		close(*prev_read_end);
 	close(p[1]);
 	*prev_read_end = p[0];
-}
+} */
 
 int	wait_for_children(pid_t last_pid, int n_pipeline, t_shell *sh)
 {
@@ -82,6 +86,7 @@ int	wait_for_children(pid_t last_pid, int n_pipeline, t_shell *sh)
 
 	new_line = false;
 	last_cmd_status = 0;
+
 	while (n_pipeline-- >= 0)
 	{
 		child_pid = wait(&status);

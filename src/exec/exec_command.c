@@ -6,7 +6,7 @@
 /*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/21 15:25:30 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/02/23 22:50:26 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ static int	fork_command(t_ast_command *cmd, t_exit end, t_shell *sh)
 	{
 		sh->is_parent = false;
 		set_child_signals();
+		if (sh->redirection_error)
+			close(STDIN_FILENO);
 		exec_extern_command(cmd, sh);
 		exit(EXIT_FAILURE);
 	}
@@ -80,11 +82,10 @@ static int	fork_command(t_ast_command *cmd, t_exit end, t_shell *sh)
 	return (sh->last_status);
 }
 
-int	exec_command(t_ast_command *cmd, t_exit end, t_shell *sh)
+void	extra_arguments(t_ast_command *cmd, t_shell *sh)
 {
-	int		status;
+	char	*dup;
 	t_token	*cur;
- 	char	*dup;
 
 	if (sh->is_next_word && sh->extra_args)
 	{
@@ -105,6 +106,12 @@ int	exec_command(t_ast_command *cmd, t_exit end, t_shell *sh)
 		sh->is_next_word = false;
 		sh->extra_args = NULL;
 	}
+}
+
+int	exec_command(t_ast_command *cmd, t_exit end, t_shell *sh)
+{
+	int		status;
+	extra_arguments(cmd, sh);
 	status = EXIT_SUCCESS;
 	sh->last_status = status;
 	if (!cmd->args || !cmd->args[0])

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:35:41 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/21 11:15:10 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/02/24 18:55:32 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ typedef struct s_ast_redirection
 	char					*file;
 	int						heredoc_fd;
 	bool					file_free;
-}							t_ast_redirection;
+}							t_ast_redir;
 
 typedef struct s_ast_subshell
 {
@@ -99,7 +99,7 @@ typedef struct s_ast
 		t_ast_command		command;
 		t_ast_pipeline		pipeline;
 		t_ast_logical		logical;
-		t_ast_redirection	redirection;
+		t_ast_redir			redirection;
 		t_ast_subshell		subshell;
 	} u_data;
 	bool					is_freed;

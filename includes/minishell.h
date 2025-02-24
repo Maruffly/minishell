@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:35:41 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/24 18:41:44 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/24 18:54:04 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int				heredoc_eof_handler(t_heredoc *hdoc);
 int				handle_heredoc_ast(t_ast *redir, t_shell *sh);
 bool			process_heredoc_line(char *line, t_heredoc *hdoc,
 					t_expand *exp, t_shell *sh);
-int				handle_heredoc(t_ast_redirection *redir, t_shell *sh,
+int				handle_heredoc(t_ast_redir *redir, t_shell *sh,
 					t_expand *exp);
 int				read_heredoc(t_heredoc *hdoc, t_shell *sh, t_expand *exp);
 
@@ -129,22 +129,25 @@ int				execute(t_ast *node, t_exit end, t_shell *sh);
 int				redirect_stdin(int input_fd, int original_stdin);
 int				exec_logical(t_ast_logical *logical, t_shell *sh);
 char			**convert_env_list_to_array(t_env_list *env_list);
-int				setup_output_redirection(t_ast_redirection *redir);
+int				setup_output_redirection(t_ast_redir *redir);
 char			*find_command_path(char *command, t_env_list *env);
 int				check_process_child_exit(int status, bool *new_line,
 					t_shell *sh);
 void			setup_for_next_command(int *prev_read_end, int p[2],
 					t_shell *sh);
 int				exec_subshell(t_ast_subshell *subshell, t_shell *sh);
-int				append_output(t_ast_redirection *redir, t_shell *sh);
+int				append_output(t_ast_redir *redir, t_shell *sh);
 void			exec_extern_command(t_ast_command *cmd, t_shell *sh);
-int				redirect_input(t_ast_redirection *redir, t_shell *sh);
-int				redirect_output(t_ast_redirection *redir, t_shell *sh);
-int				exec_redirection(t_ast_redirection *redir, t_shell *sh);
+int				redirect_input(t_ast_redir *redir, t_shell *sh);
+int				redirect_output(t_ast_redir *redir, t_shell *sh);
+int				exec_redirection(t_ast_redir *redir, t_shell *sh);
 int				exec_command(t_ast_command *cmd, t_exit end, t_shell *sh);
 int				wait_for_children(pid_t last_pid, int n_pipeline, t_shell *sh);
-int				open_and_backup_stdin(t_ast_redirection *redir, t_shell *sh,
+int				open_and_backup_stdin(t_ast_redir *redir, t_shell *sh,
 					int *original_stdin);
+int				open_redirection_file(char *file, int is_trunc, t_shell *sh);
+t_ast_redir		*find_last_redirection(t_ast_redir *redir);
+int				execute_out_redirection(t_ast_redir *last_redir, t_shell *sh);
 
 // PARSING
 int				is_quoted(char *str);

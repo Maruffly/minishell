@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:54:02 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/18 10:55:46 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/24 18:54:00 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static t_heredoc	*init_heredoc(char *delimiter)
 	return (hdoc);
 }
 
-int	handle_heredoc(t_ast_redirection *redir, t_shell *sh, t_expand *exp)
+int	handle_heredoc(t_ast_redir *redir, t_shell *sh, t_expand *exp)
 {
 	t_heredoc	*hdoc;
 	int			error_code;

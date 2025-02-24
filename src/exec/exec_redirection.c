@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirection.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/24 17:42:20 by jlaine           ###   ########.fr       */
+/*   Created: 2025/02/24 18:58:31 by jmaruffy          #+#    #+#             */
+/*   Updated: 2025/02/24 18:59:11 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../includes/minishell.h"
 
-int	redirect_input(t_ast_redirection *redir, t_shell *sh)
+int	redirect_input(t_ast_redir *redir, t_shell *sh)
 {
 	int	status;
 	int	original_stdin;
@@ -37,71 +36,35 @@ int	redirect_input(t_ast_redirection *redir, t_shell *sh)
 	return (status);
 }
 
-int	redirect_output(t_ast_redirection *redir, t_shell *sh) // testtt
+int	redirect_output(t_ast_redir *redir, t_shell *sh)
 {
-	int		status;
-	int		output_fd;
-	int		original_stdout;
-	t_ast	*cmd_node;
-	t_ast_redirection *cur;
-	t_ast_redirection *last_redir;
+	t_ast_redir	*cur;
+	t_ast_redir	*last_redir;
+	int			is_truncate;
+	int			fd;
 
-	// ✅ 1. Parcourir toutes les redirections pour créer les fichiers
+	if (!redir)
+		return (EXIT_FAILURE);
 	cur = redir;
-	last_redir = redir;
 	while (cur)
 	{
-		// Créer tous les fichiers `>` et `>>`
-		output_fd = open(cur->file, O_WRONLY | O_CREAT | ((cur->direction == REDIRECT_OUT) ? O_TRUNC : O_APPEND), 0644);
-		printf("file %s : create\n", cur->file);
-		if (output_fd == -1)
-		{
-			write(STDERR_FILENO, "Omar&Fred: ", 11);
-			perror(cur->file);
-			sh->redirection_error = true;
+		is_truncate = 0;
+		if (cur->direction == REDIRECT_OUT)
+			is_truncate = 1;
+		fd = open_redirection_file(cur->file, is_truncate, sh);
+		if (fd == -1)
 			return (EXIT_FAILURE);
-		}
-		close(output_fd); // On ferme le fichier immédiatement après l'avoir créé
-
-		// ✅ Garder une référence uniquement vers la dernière redirection
-		last_redir = cur;
-		cur = (cur->command && cur->command->type == AST_REDIRECTION) ? &cur->command->u_data.redirection : NULL;
+		close(fd);
+		if (cur->command != NULL && cur->command->type == AST_REDIRECTION)
+			cur = &cur->command->u_data.redirection;
+		else
+			break ;
 	}
-
-	// ✅ 2. Appliquer uniquement la dernière redirection à `stdout`
-	output_fd = open(last_redir->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (output_fd == -1)
-	{
-		write(STDERR_FILENO, "Omar&Fred: ", 11);
-		perror(last_redir->file);
-		sh->redirection_error = true;
-		return (EXIT_FAILURE);
-	}
-
-	original_stdout = dup(STDOUT_FILENO);
-	dup2(output_fd, STDOUT_FILENO);
-	close(output_fd);
-
-	// ✅ 3. Exécuter la commande après avoir appliqué les redirections
-	cmd_node = last_redir->command;
-	while (cmd_node && cmd_node->type == AST_REDIRECTION)
-		cmd_node = cmd_node->u_data.redirection.command;
-
-	status = EXIT_SUCCESS;
-	if (cmd_node)
-		status = execute(cmd_node, KEEP_RUNNING, sh);
-
-	// ✅ 4. Restaurer la sortie standard si nécessaire
-	if (sh->is_parent && original_stdout != -1)
-	{
-		dup2(original_stdout, STDOUT_FILENO);
-		close(original_stdout);
-	}
-	return (status);
+	last_redir = find_last_redirection(redir);
+	return (execute_out_redirection(last_redir, sh));
 }
 
-
-int	append_output(t_ast_redirection *redir, t_shell *sh)
+int	append_output(t_ast_redir *redir, t_shell *sh)
 {
 	int	status;
 	int	output_fd;
@@ -130,7 +93,7 @@ int	append_output(t_ast_redirection *redir, t_shell *sh)
 	return (status);
 }
 
-int	redirect_heredoc(t_ast_redirection *redir, t_shell *sh)
+int	redirect_heredoc(t_ast_redir *redir, t_shell *sh)
 {
 	int		status;
 	int		original_stdin;
@@ -158,7 +121,7 @@ int	redirect_heredoc(t_ast_redirection *redir, t_shell *sh)
 	return (status);
 }
 
-int	exec_redirection(t_ast_redirection *redir, t_shell *sh)
+int	exec_redirection(t_ast_redir *redir, t_shell *sh)
 {
 	int	status;
 

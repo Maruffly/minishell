@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/24 17:18:00 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/24 17:42:20 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	redirect_input(t_ast_redirection *redir, t_shell *sh)
 	return (status);
 }
 
-int	redirect_output(t_ast_redirection *redir, t_shell *sh)
+int	redirect_output(t_ast_redirection *redir, t_shell *sh) // testtt
 {
 	int		status;
 	int		output_fd;

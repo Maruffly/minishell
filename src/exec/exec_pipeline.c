@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipeline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/24 15:27:29 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/24 17:52:33 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,21 +99,61 @@ static int	exec_pipeline_token(t_token *pipeline, t_shell *sh)
 	return (last_cmd_status);
 }
 
-int	exec_pipeline(t_ast *node, t_shell *sh)
-{
-	t_token	*pipeline;
-	int		status;
+// int	exec_pipeline(t_ast *node, t_shell *sh)
+// {
+// 	t_token	*pipeline;
+// 	int		status;
 
-	pipeline = build_cmd_list(node, sh);
-	if (!pipeline)
-		return (EXIT_FAILURE);
-	if (sh->redirection_error)
+// 	pipeline = build_cmd_list(node, sh);
+// 	if (!pipeline)
+// 		return (EXIT_FAILURE);
+// 	if (sh->redirection_error)
+// 	{
+// 		sh->redirection_error = false;
+// 		free_list_token(pipeline);
+// 		return (EXIT_FAILURE);
+// 	}
+// 	status = exec_pipeline_token(pipeline, sh);
+// 	free_list_token(pipeline);
+// 	return (status);
+// }
+
+void free_cmd_list(t_ast *cmd_list)
+{
+    t_ast *tmp;
+
+    while (cmd_list)
+    {
+        tmp = cmd_list->u_data.pipeline.right; // Accéder au prochain élément
+        free(cmd_list);
+        cmd_list = tmp;
+    }
+}
+
+
+int exec_pipeline(t_ast *node, t_shell *sh)
+{
+    t_token *cmd_list;
+    int status;
+    pid_t last_pid;
+
+    // 🔹 Construire la liste des commandes du pipeline
+    cmd_list = build_cmd_list(node, sh);
+    if (!cmd_list)
+        return (EXIT_FAILURE);
+
+    // 🔹 Exécuter les commandes du pipeline
+    last_pid = exec_pipeline_token(cmd_list, sh);
+    if (last_pid == -1)
 	{
-		sh->redirection_error = false;
-		free_list_token(pipeline);
 		return (EXIT_FAILURE);
+		free_list_token(cmd_list);
 	}
-	status = exec_pipeline_token(pipeline, sh);
-	free_list_token(pipeline);
-	return (status);
+        // return (EXIT_FAILURE);
+
+    // ✅ Attendre tous les processus enfants pour éviter un prompt vide
+    while (waitpid(-1, &status, 0) > 0);
+
+	free_list_token(cmd_list);
+    return WEXITSTATUS(status);
 }

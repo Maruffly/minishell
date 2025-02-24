@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/02 15:26:54 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/24 10:12:09 by jlaine           ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/02/24 16:07:12 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ static t_ast	*parse_pipe(t_token **token, t_shell *sh)
 
 	left = parse_redirection(token, sh);
 	if (sh->parsing_error)
+	{
+		free_ast(left);
 		return (NULL);
+	}
 	while (*token && (*token)->type == PIPE)
 	{
 		*token = (*token)->next;
@@ -85,8 +88,6 @@ t_ast	*parse_redirection(t_token **token, t_shell *sh)
 	if (sh->parsing_error)
 		return (NULL);
 	command = parse_subshell(token, sh);
-	if (sh->parsing_error)
-		return (NULL);
 	suffix = parse_redirection_list(token, command, sh);
 	return (build_redir_cmd(prefix, suffix, command));
 }
@@ -95,7 +96,10 @@ int	parser(t_token *token, t_ast **ast, t_shell *sh)
 {
 	*ast = parse_logical(&token, sh);
 	if (sh->parsing_error)
+	{
+		free_ast(*ast);
 		return (EXIT_FAILURE);
+	}
 	if (token && !sh->is_next_word)
 	{
 		ft_free_split((*ast)->u_data.command.args);

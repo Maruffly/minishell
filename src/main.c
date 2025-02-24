@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/24 11:09:49 by jlaine           ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/02/24 15:33:03 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #include "../includes/minishell.h"
 
@@ -24,7 +26,7 @@ int	process_prompt(char *input, t_shell *sh)
 		return (process);
 	process = parser(token_lst, &ast, sh);
 	if (process != EXIT_SUCCESS || !ast)
-		return (handle_parsing_error(sh, token_lst));
+		return (handle_parsing_error(sh, token_lst, ast));
 	process = handle_heredoc_ast(ast, sh);
 	if (process != EXIT_SUCCESS)
 	{

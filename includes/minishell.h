@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/21 17:20:28 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/24 14:23:43 by jlaine           ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/02/24 15:34:06 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -103,7 +104,7 @@ void			remove_list_node(t_token **node, t_token **head,
 					void (*free_function)(void *), bool free_node);
 void			error(char *context, char *description, int exit_status,
 					t_shell *sh);
-int				handle_parsing_error(t_shell *sh, t_token *token_lst);
+int				handle_parsing_error(t_shell *sh, t_token *token_lst, t_ast *ast);
 void			ft_lstclear_env(t_env_list **lst, void (*del)(void *));
 
 // TOKEN
@@ -151,15 +152,16 @@ int				count_arg(t_token *cur);
 char			*remove_quotes(char *str);
 t_ast			*create_ast_cmd(char **args);
 t_ast			*parse_command(t_token **token);
-t_ast			*skip_invalid_redirection(t_token **cur);
+t_ast			*skip_invalid_redirection(t_token **cur, t_ast *new_redir);
 void			init_ast_node(t_ast **node, t_ast_type type);
+
 t_ast			*create_ast_subshell(t_ast *child, t_shell *sh);
 int				parser(t_token *token, t_ast **ast, t_shell *sh);
 t_ast			*parse_redirection(t_token **token, t_shell *sh);
 void			handle_redirection_error(char *file, t_shell *sh);
 t_ast			*parse_redirection_list(t_token **token, t_ast *command,
 					t_shell *sh);
-t_ast			*create_ast_redirection(t_token_type direction,
+t_ast			*redirection(t_token_type direction,
 					t_token *filename, t_ast *command, t_shell *sh);
 int				check_redirection_access(t_token *cur, t_shell *sh);
 t_ast			*create_ast_logical(t_ast *left, t_token_type op,
@@ -167,6 +169,8 @@ t_ast			*create_ast_logical(t_ast *left, t_token_type op,
 bool			handle_command_argument(t_token **cur, t_ast *command);
 t_ast			*create_ast_pipeline(t_ast	*left, t_ast *right, t_shell *sh);
 t_ast			*build_redir_cmd(t_ast *prefix, t_ast *suffix, t_ast *command);
+t_ast			*create_ast_redirection(t_token_type direction, t_token *filename,
+	t_ast *command, t_shell *sh);
 // t_ast			*validate_and_create_redirection(t_token **cur, t_ast **first,
 // 					t_ast **last, t_shell *sh);
 

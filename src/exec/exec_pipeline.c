@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipeline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/07 18:05:31 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/24 10:07:07 by jlaine           ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/02/24 15:27:29 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../includes/minishell.h"
 
@@ -75,10 +76,12 @@ static int	exec_pipeline_token(t_token *pipeline, t_shell *sh)
 	int		n_pipeline;
 	int		prev_read_end;
 	int		last_cmd_status;
+	int		num_processes;
 
 	n_pipeline = ft_lstsize_token(pipeline) - 1;
 	last_pid = 0;
 	prev_read_end = -1;
+	num_processes = 0;
 	while (pipeline)
 	{
 		if (pipe(p) == -1)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:50:37 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/14 17:09:59 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/24 11:10:52 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,12 @@ void	free_env_array(char **envp)
 	free(envp);
 }
 
-int	handle_parsing_error(t_shell *sh, t_token *token_lst)
+int	handle_parsing_error(t_shell *sh, t_token *token_lst, t_ast *ast)
 {
 	if (sh->parsing_error)
 		syntax_error(sh->parsing_error, sh);
 	free_token_list(token_lst);
+	free_ast(ast);
 	return (EXIT_FAILURE);
 }
 

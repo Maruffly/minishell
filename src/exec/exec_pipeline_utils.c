@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipeline_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/09 14:44:13 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/24 13:01:22 by jlaine           ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/02/24 15:27:07 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../includes/minishell.h"
 
@@ -46,6 +47,14 @@ pid_t	exec_one_pipeline_token(t_token *pipeline, int prev_read_end, int p[2],
 {
 	pid_t	pid;
 
+	/* if (sh->redirection_error)
+	{
+		close(p[0]);
+		close(p[1]);
+		if (prev_read_end != -1)
+			close(prev_read_end);
+		return (-1);
+	} */
 	pid = fork();
 	if (pid != 0)
 		return (pid);
@@ -86,6 +95,7 @@ int	wait_for_children(pid_t last_pid, int n_pipeline, t_shell *sh)
 			last_cmd_status = check_process_child_exit(status, &new_line, sh);
 		else
 			check_process_child_exit(status, &new_line, sh);
+		n_pipeline--;
 		n_pipeline--;
 	}
 	return (last_cmd_status);

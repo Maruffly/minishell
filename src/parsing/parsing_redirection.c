@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_redirection.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/02 15:26:54 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/24 14:30:07 by jlaine           ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/02/24 15:31:41 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../includes/minishell.h"
 
@@ -78,13 +79,14 @@ t_ast	*validate_and_create_redirection(t_token **cur,
 		return (NULL);
 	check = check_redirection_access(*cur, sh);
 	if (check == -1)
-		return (skip_invalid_redirection(cur));
+		return (skip_invalid_redirection(cur, new_redir));
 	if (!*first)
 		*first = new_redir;
 	else
 		(*last)->u_data.redirection.command = new_redir;
 	*last = new_redir;
 	*cur = (*cur)->next->next;
+	if (*cur && is_word(*cur))
 	if (*cur && is_word(*cur))
 	{
 	sh->is_next_word = true;

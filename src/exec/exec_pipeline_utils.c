@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipeline_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:44:13 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/23 21:51:47 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/02/24 13:01:22 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,15 +68,6 @@ pid_t	exec_one_pipeline_token(t_token *pipeline, int prev_read_end, int p[2],
 	exit(sh->last_status);
 }
 
-/* void	setup_for_next_command(int *prev_read_end, int p[2], t_shell *sh)
-{
-	(void)sh;
-	if (*prev_read_end != -1)
-		close(*prev_read_end);
-	close(p[1]);
-	*prev_read_end = p[0];
-} */
-
 int	wait_for_children(pid_t last_pid, int n_pipeline, t_shell *sh)
 {
 	pid_t	child_pid;
@@ -86,14 +77,16 @@ int	wait_for_children(pid_t last_pid, int n_pipeline, t_shell *sh)
 
 	new_line = false;
 	last_cmd_status = 0;
-
-	while (n_pipeline-- >= 0)
+	while (n_pipeline > 0)
 	{
-		child_pid = wait(&status);
+		child_pid = waitpid(-1, &status, 0);
+		if (child_pid == -1)
+			break ;
 		if (child_pid == last_pid)
 			last_cmd_status = check_process_child_exit(status, &new_line, sh);
 		else
 			check_process_child_exit(status, &new_line, sh);
+		n_pipeline--;
 	}
 	return (last_cmd_status);
 }

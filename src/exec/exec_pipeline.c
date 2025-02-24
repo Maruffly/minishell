@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipeline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 18:05:31 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/23 23:27:49 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/02/24 10:07:07 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ static int	exec_pipeline_token(t_token *pipeline, t_shell *sh)
 	int		prev_read_end;
 	int		last_cmd_status;
 
-	/*print_open_fds("Start of pipeline");*/
 	n_pipeline = ft_lstsize_token(pipeline) - 1;
 	last_pid = 0;
 	prev_read_end = -1;
@@ -84,27 +83,16 @@ static int	exec_pipeline_token(t_token *pipeline, t_shell *sh)
 	{
 		if (pipe(p) == -1)
 			return (EXIT_FAILURE);
-		/*print_open_fds("Before fork");*/
 		last_pid = exec_one_pipeline_token(pipeline, prev_read_end, p, sh);
-		/* if (last_pid > 0)  // Parent process
-        {
-            char cmd_name[256];
-            snprintf(cmd_name, sizeof(cmd_name), "Pipeline cmd: %s", 
-                    pipeline->value ? pipeline->value : "unknown");
-            trace_child_fds(cmd_name, last_pid);  // Debug
-        } */
 		if (prev_read_end != -1)
 			close(prev_read_end);
 		close(p[1]);
 		prev_read_end = p[0];
-		/*print_open_fds("After fork and pipe setup");*/
 		pipeline = pipeline->next;
 	}
 	if (prev_read_end != -1)
 		close(prev_read_end);
-	/*print_open_fds("Before waiting for children");*/
 	last_cmd_status = wait_for_children(last_pid, n_pipeline, sh);
-	/*print_open_fds("End of pipeline");*/
 	return (last_cmd_status);
 }
 

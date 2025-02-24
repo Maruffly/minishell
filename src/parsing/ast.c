@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 15:26:54 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/18 10:56:59 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/24 14:12:21 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,15 @@ t_ast	*build_redir_cmd(t_ast *prefix, t_ast *suffix, t_ast *command)
 	}
 	else
 		return (command);
+}
+
+void	handle_quotes(char *input, char *c, bool *in_quote, int *len)
+{
+	if (!*in_quote)
+	{
+		*in_quote = true;
+		*c = input[*len];
+	}
+	else if (input[*len] == *c)
+		*in_quote = false;
 }

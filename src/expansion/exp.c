@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:22:15 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/23 23:13:26 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/02/24 09:58:18 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,36 +80,14 @@ void	command_expansion(t_ast *node, t_shell *sh)
 		free_token_list(expanded_args);
 }
 
-/* void	redirection_expansion(t_ast *node, t_shell *sh)
+void	redirection_expansion(t_ast *node, t_shell *sh)
 {
-	char	*str;
-	t_token	*expanded_args;
-	char	*tmp;
+	char	*filename;
 
 	if (!node || !sh || node->u_data.redirection.direction == HEREDOC)
 		return ;
-	expanded_args = NULL;
-	str = node->u_data.redirection.file;
-	arg_expansion(str, &expanded_args, sh);
-	if (ft_lstsize_token(expanded_args) != 1
-		|| !ft_strcmp(expanded_args->value, ""))
-		error("wrong redirection", NULL, 1, sh);
-	else
-	{
-		tmp = ft_strdup(expanded_args->value);
-		node->u_data.redirection.file = tmp;
-		node->u_data.redirection.file_free = true;
-	}
-	free_token_list(expanded_args);
-} */
-
-void	redirection_expansion(t_ast *node, t_shell *sh) {
-	char *filename;
-
-	if (!node || !sh || node->u_data.redirection.direction == HEREDOC)
-		return;
 	filename = remove_quotes(node->u_data.redirection.file);
-	if (filename) 
+	if (filename)
 	{
 		if (node->u_data.redirection.file_free)
 			free(node->u_data.redirection.file);

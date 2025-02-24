@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/21 17:20:28 by jbmy             ###   ########.fr       */
+/*   Created: 2025/02/21 17:20:28 by jlaine            #+#    #+#             */
+/*   Updated: 2025/02/24 14:23:43 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -30,7 +29,6 @@ char			*read_line(t_prompt_mode mode);
 void			init_shell(t_shell *sh, char **envp);
 void			add_arg_tab(char ***array, char *new_arg);
 
-
 // SIGNAL
 void			main_signal(void);
 void			set_main_signals(void);
@@ -49,6 +47,7 @@ int				lexer(char *input, t_token **token_list, t_shell *sh);
 t_token_type	get_redirect(char *input, char c, int *len, t_shell *sh);
 t_token			*create_token(t_token_type type, char *input, size_t len);
 t_token_type	get_pipe_logic(char *input, char c, int *len, t_shell *sh);
+void			handle_quotes(char *input, char *c, bool *in_quote, int *len);
 
 // HEREDOC
 void			free_heredoc(t_heredoc *hdoc);
@@ -126,8 +125,10 @@ void			add_front_token(t_token **token_list, t_ast *node, t_shell *sh);
 char			*build_path(char *dir, char *command);
 int				exec_pipeline(t_ast *node, t_shell *sh);
 int				execute(t_ast *node, t_exit end, t_shell *sh);
+int				redirect_stdin(int input_fd, int original_stdin);
 int				exec_logical(t_ast_logical *logical, t_shell *sh);
 char			**convert_env_list_to_array(t_env_list *env_list);
+int				setup_output_redirection(t_ast_redirection *redir);
 char			*find_command_path(char *command, t_env_list *env);
 int				check_process_child_exit(int status, bool *new_line,
 					t_shell *sh);
@@ -141,6 +142,8 @@ int				redirect_output(t_ast_redirection *redir, t_shell *sh);
 int				exec_redirection(t_ast_redirection *redir, t_shell *sh);
 int				exec_command(t_ast_command *cmd, t_exit end, t_shell *sh);
 int				wait_for_children(pid_t last_pid, int n_pipeline, t_shell *sh);
+int				open_and_backup_stdin(t_ast_redirection *redir, t_shell *sh,
+					int *original_stdin);
 
 // PARSING
 int				is_quoted(char *str);
@@ -148,6 +151,7 @@ int				count_arg(t_token *cur);
 char			*remove_quotes(char *str);
 t_ast			*create_ast_cmd(char **args);
 t_ast			*parse_command(t_token **token);
+t_ast			*skip_invalid_redirection(t_token **cur);
 void			init_ast_node(t_ast **node, t_ast_type type);
 t_ast			*create_ast_subshell(t_ast *child, t_shell *sh);
 int				parser(t_token *token, t_ast **ast, t_shell *sh);
@@ -160,8 +164,11 @@ t_ast			*create_ast_redirection(t_token_type direction,
 int				check_redirection_access(t_token *cur, t_shell *sh);
 t_ast			*create_ast_logical(t_ast *left, t_token_type op,
 					t_ast *right, t_shell *sh);
+bool			handle_command_argument(t_token **cur, t_ast *command);
 t_ast			*create_ast_pipeline(t_ast	*left, t_ast *right, t_shell *sh);
 t_ast			*build_redir_cmd(t_ast *prefix, t_ast *suffix, t_ast *command);
+// t_ast			*validate_and_create_redirection(t_token **cur, t_ast **first,
+// 					t_ast **last, t_shell *sh);
 
 // EXPANSION
 int				is_directory(char *name);

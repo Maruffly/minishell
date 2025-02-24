@@ -29,6 +29,7 @@ SRC_FILES = main.c\
 			/parsing/ast_builder.c\
 			/parsing/parsing_utils.c\
 			/parsing/parsing_redirection.c\
+			/parsing/parsing_redirection_utils.c\
 			/lexer/lexer.c\
 			/lexer/get_token.c\
 			/signals/signal.c\
@@ -56,6 +57,7 @@ SRC_FILES = main.c\
 			/exec/exec_command_utils.c\
 			/exec/exec_pipeline_utils.c\
 			/exec/exec_extern_command.c\
+			/exec/exec_redirection_utils.c\
 
 SRC_DIR = ./src/
 

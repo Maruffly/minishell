@@ -3,44 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:14:26 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/20 19:30:15 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/02/24 13:15:07 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	error(char *context, char *description, int exit_status,
-	t_shell *sh)
-{
-	ft_putstr_fd("Omar&Fred: ", STDERR_FILENO);
-	ft_putstr_fd(description, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putstr_fd(context, STDERR_FILENO);
-	ft_putstr_fd("\n", STDERR_FILENO);
-	exit_shell(exit_status, sh);
-}
-
-
 void	free_token_list(t_token *tokens)
 {
 	t_token	*tmp;
 
-		while (tokens)
+	while (tokens)
+	{
+		tmp = tokens->next;
+		if (tokens->value)
 		{
-				tmp = tokens->next;
-				if (tokens->value)
-				{
-					free(tokens->value);
-					tokens->value = NULL;
-				}
-				free(tokens);
-				tokens = tmp;
-		
+			free(tokens->value);
+			tokens->value = NULL;
 		}
-		tokens = NULL;
+		free(tokens);
+		tokens = tmp;
+	}
+	tokens = NULL;
 }
 
 void	remove_list_node(t_token **node, t_token **head,
@@ -61,18 +48,14 @@ void	remove_list_node(t_token **node, t_token **head,
 		ft_lstdelone_token(to_remove, free_function);
 }
 
-void	free_ast(t_ast *ast)
+static void	free_ast_node(t_ast *ast)
 {
-	if (!ast || ast->is_freed)
-		return ;
-	ast->is_freed = true;
 	if (ast->type == AST_COMMAND && ast->u_data.command.args)
 		ft_free_split(ast->u_data.command.args);
 	else if (ast->type == AST_REDIRECTION)
 	{
 		if (ast->u_data.redirection.file_free)
 			free(ast->u_data.redirection.file);
-		ast->u_data.redirection.file = NULL;
 		free_ast(ast->u_data.redirection.command);
 	}
 	else if (ast->type == AST_PIPELINE)
@@ -87,8 +70,15 @@ void	free_ast(t_ast *ast)
 	}
 	else if (ast->type == AST_SUBSHELL)
 		free_ast(ast->u_data.subshell.child);
+}
+
+void	free_ast(t_ast *ast)
+{
+	if (!ast || ast->is_freed)
+		return ;
+	ast->is_freed = true;
+	free_ast_node(ast);
 	free(ast);
-	ast = NULL;
 }
 
 void	free_list_token(t_token *token_list)

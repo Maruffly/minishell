@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_token.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 12:35:01 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/19 17:06:47 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/02/24 13:07:57 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,40 +79,6 @@ t_token_type	get_subshell(char *input, int *len)
 	return (ERROR);
 }
 
-/* t_token_type	get_word(char *input, char c, int *len, t_shell *sh)
-{
-	bool	in_quote;
-
-	in_quote = false;
-	*len = 0;
-	while (input[*len])
-	{
-		if (input[*len + 1] && input[*len] == '\\')
-			*len += 1;
-		else if (input[*len] == '\"' || input[*len] == '\'')
-		{
-			if (!in_quote)
-			{
-				in_quote = true;
-				c = input[*len];
-				*len += 1;
-			}
-			else if (in_quote && input[*len] == c)
-			{
-				in_quote = false;
-				*len += 1;
-			}
-		}
-		else if (!in_quote && should_break(input[*len], in_quote))
-			break ;
-		*len += 1;
-		printf("Debug: in_quote = %d, input = \"%s\"\n", in_quote, input);
-	}
-	if (in_quote)
-		return (syntax_error("unclosed quote", sh), ERROR);
-	return (WORD);
-} */
-
 t_token_type	get_word(char *input, char c, int *len, t_shell *sh)
 {
 	bool	in_quote;
@@ -121,25 +87,13 @@ t_token_type	get_word(char *input, char c, int *len, t_shell *sh)
 	*len = 0;
 	while (input[*len])
 	{
-		if (input[*len + 1] && input[*len] == '\\')
-			*len += 1;
+		if (input[*len] == '\\' && input[*len + 1])
+			(*len)++;
 		else if (input[*len] == '\"' || input[*len] == '\'')
-		{
-			if (!in_quote)
-			{
-				in_quote = true;
-				c = input[*len];
-			}
-			else if (in_quote && input[*len] == c)
-			{
-				in_quote = false;
-			}
-			*len += 1;
-			continue;
-		}
+			handle_quotes(input, &c, &in_quote, len);
 		else if (!in_quote && should_break(input[*len], in_quote))
-			break;
-		*len += 1;
+			break ;
+		(*len)++;
 	}
 	if (in_quote)
 		return (syntax_error("unclosed quote", sh), ERROR);

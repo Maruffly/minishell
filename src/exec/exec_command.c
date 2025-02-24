@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/23 22:50:26 by jbmy             ###   ########.fr       */
+/*   Created: 2025/02/24 10:05:30 by jlaine            #+#    #+#             */
+/*   Updated: 2025/02/24 12:57:56 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../includes/minishell.h"
 
@@ -69,16 +68,14 @@ static int	fork_command(t_ast_command *cmd, t_exit end, t_shell *sh)
 		exec_extern_command(cmd, sh);
 		exit(EXIT_FAILURE);
 	}
-	else if (pid > 0)
-	{
-		wait(&status);
-		sh->last_status = check_process_child_exit(status, NULL, sh);
-	}
-	else
+	if (pid < 0)
 	{
 		perror("fork");
 		return (EXIT_FAILURE);
 	}
+	while (waitpid(pid, &status, WNOHANG) == 0)
+		;
+	sh->last_status = check_process_child_exit(status, NULL, sh);
 	return (sh->last_status);
 }
 
@@ -96,10 +93,7 @@ void	extra_arguments(t_ast_command *cmd, t_shell *sh)
 			{
 				dup = ft_strdup(cur->value);
 				if (dup)
-				{
-					add_arg_tab(&cmd->args,remove_quotes(dup));
-					/* free(dup); */
-				}
+					add_arg_tab(&cmd->args, remove_quotes(dup));
 			}
 			cur = cur->next;
 		}
@@ -111,6 +105,7 @@ void	extra_arguments(t_ast_command *cmd, t_shell *sh)
 int	exec_command(t_ast_command *cmd, t_exit end, t_shell *sh)
 {
 	int		status;
+
 	extra_arguments(cmd, sh);
 	status = EXIT_SUCCESS;
 	sh->last_status = status;

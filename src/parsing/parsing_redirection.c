@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_redirection.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/23 23:34:57 by jbmy             ###   ########.fr       */
+/*   Created: 2024/12/02 15:26:54 by jlaine            #+#    #+#             */
+/*   Updated: 2025/02/24 14:30:07 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../includes/minishell.h"
 
@@ -33,10 +32,10 @@ void	add_arg_tab(char ***array, char *new_arg)
 	}
 	new_array[i] = new_arg;
 	new_array[i + 1] = NULL;
-	*array = new_array;;
+	*array = new_array;
 }
 
-static bool	handle_command_argument(t_token **cur, t_ast *command)
+bool	handle_command_argument(t_token **cur, t_ast *command)
 {
 	if (is_word(*cur) && command && command->type == AST_COMMAND)
 	{
@@ -66,8 +65,8 @@ void	handle_redirection_error(char *file, t_shell *sh)
 	sh->redirection_error = true;
 }
 
-static t_ast	*validate_and_create_redirection(t_token **cur,
-					t_ast **first, t_ast **last, t_shell *sh)
+t_ast	*validate_and_create_redirection(t_token **cur,
+	t_ast **first, t_ast **last, t_shell *sh)
 {
 	t_ast	*new_redir;
 	int		check;
@@ -79,20 +78,17 @@ static t_ast	*validate_and_create_redirection(t_token **cur,
 		return (NULL);
 	check = check_redirection_access(*cur, sh);
 	if (check == -1)
-	{
-		*cur = (*cur)->next->next;
-		return (NULL);
-	}
+		return (skip_invalid_redirection(cur));
 	if (!*first)
 		*first = new_redir;
 	else
 		(*last)->u_data.redirection.command = new_redir;
 	*last = new_redir;
 	*cur = (*cur)->next->next;
-	if (*cur && is_word(*cur)) 
+	if (*cur && is_word(*cur))
 	{
-		sh->is_next_word = true;
-		sh->extra_args = *cur;
+	sh->is_next_word = true;
+	sh->extra_args = *cur;
 	}
 	return (new_redir);
 }
@@ -124,7 +120,7 @@ t_ast	*parse_redirection_list(t_token **token, t_ast *command, t_shell *sh)
 			break ;
 	}
 	while (cur && is_word(cur) && command && command->type == AST_COMMAND)
-   	{
+	{
 		add_arg_tab(&command->u_data.command.args, ft_strdup(cur->value));
 		cur = cur->next;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:29 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/23 14:26:52 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/02/24 11:09:49 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,6 @@ int	launch_shell(t_shell *sh)
 		if (g_signal_value == SIGINT)
 			sh->last_status = 130;
 		handle_eof(input, sh);
-		if (*input == ':' || *input == '!')
-		{
-			sh->last_status = 1;
-			free(input);
-			continue ;
-		}
 		if (ft_strlen(input) > 0)
 		{
 			add_history(input);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_extern_command.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 17:47:42 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/21 11:00:06 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/02/24 09:50:50 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	check_if_directory(char *path, char *cmd)
 		closedir(dir);
 		ft_putstr_fd("Omar&Fred: ", STDERR_FILENO);
 		ft_putstr_fd(cmd, STDERR_FILENO);
-		ft_putstr_fd(": is a directory\n", STDERR_FILENO);
+		ft_putstr_fd(": Is a directory\n", STDERR_FILENO);
 		free(path);
 		exit(126);
 	}

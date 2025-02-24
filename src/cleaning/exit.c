@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 17:58:12 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/16 15:55:23 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/24 13:15:20 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,15 @@ void	exit_shell(int exit_status, t_shell *sh)
 	}
 	rl_clear_history();
 	exit(exit_status);
+}
+
+void	error(char *context, char *description, int exit_status,
+	t_shell *sh)
+{
+	ft_putstr_fd("Omar&Fred: ", STDERR_FILENO);
+	ft_putstr_fd(description, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putstr_fd(context, STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
+	exit_shell(exit_status, sh);
 }

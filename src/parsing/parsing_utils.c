@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 15:26:54 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/23 22:32:00 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/02/24 10:14:11 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,57 +93,6 @@ t_ast	*parse_command(t_token **token)
 	return (create_ast_cmd(args));
 }
 
-/* int	check_redirection_access(t_token *cur, t_shell *sh)
-{
-	int	fd;
-
-	if (cur->type == REDIRECT_IN)
-	{
-		if (access(cur->next->value, F_OK) == -1)
-			return (handle_redirection_error(cur->next->value, sh), -1);
-	}
-	else if (cur->type == REDIRECT_OUT || cur->type == APPEND_OUT)
-	{
-		fd = open(cur->next->value, O_WRONLY | O_CREAT, 0644);
-		if (fd == -1)
-			return (handle_redirection_error(cur->next->value, sh), -1);
-		close(fd);
-		if (cur->type == REDIRECT_OUT)
-			fd = open(cur->next->value, O_WRONLY | O_TRUNC);
-		else
-			fd = open(cur->next->value, O_WRONLY | O_APPEND);
-		if (fd == -1)
-			return (handle_redirection_error(cur->next->value, sh), -1);
-		close(fd);
-	}
-	return (0);
-} */
-
-/* int	check_redirection_access(t_token *cur, t_shell *sh) 
-{
-	int	fd;
-
-	if (cur->type == REDIRECT_IN)
-	{
-		if (access(cur->next->value, F_OK) == -1)
-			return(handle_redirection_error(cur->next->value, sh), -1);
-	}
-	else if (cur->type == REDIRECT_OUT || cur->type == APPEND_OUT)
-	{
-		fd = open(cur->next->value, O_WRONLY);
-		if (fd == -1)
-		{
-			fd = open(cur->next->value, O_WRONLY | O_CREAT, 0644);
-			if (fd == -1)
-		  	  return (handle_redirection_error(cur->next->value, sh), -1);
-			close(fd);
-		}
-		else
-			close(fd);
-	}
-	return (0);
-} */
-
 int	check_redirection_access(t_token *cur, t_shell *sh)
 {
 	char	*filename;
@@ -161,29 +110,3 @@ int	check_redirection_access(t_token *cur, t_shell *sh)
 	}
 	return (0);
 }
-
-
-/* int	check_redirection_access(t_token *cur, t_shell *sh)
-{
-	char	*filename;
-	int		fd;
-
-	filename = remove_quotes(cur->next->value);
-	if (cur->type == REDIRECT_IN)
-	{
-		if (access(filename, F_OK) == -1)
-			return (handle_redirection_error(filename, sh), -1);
-	}
-	else if (cur->type == REDIRECT_OUT || cur->type == APPEND_OUT)
-	{
-		if (cur->type == REDIRECT_OUT)
-			fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		else
-			fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
-
-		if (fd == -1)
-			return (handle_redirection_error(filename, sh), -1);
-		close(fd);
-	}
-	return (0);
-} */

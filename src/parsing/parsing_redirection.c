@@ -5,11 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/24 16:53:08 by jlaine           ###   ########.fr       */
+/*   Created: 2024/12/02 15:26:54 by jlaine            #+#    #+#             */
+/*   Updated: 2025/02/24 18:42:54 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../includes/minishell.h"
 
@@ -87,10 +86,9 @@ t_ast	*validate_and_create_redirection(t_token **cur,
 	*last = new_redir;
 	*cur = (*cur)->next->next;
 	if (*cur && is_word(*cur))
-	if (*cur && is_word(*cur))
 	{
-	sh->is_next_word = true;
-	sh->extra_args = *cur;
+		sh->is_next_word = true;
+		sh->extra_args = *cur;
 	}
 	return (new_redir);
 }
@@ -110,14 +108,7 @@ t_ast	*parse_redirection_list(t_token **token, t_ast *command, t_shell *sh)
 			continue ;
 		if (!is_redirect(cur))
 			break ;
-		if (!cur->next || !is_word(cur->next))
-		{
-			syntax_error(cur->value, sh);
-			*token = cur;
-			return (NULL);
-		}
-		if (!validate_and_create_redirection(&cur, &first, &last, sh))
-			continue ;
+		cur = parse_single_redirection(cur, &first, &last, sh);
 		if (!cur)
 			break ;
 	}

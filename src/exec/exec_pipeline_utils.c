@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipeline_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/24 15:27:07 by jmaruffy         ###   ########.fr       */
+/*   Created: 2025/01/10 14:43:03 by jlaine            #+#    #+#             */
+/*   Updated: 2025/02/24 18:32:41 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../includes/minishell.h"
 
@@ -47,14 +46,6 @@ pid_t	exec_one_pipeline_token(t_token *pipeline, int prev_read_end, int p[2],
 {
 	pid_t	pid;
 
-	/* if (sh->redirection_error)
-	{
-		close(p[0]);
-		close(p[1]);
-		if (prev_read_end != -1)
-			close(prev_read_end);
-		return (-1);
-	} */
 	pid = fork();
 	if (pid != 0)
 		return (pid);

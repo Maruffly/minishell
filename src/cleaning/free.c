@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:14:26 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/24 15:25:17 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:33:28 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ static void	free_ast_node(t_ast *ast)
 		ft_free_split(ast->u_data.command.args);
 	else if (ast->type == AST_REDIRECTION)
 	{
-		/* if (ast->u_data.redirection.file_free) */
 		free(ast->u_data.redirection.file);
 		ast->u_data.redirection.file = NULL;
 		free_ast(ast->u_data.redirection.command);

@@ -5,11 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/24 17:52:33 by jlaine           ###   ########.fr       */
+/*   Created: 2025/01/10 14:43:03 by jlaine            #+#    #+#             */
+/*   Updated: 2025/02/24 18:30:35 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../includes/minishell.h"
 
@@ -69,91 +68,57 @@ static pid_t	exec_one_pipeline_token(t_token *pipeline, int prev_read_end,
 	exit(sh->last_status);
 }
 
+static int	exec_single_process(t_token *pipeline, int prev_read_end,
+								int p[2], t_shell *sh)
+{
+	pid_t	last_pid;
+
+	last_pid = exec_one_pipeline_token(pipeline, prev_read_end, p, sh);
+	if (prev_read_end != -1)
+		close(prev_read_end);
+	close(p[1]);
+	return (p[0]);
+}
+
 static int	exec_pipeline_token(t_token *pipeline, t_shell *sh)
 {
 	int		p[2];
 	pid_t	last_pid;
-	int		n_pipeline;
 	int		prev_read_end;
-	int		last_cmd_status;
-	int		num_processes;
+	int		n_pipeline;
 
 	n_pipeline = ft_lstsize_token(pipeline) - 1;
 	last_pid = 0;
 	prev_read_end = -1;
-	num_processes = 0;
 	while (pipeline)
 	{
 		if (pipe(p) == -1)
 			return (EXIT_FAILURE);
-		last_pid = exec_one_pipeline_token(pipeline, prev_read_end, p, sh);
-		if (prev_read_end != -1)
-			close(prev_read_end);
-		close(p[1]);
-		prev_read_end = p[0];
+		prev_read_end = exec_single_process(pipeline, prev_read_end, p, sh);
 		pipeline = pipeline->next;
 	}
 	if (prev_read_end != -1)
 		close(prev_read_end);
-	last_cmd_status = wait_for_children(last_pid, n_pipeline, sh);
-	return (last_cmd_status);
+	return (wait_for_children(last_pid, n_pipeline, sh));
 }
 
-// int	exec_pipeline(t_ast *node, t_shell *sh)
-// {
-// 	t_token	*pipeline;
-// 	int		status;
-
-// 	pipeline = build_cmd_list(node, sh);
-// 	if (!pipeline)
-// 		return (EXIT_FAILURE);
-// 	if (sh->redirection_error)
-// 	{
-// 		sh->redirection_error = false;
-// 		free_list_token(pipeline);
-// 		return (EXIT_FAILURE);
-// 	}
-// 	status = exec_pipeline_token(pipeline, sh);
-// 	free_list_token(pipeline);
-// 	return (status);
-// }
-
-void free_cmd_list(t_ast *cmd_list)
+int	exec_pipeline(t_ast *node, t_shell *sh)
 {
-    t_ast *tmp;
+	int		status;
+	t_token	*cmd_list;
+	pid_t	last_pid;
 
-    while (cmd_list)
-    {
-        tmp = cmd_list->u_data.pipeline.right; // Accéder au prochain élément
-        free(cmd_list);
-        cmd_list = tmp;
-    }
-}
-
-
-int exec_pipeline(t_ast *node, t_shell *sh)
-{
-    t_token *cmd_list;
-    int status;
-    pid_t last_pid;
-
-    // 🔹 Construire la liste des commandes du pipeline
-    cmd_list = build_cmd_list(node, sh);
-    if (!cmd_list)
-        return (EXIT_FAILURE);
-
-    // 🔹 Exécuter les commandes du pipeline
-    last_pid = exec_pipeline_token(cmd_list, sh);
-    if (last_pid == -1)
+	cmd_list = build_cmd_list(node, sh);
+	if (!cmd_list)
+		return (EXIT_FAILURE);
+	last_pid = exec_pipeline_token(cmd_list, sh);
+	if (last_pid == -1)
 	{
 		return (EXIT_FAILURE);
 		free_list_token(cmd_list);
 	}
-        // return (EXIT_FAILURE);
-
-    // ✅ Attendre tous les processus enfants pour éviter un prompt vide
-    while (waitpid(-1, &status, 0) > 0);
-
+	while (waitpid(-1, &status, 0) > 0)
+		;
 	free_list_token(cmd_list);
-    return WEXITSTATUS(status);
+	return (WEXITSTATUS(status));
 }

@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:19:25 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/24 11:25:32 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/24 17:04:00 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	setup_output_redirection(t_ast_redirection *redir)
 
 	file_name = remove_quotes(redir->file);
 	output_fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	printf("file %s : create\n", file_name);
 	if (output_fd == -1)
 	{
 		write(STDERR_FILENO, "Omar&Fred: ", 11);

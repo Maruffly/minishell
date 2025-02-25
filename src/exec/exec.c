@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 14:43:03 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/24 19:00:46 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/25 02:48:17 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ int	execute_out_redirection(t_ast_redir *last_redir, t_shell *sh)
 
 	output_fd = open_redirection_file(last_redir->file, O_WRONLY
 			| O_CREAT | O_TRUNC, sh);
-	if (output_fd == -1)
-		return (EXIT_FAILURE);
 	original_stdout = dup(STDOUT_FILENO);
 	dup2(output_fd, STDOUT_FILENO);
 	close(output_fd);
@@ -43,6 +41,11 @@ static int	execute_node(t_ast *node, t_exit end, t_shell *sh)
 	int	status;
 
 	status = EXIT_FAILURE;
+	if (sh->redirection_error_out)
+	{
+		sh->last_status = EXIT_FAILURE;
+		return (EXIT_FAILURE);
+	}
 	if (!node)
 		return (EXIT_FAILURE);
 	if (node->type == AST_COMMAND || node->type == AST_REDIRECTION)
@@ -76,7 +79,6 @@ int	execute(t_ast *node, t_exit end, t_shell *sh)
 	if (node->type == AST_PIPELINE)
 	{
 		had_redirection_error = sh->redirection_error;
-		sh->redirection_error = false;
 		status = execute_node(node, end, sh);
 		if (had_redirection_error)
 			sh->redirection_error = true;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 14:06:27 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/24 18:33:09 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/24 22:11:39 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@ static t_ast	*parse_pipe(t_token **token, t_shell *sh)
 	{
 		*token = (*token)->next;
 		right = parse_redirection(token, sh);
+		if (!right || sh->parsing_error)
+		{
+			free_ast(left);
+			free_ast(right);
+		}
 		left = create_ast_pipeline(left, right, sh);
 	}
 	return (left);
@@ -40,13 +45,18 @@ static t_ast	*parse_logical(t_token **token, t_shell *sh)
 
 	left = parse_pipe(token, sh);
 	if (sh->parsing_error)
-		return (NULL);
+		free_ast(left);
 	while (is_operator(*token))
 	{
 		logic_op = (*token)->type;
 		*token = (*token)->next;
 		right = parse_pipe(token, sh);
 		left = create_ast_logical(left, logic_op, right, sh);
+		if (sh->parsing_error)
+		{
+			free_ast(left);
+			return (NULL);
+		}
 	}
 	return (left);
 }

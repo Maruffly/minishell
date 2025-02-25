@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirection.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:58:31 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/24 18:59:11 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/25 02:52:18 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,11 @@ int	redirect_input(t_ast_redir *redir, t_shell *sh)
 
 	input_fd = open_and_backup_stdin(redir, sh, &original_stdin);
 	if (input_fd == -1)
+	{
+		if (!sh->is_parent)
+			exit(EXIT_FAILURE);
 		return (EXIT_FAILURE);
+	}
 	if (redirect_stdin(input_fd, original_stdin) == -1)
 		return (EXIT_FAILURE);
 	status = EXIT_SUCCESS;
@@ -52,8 +56,6 @@ int	redirect_output(t_ast_redir *redir, t_shell *sh)
 		if (cur->direction == REDIRECT_OUT)
 			is_truncate = 1;
 		fd = open_redirection_file(cur->file, is_truncate, sh);
-		if (fd == -1)
-			return (EXIT_FAILURE);
 		close(fd);
 		if (cur->command != NULL && cur->command->type == AST_REDIRECTION)
 			cur = &cur->command->u_data.redirection;

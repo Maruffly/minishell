@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_redirection.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 15:26:54 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/24 18:42:54 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/25 03:10:42 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ void	handle_redirection_error(char *file, t_shell *sh)
 		ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
 	}
 	sh->redirection_error = true;
+/* 	if (type == REDIRECT_OUT || type == APPEND_OUT)
+		sh->redirection_error_out = true; */
 }
 
 t_ast	*validate_and_create_redirection(t_token **cur,
@@ -78,7 +80,7 @@ t_ast	*validate_and_create_redirection(t_token **cur,
 		return (NULL);
 	check = check_redirection_access(*cur, sh);
 	if (check == -1)
-		return (skip_invalid_redirection(cur, new_redir));
+		return (skip_invalid_redirection(cur, new_redir, sh));
 	if (!*first)
 		*first = new_redir;
 	else

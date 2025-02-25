@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:35:41 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/24 18:54:04 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/02/25 03:10:59 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ int				count_arg(t_token *cur);
 char			*remove_quotes(char *str);
 t_ast			*create_ast_cmd(char **args);
 t_ast			*parse_command(t_token **token);
-t_ast			*skip_invalid_redirection(t_token **cur, t_ast *new_redir);
+t_ast			*skip_invalid_redirection(t_token **cur, t_ast *new_redir, t_shell *sh);
 void			init_ast_node(t_ast **node, t_ast_type type);
 t_ast			*create_ast_subshell(t_ast *child, t_shell *sh);
 int				parser(t_token *token, t_ast **ast, t_shell *sh);

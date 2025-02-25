@@ -6,7 +6,7 @@
 /*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:47:11 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/21 11:20:13 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/02/25 02:22:49 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*get_path_env(t_env_list *env)
 	path_node = find_env_node(env, "PATH");
 	if (!path_node || !path_node->var_value)
 	{
-		ft_putstr_fd("minishell: PATH not set\n", STDERR_FILENO);
+		ft_putstr_fd("Omar&Fred: PATH not set\n", STDERR_FILENO);
 		return (NULL);
 	}
 	return (path_node->var_value);
@@ -88,6 +88,7 @@ void	init_shell(t_shell *sh, char **envp)
 	sh->is_next_word = false;
 	sh->extra_args = NULL;
 	sh->redirection_error = false;
+	sh->redirection_error_out = false;
 	if (envp && envp[0])
 		shell_level(sh);
 }

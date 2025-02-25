@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipeline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 14:43:03 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/24 18:30:35 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/25 03:11:39 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ static int	exec_single_process(t_token *pipeline, int prev_read_end,
 	pid_t	last_pid;
 
 	last_pid = exec_one_pipeline_token(pipeline, prev_read_end, p, sh);
+	if (sh->redirection_error)
+		sh->redirection_error = false;
 	if (prev_read_end != -1)
 		close(prev_read_end);
 	close(p[1]);
@@ -86,10 +88,15 @@ static int	exec_pipeline_token(t_token *pipeline, t_shell *sh)
 	pid_t	last_pid;
 	int		prev_read_end;
 	int		n_pipeline;
+	t_token	*last_cmd;
 
+	last_cmd = NULL;
 	n_pipeline = ft_lstsize_token(pipeline) - 1;
 	last_pid = 0;
 	prev_read_end = -1;
+	last_cmd = pipeline;
+	while (last_cmd && last_cmd->next)
+		last_cmd = last_cmd->next;
 	while (pipeline)
 	{
 		if (pipe(p) == -1)
@@ -108,17 +115,17 @@ int	exec_pipeline(t_ast *node, t_shell *sh)
 	t_token	*cmd_list;
 	pid_t	last_pid;
 
+/* 	if (sh->redirection_error && !sh->redirection_error_out)
+		sh->redirection_error = false; */
 	cmd_list = build_cmd_list(node, sh);
 	if (!cmd_list)
 		return (EXIT_FAILURE);
 	last_pid = exec_pipeline_token(cmd_list, sh);
 	if (last_pid == -1)
 	{
-		return (EXIT_FAILURE);
 		free_list_token(cmd_list);
+		return (EXIT_FAILURE);
 	}
-	while (waitpid(-1, &status, 0) > 0)
-		;
 	free_list_token(cmd_list);
 	return (WEXITSTATUS(status));
 }

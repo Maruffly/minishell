@@ -6,7 +6,7 @@
 /*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:47:11 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/25 02:22:49 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/02/25 03:24:01 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ void	init_shell(t_shell *sh, char **envp)
 	sh->is_next_word = false;
 	sh->extra_args = NULL;
 	sh->redirection_error = false;
-	sh->redirection_error_out = false;
 	if (envp && envp[0])
 		shell_level(sh);
 }

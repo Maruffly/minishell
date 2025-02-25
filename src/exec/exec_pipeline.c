@@ -6,7 +6,7 @@
 /*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 14:43:03 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/25 03:11:39 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/02/25 03:20:07 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,6 @@ int	exec_pipeline(t_ast *node, t_shell *sh)
 	t_token	*cmd_list;
 	pid_t	last_pid;
 
-/* 	if (sh->redirection_error && !sh->redirection_error_out)
-		sh->redirection_error = false; */
 	cmd_list = build_cmd_list(node, sh);
 	if (!cmd_list)
 		return (EXIT_FAILURE);

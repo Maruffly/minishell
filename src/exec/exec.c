@@ -6,7 +6,7 @@
 /*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 14:43:03 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/25 02:48:17 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/02/25 03:21:10 by jbmy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,6 @@ static int	execute_node(t_ast *node, t_exit end, t_shell *sh)
 	int	status;
 
 	status = EXIT_FAILURE;
-	if (sh->redirection_error_out)
-	{
-		sh->last_status = EXIT_FAILURE;
-		return (EXIT_FAILURE);
-	}
 	if (!node)
 		return (EXIT_FAILURE);
 	if (node->type == AST_COMMAND || node->type == AST_REDIRECTION)

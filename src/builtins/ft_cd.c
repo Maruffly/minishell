@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 14:55:10 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/21 10:08:38 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/02/25 17:40:38 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,12 @@ void	exec_cd(t_ast_command *cmd, t_env_list *env_list, t_shell *sh)
 	char	*cur_pwd;
 	char	*path;
 
+	if (cmd->args[2])
+	{
+		ft_putstr_fd("minishell: cd: too many arguments\n", STDERR_FILENO);
+		sh->last_status = 1;
+		return ;
+	}
 	if (check_cd_args(cmd, &cur_pwd, sh) == EXIT_FAILURE)
 		return ;
 	path = get_cd_path(cmd, env_list, sh);

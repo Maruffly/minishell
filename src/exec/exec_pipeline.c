@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipeline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 14:43:03 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/25 03:20:07 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/02/25 10:26:13 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,9 +112,10 @@ static int	exec_pipeline_token(t_token *pipeline, t_shell *sh)
 int	exec_pipeline(t_ast *node, t_shell *sh)
 {
 	int		status;
-	t_token	*cmd_list;
 	pid_t	last_pid;
+	t_token	*cmd_list;
 
+	status = 0;
 	cmd_list = build_cmd_list(node, sh);
 	if (!cmd_list)
 		return (EXIT_FAILURE);

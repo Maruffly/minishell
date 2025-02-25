@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipeline_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbmy <jbmy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 14:43:03 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/24 22:56:27 by jbmy             ###   ########.fr       */
+/*   Updated: 2025/02/25 10:36:15 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	wait_for_children(pid_t last_pid, int n_pipeline, t_shell *sh)
 			check_process_child_exit(status, &new_line, sh);
 		n_pipeline--;
 		while (waitpid(-1, NULL, 0) > 0)
-        ;
+			;
 	}
 	return (last_cmd_status);
 }

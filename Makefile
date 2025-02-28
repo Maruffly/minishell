@@ -6,58 +6,7 @@ INC = -I ./ -I /opt/homebrew/opt/readline/include
 LDFLAGS = -L ./libft -L /opt/homebrew/opt/readline/lib
 LDLIBS = -lft -lreadline
 
-SRC_FILES = main.c\
-			/builtins/ft_cd.c\
-			/builtins/ft_pwd.c\
-			/builtins/ft_env.c\
-			/builtins/ft_echo.c\
-			/builtins/ft_exit.c\
-			/builtins/ft_unset.c\
-			/builtins/ft_export.c\
-			/env/env.c\
-			/env/env_utils.c\
-			/env/env_sorting.c\
-			/token/token_utils.c\
-			/token/token_words.c\
-			/token/token_specials.c\
-			/cleaning/free.c\
-			/cleaning/exit.c\
-			/cleaning/free_env.c\
-			/cleaning/error_handling.c\
-			/parsing/ast.c\
-			/parsing/parser.c\
-			/parsing/ast_builder.c\
-			/parsing/parsing_utils.c\
-			/parsing/parsing_redirection.c\
-			/parsing/parsing_redirection_utils.c\
-			/lexer/lexer.c\
-			/lexer/get_token.c\
-			/signals/signal.c\
-			/signals/signal_utils.c\
-			/expansion/exp.c\
-			/expansion/exp_var.c\
-			/expansion/exp_utils.c\
-			/expansion/exp_quote.c\
-			/expansion/exp_filename.c\
-			/expansion/exp_wildcards.c\
-			/expansion/exp_arg_utils.c\
-			/expansion/exp_files_list.c\
-			/expansion/exp_var_heredoc.c\
-			/expansion/exp_wildcards_dirs.c\
-			/expansion/exp_filename_utils.c\
-			/exec/exec.c\
-			/exec/heredoc.c\
-			/exec/exec_command.c\
-			/exec/heredoc_utils.c\
-			/exec/heredoc_exec.c\
-			/exec/exec_logical.c\
-			/exec/exec_pipeline.c\
-			/exec/exec_subshell.c\
-			/exec/exec_redirection.c\
-			/exec/exec_command_utils.c\
-			/exec/exec_pipeline_utils.c\
-			/exec/exec_extern_command.c\
-			/exec/exec_redirection_utils.c\
+SRC_FILES = 
 
 SRC_DIR = ./src/
 

@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 14:55:10 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/28 19:59:01 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/28 20:25:48 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,6 @@ static int	execute_cd(t_ast_command *cmd, char *pwd,
 	return (EXIT_SUCCESS);
 }
 
-/**
-	@brief	Executes the cd builtin command.
-*/
 static bool	arg_to_new_pwd(t_ast_command *cmd, char **pwd, t_shell *sh)
 {
 	if (!cmd->args[1])

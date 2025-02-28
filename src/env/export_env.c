@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:47:11 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/28 20:04:20 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/28 20:29:34 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	print_env(bool export_format, t_list *env, t_shell *sh)
 			continue ;
 		}
 		if (export_format)
-			write_s("declare -x ", STDOUT_FILENO, sh);
+			write_s("export ", STDOUT_FILENO, sh);
 		write_s(name(env), STDOUT_FILENO, sh);
 		if (value(env))
 			write_s("=", STDOUT_FILENO, sh);

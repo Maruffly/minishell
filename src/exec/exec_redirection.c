@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirection.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:58:31 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/28 20:20:34 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/28 20:26:24 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,11 @@ int	exec_redir(t_ast_redirection *redir, t_shell *sh)
 	int	status;
 
 	status = EXIT_FAILURE;
-	if (redir->direction == TK_REDIRECT_IN || redir->direction == TK_HEREDOC)
+	if (redir->direction == REDIRECT_IN || redir->direction == HEREDOC)
 		status = redir_input(redir, sh);
-	else if (redir->direction == TK_REDIRECT_OUT)
+	else if (redir->direction == REDIRECT_OUT)
 		status = redir_output(redir, sh);
-	else if (redir->direction == TK_APPEND_OUT)
+	else if (redir->direction == APPEND_OUT)
 		status = append_output(redir, sh);
 	return (status);
 }

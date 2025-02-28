@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:44:22 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/28 20:13:27 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/28 20:26:24 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static bool	is_heredoc(t_ast *node)
 {
 	return (node && node->type == AST_REDIRECTION
-		&& node->u_data.redirection.direction == TK_HEREDOC);
+		&& node->u_data.redirection.direction == HEREDOC);
 }
 
 static int	search_for_heredocs(t_ast *node, t_shell *sh)

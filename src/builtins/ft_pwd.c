@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:18:25 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/28 20:02:27 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/28 20:28:50 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	exec_pwd(t_ast_command *cmd, t_shell *sh)
 	{
 		getcwd_ret = getcwd(NULL, 0);
 		if (!getcwd_ret)
-			return (syscall_error("getcwd", errno, sh), 1);
+			return (error_handler("getcwd", errno, sh), 1);
 		s_alloc(getcwd_ret, PROMPT, sh);
 		write_s(getcwd_ret, STDOUT_FILENO, sh);
 		write_s("\n", STDOUT_FILENO, sh);

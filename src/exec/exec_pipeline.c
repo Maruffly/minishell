@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipeline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 14:43:03 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/28 20:18:55 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/28 20:51:40 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ static pid_t	exec_single_pipeline(t_list *pipeline, int prev_read_end,
 		close_s(prev_read_end, sh);
 	}
 	if (pipeline->next != NULL)
-		dup2_s(p[WRITE_END], STDOUT_FILENO, sh);
-	close_s(p[READ_END], sh);
-	close_s(p[WRITE_END], sh);
+		dup2_s(p[WRITE], STDOUT_FILENO, sh);
+	close_s(p[READ], sh);
+	close_s(p[WRITE], sh);
 	execute((t_ast *)pipeline->content, O_EXIT, sh);
 	return (pid);
 }

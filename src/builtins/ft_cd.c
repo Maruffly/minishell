@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 14:55:10 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/28 20:25:48 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/02/28 20:56:16 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	execute_getcwd(size_t size, char **new_pwd, t_shell *sh)
 			return (EXIT_FAILURE);
 		}
 		else
-			syscall_error("getcwd: ", errno, sh);
+			error_handler("getcwd: ", errno, sh);
 	}
 	*new_pwd = ret;
 	return (EXIT_SUCCESS);

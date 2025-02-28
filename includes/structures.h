@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/09 13:35:41 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/28 19:45:25 by jlaine           ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/02/28 20:56:32 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef STRUCTURES_H
 # define STRUCTURES_H
@@ -17,7 +18,6 @@
 
 extern sig_atomic_t			g_signal_value;
 
-// ----- CORE ----- //
 typedef struct s_shell
 {
 	t_list					*env;
@@ -35,20 +35,19 @@ typedef enum e_prompt_mode
 	HEREDOC_PROMPT
 }							t_prompt_mode;
 
-// ----- LEXER ----- //
 typedef enum e_token_type
 {
-	TK_ERROR,
-	TK_WORD,
-	TK_PIPE,
-	TK_AND,
-	TK_OR,
-	TK_REDIRECT_IN,
-	TK_REDIRECT_OUT,
-	TK_APPEND_OUT,
-	TK_HEREDOC,
-	TK_SUBSHELL_OPEN,
-	TK_SUBSHELL_CLOSE
+	ERROR,
+	WORD,
+	PIPE,
+	AND,
+	OR,
+	REDIRECT_IN,
+	REDIRECT_OUT,
+	APPEND_OUT,
+	HEREDOC,
+	SUBSHELL_OPEN,
+	SUBSHELL_CLOSE
 }							t_token_type;
 
 typedef struct s_token
@@ -56,8 +55,6 @@ typedef struct s_token
 	t_token_type			type;
 	char					*value;
 }							t_token;
-
-// ----- PARSER ----- //
 typedef enum e_ast_type
 {
 	AST_COMMAND,
@@ -73,6 +70,13 @@ typedef struct s_ast_command
 	char					**args;
 }							t_ast_command;
 
+typedef struct s_ast_redirection
+{
+	t_token_type			direction;
+	struct s_ast			*child;
+	char					*file;
+}							t_ast_redirection;
+
 typedef struct s_ast_pipeline
 {
 	struct s_ast			*left;
@@ -84,15 +88,8 @@ typedef struct s_ast_logical
 	t_token_type			operator;
 	struct s_ast			*left;
 	struct s_ast			*right;
-}							t_ast_logical;
-
-typedef struct s_ast_redirection
-{
-	t_token_type			direction;
-	struct s_ast			*child;
-	char					*file;
-}							t_ast_redirection;
-
+}
+							t_ast_logical;
 typedef struct s_ast_subshell
 {
 	struct s_ast			*child;
@@ -134,19 +131,17 @@ typedef struct s_expander
 	t_list					**tokens;
 	bool					empty_quotes;
 	t_list					*wildcards_position;
-}							t_expander;
+}							t_exp;
 
-// ----- EXECUTION ----- //
 typedef enum e_execute_end
 {
 	O_RETURN,
 	O_EXIT
 }							t_execute_end;
 
-# define READ_END 0
-# define WRITE_END 1
+# define READ 0
+# define WRITE 1
 
-// ----- BUILTINS ----- //
 typedef int					(*t_builtin_func)(t_ast_command *, t_shell *);
 
 typedef struct s_builtin
@@ -155,7 +150,6 @@ typedef struct s_builtin
 	t_builtin_func			func;
 }							t_builtin;
 
-// ----- ENVIRONMENT ----- //
 # define DEFAULT_PATH "/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin\
 :/usr/local/sbin:/opt/bin:/opt/sbin"
 
@@ -165,7 +159,6 @@ typedef struct s_var
 	char					*value;
 }							t_var;
 
-// ----- ERRORS ----- //
 typedef enum e_tracking_scope
 {
 	ONLY_CHECK,

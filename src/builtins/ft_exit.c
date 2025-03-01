@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:21:14 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/28 19:46:48 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/03/01 12:10:21 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int	exec_exit(t_ast_command *cmd, t_shell *sh)
 {
 	long	exit_code;
 
-	ft_putstr_fd("exit\n", STDOUT_FILENO);
 	if (!cmd->args[1])
 		exit_shell(sh->last_status, sh);
 	if (!is_valid_numeric_argument(cmd->args[1]))

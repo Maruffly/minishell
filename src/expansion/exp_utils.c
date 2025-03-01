@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:04:17 by jlaine            #+#    #+#             */
-/*   Updated: 2025/03/01 09:47:54 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/03/01 12:13:13 by jmaruffy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 void	init_exp(t_exp *exp, char *str, t_list **expanded_args,
 	t_shell *sh)
 {
-exp->i = 0;
-exp->buf_size = ft_strlen(str) + 1;
-exp->buf = safe_calloc(ft_strlen(str) + 1, sizeof(char), PROMPT, sh);
-exp->buf_i = 0;
-exp->context = NO_QUOTE;
-exp->tokens = expanded_args;
-exp->empty_quotes = false;
-exp->wildcards_position = NULL;
+	exp->i = 0;
+	exp->buf_size = ft_strlen(str) + 1;
+	exp->buf = safe_calloc(ft_strlen(str) + 1, sizeof(char), PROMPT, sh);
+	exp->buf_i = 0;
+	exp->context = NO_QUOTE;
+	exp->tokens = expanded_args;
+	exp->empty_quotes = false;
+	exp->wildcards_position = NULL;
 }
 
 void	*add_token_to_list(t_exp *exp, t_shell *sh)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 14:22:15 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/28 20:21:13 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/03/01 11:28:34 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	expand_command(t_ast *node, t_shell *sh)
 	args = node->u_data.command.args;
 	while (*args)
 	{
-		expand_one_arg(*args, &expanded_args, sh);
+		exp_single_arg(*args, &expanded_args, sh);
 		args++;
 	}
 	node->u_data.command.args = convert_list_to_array(&expanded_args, sh);
@@ -45,7 +45,7 @@ void	expand_redirection(t_ast *node, t_shell *sh)
 		return ;
 	expanded_args = NULL;
 	str = node->u_data.redirection.file;
-	expand_one_arg(str, &expanded_args, sh);
+	exp_single_arg(str, &expanded_args, sh);
 	if (ft_lstsize(expanded_args) != 1 || !ft_strcmp(expanded_args->content,
 			""))
 		report_error("redirection:", NULL, " ambiguous redirect", sh);

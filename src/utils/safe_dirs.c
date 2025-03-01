@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 12:11:45 by jlaine            #+#    #+#             */
-/*   Updated: 2025/03/01 10:56:30 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/03/01 11:40:58 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	safe_closedir(DIR *dirp, t_shell *sh)
 	return (ret);
 }
 
-DIR	*safe_opendir(const char *name, t_shell *sh)
+DIR	*safe_opendir(char *name, t_shell *sh)
 {
 	DIR	*ret;
 

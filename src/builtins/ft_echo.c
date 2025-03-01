@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:36:17 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/03/01 09:56:13 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/03/01 11:41:36 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	exec_echo(t_ast_command *cmd, t_shell *sh)
 	bool	new_line;
 	int		i;
 
+	(void)sh;
 	i = 1;
 	new_line = !(option_check(cmd->args, &i, 'n'));
 	while (cmd->args[i])

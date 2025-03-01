@@ -6,29 +6,11 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:09:49 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/03/01 09:39:50 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/03/01 11:43:01 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int	exec_export(t_ast_command *cmd, t_shell *sh)
-{
-	bool	name_error;
-
-	cmd->args++;
-	if (!*(cmd->args))
-		return (print_env(true, sh->env, sh));
-	name_error = false;
-	while (*(cmd->args))
-	{
-		export_one(*(cmd->args), &name_error, sh);
-		cmd->args++;
-	}
-	if (name_error)
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
-}
 
 void	export_one(char *assignment, bool *name_error, t_shell *sh)
 {
@@ -72,4 +54,22 @@ bool	is_valid_name(char *name)
 		name++;
 	}
 	return (true);
+}
+
+int	exec_export(t_ast_command *cmd, t_shell *sh)
+{
+	bool	name_error;
+
+	cmd->args++;
+	if (!*(cmd->args))
+		return (print_env(true, sh->env, sh));
+	name_error = false;
+	while (*(cmd->args))
+	{
+		export_one(*(cmd->args), &name_error, sh);
+		cmd->args++;
+	}
+	if (name_error)
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }

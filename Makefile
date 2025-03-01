@@ -18,7 +18,7 @@ SRC_FILES = /utils/utils.c\
 			/parsing/parser.c\
 			/parsing/parse_init.c\
 			/parsing/ast_builder.c\
-			/parsing/parsing_bis.c\
+			/parsing/parser_bis.c\
 			/parsing/parsing_utils.c\
 			/parsing/parsing_redir_utils.c\
 			/parsing/parsing_redirection.c\

@@ -6,13 +6,13 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 14:32:45 by jlaine            #+#    #+#             */
-/*   Updated: 2025/03/01 09:55:41 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/03/01 11:20:40 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*safe_strjoin(char const *s1, char const *s2, t_tracking_scope scope,
+char	*safe_strjoin(char *s1, char *s2, t_tracking_scope scope,
 	t_shell *sh)
 {
 	char	*new_str;
@@ -22,7 +22,7 @@ char	*safe_strjoin(char const *s1, char const *s2, t_tracking_scope scope,
 	return (new_str);
 }
 
-char	**safe_split(char const *s, char c, t_tracking_scope scope, t_shell *sh)
+char	**safe_split(char *s, char c, t_tracking_scope scope, t_shell *sh)
 {
 	char	**new_str;
 	int		i;
@@ -35,7 +35,7 @@ char	**safe_split(char const *s, char c, t_tracking_scope scope, t_shell *sh)
 	return (new_str);
 }
 
-char	*safe_strdup(char const *s1, t_tracking_scope scope, t_shell *sh)
+char	*safe_strdup(char *s1, t_tracking_scope scope, t_shell *sh)
 {
 	char	*new_str;
 

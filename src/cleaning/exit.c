@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 16:48:21 by jlaine            #+#    #+#             */
-/*   Updated: 2025/03/01 10:29:40 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/03/01 11:38:05 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	exit_shell(int exit_status, t_shell *sh)
 	if (sh)
 	{
 		if (sh->in_main_process && isatty(STDIN_FILENO))
-			ft_write_fd("exit\n", STDERR_FILENO);
+			ft_putstr_fd("exit\n", STDERR_FILENO);
 		clear_prompt(sh);
 		ft_lstclear(&sh->env, free_env_var);
 		ft_lstclear(&sh->allocated_pointers[SH], free);

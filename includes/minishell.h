@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:35:41 by jlaine            #+#    #+#             */
-/*   Updated: 2025/03/01 10:45:55 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/03/01 11:44:09 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void			add_arg_to_array(char ***array, char *new_arg, t_shell *sh);
 
 // PARSER UTILS
 t_token_type	type(t_list *token);
+bool			is_valid_name(char *name);
 char			*type_to_string(t_token_type type);
 bool			is_type(t_list **token_list, int num_args, ...);
 
@@ -46,10 +47,11 @@ void			exit_shell(int exit_status, t_shell *sh);
 // ERRORS
 int				report_syntax_error(t_shell *sh);
 int				report_errno(char *context, t_shell *sh);
-void			error_handler(const char *context, int errnum, t_shell *sh);	
+void			error_handler(char *context, int errnum, t_shell *sh);	
 void			*set_syntax_error(char *unexpected_token, t_shell *sh);
+void			report_name_error(char *assignment, bool *name_error, t_shell *sh);
 int				report_error(char *context, char *element, char *description, t_shell *sh);
-void			error(const char *context, char *description, int exit_status,
+void			error(char *context, char *description, int exit_status,
 					t_shell *sh);
 
 // ENV
@@ -113,21 +115,47 @@ int				exec_pipeline(t_ast *node, t_shell *sh);
 int				execute_heredocs(t_ast *node, t_shell *sh);
 int				exec_redir(t_ast_redirection *redir, t_shell *sh);
 char			*join_path(char *path_to, char *file, t_shell *sh);
+int				execute(t_ast *node, t_execute_end end, t_shell *sh);
 int				exec_subshell(t_ast_subshell *subshell, t_shell *sh);
+int				exec_cmd(t_ast_command *cmd, t_execute_end end, t_shell *sh);
+int				wait_for_children(pid_t last_pid, int n_pipeline, t_shell *sh);
 int				fork_command(t_ast_command *cmd, t_execute_end end,
 					t_shell *sh);
 int				execute_logical(t_ast_logical *logical, t_shell *sh);
 void			setup_for_next_command(int *prev_read_end, int p[2],
 					t_shell *sh);
-int				exec_cmd(t_ast_command *cmd, t_execute_end end, t_shell *sh);
-int				wait_for_children(pid_t last_pid, int n_pipeline, t_shell *sh);
+int				check_process_child_exit(int status, bool *new_line,
+					t_shell *sh);
 
 // EXPANSION
 bool			is_active_wildcard(int i, t_exp *exp);
-bool			only_active_wildcard_left(const char *str, t_exp *exp);
-void			saved_wildcards_position(char *to_check, t_exp *exp, t_shell *sh);
+t_ast			*expand_node(t_ast *node, t_shell *sh);
+void			expand_command(t_ast *node, t_shell *sh);
+t_list			*pattern_filter(t_list *files, t_exp *exp);
 char			*extract_root_path(t_exp *exp, t_shell *sh);
 void			filename_expansion(t_exp *exp, t_shell *sh);
+void			expand_last_status(t_exp *exp, t_shell *sh);
+void			*add_token_to_list(t_exp *exp, t_shell *sh);
+void			expand_redirection(t_ast *node, t_shell *sh);
+void			expand_var(char *str, t_exp *exp, t_shell *sh);
+void			expand_tilde(char *str, t_exp *exp, t_shell *sh);
+char			**convert_list_to_array(t_list **lst, t_shell *sh);
+char			*expand_env_var(char *str, t_exp *exp, t_shell *sh);
+char			*word_splitting(t_exp *exp, char *value, t_shell *sh);
+bool			only_active_wildcard_left(const char *str, t_exp *exp);
+void			add_variable_to_buffer(char *value, t_exp *exp, t_shell *sh);
+void			exp_single_arg(char *str, t_list **expanded_args, t_shell *sh);
+bool			not_explicit_hidden_file(const char *full_filename,
+					t_exp *exp);
+
+bool			pattern_match(const char *filename, const char *pattern,
+					int pattern_index, t_exp *exp);
+void			list_of_file_to_token_list(t_list *lst, t_exp *exp,
+					t_shell *sh);
+void			init_exp(t_exp *exp, char *str, t_list **expanded_args,
+					t_shell *sh);
+void			saved_wildcards_position(char *to_check, t_exp *exp,
+					t_shell *sh);
 
 // SIGNALS
 void			sigint_prompt(int signum);
@@ -145,18 +173,18 @@ int				safe_pipe(int pipefd[2], t_shell *sh);
 int				safe_closedir(DIR *dirp, t_shell *sh);
 struct dirent	*safe_readdir(DIR *dirp, t_shell *sh);
 int				safe_dup2(int oldfd, int newfd, t_shell *sh);
-DIR				*safe_opendir(const char *name, t_shell *sh);
+DIR				*safe_opendir(char *name, t_shell *sh);
 void			check_node_alloc(t_list *new_node, void *pointer, t_shell *sh);
 void			track_alloc(void *pointer, t_tracking_scope scope, t_shell *sh);
 void			*safe_alloc(void *pointer, t_tracking_scope scope, t_shell *sh);
 int				safe_execve(const char *pathname, char *const argv[],
 					char *const envp[], t_shell *sh);
-char			*safe_strdup(char const *s1, t_tracking_scope scope,
+char			*safe_strdup(char *s1, t_tracking_scope scope,
 					t_shell *sh);
-char			**safe_split(char const *s, char c, t_tracking_scope scope,
+char			**safe_split(char *s, char c, t_tracking_scope scope,
 					t_shell *sh);
-int				safe_open(const char *pathname, int flags, mode_t mode, t_shell *sh);
-char			*safe_strjoin(char const *s1, char const *s2,
+int				safe_open(char *pathname, int flags, mode_t mode, t_shell *sh);
+char			*safe_strjoin(char *s1, char *s2,
 					t_tracking_scope scope, t_shell *sh);
 void			safe_lst_addfront(void *content, t_list **lst,
 					t_tracking_scope scope, t_shell *sh);

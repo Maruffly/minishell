@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 09:27:00 by jlaine            #+#    #+#             */
-/*   Updated: 2025/03/01 10:56:41 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/03/01 11:40:24 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	safe_close(int fd, t_shell *sh)
 	return (ret);
 }
 
-int	safe_open(const char *pathname, int flags, mode_t mode, t_shell *sh)
+int	safe_open(char *pathname, int flags, mode_t mode, t_shell *sh)
 {
 	int	ret;
 

@@ -6,30 +6,31 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 14:27:46 by jlaine            #+#    #+#             */
-/*   Updated: 2025/03/01 09:57:02 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/03/01 11:40:07 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	error(const char *context, char *description, int exit_status,
+void	error(char *context, char *description, int exit_status,
 	t_shell *sh)
 {
-	ft_write_fd("Omar&Fred ", STDERR_FILENO);
-	ft_write_fd(description, STDERR_FILENO);
-	ft_write_fd(": ", STDERR_FILENO);
-	ft_write_fd(context, STDERR_FILENO);
-	ft_write_fd("\n", STDERR_FILENO);
+	ft_putstr_fd("Omar&Fred ", STDERR_FILENO);
+	ft_putstr_fd(description, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putstr_fd(context, STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
 	exit_shell(exit_status, sh);
 }
 
-void	error_handler(const char *context, int errnum, t_shell *sh)
+void	error_handler(char *context, int errnum, t_shell *sh)
 {
 	error(context, strerror(errnum), EXIT_FAILURE, sh);
 }
 
 int	report_errno(char *context, t_shell *sh)
 {
+	(void)sh;
 	ft_putstr_fd("Omar&Fred ", 2);
 	perror(context);
 	return (EXIT_FAILURE);
@@ -37,6 +38,7 @@ int	report_errno(char *context, t_shell *sh)
 
 int	report_error(char *context, char *element, char *description, t_shell *sh)
 {
+	(void)sh;
 	ft_putstr_fd("Omar&Fred ", STDERR_FILENO);
 	ft_putstr_fd(context, STDERR_FILENO);
 	if (element)

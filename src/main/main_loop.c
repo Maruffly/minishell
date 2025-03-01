@@ -6,11 +6,11 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 20:03:58 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/03/01 10:58:06 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/03/01 11:24:35 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void	clear_prompt(t_shell *sh)
 {

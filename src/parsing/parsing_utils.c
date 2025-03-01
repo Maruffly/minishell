@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 15:26:54 by jlaine            #+#    #+#             */
-/*   Updated: 2025/03/01 10:08:22 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/03/01 11:47:00 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ t_token_type	type(t_list *token)
 	return (((t_token *)token->content)->type);
 }
 
-char	*value(t_list *token)
-{
-	if (token == NULL)
-		return (NULL);
-	return (((t_token *)token->content)->value);
-}
+// char	*value(t_list *token)
+// {
+// 	if (token == NULL)
+// 		return (NULL);
+// 	return (((t_token *)token->content)->value);
+// }
 
 bool	is_type(t_list **token_list, int num_args, ...)
 {

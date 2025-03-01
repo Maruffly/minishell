@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:47:11 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/03/01 10:10:17 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/03/01 11:37:21 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	print_env(bool export_format, t_list *env, t_shell *sh)
 {
+	(void)sh;
 	while (env)
 	{
 		if (!export_format && !value(env))

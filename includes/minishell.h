@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:35:41 by jlaine            #+#    #+#             */
-/*   Updated: 2025/03/01 11:44:09 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/03/01 12:20:34 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,10 @@ int				report_syntax_error(t_shell *sh);
 int				report_errno(char *context, t_shell *sh);
 void			error_handler(char *context, int errnum, t_shell *sh);	
 void			*set_syntax_error(char *unexpected_token, t_shell *sh);
-void			report_name_error(char *assignment, bool *name_error, t_shell *sh);
-int				report_error(char *context, char *element, char *description, t_shell *sh);
+void			report_name_error(char *assignment, bool *name_error,
+					t_shell *sh);
+int				report_error(char *context, char *element, char *description,
+					t_shell *sh);
 void			error(char *context, char *description, int exit_status,
 					t_shell *sh);
 
@@ -79,11 +81,12 @@ int				exec_export(t_ast_command *cmd, t_shell *sh);
 int				is_space(int c);
 int				is_token(int c);
 int				lexer(char *input, t_list **token_list, t_shell *sh);
-t_token			*create_token(t_token_type type, char *value, size_t len, t_shell *sh);
+t_token			*create_token(t_token_type type, char *value, size_t len,
+					t_shell *sh);
 t_token_type	get_subshell(char *input, size_t *len);
 t_token_type	get_next_token(char *input, size_t *len, t_shell *sh);
 t_token_type	get_logic_and_pipe(char *input, char c, size_t *len,
-	t_shell *sh);
+					t_shell *sh);
 t_token_type	get_redirect(char *input, char c, size_t *len, t_shell *sh);
 t_token_type	get_word(char *input, size_t *len, t_shell *sh);
 
@@ -92,7 +95,7 @@ void			init_ast_node(t_ast **node, t_ast_type type, t_shell *sh);
 t_ast			*create_ast_command(char **argv, t_shell *sh);
 t_ast			*create_ast_subshell(t_ast *child, t_shell *sh);
 t_ast			*create_ast_pipeline(t_ast *left, t_ast *right, t_shell *sh);
-t_ast			*create_ast_logical(t_ast *left, t_token_type operator, 
+t_ast			*create_ast_logical(t_ast *left, t_token_type operator,
 					t_ast *right, t_shell *sh);
 t_ast			*create_ast_redirection(t_token_type direction,
 					t_list *filename, t_ast *child, t_shell *sh);
@@ -104,8 +107,10 @@ t_ast			*parse_redirection(t_list **token, t_shell *sh);
 t_ast			*parse_command(t_list **token, t_shell *sh);
 t_ast			*parse_logical(t_list **token, t_shell *sh);
 t_ast			*parse_pipeline(t_list **token, t_shell *sh);
-t_ast			*build_redirected_command(t_ast *prefix, t_ast *suffix, t_ast *command);
-t_ast			*parse_redirection_list(t_list **token, t_ast *command, t_shell *sh);
+t_ast			*build_redirected_command(t_ast *prefix, t_ast *suffix,
+					t_ast *command);
+t_ast			*parse_redirection_list(t_list **token, t_ast *command,
+					t_shell *sh);
 
 // EXEC
 char			**build_paths_array(t_shell *sh);
@@ -189,11 +194,10 @@ char			*safe_strjoin(char *s1, char *s2,
 void			safe_lst_addfront(void *content, t_list **lst,
 					t_tracking_scope scope, t_shell *sh);
 void			safe_lst_addback(void *content, t_list **lst,
-						t_tracking_scope scope, t_shell *sh);
+					t_tracking_scope scope, t_shell *sh);
 int				safe_stat(const char *restrict path, struct stat *restrict buf,
 					t_shell *sh);
 void			*safe_calloc(size_t count, size_t size, t_tracking_scope scope,
 					t_shell *sh);
-
 
 #endif

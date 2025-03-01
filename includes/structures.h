@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/28 20:56:32 by jmaruffy         ###   ########.fr       */
+/*   Created: 2024/12/08 13:07:10 by jmaruffy          #+#    #+#             */
+/*   Updated: 2025/03/01 12:21:58 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef STRUCTURES_H
 # define STRUCTURES_H
@@ -88,8 +87,8 @@ typedef struct s_ast_logical
 	t_token_type			operator;
 	struct s_ast			*left;
 	struct s_ast			*right;
-}
-							t_ast_logical;
+}							t_ast_logical;
+
 typedef struct s_ast_subshell
 {
 	struct s_ast			*child;

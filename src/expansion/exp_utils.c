@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:04:17 by jlaine            #+#    #+#             */
-/*   Updated: 2025/03/01 12:13:13 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/03/01 12:27:32 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,56 +27,56 @@ void	init_exp(t_exp *exp, char *str, t_list **expanded_args,
 
 void	*add_token_to_list(t_exp *exp, t_shell *sh)
 {
-char	*content;
+	char	*content;
 
-if (exp->wildcards_position)
-	filename_expansion(exp, sh);
-if (exp->buf_i != 0)
-{
-	exp->buf[exp->buf_i] = '\0';
-	content = safe_strdup(exp->buf, PROMPT, sh);
-	safe_lst_addback(content, exp->tokens, PROMPT, sh);
-	exp->buf_i = 0;
-}
-else if (exp->empty_quotes)
-{
-	content = safe_strdup("", PROMPT, sh);
-	safe_lst_addback(content, exp->tokens, PROMPT, sh);
-	exp->empty_quotes = false;
-}
-return (NULL);
+	if (exp->wildcards_position)
+		filename_expansion(exp, sh);
+	if (exp->buf_i != 0)
+	{
+		exp->buf[exp->buf_i] = '\0';
+		content = safe_strdup(exp->buf, PROMPT, sh);
+		safe_lst_addback(content, exp->tokens, PROMPT, sh);
+		exp->buf_i = 0;
+	}
+	else if (exp->empty_quotes)
+	{
+		content = safe_strdup("", PROMPT, sh);
+		safe_lst_addback(content, exp->tokens, PROMPT, sh);
+		exp->empty_quotes = false;
+	}
+	return (NULL);
 }
 
 void	add_variable_to_buffer(char *value, t_exp *exp, t_shell *sh)
 {
-char	*buf_replace;
+	char	*buf_replace;
 
-exp->buf_size += ft_strlen(value);
-saved_wildcards_position(value, exp, sh);
-buf_replace = safe_calloc(exp->buf_size, sizeof(char), PROMPT, sh);
-ft_strlcpy(buf_replace, exp->buf, exp->buf_i + 1);
-ft_strlcat(buf_replace, value, exp->buf_i + ft_strlen(value) + 1);
-exp->buf = buf_replace;
-exp->buf_i += ft_strlen(value);
+	exp->buf_size += ft_strlen(value);
+	saved_wildcards_position(value, exp, sh);
+	buf_replace = safe_calloc(exp->buf_size, sizeof(char), PROMPT, sh);
+	ft_strlcpy(buf_replace, exp->buf, exp->buf_i + 1);
+	ft_strlcat(buf_replace, value, exp->buf_i + ft_strlen(value) + 1);
+	exp->buf = buf_replace;
+	exp->buf_i += ft_strlen(value);
 }
 
 char	**convert_list_to_array(t_list **lst, t_shell *sh)
 {
-t_list	*tmp;
-char	**args;
-int		i;
+	t_list	*tmp;
+	char	**args;
+	int		i;
 
-i = 0;
-tmp = *lst;
-args = (char **)safe_calloc(ft_lstsize(tmp) + 1, sizeof(char *), PROMPT,
-		sh);
-while (tmp != NULL)
-{
-	args[i++] = (char *)tmp->content;
-	tmp = tmp->next;
-}
-args[i] = NULL;
-return (args);
+	i = 0;
+	tmp = *lst;
+	args = (char **)safe_calloc(ft_lstsize(tmp) + 1, sizeof(char *), PROMPT,
+			sh);
+	while (tmp != NULL)
+	{
+		args[i++] = (char *)tmp->content;
+		tmp = tmp->next;
+	}
+	args[i] = NULL;
+	return (args);
 }
 
 char	*word_splitting(t_exp *exp, char *value, t_shell *sh)

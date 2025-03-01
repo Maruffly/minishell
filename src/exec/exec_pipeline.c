@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 14:43:03 by jlaine            #+#    #+#             */
-/*   Updated: 2025/03/01 09:53:21 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/03/01 12:27:10 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ static t_list	*build_cmd_list(t_ast *node, t_shell *sh)
 			node = node->u_data.pipeline.left;
 		else
 		{
-			safe_lst_addfront(node->u_data.pipeline.left, &pipeline, PROMPT, sh);
+			safe_lst_addfront(node->u_data.pipeline.left, &pipeline,
+				PROMPT, sh);
 			break ;
 		}
 	}
@@ -81,5 +82,5 @@ int	exec_pipeline(t_ast *node, t_shell *sh)
 	t_list	*pipeline;
 
 	pipeline = build_cmd_list(node, sh);
-	return (exec_pipeline_list(pipeline, sh));\
+	return (exec_pipeline_list(pipeline, sh));
 }

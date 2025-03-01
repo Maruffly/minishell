@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 17:47:42 by jlaine            #+#    #+#             */
-/*   Updated: 2025/03/01 09:53:59 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/03/01 12:25:48 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	fork_command(t_ast_command *cmd, t_execute_end end, t_shell *sh)
 
 	status = 0;
 	if (end == O_EXIT)
-	safe_execve(get_bin_path(cmd->args[0], sh), cmd->args,
+		safe_execve(get_bin_path(cmd->args[0], sh), cmd->args,
 			env_to_char_array(sh), sh);
 	else
 	{

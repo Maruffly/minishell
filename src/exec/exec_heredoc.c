@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:44:22 by jlaine            #+#    #+#             */
-/*   Updated: 2025/03/01 10:46:15 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/03/01 12:26:27 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ int	execute_heredocs(t_ast *node, t_shell *sh)
 	if (!is_heredoc(node))
 		return (search_for_heredocs(node, sh));
 	file_id = safe_alloc(ft_itoa(ft_lstsize(sh->temporary_files)), PROMPT, sh);
-	tmp_file_name = safe_strjoin("/tmp/minishell_heredoc_", file_id, PROMPT, sh);
+	tmp_file_name = safe_strjoin("/tmp/minishell_heredoc_", file_id,
+			PROMPT, sh);
 	safe_lst_addfront(tmp_file_name, &sh->temporary_files, PROMPT, sh);
 	tmp_file = safe_open(tmp_file_name, O_WRONLY | O_CREAT | O_TRUNC, 0600, sh);
 	status = heredoc_listener(tmp_file,

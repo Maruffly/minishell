@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:04:17 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/28 20:17:31 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/03/01 10:09:19 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	expand_last_status(t_exp *exp, t_shell *sh)
 	char	*last_exit_status;
 
 	exp->i++;
-	last_exit_status = s_alloc(ft_itoa(sh->last_status), PROMPT, sh);
+	last_exit_status = safe_alloc(ft_itoa(sh->last_status), PROMPT, sh);
 	add_variable_to_buffer(last_exit_status, exp, sh);
 }
 

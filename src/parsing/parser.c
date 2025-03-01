@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 14:06:27 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/28 20:21:13 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/03/01 10:08:44 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_ast	*parse_command(t_list **token, t_shell *sh)
 	}
 	if (argc == 0)
 		return (NULL);
-	argv = calloc_s((argc + 1), sizeof(char *), PROMPT, sh);
+	argv = safe_calloc((argc + 1), sizeof(char *), PROMPT, sh);
 	i = 0;
 	while (i < argc)
 	{

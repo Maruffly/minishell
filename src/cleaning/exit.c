@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 16:48:21 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/28 20:58:31 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/03/01 10:29:40 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,11 @@ void	exit_shell(int exit_status, t_shell *sh)
 	}
 	rl_clear_history();
 	exit(exit_status);
+}
+
+void	*set_syntax_error(char *unexpected_token, t_shell *sh)
+{
+	if (!sh->parsing_error)
+		sh->parsing_error = unexpected_token;
+	return (NULL);
 }

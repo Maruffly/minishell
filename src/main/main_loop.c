@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 20:03:58 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/28 20:45:48 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/03/01 10:58:06 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,30 +24,7 @@ void	clear_prompt(t_shell *sh)
 	sh->parsing_error = NULL;
 }
 
-int	main_loop(t_shell *sh)
-{
-	char	*user_input;
-
-	while (42)
-	{
-		g_signal_value = 0;
-		user_input = process_prompt(MAIN_PROMPT);
-		if (g_signal_value == SIGINT)
-			sh->last_status = 130;
-		if (!user_input)
-			exit_shell(sh->last_status, sh);
-		track_alloc(user_input, PROMPT, sh);
-		if (ft_strlen(user_input) > 0)
-		{
-			add_history(user_input);
-			sh->last_status = process_prompt(user_input, sh);
-		}
-		clear_prompt(sh);
-	}
-	return (sh->last_status);
-}
-
-char	*prompt_listener(t_prompt_mode mode)
+char	*get_prompt(t_prompt_mode mode)
 {
 	char	*user_input;
 
@@ -58,7 +35,7 @@ char	*prompt_listener(t_prompt_mode mode)
 	if (mode == MAIN_PROMPT)
 	{
 		set_signal_prompt();
-		user_input = readline("\x1b[32mminishell$ \x1b[0m");
+		user_input = readline(GREEN"Omar&Fred > "RESET);
 		set_signal_main_process();
 	}
 	else if (mode == HEREDOC_PROMPT)
@@ -68,4 +45,47 @@ char	*prompt_listener(t_prompt_mode mode)
 		set_signal_main_process();
 	}
 	return (user_input);
+}
+
+int	parse_and_exec(char *user_input, t_shell *sh)
+{
+	t_list	*token_list;
+	t_ast	*ast;
+	int		status;
+
+	status = lexer(user_input, &token_list, sh);
+	if (status == EXIT_SUCCESS && token_list)
+	{
+		status = parser(token_list, &ast, sh);
+		if (status == EXIT_SUCCESS && ast)
+		{
+			status = execute_heredocs(ast, sh);
+			if (status == EXIT_SUCCESS)
+				status = execute(ast, O_RETURN, sh);
+		}
+	}
+	return (status);
+}
+
+int	main_loop(t_shell *sh)
+{
+	char	*user_input;
+
+	while (42)
+	{
+		g_signal_value = 0;
+		user_input = get_prompt(MAIN_PROMPT);
+		if (g_signal_value == SIGINT)
+			sh->last_status = 130;
+		if (!user_input)
+			exit_shell(sh->last_status, sh);
+		track_alloc(user_input, PROMPT, sh);
+		if (ft_strlen(user_input) > 0)
+		{
+			add_history(user_input);
+			sh->last_status = parse_and_exec(user_input, sh);
+		}
+		clear_prompt(sh);
+	}
+	return (sh->last_status);
 }

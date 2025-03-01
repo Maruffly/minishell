@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:35:41 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/28 21:20:35 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/03/01 10:45:55 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,25 +22,35 @@
 # define PURPLE	"\e[35m"
 # define CYAN	"\e[36m"
 
+// UTILS
+int				count_args(char **argv);
+void			add_arg_to_array(char ***array, char *new_arg, t_shell *sh);
+
+// PARSER UTILS
+t_token_type	type(t_list *token);
+char			*type_to_string(t_token_type type);
+bool			is_type(t_list **token_list, int num_args, ...);
+
+// CLEANING
+void			free_env_var(void *content);
+void			remove_list_node(t_list **node, t_list **head,
+					void (*free_function)(void *), bool free_node);
 
 // MAIN
 int				main_loop(t_shell *sh);
 void			clear_prompt(t_shell *sh);
-char			*prompt_listener(t_prompt_mode mode);
-void			init_shell(t_shell *sh, char **env);
+char			*get_prompt(t_prompt_mode mode);
+void			shell_init(t_shell *sh, char **env);
 void			exit_shell(int exit_status, t_shell *sh);
 
-// CLEANING
-void			free_env_var(void *content);
-
-// ERROR
+// ERRORS
 int				report_syntax_error(t_shell *sh);
 int				report_errno(char *context, t_shell *sh);
 void			error_handler(const char *context, int errnum, t_shell *sh);	
 void			*set_syntax_error(char *unexpected_token, t_shell *sh);
 int				report_error(char *context, char *element, char *description, t_shell *sh);
 void			error(const char *context, char *description, int exit_status,
-	t_shell *sh);
+					t_shell *sh);
 
 // ENV
 char			*name(t_list *env);
@@ -63,7 +73,6 @@ int				exec_exit(t_ast_command *cmd, t_shell *sh);
 int				exec_unset(t_ast_command *cmd, t_shell *sh);
 int				exec_export(t_ast_command *cmd, t_shell *sh);
 
-
 // TOKEN
 int				is_space(int c);
 int				is_token(int c);
@@ -81,11 +90,10 @@ void			init_ast_node(t_ast **node, t_ast_type type, t_shell *sh);
 t_ast			*create_ast_command(char **argv, t_shell *sh);
 t_ast			*create_ast_subshell(t_ast *child, t_shell *sh);
 t_ast			*create_ast_pipeline(t_ast *left, t_ast *right, t_shell *sh);
-t_ast			*create_ast_logical(t_ast *left, t_token_type operator, t_ast *right,
-	t_shell *sh);
-t_ast			*create_ast_redirection(t_token_type direction, t_list *filename,
-	t_ast *child, t_shell *sh);
-
+t_ast			*create_ast_logical(t_ast *left, t_token_type operator, 
+					t_ast *right, t_shell *sh);
+t_ast			*create_ast_redirection(t_token_type direction,
+					t_list *filename, t_ast *child, t_shell *sh);
 
 // PARSER
 int				parser(t_list *token_list, t_ast **ast, t_shell *sh);
@@ -96,12 +104,6 @@ t_ast			*parse_logical(t_list **token, t_shell *sh);
 t_ast			*parse_pipeline(t_list **token, t_shell *sh);
 t_ast			*build_redirected_command(t_ast *prefix, t_ast *suffix, t_ast *command);
 t_ast			*parse_redirection_list(t_list **token, t_ast *command, t_shell *sh);
-
-// PARSER UTILS
-t_token_type	type(t_list *token);
-char			*type_to_string(t_token_type type);
-bool			is_type(t_list **token_list, int num_args, ...);
-
 
 // EXEC
 char			**build_paths_array(t_shell *sh);
@@ -134,5 +136,36 @@ void			set_signal_prompt(void);
 void			set_signal_main_process(void);
 void			set_signal_child_process(void);
 void			set_signal_heredoc(void);
+
+// SAFE
+pid_t			safe_fork(t_shell *sh);
+int				safe_close(int fd, t_shell *sh);
+pid_t			safe_wait(int *wstatus, t_shell *sh);
+int				safe_pipe(int pipefd[2], t_shell *sh);
+int				safe_closedir(DIR *dirp, t_shell *sh);
+struct dirent	*safe_readdir(DIR *dirp, t_shell *sh);
+int				safe_dup2(int oldfd, int newfd, t_shell *sh);
+DIR				*safe_opendir(const char *name, t_shell *sh);
+void			check_node_alloc(t_list *new_node, void *pointer, t_shell *sh);
+void			track_alloc(void *pointer, t_tracking_scope scope, t_shell *sh);
+void			*safe_alloc(void *pointer, t_tracking_scope scope, t_shell *sh);
+int				safe_execve(const char *pathname, char *const argv[],
+					char *const envp[], t_shell *sh);
+char			*safe_strdup(char const *s1, t_tracking_scope scope,
+					t_shell *sh);
+char			**safe_split(char const *s, char c, t_tracking_scope scope,
+					t_shell *sh);
+int				safe_open(const char *pathname, int flags, mode_t mode, t_shell *sh);
+char			*safe_strjoin(char const *s1, char const *s2,
+					t_tracking_scope scope, t_shell *sh);
+void			safe_lst_addfront(void *content, t_list **lst,
+					t_tracking_scope scope, t_shell *sh);
+void			safe_lst_addback(void *content, t_list **lst,
+						t_tracking_scope scope, t_shell *sh);
+int				safe_stat(const char *restrict path, struct stat *restrict buf,
+					t_shell *sh);
+void			*safe_calloc(size_t count, size_t size, t_tracking_scope scope,
+					t_shell *sh);
+
 
 #endif

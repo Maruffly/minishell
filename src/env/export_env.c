@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:47:11 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/28 20:29:34 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/03/01 10:10:17 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,17 @@ int	print_env(bool export_format, t_list *env, t_shell *sh)
 			continue ;
 		}
 		if (export_format)
-			write_s("export ", STDOUT_FILENO, sh);
-		write_s(name(env), STDOUT_FILENO, sh);
+			ft_putstr_fd("export ", STDOUT_FILENO);
+		ft_putstr_fd(name(env), STDOUT_FILENO);
 		if (value(env))
-			write_s("=", STDOUT_FILENO, sh);
+			ft_putstr_fd("=", STDOUT_FILENO);
 		if (export_format && value(env))
-			write_s("\"", STDOUT_FILENO, sh);
+			ft_putstr_fd("\"", STDOUT_FILENO);
 		if (value(env))
-			write_s(value(env), STDOUT_FILENO, sh);
+			ft_putstr_fd(value(env), STDOUT_FILENO);
 		if (export_format && value(env))
-			write_s("\"", STDOUT_FILENO, sh);
-		write_s("\n", STDOUT_FILENO, sh);
+			ft_putstr_fd("\"", STDOUT_FILENO);
+		ft_putstr_fd("\n", STDOUT_FILENO);
 		env = env->next;
 	}
 	return (EXIT_SUCCESS);
@@ -46,14 +46,14 @@ char	**env_to_char_array(t_shell *sh)
 	t_list	*env;
 
 	env = sh->env;
-	env_array = calloc_s(ft_lstsize(env) + 1, sizeof(char *), PROMPT, sh);
+	env_array = safe_calloc(ft_lstsize(env) + 1, sizeof(char *), PROMPT, sh);
 	i = 0;
 	while (env)
 	{
 		if (value(env))
 		{
-			name_and_equal = strjoin_s(name(env), "=", PROMPT, sh);
-			env_array[i] = strjoin_s(name_and_equal, value(env), PROMPT, sh);
+			name_and_equal = safe_strjoin(name(env), "=", PROMPT, sh);
+			env_array[i] = safe_strjoin(name_and_equal, value(env), PROMPT, sh);
 			i++;
 		}
 		env = env->next;

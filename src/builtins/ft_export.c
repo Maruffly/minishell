@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:09:49 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/28 20:01:14 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/03/01 09:39:50 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	export_one(char *assignment, bool *name_error, t_shell *sh)
 	add = false;
 	if (ft_strnstr(assignment, "+=", equal_sign - assignment + 1))
 		add = true;
-	name = s_alloc(ft_substr(assignment, 0, equal_sign - add - assignment),
+	name = safe_alloc(ft_substr(assignment, 0, equal_sign - add - assignment),
 			PROMPT, sh);
 	if (!is_valid_name(name))
 		return (report_name_error(assignment, name_error, sh));

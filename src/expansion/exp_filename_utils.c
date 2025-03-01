@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_filename_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 17:40:18 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/28 20:24:00 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/03/01 09:47:54 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	list_of_file_to_token_list(t_list *lst, t_exp *exp, t_shell *sh)
 {
 	while (lst)
 	{
-		lst_add_back_s(lst->content, exp->tokens, PROMPT, sh);
+		safe_lst_addback(lst->content, exp->tokens, PROMPT, sh);
 		lst = lst->next;
 	}
 }
@@ -47,9 +47,9 @@ void	saved_wildcards_position(char *to_check, t_exp *exp, t_shell *sh)
 	{
 		if (to_check[i] == '*')
 		{
-			position = calloc_s(1, sizeof(int), PROMPT, sh);
+			position = safe_calloc(1, sizeof(int), PROMPT, sh);
 			*((int *)position) = exp->buf_i + i;
-			lst_add_back_s(position, &exp->wildcards_position, PROMPT, sh);
+			safe_lst_addback(position, &exp->wildcards_position, PROMPT, sh);
 		}
 		i++;
 	}
@@ -77,8 +77,8 @@ char	*extract_root_path(t_exp *exp, t_shell *sh)
 	while (i >= 0 && exp->buf[i] != '/')
 		i--;
 	if (i == -1)
-		return (strdup_s(".", PROMPT, sh));
-	path = calloc_s(i + 2, sizeof(char), PROMPT, sh);
+		return (safe_strdup(".", PROMPT, sh));
+	path = safe_calloc(i + 2, sizeof(char), PROMPT, sh);
 	ft_strlcpy(path, exp->buf, i + 2);
 	return (path);
 }

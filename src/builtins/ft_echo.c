@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:36:17 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/28 20:00:14 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/03/01 09:56:13 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ int	exec_echo(t_ast_command *cmd, t_shell *sh)
 	new_line = !(option_check(cmd->args, &i, 'n'));
 	while (cmd->args[i])
 	{
-		write_s(cmd->args[i], STDOUT_FILENO, sh);
+		ft_putstr_fd(cmd->args[i], STDOUT_FILENO);
 		if (cmd->args[i + 1])
-			write_s(" ", STDOUT_FILENO, sh);
+			ft_putstr_fd(" ", STDOUT_FILENO);
 		i++;
 	}
 	if (new_line)
-		write_s("\n", STDOUT_FILENO, sh);
+		ft_putstr_fd("\n", STDOUT_FILENO);
 	return (EXIT_SUCCESS);
 }

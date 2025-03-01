@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 14:52:06 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/28 20:29:09 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/03/01 09:44:03 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static char	*check_preset_bin_path(char *bin_path, t_shell *sh)
 		else
 			error_handler(bin_path, errno, sh);
 	}
-	stat_s(bin_path, &path_stat, sh);
+	safe_stat(bin_path, &path_stat, sh);
 	if (S_ISDIR(path_stat.st_mode))
 		error("is a directory", bin_path, 126, sh);
 	return (bin_path);

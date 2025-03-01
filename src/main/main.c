@@ -3,21 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:35:41 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/28 21:03:33 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/03/01 10:29:49 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void	*set_syntax_error(char *unexpected_token, t_shell *sh)
-{
-	if (!sh->parsing_error)
-		sh->parsing_error = unexpected_token;
-	return (NULL);
-}
 
 static void	increment_shlvl(t_shell *sh)
 {
@@ -29,7 +22,7 @@ static void	increment_shlvl(t_shell *sh)
 	if (!in_env)
 		return (add_new_env_var("SHLVL", "1", &(sh->env), sh));
 	new_value = ft_atoi(value(in_env)) + 1;
-	new_value_str = s_alloc(ft_itoa(new_value), PROMPT, sh);
+	new_value_str = safe_alloc(ft_itoa(new_value), PROMPT, sh);
 	if (new_value < 0)
 		edit_env_value(in_env, "0", false, sh);
 	else if (new_value > 1000)
@@ -42,7 +35,7 @@ static void	increment_shlvl(t_shell *sh)
 		edit_env_value(in_env, new_value_str, false, sh);
 }
 
-void	init_shell(t_shell *sh, char **env)
+void	shell_init(t_shell *sh, char **env)
 {
 	errno = 0;
 	sh->in_main_process = true;
@@ -65,7 +58,7 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 1)
 		exit(EXIT_FAILURE);
 	set_signal_main_process();
-	init_shell(&sh, envp);
+	shell_init(&sh, envp);
 	status = main_loop(&sh);
 	exit_shell(status, &sh);
 }

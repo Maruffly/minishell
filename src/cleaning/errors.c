@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 14:27:46 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/28 21:02:56 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/03/01 09:57:02 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	error(const char *context, char *description, int exit_status,
 	ft_write_fd(": ", STDERR_FILENO);
 	ft_write_fd(context, STDERR_FILENO);
 	ft_write_fd("\n", STDERR_FILENO);
-	quit_shell(exit_status, sh);
+	exit_shell(exit_status, sh);
 }
 
 void	error_handler(const char *context, int errnum, t_shell *sh)
@@ -30,19 +30,19 @@ void	error_handler(const char *context, int errnum, t_shell *sh)
 
 int	report_errno(char *context, t_shell *sh)
 {
-	write_s("Omar&Fred ", 2, sh);
+	ft_putstr_fd("Omar&Fred ", 2);
 	perror(context);
 	return (EXIT_FAILURE);
 }
 
 int	report_error(char *context, char *element, char *description, t_shell *sh)
 {
-	write_s("Omar&Fred ", STDERR_FILENO, sh);
-	write_s(context, STDERR_FILENO, sh);
+	ft_putstr_fd("Omar&Fred ", STDERR_FILENO);
+	ft_putstr_fd(context, STDERR_FILENO);
 	if (element)
-		write_s(element, STDERR_FILENO, sh);
-	write_s(description, STDERR_FILENO, sh);
-	write_s("\n", STDERR_FILENO, sh);
+		ft_putstr_fd(element, STDERR_FILENO);
+	ft_putstr_fd(description, STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
 	return (EXIT_FAILURE);
 }
 

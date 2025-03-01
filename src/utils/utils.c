@@ -1,30 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_subshell.c                                    :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/10 14:43:03 by jlaine            #+#    #+#             */
-/*   Updated: 2025/03/01 09:53:41 by jlaine           ###   ########.fr       */
+/*   Created: 2025/01/03 15:48:01 by jlaine            #+#    #+#             */
+/*   Updated: 2025/03/01 09:58:37 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	exec_subshell(t_ast_subshell *subshell, t_shell *sh)
+void	add_arg_to_array(char ***array, char *new_arg, t_shell *sh)
 {
-	pid_t	pid;
-	int		status;
+	char	**new_array;
+	int		i;
 
-	pid = safe_fork(sh);
-	if (pid == 0)
+	new_array = safe_calloc(count_args(*array) + 2, sizeof(char *), PROMPT, sh);
+	i = 0;
+	while (array && (*array)[i])
 	{
-		sh->in_main_process = false;
-		set_signal_child_process();
-		execute(subshell->child, O_EXIT, sh);
+		new_array[i] = (*array)[i];
+		i++;
 	}
-	safe_wait(&status, sh);
-	status = check_process_child_exit(status, NULL, sh);
-	return (status);
+	new_array[i] = new_arg;
+	new_array[i + 1] = NULL;
+	*array = new_array;
+}
+
+int	count_args(char **argv)
+{
+	int	i;
+
+	i = 0;
+	while (argv && argv[i])
+		i++;
+	return (i);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 12:35:01 by jbmy              #+#    #+#             */
-/*   Updated: 2025/02/28 20:39:15 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/03/01 09:45:43 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	lexer(char *input, t_list **token_list, t_shell *sh)
 			if (type == ERROR)
 				return (report_syntax_error(sh));
 			token = create_token(type, input + i, len, sh);
-			lst_add_back_s(token, token_list, PROMPT, sh);
+			safe_lst_addback(token, token_list, PROMPT, sh);
 		}
 		else
 			len++;
@@ -43,8 +43,8 @@ t_token	*create_token(t_token_type type, char *value, size_t len, t_shell *sh)
 {
 	t_token	*token;
 
-	token = calloc_s(1, sizeof(t_token), PROMPT, sh);
+	token = safe_calloc(1, sizeof(t_token), PROMPT, sh);
 	token->type = type;
-	token->value = s_alloc(ft_substr(value, 0, len), PROMPT, sh);
+	token->value = safe_alloc(ft_substr(value, 0, len), PROMPT, sh);
 	return (token);
 }

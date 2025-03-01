@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirection.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:58:31 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/28 20:26:24 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/03/01 09:44:20 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ static int	redir_input(t_ast_redirection *redir, t_shell *sh)
 	if (input_fd == -1)
 		return (report_errno(redir->file, sh));
 	original_stdin = dup(STDIN_FILENO);
-	dup2_s(input_fd, STDIN_FILENO, sh);
-	close_s(input_fd, sh);
+	safe_dup2(input_fd, STDIN_FILENO, sh);
+	safe_close(input_fd, sh);
 	status = execute(redir->child, O_RETURN, sh);
 	dup2(original_stdin, STDIN_FILENO);
-	close_s(original_stdin, sh);
+	safe_close(original_stdin, sh);
 	return (status);
 }
 
@@ -40,11 +40,11 @@ static int	redir_output(t_ast_redirection *redir, t_shell *sh)
 	if (output_fd == -1)
 		return (report_errno(redir->file, sh));
 	original_stdout = dup(STDOUT_FILENO);
-	dup2_s(output_fd, STDOUT_FILENO, sh);
-	close_s(output_fd, sh);
+	safe_dup2(output_fd, STDOUT_FILENO, sh);
+	safe_close(output_fd, sh);
 	status = execute(redir->child, O_RETURN, sh);
-	dup2_s(original_stdout, STDOUT_FILENO, sh);
-	close_s(original_stdout, sh);
+	safe_dup2(original_stdout, STDOUT_FILENO, sh);
+	safe_close(original_stdout, sh);
 	return (status);
 }
 
@@ -58,11 +58,11 @@ static int	append_output(t_ast_redirection *redir, t_shell *sh)
 	if (output_fd == -1)
 		return (report_errno(redir->file, sh));
 	original_stdout = dup(STDOUT_FILENO);
-	dup2_s(output_fd, STDOUT_FILENO, sh);
-	close_s(output_fd, sh);
+	safe_dup2(output_fd, STDOUT_FILENO, sh);
+	safe_close(output_fd, sh);
 	status = execute(redir->child, O_RETURN, sh);
-	dup2_s(original_stdout, STDOUT_FILENO, sh);
-	close_s(original_stdout, sh);
+	safe_dup2(original_stdout, STDOUT_FILENO, sh);
+	safe_close(original_stdout, sh);
 	return (status);
 }
 

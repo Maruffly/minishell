@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:44:22 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/28 20:26:24 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/03/01 10:46:15 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static char	*trim_delimiter(char *delimiter, t_shell *sh)
 
 	first_char = *delimiter;
 	if (first_char == '\'' || first_char == '\"')
-		delimiter = s_alloc(ft_strtrim(delimiter, &first_char), PROMPT, sh);
+		delimiter = safe_alloc(ft_strtrim(delimiter, &first_char), PROMPT, sh);
 	return (delimiter);
 }
 
@@ -54,7 +54,7 @@ static int	heredoc_listener(int tmp_file, char *delimiter, t_shell *sh)
 	user_input = NULL;
 	while (true)
 	{
-		user_input = prompt_listener(HEREDOC_PROMPT);
+		user_input = get_prompt(HEREDOC_PROMPT);
 		if (g_signal_value == SIGINT)
 			return (130);
 		if (!user_input)
@@ -68,8 +68,8 @@ static int	heredoc_listener(int tmp_file, char *delimiter, t_shell *sh)
 			free(user_input);
 			return (EXIT_SUCCESS);
 		}
-		write_s(user_input, tmp_file, sh);
-		write_s("\n", tmp_file, sh);
+		ft_putstr_fd(user_input, tmp_file);
+		ft_putstr_fd("\n", tmp_file);
 		free(user_input);
 	}
 	return (EXIT_SUCCESS);
@@ -84,13 +84,13 @@ int	execute_heredocs(t_ast *node, t_shell *sh)
 
 	if (!is_heredoc(node))
 		return (search_for_heredocs(node, sh));
-	file_id = s_alloc(ft_itoa(ft_lstsize(sh->temporary_files)), PROMPT, sh);
-	tmp_file_name = strjoin_s("/tmp/minishell_heredoc_", file_id, PROMPT, sh);
-	lst_add_front_s(tmp_file_name, &sh->temporary_files, PROMPT, sh);
-	tmp_file = open_s(tmp_file_name, O_WRONLY | O_CREAT | O_TRUNC, 0600, sh);
+	file_id = safe_alloc(ft_itoa(ft_lstsize(sh->temporary_files)), PROMPT, sh);
+	tmp_file_name = safe_strjoin("/tmp/minishell_heredoc_", file_id, PROMPT, sh);
+	safe_lst_addfront(tmp_file_name, &sh->temporary_files, PROMPT, sh);
+	tmp_file = safe_open(tmp_file_name, O_WRONLY | O_CREAT | O_TRUNC, 0600, sh);
 	status = heredoc_listener(tmp_file,
 			trim_delimiter(node->u_data.redirection.file, sh), sh);
-	close_s(tmp_file, sh);
+	safe_close(tmp_file, sh);
 	node->u_data.redirection.file = tmp_file_name;
 	if (node->u_data.redirection.child)
 		return (search_for_heredocs(node->u_data.redirection.child, sh));

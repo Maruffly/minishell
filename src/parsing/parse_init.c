@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 15:26:54 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/28 20:21:13 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/03/01 10:08:52 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	init_ast_node(t_ast **node, t_ast_type type, t_shell *sh)
 {
-	*node = calloc_s(1, sizeof(t_ast), PROMPT, sh);
+	*node = safe_calloc(1, sizeof(t_ast), PROMPT, sh);
 	(*node)->type = type;
 }
 

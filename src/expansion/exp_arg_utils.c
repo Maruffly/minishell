@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_arg_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 10:12:59 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/28 20:31:28 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/03/01 10:09:28 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static char	*get_valid_name(char *str, t_exp *exp, t_shell *sh)
 		return (NULL);
 	while (ft_isalnum(str[j]) || str[j] == '_')
 		j++;
-	name = s_alloc(ft_substr(str, exp->i + 1, j - exp->i - 1), PROMPT, sh);
+	name = safe_alloc(ft_substr(str, exp->i + 1, j - exp->i - 1), PROMPT, sh);
 	return (name);
 }
 

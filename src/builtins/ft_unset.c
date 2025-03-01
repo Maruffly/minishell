@@ -6,21 +6,11 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 17:28:12 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/28 20:03:30 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/03/01 09:34:40 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	free_env_var(void *content)
-{
-	t_var	*var;
-
-	var = (t_var *)content;
-	free(var->name);
-	free(var->value);
-	free(var);
-}
 
 int	exec_unset(t_ast_command *cmd, t_shell *sh)
 {

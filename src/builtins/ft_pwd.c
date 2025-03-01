@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:18:25 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/28 20:28:50 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/03/01 09:56:31 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ int	exec_pwd(t_ast_command *cmd, t_shell *sh)
 		getcwd_ret = getcwd(NULL, 0);
 		if (!getcwd_ret)
 			return (error_handler("getcwd", errno, sh), 1);
-		s_alloc(getcwd_ret, PROMPT, sh);
-		write_s(getcwd_ret, STDOUT_FILENO, sh);
-		write_s("\n", STDOUT_FILENO, sh);
+		safe_alloc(getcwd_ret, PROMPT, sh);
+		ft_putstr_fd(getcwd_ret, STDOUT_FILENO);
+		ft_putstr_fd("\n", STDOUT_FILENO);
 		return (0);
 	}
-	write_s(current_directory, STDOUT_FILENO, sh);
-	write_s("\n", STDOUT_FILENO, sh);
+	ft_putstr_fd(current_directory, STDOUT_FILENO);
+	ft_putstr_fd("\n", STDOUT_FILENO);
 	return (0);
 }

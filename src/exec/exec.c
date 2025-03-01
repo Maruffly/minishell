@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 14:43:03 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/28 20:21:05 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/03/01 09:58:08 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,11 @@ int	check_process_child_exit(int status, bool *new_line, t_shell *sh)
 	{
 		signal = WTERMSIG(status);
 		if (signal == SIGQUIT)
-			write_s("Quit: 3", STDERR_FILENO, sh);
+			ft_putstr_fd("Quit: core dumped", STDERR_FILENO);
 		if (signal == SIGQUIT || signal == SIGINT)
 		{
 			if (!new_line || (new_line && *new_line == false))
-				write_s("\n", STDERR_FILENO, sh);
+				ft_putstr_fd("\n", STDERR_FILENO);
 			if (new_line && *new_line == false)
 				*new_line = true;
 		}

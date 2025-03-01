@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipeline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 14:43:03 by jlaine            #+#    #+#             */
-/*   Updated: 2025/02/28 20:51:40 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/03/01 09:53:21 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ static t_list	*build_cmd_list(t_ast *node, t_shell *sh)
 	pipeline = NULL;
 	while (node->type == AST_PIPELINE)
 	{
-		lst_add_front_s(node->u_data.pipeline.right, &pipeline, PROMPT, sh);
+		safe_lst_addfront(node->u_data.pipeline.right, &pipeline, PROMPT, sh);
 		if (node->u_data.pipeline.left->type == AST_PIPELINE)
 			node = node->u_data.pipeline.left;
 		else
 		{
-			lst_add_front_s(node->u_data.pipeline.left, &pipeline, PROMPT, sh);
+			safe_lst_addfront(node->u_data.pipeline.left, &pipeline, PROMPT, sh);
 			break ;
 		}
 	}
@@ -36,20 +36,20 @@ static pid_t	exec_single_pipeline(t_list *pipeline, int prev_read_end,
 {
 	pid_t	pid;
 
-	pid = fork_s(sh);
+	pid = safe_fork(sh);
 	if (pid != 0)
 		return (pid);
 	sh->in_main_process = false;
 	set_signal_child_process();
 	if (prev_read_end != -1)
 	{
-		dup2_s(prev_read_end, STDIN_FILENO, sh);
-		close_s(prev_read_end, sh);
+		safe_dup2(prev_read_end, STDIN_FILENO, sh);
+		safe_close(prev_read_end, sh);
 	}
 	if (pipeline->next != NULL)
-		dup2_s(p[WRITE], STDOUT_FILENO, sh);
-	close_s(p[READ], sh);
-	close_s(p[WRITE], sh);
+		safe_dup2(p[WRITE], STDOUT_FILENO, sh);
+	safe_close(p[READ], sh);
+	safe_close(p[WRITE], sh);
 	execute((t_ast *)pipeline->content, O_EXIT, sh);
 	return (pid);
 }
@@ -67,7 +67,7 @@ static int	exec_pipeline_list(t_list *pipeline, t_shell *sh)
 	prev_read_end = -1;
 	while (pipeline)
 	{
-		pipe_s(p, sh);
+		safe_pipe(p, sh);
 		last_pid = exec_single_pipeline(pipeline, prev_read_end, p, sh);
 		setup_for_next_command(&prev_read_end, p, sh);
 		pipeline = pipeline->next;

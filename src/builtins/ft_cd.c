@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmaruffy <jmaruffy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 14:55:10 by jmaruffy          #+#    #+#             */
-/*   Updated: 2025/02/28 20:56:16 by jmaruffy         ###   ########.fr       */
+/*   Updated: 2025/03/01 09:58:32 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	execute_getcwd(size_t size, char **new_pwd, t_shell *sh)
 	char	*ret;
 	char	*buf;
 
-	buf = calloc_s(PATH_MAX, 1, PROMPT, sh);
+	buf = safe_calloc(PATH_MAX, 1, PROMPT, sh);
 	ret = getcwd(buf, size);
 	if (!ret)
 	{
@@ -56,14 +56,14 @@ static int	execute_cd(t_ast_command *cmd, char *pwd,
 		char *new_old_pwd, t_shell *sh)
 {
 	if (pwd[0] && chdir(pwd) == -1)
-		return (report_error("cd: ", pwd, strjoin_s(": ", strerror(errno),
+		return (report_error("cd: ", pwd, safe_strjoin(": ", strerror(errno),
 					PROMPT, sh), sh));
 	if (set_new_pwd(new_old_pwd, sh))
 		return (EXIT_FAILURE);
 	if (cmd->args[1] && ft_strcmp(cmd->args[1], "-") == 0)
 	{
-		write_s(pwd, STDOUT_FILENO, sh);
-		write_s("\n", STDOUT_FILENO, sh);
+		ft_putstr_fd(pwd, STDOUT_FILENO);
+		ft_putstr_fd("\n", STDOUT_FILENO);
 	}
 	return (EXIT_SUCCESS);
 }
@@ -80,7 +80,7 @@ static bool	arg_to_new_pwd(t_ast_command *cmd, char **pwd, t_shell *sh)
 	{
 		if (!env_var("OLDPWD", sh->env))
 			return (report_error("cd :", NULL, "OLDPWD not set", sh));
-		*pwd = strdup_s(value(env_var("OLDPWD", sh->env)), PROMPT, sh);
+		*pwd = safe_strdup(value(env_var("OLDPWD", sh->env)), PROMPT, sh);
 	}
 	else
 		*pwd = cmd->args[1];
@@ -96,7 +96,7 @@ int	exec_cd(t_ast_command *cmd, t_shell *sh)
 	status = EXIT_FAILURE;
 	if (!cmd->args[0])
 		return (EXIT_FAILURE);
-	if (count_strs(cmd->args) > 2)
+	if (count_args(cmd->args) > 2)
 		return (report_error("cd: ", NULL, "too many arguments", sh));
 	pwd = NULL;
 	new_old_pwd = value(env_var("PWD", sh->env));

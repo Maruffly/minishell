@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:35:41 by jlaine            #+#    #+#             */
-/*   Updated: 2025/03/01 12:20:34 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/03/01 13:58:57 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,6 @@ int				check_process_child_exit(int status, bool *new_line,
 bool			is_active_wildcard(int i, t_exp *exp);
 t_ast			*expand_node(t_ast *node, t_shell *sh);
 void			expand_command(t_ast *node, t_shell *sh);
-t_list			*pattern_filter(t_list *files, t_exp *exp);
 char			*extract_root_path(t_exp *exp, t_shell *sh);
 void			filename_expansion(t_exp *exp, t_shell *sh);
 void			expand_last_status(t_exp *exp, t_shell *sh);
@@ -148,13 +147,9 @@ char			**convert_list_to_array(t_list **lst, t_shell *sh);
 char			*expand_env_var(char *str, t_exp *exp, t_shell *sh);
 char			*word_splitting(t_exp *exp, char *value, t_shell *sh);
 bool			only_active_wildcard_left(const char *str, t_exp *exp);
+t_list			*pattern_filter(t_list *files, t_exp *exp, t_shell *sh);
 void			add_variable_to_buffer(char *value, t_exp *exp, t_shell *sh);
 void			exp_single_arg(char *str, t_list **expanded_args, t_shell *sh);
-bool			not_explicit_hidden_file(const char *full_filename,
-					t_exp *exp);
-
-bool			pattern_match(const char *filename, const char *pattern,
-					int pattern_index, t_exp *exp);
 void			list_of_file_to_token_list(t_list *lst, t_exp *exp,
 					t_shell *sh);
 void			init_exp(t_exp *exp, char *str, t_list **expanded_args,

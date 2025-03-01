@@ -6,7 +6,7 @@
 /*   By: jlaine <jlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 14:52:06 by jlaine            #+#    #+#             */
-/*   Updated: 2025/03/01 09:44:03 by jlaine           ###   ########.fr       */
+/*   Updated: 2025/03/01 12:31:42 by jlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static char	*check_preset_bin_path(char *bin_path, t_shell *sh)
 	}
 	safe_stat(bin_path, &path_stat, sh);
 	if (S_ISDIR(path_stat.st_mode))
-		error("is a directory", bin_path, 126, sh);
+		error("Is a directory", bin_path, 126, sh);
 	return (bin_path);
 }
 
